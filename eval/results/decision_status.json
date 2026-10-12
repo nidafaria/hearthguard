@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-12T12:25:07Z",
+  "generated_at_utc": "2026-10-12T12:53:46Z",
   "policy": "decide() (frozen, spec 7.3) through decide_with_unknowns() (PROPOSED, docs/decisions/0002-decision-unknowns.md)",
   "inputs": [
     "pressure_vouch_status.json",

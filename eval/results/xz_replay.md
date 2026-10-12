@@ -2,7 +2,7 @@
 
 Replay of the public xz git history and xz-devel mailing list. Provisional.
 
-Reader coverage: 20 of 240 messages read (INCOMPLETE); 60 messages are held back for the human-labelled test set.
+Reader coverage: 90 of 240 messages read (INCOMPLETE); 60 messages are held back for the human-labelled test set.
 
 | quarter | cadence_days | active_keepers | rush | bypass | lone_keeper | takeover_cost | guardians | pressure | vouch | unread_120d | decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|

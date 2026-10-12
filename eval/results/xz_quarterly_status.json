@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-12T12:23:53Z",
+  "generated_at_utc": "2026-10-12T12:53:46Z",
   "org": "xz",
   "provisional": true,
   "quarters": [
@@ -19,7 +19,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6921999993210193,
+              "ms": 1.7654999974183738,
               "rows": 0
             }
           ]
@@ -35,7 +35,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.569200001336867,
+              "ms": 1.4921999973012134,
               "rows": 0
             }
           ]
@@ -43,7 +43,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.5357000009098556,
+          "query_ms": 1.6328999990946613,
           "queries": [
             {
               "name": "privilege_exists",
@@ -51,7 +51,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5357000009098556,
+              "ms": 1.6328999990946613,
               "rows": 0
             }
           ]
@@ -59,7 +59,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.5316999995557126,
+          "query_ms": 1.8775000025925692,
           "queries": [
             {
               "name": "privilege_exists",
@@ -67,7 +67,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5316999995557126,
+              "ms": 1.8775000025925692,
               "rows": 0
             }
           ]
@@ -75,13 +75,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 2.517299999453826,
+          "query_ms": 6.797600002755644,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.5703999995603226,
+              "ms": 1.3797000028716866,
               "rows": 1
             },
             {
@@ -91,7 +91,7 @@
                 "ref": "v5.3.2alpha",
                 "T": 1640995199
               },
-              "ms": 0.9466000010434072,
+              "ms": 2.574900001491187,
               "rows": 1
             },
             {
@@ -105,7 +105,7 @@
                 "skip": 0,
                 "T": 1640995199
               },
-              "ms": 1.000299998850096,
+              "ms": 2.84299999839277,
               "rows": 1
             }
           ]
@@ -129,7 +129,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6025000002409797,
+              "ms": 1.665399999183137,
               "rows": 0
             }
           ]
@@ -145,7 +145,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5554999988817144,
+              "ms": 1.402800000505522,
               "rows": 0
             }
           ]
@@ -153,7 +153,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.5319999982020818,
+          "query_ms": 1.2236000002303626,
           "queries": [
             {
               "name": "privilege_exists",
@@ -161,7 +161,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5319999982020818,
+              "ms": 1.2236000002303626,
               "rows": 0
             }
           ]
@@ -169,7 +169,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.5085999982838985,
+          "query_ms": 1.8802000013238285,
           "queries": [
             {
               "name": "privilege_exists",
@@ -177,7 +177,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5085999982838985,
+              "ms": 1.8802000013238285,
               "rows": 0
             }
           ]
@@ -185,13 +185,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 2.6313999987905845,
+          "query_ms": 6.358999999065418,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.5645999990520068,
+              "ms": 1.355899999907706,
               "rows": 1
             },
             {
@@ -201,7 +201,7 @@
                 "ref": "v5.3.2alpha",
                 "T": 1648771199
               },
-              "ms": 1.016999998682877,
+              "ms": 2.336400000785943,
               "rows": 1
             },
             {
@@ -215,7 +215,7 @@
                 "skip": 0,
                 "T": 1648771199
               },
-              "ms": 1.0498000010557007,
+              "ms": 2.6666999983717687,
               "rows": 1
             }
           ]
@@ -239,7 +239,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5930000006628688,
+              "ms": 2.093899998726556,
               "rows": 0
             }
           ]
@@ -255,7 +255,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.738000002456829,
+              "ms": 1.4769000008527655,
               "rows": 0
             }
           ]
@@ -263,7 +263,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.5826999986311421,
+          "query_ms": 2.3867999989306554,
           "queries": [
             {
               "name": "privilege_exists",
@@ -271,7 +271,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5826999986311421,
+              "ms": 2.3867999989306554,
               "rows": 0
             }
           ]
@@ -279,7 +279,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.61690000075032,
+          "query_ms": 2.461899999616435,
           "queries": [
             {
               "name": "privilege_exists",
@@ -287,7 +287,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.61690000075032,
+              "ms": 2.461899999616435,
               "rows": 0
             }
           ]
@@ -295,13 +295,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 2.4515000004612375,
+          "query_ms": 6.967200002691243,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.5590000000665896,
+              "ms": 1.8454000019119121,
               "rows": 1
             },
             {
@@ -311,7 +311,7 @@
                 "ref": "v5.3.2alpha",
                 "T": 1656633599
               },
-              "ms": 0.9032000016304664,
+              "ms": 2.419000000372762,
               "rows": 1
             },
             {
@@ -325,7 +325,7 @@
                 "skip": 0,
                 "T": 1656633599
               },
-              "ms": 0.9892999987641815,
+              "ms": 2.702800000406569,
               "rows": 1
             }
           ]
@@ -349,7 +349,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5686000004061498,
+              "ms": 1.2913999999000225,
               "rows": 0
             }
           ]
@@ -365,7 +365,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5888999985472765,
+              "ms": 1.2252000014996156,
               "rows": 0
             }
           ]
@@ -373,7 +373,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.7286000000021886,
+          "query_ms": 1.2913999999000225,
           "queries": [
             {
               "name": "privilege_exists",
@@ -381,7 +381,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.7286000000021886,
+              "ms": 1.2913999999000225,
               "rows": 0
             }
           ]
@@ -389,7 +389,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.6468999999924563,
+          "query_ms": 1.2790999971912242,
           "queries": [
             {
               "name": "privilege_exists",
@@ -397,7 +397,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6468999999924563,
+              "ms": 1.2790999971912242,
               "rows": 0
             }
           ]
@@ -405,13 +405,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 2.6424999996379483,
+          "query_ms": 6.6876000055344775,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.5479999999806751,
+              "ms": 1.5712000022176653,
               "rows": 1
             },
             {
@@ -421,7 +421,7 @@
                 "ref": "v5.2.7",
                 "T": 1664582399
               },
-              "ms": 0.9098000009544194,
+              "ms": 2.147400002286304,
               "rows": 1
             },
             {
@@ -435,7 +435,7 @@
                 "skip": 0,
                 "T": 1664582399
               },
-              "ms": 1.184699998702854,
+              "ms": 2.9690000010305084,
               "rows": 3
             }
           ]
@@ -459,7 +459,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.642299997707596,
+              "ms": 1.4067000010982156,
               "rows": 0
             }
           ]
@@ -475,7 +475,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.7508000016969163,
+              "ms": 1.3377999966905918,
               "rows": 0
             }
           ]
@@ -483,7 +483,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.6271000020205975,
+          "query_ms": 1.1591999973461498,
           "queries": [
             {
               "name": "privilege_exists",
@@ -491,7 +491,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6271000020205975,
+              "ms": 1.1591999973461498,
               "rows": 0
             }
           ]
@@ -499,7 +499,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.72580000050948,
+          "query_ms": 1.3265999987197574,
           "queries": [
             {
               "name": "privilege_exists",
@@ -507,7 +507,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.72580000050948,
+              "ms": 1.3265999987197574,
               "rows": 0
             }
           ]
@@ -515,13 +515,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 3.01709999985178,
+          "query_ms": 7.177199997386197,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.7807000001776032,
+              "ms": 1.3260999985504895,
               "rows": 1
             },
             {
@@ -531,7 +531,7 @@
                 "ref": "v5.4.0",
                 "T": 1672531199
               },
-              "ms": 0.9840999991865829,
+              "ms": 2.6515999998082407,
               "rows": 1
             },
             {
@@ -545,7 +545,7 @@
                 "skip": 0,
                 "T": 1672531199
               },
-              "ms": 1.252300000487594,
+              "ms": 3.1994999990274664,
               "rows": 9
             }
           ]
@@ -569,7 +569,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5558000011660624,
+              "ms": 1.648199999181088,
               "rows": 0
             }
           ]
@@ -585,7 +585,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5584999998973217,
+              "ms": 1.1847000023408327,
               "rows": 0
             }
           ]
@@ -593,7 +593,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.7064999990689103,
+          "query_ms": 1.109500000893604,
           "queries": [
             {
               "name": "privilege_exists",
@@ -601,7 +601,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.7064999990689103,
+              "ms": 1.109500000893604,
               "rows": 0
             }
           ]
@@ -609,7 +609,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.5407000026025344,
+          "query_ms": 1.110499997594161,
           "queries": [
             {
               "name": "privilege_exists",
@@ -617,7 +617,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5407000026025344,
+              "ms": 1.110499997594161,
               "rows": 0
             }
           ]
@@ -625,13 +625,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 3.1321999995270744,
+          "query_ms": 6.908200004545506,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.5866999999852851,
+              "ms": 1.2067999996361323,
               "rows": 1
             },
             {
@@ -641,7 +641,7 @@
                 "ref": "v5.4.2",
                 "T": 1680307199
               },
-              "ms": 0.9532000003673602,
+              "ms": 2.402100002655061,
               "rows": 1
             },
             {
@@ -655,7 +655,7 @@
                 "skip": 0,
                 "T": 1680307199
               },
-              "ms": 1.592299999174429,
+              "ms": 3.299300002254313,
               "rows": 13
             }
           ]
@@ -679,7 +679,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5858000004081987,
+              "ms": 1.2094999983673915,
               "rows": 0
             }
           ]
@@ -695,7 +695,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5468000017572194,
+              "ms": 1.3980000003357418,
               "rows": 0
             }
           ]
@@ -703,7 +703,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.5294999973557424,
+          "query_ms": 1.1348000007274095,
           "queries": [
             {
               "name": "privilege_exists",
@@ -711,7 +711,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5294999973557424,
+              "ms": 1.1348000007274095,
               "rows": 0
             }
           ]
@@ -719,7 +719,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.5807999987155199,
+          "query_ms": 1.1364000019966625,
           "queries": [
             {
               "name": "privilege_exists",
@@ -727,7 +727,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5807999987155199,
+              "ms": 1.1364000019966625,
               "rows": 0
             }
           ]
@@ -735,13 +735,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 3.1030999998620246,
+          "query_ms": 6.994200000917772,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.6501999996544328,
+              "ms": 1.0733999988588039,
               "rows": 1
             },
             {
@@ -751,7 +751,7 @@
                 "ref": "v5.4.3",
                 "T": 1688169599
               },
-              "ms": 0.9680999974079896,
+              "ms": 2.4817000012262724,
               "rows": 1
             },
             {
@@ -765,7 +765,7 @@
                 "skip": 0,
                 "T": 1688169599
               },
-              "ms": 1.4848000027996022,
+              "ms": 3.4391000008326955,
               "rows": 15
             }
           ]
@@ -789,7 +789,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6155000010039657,
+              "ms": 1.3317000011738855,
               "rows": 0
             }
           ]
@@ -805,7 +805,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5706000010832213,
+              "ms": 1.1717999987013172,
               "rows": 0
             }
           ]
@@ -813,7 +813,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.5197999998927116,
+          "query_ms": 1.1215999984415248,
           "queries": [
             {
               "name": "privilege_exists",
@@ -821,7 +821,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5197999998927116,
+              "ms": 1.1215999984415248,
               "rows": 0
             }
           ]
@@ -829,7 +829,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.5111999998916872,
+          "query_ms": 1.226599997607991,
           "queries": [
             {
               "name": "privilege_exists",
@@ -837,7 +837,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5111999998916872,
+              "ms": 1.226599997607991,
               "rows": 0
             }
           ]
@@ -845,13 +845,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 3.0779000007896684,
+          "query_ms": 7.370000002993038,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.4861999987042509,
+              "ms": 1.390400000673253,
               "rows": 1
             },
             {
@@ -861,7 +861,7 @@
                 "ref": "v5.4.4",
                 "T": 1696118399
               },
-              "ms": 1.0552999992796686,
+              "ms": 2.1992000001773704,
               "rows": 1
             },
             {
@@ -875,7 +875,7 @@
                 "skip": 0,
                 "T": 1696118399
               },
-              "ms": 1.536400002805749,
+              "ms": 3.7804000021424145,
               "rows": 16
             }
           ]
@@ -899,7 +899,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6186999999044929,
+              "ms": 1.6714000012143515,
               "rows": 0
             }
           ]
@@ -915,7 +915,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6272999999055173,
+              "ms": 1.441500000510132,
               "rows": 0
             }
           ]
@@ -923,7 +923,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.5920000003243331,
+          "query_ms": 1.2883000017609447,
           "queries": [
             {
               "name": "privilege_exists",
@@ -931,7 +931,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5920000003243331,
+              "ms": 1.2883000017609447,
               "rows": 0
             }
           ]
@@ -939,7 +939,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.5161000008229166,
+          "query_ms": 1.134099999035243,
           "queries": [
             {
               "name": "privilege_exists",
@@ -947,7 +947,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5161000008229166,
+              "ms": 1.134099999035243,
               "rows": 0
             }
           ]
@@ -955,13 +955,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 3.0249000010371674,
+          "query_ms": 6.4407999998365995,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.5439000015030615,
+              "ms": 1.0939999992842786,
               "rows": 1
             },
             {
@@ -971,7 +971,7 @@
                 "ref": "v5.4.5",
                 "T": 1704067199
               },
-              "ms": 0.8998000012070406,
+              "ms": 1.8884000019170344,
               "rows": 1
             },
             {
@@ -985,7 +985,7 @@
                 "skip": 0,
                 "T": 1704067199
               },
-              "ms": 1.5811999983270653,
+              "ms": 3.4583999986352865,
               "rows": 16
             }
           ]
@@ -1009,7 +1009,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.7561999991594348,
+              "ms": 1.3934999988123309,
               "rows": 0
             }
           ]
@@ -1025,7 +1025,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6162999998196028,
+              "ms": 1.0597999971651006,
               "rows": 0
             }
           ]
@@ -1033,7 +1033,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
-          "query_ms": 0.6035000005795155,
+          "query_ms": 0.9887999985949136,
           "queries": [
             {
               "name": "privilege_exists",
@@ -1041,7 +1041,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.6035000005795155,
+              "ms": 0.9887999985949136,
               "rows": 0
             }
           ]
@@ -1049,7 +1049,7 @@
         "rush": {
           "status": "NOT_COMPUTED",
           "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
-          "query_ms": 0.5921000010857824,
+          "query_ms": 1.1379999996279366,
           "queries": [
             {
               "name": "privilege_exists",
@@ -1057,7 +1057,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 0.5921000010857824,
+              "ms": 1.1379999996279366,
               "rows": 0
             }
           ]
@@ -1065,13 +1065,13 @@
         "bypass": {
           "status": "NOT_COMPUTED",
           "reason": "single shared Path node, no variation to compare",
-          "query_ms": 3.222199997253483,
+          "query_ms": 7.521300001826603,
           "queries": [
             {
               "name": "org_pack",
               "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
               "params": {},
-              "ms": 0.5700000001525041,
+              "ms": 1.0847000012290664,
               "rows": 1
             },
             {
@@ -1081,7 +1081,7 @@
                 "ref": "v5.6.1",
                 "T": 1711929599
               },
-              "ms": 0.8903999987524003,
+              "ms": 1.748400001815753,
               "rows": 1
             },
             {
@@ -1095,7 +1095,7 @@
                 "skip": 0,
                 "T": 1711929599
               },
-              "ms": 1.7617999983485788,
+              "ms": 4.6881999987817835,
               "rows": 21
             }
           ]

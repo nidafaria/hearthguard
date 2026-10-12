@@ -11,8 +11,9 @@
     "in_scope_messages": 300,
     "excluded_human_labelled_test_set": 60,
     "to_read": 240,
-    "read_so_far": 20,
-    "complete": false
+    "read_so_far": 90,
+    "complete": false,
+    "recorded_but_not_read": 4
   },
   "quarters": [
     {

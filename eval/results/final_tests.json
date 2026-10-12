@@ -1,0 +1,17 @@
+{
+  "passed": 467,
+  "failed": 0,
+  "xfailed": 1,
+  "command": "make.ps1 test (uv run pytest)",
+  "date": "2026-10-12",
+  "git_head_when_run": "796ac40fb68dcfcf95b68b0d2cbcea5629ef2e5b",
+  "freeze_sha256_matches": true,
+  "reader_freeze_version_1_matches": true,
+  "previous_count_in_state_snapshot": 431,
+  "added_since": {
+    "tests/integration/test_pressure_vouch.py": 22,
+    "tests/unit/test_replay_demo.py": 6,
+    "tests/unit/test_reader_full_run.py": 2,
+    "tests/unit/test_xz_decision_status.py": 6
+  }
+}

@@ -1,16 +1,17 @@
 {
-  "generated_at_utc": "2026-10-12T12:25:07Z",
+  "generated_at_utc": "2026-10-12T12:53:44Z",
   "org": "xz",
   "reader_frozen_version": 1,
   "coverage": {
     "in_scope_messages": 300,
     "excluded_human_labelled_test_set": 60,
     "to_read": 240,
-    "read_so_far": 20,
-    "complete": false
+    "read_so_far": 90,
+    "complete": false,
+    "recorded_but_not_read": 4
   },
   "claims_written_to_graph": {
-    "claims_written": 2,
+    "claims_written": 3,
     "left_out": {
       "no_date": 0,
       "no_author": 0
@@ -30,8 +31,8 @@
         },
         "vouch": {
           "messages_in_window": 130,
-          "read": 20,
-          "unread": 110
+          "read": 90,
+          "unread": 40
         }
       },
       "pressure": {
@@ -46,7 +47,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.4770000016142149,
+        "query_ms": 5.1270999974804,
         "queries": [
           {
             "name": "read_claims",
@@ -60,7 +61,7 @@
               "skip": 0,
               "T": 1640995199
             },
-            "ms": 1.4770000016142149,
+            "ms": 5.1270999974804,
             "rows": 0
           }
         ]
@@ -74,7 +75,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.8162999984051567,
+        "query_ms": 1.859899999544723,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -83,7 +84,7 @@
               "skip": 0,
               "T": 1640995199
             },
-            "ms": 0.8162999984051567,
+            "ms": 1.859899999544723,
             "rows": 0
           }
         ]
@@ -101,8 +102,8 @@
         },
         "vouch": {
           "messages_in_window": 154,
-          "read": 20,
-          "unread": 134
+          "read": 90,
+          "unread": 64
         }
       },
       "pressure": {
@@ -117,7 +118,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.1501000008138362,
+        "query_ms": 2.9180999990785494,
         "queries": [
           {
             "name": "read_claims",
@@ -131,7 +132,7 @@
               "skip": 0,
               "T": 1648771199
             },
-            "ms": 1.1501000008138362,
+            "ms": 2.9180999990785494,
             "rows": 0
           }
         ]
@@ -145,7 +146,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.8032000005187001,
+        "query_ms": 2.021600001171464,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -154,7 +155,7 @@
               "skip": 0,
               "T": 1648771199
             },
-            "ms": 0.8032000005187001,
+            "ms": 2.021600001171464,
             "rows": 0
           }
         ]
@@ -172,8 +173,8 @@
         },
         "vouch": {
           "messages_in_window": 175,
-          "read": 20,
-          "unread": 155
+          "read": 90,
+          "unread": 85
         }
       },
       "pressure": {
@@ -188,7 +189,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.15640000149142,
+        "query_ms": 3.3789000008255243,
         "queries": [
           {
             "name": "read_claims",
@@ -202,7 +203,7 @@
               "skip": 0,
               "T": 1656633599
             },
-            "ms": 1.15640000149142,
+            "ms": 3.3789000008255243,
             "rows": 0
           }
         ]
@@ -216,7 +217,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.7638000024599023,
+        "query_ms": 2.1164999998291023,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -225,7 +226,7 @@
               "skip": 0,
               "T": 1656633599
             },
-            "ms": 0.7638000024599023,
+            "ms": 2.1164999998291023,
             "rows": 0
           }
         ]
@@ -243,8 +244,8 @@
         },
         "vouch": {
           "messages_in_window": 204,
-          "read": 20,
-          "unread": 184
+          "read": 90,
+          "unread": 114
         }
       },
       "pressure": {
@@ -259,7 +260,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.6185999993467703,
+        "query_ms": 3.7317000023904257,
         "queries": [
           {
             "name": "read_claims",
@@ -273,7 +274,7 @@
               "skip": 0,
               "T": 1664582399
             },
-            "ms": 1.6185999993467703,
+            "ms": 3.7317000023904257,
             "rows": 0
           }
         ]
@@ -287,7 +288,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 1.0580000016489066,
+        "query_ms": 2.349600003071828,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -296,7 +297,7 @@
               "skip": 0,
               "T": 1664582399
             },
-            "ms": 1.0580000016489066,
+            "ms": 2.349600003071828,
             "rows": 0
           }
         ]
@@ -314,8 +315,8 @@
         },
         "vouch": {
           "messages_in_window": 237,
-          "read": 20,
-          "unread": 217
+          "read": 90,
+          "unread": 147
         }
       },
       "pressure": {
@@ -330,7 +331,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.0790999986056704,
+        "query_ms": 2.6104999997187406,
         "queries": [
           {
             "name": "read_claims",
@@ -344,7 +345,7 @@
               "skip": 0,
               "T": 1672531199
             },
-            "ms": 1.0790999986056704,
+            "ms": 2.6104999997187406,
             "rows": 0
           }
         ]
@@ -358,7 +359,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.7670999984839,
+        "query_ms": 2.4616000009700656,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -367,7 +368,7 @@
               "skip": 0,
               "T": 1672531199
             },
-            "ms": 0.7670999984839,
+            "ms": 2.4616000009700656,
             "rows": 0
           }
         ]
@@ -385,8 +386,8 @@
         },
         "vouch": {
           "messages_in_window": 239,
-          "read": 20,
-          "unread": 219
+          "read": 90,
+          "unread": 149
         }
       },
       "pressure": {
@@ -401,7 +402,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.3246000016806647,
+        "query_ms": 3.7964999974064995,
         "queries": [
           {
             "name": "read_claims",
@@ -415,7 +416,7 @@
               "skip": 0,
               "T": 1680307199
             },
-            "ms": 1.3246000016806647,
+            "ms": 3.7964999974064995,
             "rows": 0
           }
         ]
@@ -429,7 +430,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 1.0150000016437843,
+        "query_ms": 2.9524000019591767,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -438,7 +439,7 @@
               "skip": 0,
               "T": 1680307199
             },
-            "ms": 1.0150000016437843,
+            "ms": 2.9524000019591767,
             "rows": 0
           }
         ]
@@ -456,8 +457,8 @@
         },
         "vouch": {
           "messages_in_window": 240,
-          "read": 20,
-          "unread": 220
+          "read": 90,
+          "unread": 150
         }
       },
       "pressure": {
@@ -472,7 +473,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.025199999276083,
+        "query_ms": 1.9622999971034005,
         "queries": [
           {
             "name": "read_claims",
@@ -486,7 +487,7 @@
               "skip": 0,
               "T": 1688169599
             },
-            "ms": 1.025199999276083,
+            "ms": 1.9622999971034005,
             "rows": 0
           }
         ]
@@ -500,7 +501,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.7593000009364914,
+        "query_ms": 1.891200001409743,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -509,7 +510,7 @@
               "skip": 0,
               "T": 1688169599
             },
-            "ms": 0.7593000009364914,
+            "ms": 1.891200001409743,
             "rows": 0
           }
         ]
@@ -527,8 +528,8 @@
         },
         "vouch": {
           "messages_in_window": 244,
-          "read": 20,
-          "unread": 224
+          "read": 90,
+          "unread": 154
         }
       },
       "pressure": {
@@ -543,7 +544,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.1231000025873072,
+        "query_ms": 1.715000002150191,
         "queries": [
           {
             "name": "read_claims",
@@ -557,7 +558,7 @@
               "skip": 0,
               "T": 1696118399
             },
-            "ms": 1.1231000025873072,
+            "ms": 1.715000002150191,
             "rows": 0
           }
         ]
@@ -571,7 +572,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.6974000025365967,
+        "query_ms": 1.7654000002949033,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -580,7 +581,7 @@
               "skip": 0,
               "T": 1696118399
             },
-            "ms": 0.6974000025365967,
+            "ms": 1.7654000002949033,
             "rows": 0
           }
         ]
@@ -598,8 +599,8 @@
         },
         "vouch": {
           "messages_in_window": 245,
-          "read": 20,
-          "unread": 225
+          "read": 90,
+          "unread": 155
         }
       },
       "pressure": {
@@ -614,7 +615,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.069199999619741,
+        "query_ms": 2.713200003199745,
         "queries": [
           {
             "name": "read_claims",
@@ -628,7 +629,7 @@
               "skip": 0,
               "T": 1704067199
             },
-            "ms": 1.069199999619741,
+            "ms": 2.713200003199745,
             "rows": 0
           }
         ]
@@ -642,7 +643,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.8235000022978056,
+        "query_ms": 3.1677000006311573,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -651,7 +652,7 @@
               "skip": 0,
               "T": 1704067199
             },
-            "ms": 0.8235000022978056,
+            "ms": 3.1677000006311573,
             "rows": 0
           }
         ]
@@ -669,8 +670,8 @@
         },
         "vouch": {
           "messages_in_window": 284,
-          "read": 20,
-          "unread": 264
+          "read": 90,
+          "unread": 194
         }
       },
       "pressure": {
@@ -685,7 +686,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 1.0459999975864775,
+        "query_ms": 2.8734000006807037,
         "queries": [
           {
             "name": "read_claims",
@@ -699,7 +700,7 @@
               "skip": 0,
               "T": 1711929599
             },
-            "ms": 1.0459999975864775,
+            "ms": 2.8734000006807037,
             "rows": 0
           }
         ]
@@ -713,7 +714,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 0.7006000014371239,
+        "query_ms": 3.369300000485964,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -722,7 +723,7 @@
               "skip": 0,
               "T": 1711929599
             },
-            "ms": 0.7006000014371239,
+            "ms": 3.369300000485964,
             "rows": 0
           }
         ]

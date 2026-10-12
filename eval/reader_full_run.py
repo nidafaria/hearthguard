@@ -194,14 +194,15 @@ def main() -> int:
     print(f"done {progress['done']} / {progress['total']}; remaining {progress['remaining']}")
     if stop:
         print("stopped:", stop)
-        return 3
     doc = public_summary(saved, len(todo))
+    doc["complete"] = not remaining
+    doc["remaining"] = len(remaining)
     text = json.dumps(doc, ensure_ascii=False)
     if "@" in text:
         raise RuntimeError("an '@' reached the public output; nothing was written")
     OUT.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print("wrote", OUT.name)
-    return 0
+    print("wrote", OUT.name, "(complete)" if doc["complete"] else "(INCOMPLETE)")
+    return 3 if stop else 0
 
 
 if __name__ == "__main__":
