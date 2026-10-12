@@ -1,0 +1,83 @@
+{
+ "note": "PREVIOUS evidence. It predates the control removal (commit 44c3f87 dropped the duplicate inbox controls) and was taken on an earlier build. Replaced by inbox_browser_check.json, taken on commit f0025bb.",
+ "what": "Click-through of every inbox control in a real browser against the LOCAL app (127.0.0.1:8766, uvicorn serving api.app with ui/dist).",
+ "browser": "BrowserOS neo (mcp__browseros-neo__*), local app only, no logins, no other sites.",
+ "label": "Public record: xz project git history (org_xz). Synthetic data: none on this screen.",
+ "sent_to_slack": false,
+ "rows": [
+  {
+   "control": "Show me why",
+   "quarter": "2021-Q4",
+   "visible_text_after": "Show me why: each fact with saved reason; 'Last reply' shows the why payload; query live via RO_QUERY",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "core/agents/why.py run_why (GRAPH.RO_QUERY, timeout 10000 ms)"
+  },
+  {
+   "control": "Simulate a fix",
+   "quarter": "2021-Q4",
+   "visible_text_after": "Last reply: 'Simulate a fix:' JSON with steps, org_unchanged true",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "core/agents/simulate_fix.py -> core/hardening/xz.py harden_org on a GRAPH.COPY"
+  },
+  {
+   "control": "Dismiss with reason",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'Dismissed. Checked against the public history; known maintainer'",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "core/agents/liaison.py dismiss -> OwnerDecision (MERGE on key) + data/inbox/dismissals.jsonl"
+  },
+  {
+   "control": "Draft a reply",
+   "quarter": "2021-Q4",
+   "visible_text_after": "Draft textarea shows calm boundary reply text",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "core/agents/inbox_graph.py create_draft (Draft node)"
+  },
+  {
+   "control": "I sent it myself",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'Marked sent by you. The code sent nothing.'",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "inbox_graph.mark_draft_sent"
+  },
+  {
+   "control": "Remind me in a week",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'Snooze: snoozed until 2026-10-19T15:15:09.000Z'",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "inbox_graph.snooze (Note.snoozed_until)"
+  },
+  {
+   "control": "Thread question (answerable)",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'You: Who could I even ask?' answer; 'Tool: guardians'",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "core/agents/investigator.py -> guardians tool; no model"
+  },
+  {
+   "control": "Thread question (refused)",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'You: Is this person an attacker?' -> 'I can't tell you whether someone is an attacker; here are the facts.' 'Tool: refuse (refused: no judgement of people)'",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "core/agents/investigator.py refuse route; no model"
+  },
+  {
+   "control": "Weekly digest",
+   "quarter": "2021-Q4 (latest saved quarter)",
+   "visible_text_after": "'Takeover cost NOT COMPUTED \u00c2\u00b7 no move fired \u00c2\u00b7 3 not checked (RUSH, BYPASS, LONE_KEEPER) \u00c2\u00b7 7 active keepers in the saved normal'; 'Not a quiet week.'",
+   "http_status": "not exposed by browser tools (the page rendered the reply)",
+   "tool_used": "core/agents/digest.py build_digest (saved results only)"
+  }
+ ],
+ "limits": [
+  "HTTP status codes are not exposed by the browser tools; each control's success is shown by the page's own reply. No status number is recorded.",
+  "Only the xz case (public record) was clicked. The synthetic tallowdate case was not clicked in the browser.",
+  "Control 'Remind me in a week' was clicked once; its second-tap behaviour is covered by tests/integration/test_inbox_loop.py.",
+  "The page at /#/inbox/2021-Q4 also still shows the earlier Simulate and Dismiss controls from Inbox.tsx; they call the older /api/notes endpoints. Two dismiss paths exist on one screen.",
+  "This check was run before the older Simulate and Dismiss controls were removed from ui/src/Inbox.tsx. The Thread controls it clicked are unchanged, but the page itself has not been re-clicked since."
+ ],
+ "screenshots": [
+  "eval/results/inbox_screens/xz_2021-Q4_all_controls.png"
+ ],
+ "generated_by": "Claude Code (Haiku 5.5), from the browser session transcript"
+}

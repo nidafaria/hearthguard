@@ -1,82 +1,96 @@
 {
-  "what": "Click-through of every inbox control in a real browser against the LOCAL app (127.0.0.1:8766, uvicorn serving api.app with ui/dist).",
-  "browser": "BrowserOS neo (mcp__browseros-neo__*), local app only, no logins, no other sites.",
-  "label": "Public record: xz project git history (org_xz). Synthetic data: none on this screen.",
-  "sent_to_slack": false,
-  "rows": [
-    {
-      "control": "Show me why",
-      "quarter": "2021-Q4",
-      "visible_text_after": "Show me why: each fact with saved reason; 'Last reply' shows the why payload; query live via RO_QUERY",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "core/agents/why.py run_why (GRAPH.RO_QUERY, timeout 10000 ms)"
-    },
-    {
-      "control": "Simulate a fix",
-      "quarter": "2021-Q4",
-      "visible_text_after": "Last reply: 'Simulate a fix:' JSON with steps, org_unchanged true",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "core/agents/simulate_fix.py -> core/hardening/xz.py harden_org on a GRAPH.COPY"
-    },
-    {
-      "control": "Dismiss with reason",
-      "quarter": "2021-Q4",
-      "visible_text_after": "'Dismissed. Checked against the public history; known maintainer'",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "core/agents/liaison.py dismiss -> OwnerDecision (MERGE on key) + data/inbox/dismissals.jsonl"
-    },
-    {
-      "control": "Draft a reply",
-      "quarter": "2021-Q4",
-      "visible_text_after": "Draft textarea shows calm boundary reply text",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "core/agents/inbox_graph.py create_draft (Draft node)"
-    },
-    {
-      "control": "I sent it myself",
-      "quarter": "2021-Q4",
-      "visible_text_after": "'Marked sent by you. The code sent nothing.'",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "inbox_graph.mark_draft_sent"
-    },
-    {
-      "control": "Remind me in a week",
-      "quarter": "2021-Q4",
-      "visible_text_after": "'Snooze: snoozed until 2026-10-19T15:15:09.000Z'",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "inbox_graph.snooze (Note.snoozed_until)"
-    },
-    {
-      "control": "Thread question (answerable)",
-      "quarter": "2021-Q4",
-      "visible_text_after": "'You: Who could I even ask?' answer; 'Tool: guardians'",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "core/agents/investigator.py -> guardians tool; no model"
-    },
-    {
-      "control": "Thread question (refused)",
-      "quarter": "2021-Q4",
-      "visible_text_after": "'You: Is this person an attacker?' -> 'I can't tell you whether someone is an attacker; here are the facts.' 'Tool: refuse (refused: no judgement of people)'",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "core/agents/investigator.py refuse route; no model"
-    },
-    {
-      "control": "Weekly digest",
-      "quarter": "2021-Q4 (latest saved quarter)",
-      "visible_text_after": "'Takeover cost NOT COMPUTED · no move fired · 3 not checked (RUSH, BYPASS, LONE_KEEPER) · 7 active keepers in the saved normal'; 'Not a quiet week.'",
-      "http_status": "not exposed by browser tools (the page rendered the reply)",
-      "tool_used": "core/agents/digest.py build_digest (saved results only)"
-    }
-  ],
-  "limits": [
-    "HTTP status codes are not exposed by the browser tools; each control's success is shown by the page's own reply. No status number is recorded.",
-    "Only the xz case (public record) was clicked. The synthetic tallowdate case was not clicked in the browser.",
-    "Control 'Remind me in a week' was clicked once; its second-tap behaviour is covered by tests/integration/test_inbox_loop.py.",
-    "The page at /#/inbox/2021-Q4 also still shows the earlier Simulate and Dismiss controls from Inbox.tsx; they call the older /api/notes endpoints. Two dismiss paths exist on one screen.",
-    "This check was run before the older Simulate and Dismiss controls were removed from ui/src/Inbox.tsx. The Thread controls it clicked are unchanged, but the page itself has not been re-clicked since."
-  ],
-  "screenshots": [
-    "eval/results/inbox_screens/xz_2021-Q4_all_controls.png"
-  ],
-  "generated_by": "Claude Code (Haiku 5.5), from the browser session transcript"
+ "what": "Click-through of every inbox control in a real browser against the LOCAL app (127.0.0.1:8791, uvicorn serving api.app with ui/dist built on this commit).",
+ "commit": "f0025bb",
+ "branch": "agent/block-a",
+ "commit_note": "f0025bb is the code commit. The commit that adds this file changes no code.",
+ "browser": "BrowserOS neo (mcp__browseros-neo__*), local app only, no logins, no other sites, nothing sent.",
+ "label": "Public record: xz project git history (org_xz). Synthetic data: none on this screen.",
+ "sent_to_slack": false,
+ "isolated_instance": {
+  "container": "hearthguard-block-a-falkordb",
+  "port": 6392
+ },
+ "http_status_source": "a fetch wrapper installed in the page recorded each response status; every call returned 200",
+ "rows": [
+  {
+   "control": "Show me why",
+   "quarter": "2021-Q4",
+   "visible_text_after": "Last reply: 'Show me why: {...}' JSON with label, decision HOLD, as_of 2021-12-31T23:59:59Z, facts PRESSURE NOT_FIRED, VOUCH NOT_FIRED, RUSH NOT_COMPUTED, BYPASS NOT_COMPUTED, each with saved queries and ms",
+   "http_status": 200,
+   "request": "GET /api/inbox/xz/notes/2021-Q4/why",
+   "tool_used": "core/agents/why.py run_why (GRAPH.RO_QUERY, timeout 10000 ms)"
+  },
+  {
+   "control": "Simulate a fix",
+   "quarter": "2021-Q4",
+   "visible_text_after": "Last reply: 'Simulate a fix: {...}' menu add_second_keeper, require_provenance_ci, require_two_approvals; step add_second_keeper applied false, before/after takeover_cost NOT COMPUTED (no CAN_GRANT or Privilege data in org_xz)",
+   "http_status": 200,
+   "request": "POST /api/inbox/xz/notes/2021-Q4/simulate",
+   "tool_used": "core/agents/simulate_fix.py -> core/hardening/xz.py harden_org on a GRAPH.COPY"
+  },
+  {
+   "control": "Draft a reply",
+   "quarter": "2021-Q4",
+   "visible_text_after": "Draft textarea: 'Thanks for the interest in this. Releases ship when they're ready, and maintainership follows our documented process. I'll write back here if that changes.' Buttons Save edit and I sent it myself appear",
+   "http_status": 200,
+   "request": "POST /api/inbox/xz/notes/2021-Q4/draft",
+   "tool_used": "core/agents/inbox_graph.py create_draft (Draft node)"
+  },
+  {
+   "control": "Remind me in a week",
+   "quarter": "2021-Q4",
+   "visible_text_after": "Last reply: snooze state 'snoozed', until 1792427817, new_moves []; note shows 'Snooze: snoozed until 2026-10-19T16:36:57.000Z'",
+   "http_status": 200,
+   "request": "POST /api/inbox/xz/notes/2021-Q4/snooze",
+   "tool_used": "inbox_graph.snooze (Note.snoozed_until)"
+  },
+  {
+   "control": "Thread question (answerable): 'What is the takeover cost?'",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'Takeover cost as of 2021-12-31T23:59:59Z: NOT COMPUTED. no CAN_GRANT or Privilege data in org_xz (Answered by tested tools. No model was used.)' Tool: takeover_cost",
+   "http_status": 200,
+   "request": "POST /api/inbox/xz/notes/2021-Q4/ask",
+   "tool_used": "fixed router in core/agents/investigator.py, tool takeover_cost"
+  },
+  {
+   "control": "Thread question (refused): 'Is this person an attacker?'",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'I can't tell you whether someone is an attacker; here are the facts.' then Pressure NOT_FIRED, Vouch NOT_FIRED, Rush NOT_COMPUTED, Bypass NOT_COMPUTED, Lone Keeper NOT_COMPUTED. Tool: refuse (refused: no judgement of people)",
+   "http_status": 200,
+   "request": "POST /api/inbox/xz/notes/2021-Q4/ask",
+   "tool_used": "fixed router in core/agents/investigator.py, tool refuse"
+  },
+  {
+   "control": "Show the digest",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'Takeover cost NOT COMPUTED \u00b7 no move fired \u00b7 3 not checked (RUSH, BYPASS, LONE_KEEPER) \u00b7 7 active keepers in the saved normal. Held, not clear. Not a quiet week. Source: saved results. Nothing was sent.'",
+   "http_status": 200,
+   "request": "GET /api/inbox/xz/digest",
+   "tool_used": "saved results only"
+  },
+  {
+   "control": "I sent it myself",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'Marked sent by you. The code sent nothing.'",
+   "http_status": 200,
+   "request": "POST /api/inbox/xz/notes/2021-Q4/draft/sent",
+   "tool_used": "inbox_graph.mark_draft_sent"
+  },
+  {
+   "control": "Dismiss with reason",
+   "quarter": "2021-Q4",
+   "visible_text_after": "'Dismissed. Checked against the public history; known maintainer'; dismissal action_key dismiss:xz:2021-Q4, authority owner, sent_to_slack false",
+   "http_status": 200,
+   "request": "POST /api/inbox/xz/notes/2021-Q4/dismiss",
+   "tool_used": "core/agents/liaison.py dismiss -> OwnerDecision (MERGE on key) + data/inbox/dismissals.jsonl"
+  }
+ ],
+ "observed": [
+  "The note body text still lists '[It's fine \u2014 here's why]' in its button line, but the page has no such control (it belongs to block D). Not clicked, not counted.",
+  "The app writes Finding, Note, Draft and OwnerDecision nodes into org_xz by design. On the isolated instance org_xz went from 4679 nodes / 4668 edges to 4732 / 4737 during this click-through. org_tallowdate stayed at 175 / 168. The test suite run (613 passed) was taken before this click-through, on the 4679 / 4668 graph."
+ ],
+ "screenshots": [
+  "eval/results/inbox_screens/xz_2021-Q4_all_controls_f0025bb.png"
+ ],
+ "generated_by": "Claude Code (Sonnet 5.5), human-reviewed: no"
 }
