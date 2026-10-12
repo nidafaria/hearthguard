@@ -1,0 +1,42 @@
+{
+  "git_head": "890ae0902aacbbe2c68d8a904a9d6a20bc3ec357",
+  "tests": {
+    "passed": 431,
+    "failed": 0,
+    "xfailed": 1,
+    "source": "make.ps1 test, run 2026-10-12"
+  },
+  "freeze_sha256_matches": true,
+  "open_decision_items": [
+    {
+      "file": "0001-outsider-edges.md",
+      "line": 3,
+      "status": "PROPOSED",
+      "text": "**Status: PROPOSED.** This is a proposal. The spec does not define it. It stays open until the owner decides. Every value computed under it "
+    },
+    {
+      "file": "0001-outsider-edges.md",
+      "line": 46,
+      "status": "OPEN",
+      "text": "1. **Cadence. Status: OPEN.** `commit_cadence_days` is the median gap between consecutive commits. On xz it is minutes (0.004 to 0.019 days)"
+    },
+    {
+      "file": "0001-outsider-edges.md",
+      "line": 47,
+      "status": "OPEN",
+      "text": "2. **Active keepers. Status: OPEN.** `active_keepers` counts distinct commit authors in the trailing 90 days. An author is not always someon"
+    },
+    {
+      "file": "0002-decision-unknowns.md",
+      "line": 3,
+      "status": "PROPOSED",
+      "text": "**Status: PROPOSED.** This is an addition. The spec does not state it. It stays open until the owner decides. The frozen decision policy (sp"
+    },
+    {
+      "file": "0003-conflict-policy-reading.md",
+      "line": 3,
+      "status": "PROPOSED",
+      "text": "**Status: PROPOSED.** The conflict policy itself is FROZEN and is implemented as written in `core/policy/conflict.py`. These are the choices"
+    }
+  ]
+}
