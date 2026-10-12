@@ -121,3 +121,19 @@ Clone: `scratchpad\clone2`. Commit `8a1f9e73a7b032ff6d155ef82271b29ee934eb26` (a
 The test is deterministic given that state. Fixing it means changing either the script's step order (run unit tests before `decision-xz`) or the test's comparison of timestamps. I did not change either, and I did not rerun the script after this comparison.
 
 The final `git status` in run 2 shows ` M eval/results/decision_status.json`, which is the F3 side effect.
+
+## Run 3 and run 4: after moving the unit tests before decision-xz
+
+The script now runs the unit tests before `decision-xz` (commit `af78390`). Both runs used new clones, `scratchpad\clone3` and `scratchpad\clone4`, on the same commit. They ran in parallel.
+
+| Check | Run 3 (clone3) | Run 4 (clone4) |
+|---|---|---|
+| Clone, `uv sync`, demo, demo with sockets blocked, lint, replay, `npm install`, `npm run build`, `decision-xz` | all 0 | all 0 |
+| Unit + injection tests, no services | exit 1: 20 failed, 366 passed, 11 skipped, 6 errors | exit 1: 20 failed, 366 passed, 11 skipped, 6 errors |
+| Failing test names (22 lines) | same set | same set |
+| Demo log | SHA256 `AF14066480E2260AB1488A8CEA06305F2052A8D24C126C8C0B28B9A6BB571E39` | same SHA256, identical file |
+| `git status` after run | ` M eval/results/decision_status.json` (F3) | same |
+
+**Result:** the unit-test counts match (20 failed, 366 passed, 11 skipped, 6 errors). The demo output is byte-identical. The only difference is run time (131.42 s and 130.24 s).
+
+`test_preview_file_matches_a_fresh_render` now passes in both runs. The unit tests run before `decision-xz` now, so the committed timestamp is intact when they run. The unit-test failures that remain are the expected ones: no FalkorDB at `localhost:6379`, and no `HEARTHGUARD_HASH_SALT`.
