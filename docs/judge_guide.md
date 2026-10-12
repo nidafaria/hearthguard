@@ -60,6 +60,7 @@ git status --short eval/results
 ```
 
 - **Expect:** ten lines in this form: `2021-Q4 HOLD move unknown: RUSH, BYPASS`, down to `2024-Q1` (`eval/results/decision_status.json`).
+- **Side effect:** this command rewrites the tracked file `eval/results/decision_status.json`. Only its `generated_at_utc` line changes, so `git status` shows one modified file afterwards. To restore the committed copy, run `git checkout -- eval/results/decision_status.json`.
 - **From:** `eval/results/decision_status.json`, field `decision` and `detail.reason`. The rule is in `core/policy/decision.py` and `docs/decisions/0002-decision-unknowns.md`.
 
 ## 7. See why it is HOLD
