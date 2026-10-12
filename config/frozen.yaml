@@ -1,1 +1,16 @@
-# placeholder: frozen thresholds, hashed by make verify-frozen. Filled in Day 2, step 8.
+# Frozen detector thresholds. Every value is copied from docs/HEARTHGUARD.md §7.1 (and
+# docs/FREEZE.md §1). Nothing here was tuned on xz or any other data. Change nothing without a
+# new dated freeze file and a note in docs/decisions/.
+pressure:
+  window_days: 120            # "In the last 120 days"
+  min_claims: 3               # >= 3 PRESSURE or URGENCY claims
+  min_distinct_actors: 2      # ... from >= 2 distinct actors
+  low_history_days: 90        # actor history in this org < 90 days ...
+  low_history_actions: 5      # ... or < 5 actions
+  keeper_activity_window_days: 90
+  keeper_activity_max_ratio: 0.5   # keepers' activity <= 50% of the org's trailing-2-year median
+vouch:
+  min_vouchers: 2             # >= 2 low-history actors VOUCH for the same candidate
+  min_signal_types: 2         # SHARES edges in the component carry >= 2 distinct signal types
+  low_history_days: 90
+  low_history_actions: 5
