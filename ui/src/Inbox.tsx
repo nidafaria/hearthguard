@@ -1,6 +1,7 @@
 // The local inbox: a list of notes, the note itself, and its "Show me why" page. Reads /api only.
 // Not connected to Slack. Nothing is sent. Every screen shows its data label.
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { Thread } from "./Thread";
 
 const LABEL = "Public record: xz project git history (org_xz). Synthetic data: none on this screen.";
 
@@ -235,6 +236,7 @@ function NoteScreen({ quarter }: { quarter: string }) {
               <DismissForm quarter={quarter} onDone={setDismissal} />
             )}
           </section>
+          <Thread caseId="xz" quarter={quarter} />
         </>
       )}
     </Frame>
