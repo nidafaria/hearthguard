@@ -107,4 +107,4 @@ def test_baseline_check_records_a_match_and_a_mismatch():
     bad = run.baseline_check("xz", {"nodes": 4678, "edges": 4668})
     assert bad["matches_saved_baseline"] is False
     assert bad["saved_baseline"] == {"nodes": 4679, "edges": 4668}
-    assert "4669" not in run.case_label("xz")
+    assert "run on an isolated rebuild of org_xz, 4669 nodes / 4659 edges" in run.case_label("xz")
