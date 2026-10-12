@@ -9,6 +9,7 @@ checked. One Hardening node per step records the run.
 
 import json
 import time
+import uuid
 from pathlib import Path
 
 from core.agents import inbox_graph as ig
@@ -70,7 +71,8 @@ def simulate_steps(
     start = time.perf_counter()
     for step in steps:
         t0 = time.perf_counter()
-        res = harden_org(client, case.org, step, row["T"])
+        # Graph names derive from the case's org, so a scratch org's copies carry its id.
+        res = harden_org(client, case.org, step, row["T"], run=f"{case.org}_{uuid.uuid4().hex[:8]}")
         res["label"] = STEP_TEXT[step]
         res["ms"] = round((time.perf_counter() - t0) * 1000, 1)
         res["caught"] = _pair(red.get(step), "caught_before", "caught_after")

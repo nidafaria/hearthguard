@@ -2,35 +2,40 @@
 
 The real xz claims all fall before the first decision quarter, so no real Finding has a claim in its
 window yet. This test builds a small graph with one Finding, one Claim, one Span and one mail
-Source on a real FalkorDB, then runs the live query through the read-only guard.
+Source in a scratch org (tests/integration/scratch_graphs.py), then runs the live query through
+the read-only guard. Teardown drops only that scratch graph.
 """
+
+import dataclasses
+
+import pytest
 
 from core.agents import inbox_graph as ig
 from core.agents import why as why_mod
-from core.agents.cases import Case
+from core.agents.cases import CASES
 from core.graph.client import FalkorClient
+from tests.integration.scratch_graphs import drop_owned, new_org_id
 
-ORG = "whytest"
-GRAPH = f"org_{ORG}"
-CASE = Case(
-    id="whytest",
-    org=ORG,
-    label="SYNTHETIC test graph",
-    synthetic=True,
-    decision_file="decision_status.json",
-    detail_files=(),
-    hardening_file=None,
-)
+pytestmark = pytest.mark.usefixtures("real_graphs_untouched")
+
 QUARTER = "2021-Q1"
 MSG = "msg00402"
 
 
-def _build(client: FalkorClient) -> None:
-    client.drop(GRAPH)
-    ig.ensure_schema(client, GRAPH)
-    fid = ig.finding_id(CASE, QUARTER)
+@pytest.fixture
+def case():
+    org = new_org_id()
+    try:
+        yield dataclasses.replace(CASES["xz"], org=org)
+    finally:
+        drop_owned(FalkorClient(), org)
+
+
+def _build(client: FalkorClient, case) -> None:
+    ig.ensure_schema(client, case.graph)
+    fid = ig.finding_id(case, QUARTER)
     client.query(
-        GRAPH,
+        case.graph,
         """CREATE (f:Finding {id: $fid, moves: ['PRESSURE'], status: 'held', at: 1})
            CREATE (a:Actor {hid: 'hashed-actor-1', kind: 'human'})
            CREATE (c:Claim {id: $cid, kind: 'CAPACITY_STATEMENT', at: 1610134610})
@@ -44,10 +49,10 @@ def _build(client: FalkorClient) -> None:
     )
 
 
-def test_why_returns_the_quote_and_the_source_link():
+def test_why_returns_the_quote_and_the_source_link(case):
     client = FalkorClient()
-    _build(client)
-    out = why_mod.run_why(client, CASE, QUARTER)
+    _build(client, case)
+    out = why_mod.run_why(client, case, QUARTER)
     assert out["query"]["rows"] == 1
     row = out["rows"][0]
     assert row["kind"] == "Claim"
@@ -56,10 +61,10 @@ def test_why_returns_the_quote_and_the_source_link():
     assert row["link"].startswith("http") and row["link"].endswith("msg00402.html")
 
 
-def test_why_query_is_the_guarded_read_with_a_timeout():
+def test_why_query_is_the_guarded_read_with_a_timeout(case):
     client = FalkorClient()
-    _build(client)
-    out = why_mod.run_why(client, CASE, QUARTER)
+    _build(client, case)
+    out = why_mod.run_why(client, case, QUARTER)
     assert out["query"]["timeout_ms"] > 0
     assert out["query"]["guard"].startswith("GRAPH.RO_QUERY")
     assert "LIMIT 200" in out["query"]["cypher"]

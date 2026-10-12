@@ -34,9 +34,10 @@ def create_app(
     results: Path = RESULTS,
     inbox_file: Path = INBOX_FILE,
     static_dir: Path | None = None,
+    cases: dict | None = None,
 ) -> FastAPI:
     app = FastAPI(title="Hearthguard inbox (local)")
-    app.include_router(build_router(results, inbox_file))
+    app.include_router(build_router(results, inbox_file, cases=cases))
     decision_file = results / DECISION.name
     hardening_file = results / HARDENING_NAME
 
