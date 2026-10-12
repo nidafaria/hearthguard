@@ -47,13 +47,20 @@ DEFINITIONS = {
 }
 
 
+# Node and edge counts of the real graphs as saved by the build (xz: with the Reader claims written;
+# tallowdate: with its Normal nodes). A run records whether the graph it ran on equals these.
+SAVED_BASELINES = {"xz": {"nodes": 4679, "edges": 4668}, "tallowdate": {"nodes": 175, "edges": 168}}
+
+
+def baseline_check(case: str, found: dict) -> dict:
+    saved = SAVED_BASELINES[case]
+    got = {"nodes": found["nodes"], "edges": found["edges"]}
+    return {"saved_baseline": saved, "found": got, "matches_saved_baseline": got == saved}
+
+
 def case_label(case: str) -> str:
     if case == "xz":
-        return (
-            "campaign planted into a copy of public xz history; not a finding about xz; "
-            "run on an isolated rebuild of org_xz, 4669 nodes / 4659 edges; "
-            "saved baseline 4679 / 4668"
-        )
+        return "campaign planted into a copy of public xz history; not a finding about xz"
     return "SYNTHETIC: campaign planted into a copy of the fictional tallowdate history"
 
 
@@ -170,6 +177,10 @@ def run_redteam(case: str, n: int, seed: int, client: FalkorClient | None = None
             "counts_after": after,
             "unchanged": info["real_counts_before"] == after,
             "planted_into": "copies only",
+            "port": client.port,
+            "baseline_check": baseline_check(
+                info["base"].removeprefix("org_"), info["real_counts_before"]
+            ),
         },
         "template_counts": template_counts,
         "summary": score.summarise(outcomes),

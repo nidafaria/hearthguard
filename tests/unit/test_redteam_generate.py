@@ -95,3 +95,16 @@ def test_campaign_ids_are_unique_and_labelled():
     ids = [c.id for c in gen.generate(200, 7, "tallowdate")]
     assert len(set(ids)) == 200
     assert all(i.startswith("rt-atk-tallowdate-s7-") for i in ids)
+
+
+def test_baseline_check_records_a_match_and_a_mismatch():
+    # Worked out first: xz baseline is 4679 nodes / 4668 edges, so those counts match and one
+    # node fewer does not.
+    from redteam import run
+
+    ok = run.baseline_check("xz", {"nodes": 4679, "edges": 4668})
+    assert ok["matches_saved_baseline"] is True
+    bad = run.baseline_check("xz", {"nodes": 4678, "edges": 4668})
+    assert bad["matches_saved_baseline"] is False
+    assert bad["saved_baseline"] == {"nodes": 4679, "edges": 4668}
+    assert "4669" not in run.case_label("xz")
