@@ -1,7 +1,7 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "inbox", "replay", "hardening-fixture", "harden-xz", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "inbox", "replay", "hardening-fixture", "harden-xz", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "blog-check", "help")]
     [string]$Target = "help",
 
     [Parameter(Position = 1)]
@@ -150,7 +150,11 @@ switch ($Target) {
         Pop-Location
         exit $code
     }
+    "blog-check" {
+        uv run python eval/blog_check.py
+        exit $LASTEXITCODE
+    }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|slack-preview|inbox|replay|hardening-fixture|harden-xz|demo|ui|synthetic-tallowdate|tallowdate-run>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|slack-preview|inbox|replay|hardening-fixture|harden-xz|demo|ui|synthetic-tallowdate|tallowdate-run|blog-check>"
     }
 }
