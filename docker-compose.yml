@@ -4,7 +4,7 @@ services:
     image: falkordb/falkordb:6.0.2
     ports:
       - "${FALKORDB_PORT:-6379}:6379"   # client protocol; host port overridable in .env
-      - "3000:3000"   # browser UI (debugging only)
+      - "${FALKORDB_UI_PORT:-3000}:3000"   # browser UI (debugging only); change it if port 3000 is taken
     volumes:
       - falkordb_data:/var/lib/falkordb/data   # persistence: the image's data dir (CONFIG GET dir)
     restart: unless-stopped
