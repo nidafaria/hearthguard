@@ -104,8 +104,7 @@ def _beats() -> list[dict]:
             "time": "Apr 3",
             "screen": "Slack thread: learned exception",
             "text": (
-                "Exception tested against {planted} planted attacks, {lost} lost. "
-                "Status: {status}."
+                "Exception tested against {planted} planted attacks, {lost} lost. Status: {status}."
             ),
             "reads": {
                 "planted": (DECISION, "learning.planted_attacks_tested"),
@@ -164,15 +163,17 @@ def build_beat(beat: dict) -> dict:
     for key, (path, field) in beat["reads"].items():
         found, value = _resolve(path, field)
         if not found:
-            value = NOT_COMPUTED
+            values[key] = NOT_COMPUTED
         elif isinstance(value, str):
-            value = value.rstrip(".")  # a saved sentence may end with a full stop of its own
-        values[key] = value
+            # A saved sentence may end with its own full stop; the text must not double it.
+            values[key] = value.rstrip(".")
+        else:
+            values[key] = value
         reads[key] = {
             "file": path,
             "field": field,
             "found": found,
-            "value": values[key],
+            "value": value if found else NOT_COMPUTED,
         }
     return {
         "beat": beat["beat"],

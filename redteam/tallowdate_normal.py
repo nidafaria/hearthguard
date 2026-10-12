@@ -36,6 +36,17 @@ def end_of_day_utc(d: date) -> int:
     return int(datetime(d.year, d.month, d.day, 23, 59, 59, tzinfo=UTC).timestamp())
 
 
+def label_normal_nodes(client: FalkorClient) -> None:
+    """metrics.store writes Normal nodes and OF edges without a flag. Label them after the store."""
+    client.query(
+        GRAPH,
+        "MATCH (n:Normal)-[r:OF]->(o:Org {id: $org}) "
+        "SET n.synthetic = true, n.case = 'tallowdate', r.synthetic = true",
+        {"org": ORG_ID},
+        timeout_ms=metrics.QUERY_TIMEOUT_MS,
+    )
+
+
 def build(client: FalkorClient) -> dict:
     results = []
     for quarter, d in QUARTER_ENDS:
@@ -60,6 +71,7 @@ def build(client: FalkorClient) -> dict:
                 "metrics": [m.as_dict() for m in all_metrics],
             }
         )
+    label_normal_nodes(client)
     return {
         "synthetic": True,
         "case": "tallowdate",

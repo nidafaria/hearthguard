@@ -34,8 +34,8 @@
             "T": 1680307199,
             "window": 63072000
           },
-          "query_ms": 24.673399999301182,
-          "server_ms": 0.081637
+          "query_ms": 36.25859999738168,
+          "server_ms": 0.166524
         },
         {
           "metric": "active_keepers",
@@ -52,8 +52,8 @@
             "T": 1680307199,
             "window": 7776000
           },
-          "query_ms": 1.6133999997691717,
-          "server_ms": 0.136924
+          "query_ms": 1.9802999995590653,
+          "server_ms": 0.128241
         },
         {
           "metric": "usual_path",
@@ -70,8 +70,8 @@
             "T": 1680307199,
             "window": 63072000
           },
-          "query_ms": 1.2748999979521614,
-          "server_ms": 0.033416
+          "query_ms": 1.6716999998607207,
+          "server_ms": 0.054865
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -140,8 +140,8 @@
             "T": 1688169599,
             "window": 63072000
           },
-          "query_ms": 1.2514000009105075,
-          "server_ms": 0.089003
+          "query_ms": 1.5905000000202563,
+          "server_ms": 0.148947
         },
         {
           "metric": "active_keepers",
@@ -158,8 +158,8 @@
             "T": 1688169599,
             "window": 7776000
           },
-          "query_ms": 1.1933999994653277,
-          "server_ms": 0.109751
+          "query_ms": 1.6429999996034894,
+          "server_ms": 0.117319
         },
         {
           "metric": "usual_path",
@@ -176,8 +176,8 @@
             "T": 1688169599,
             "window": 63072000
           },
-          "query_ms": 1.162699998531025,
-          "server_ms": 0.064073
+          "query_ms": 1.6515000024810433,
+          "server_ms": 0.116926
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -246,8 +246,8 @@
             "T": 1696118399,
             "window": 63072000
           },
-          "query_ms": 1.7860999978438485,
-          "server_ms": 0.08524
+          "query_ms": 1.9154000001435634,
+          "server_ms": 0.125357
         },
         {
           "metric": "active_keepers",
@@ -264,8 +264,8 @@
             "T": 1696118399,
             "window": 7776000
           },
-          "query_ms": 1.1555000019143336,
-          "server_ms": 0.088299
+          "query_ms": 1.7879999977594707,
+          "server_ms": 0.118825
         },
         {
           "metric": "usual_path",
@@ -282,8 +282,8 @@
             "T": 1696118399,
             "window": 63072000
           },
-          "query_ms": 1.0729999994509853,
-          "server_ms": 0.06808
+          "query_ms": 2.088299999741139,
+          "server_ms": 0.12844
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -352,8 +352,8 @@
             "T": 1704067199,
             "window": 63072000
           },
-          "query_ms": 1.2389000003167894,
-          "server_ms": 0.108293
+          "query_ms": 3.5724000008485746,
+          "server_ms": 0.222103
         },
         {
           "metric": "active_keepers",
@@ -370,8 +370,8 @@
             "T": 1704067199,
             "window": 7776000
           },
-          "query_ms": 1.2373999998089857,
-          "server_ms": 0.113912
+          "query_ms": 2.479700000549201,
+          "server_ms": 0.174918
         },
         {
           "metric": "usual_path",
@@ -388,8 +388,8 @@
             "T": 1704067199,
             "window": 63072000
           },
-          "query_ms": 1.4095000005909242,
-          "server_ms": 0.078756
+          "query_ms": 2.1722000019508414,
+          "server_ms": 0.130535
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -458,8 +458,8 @@
             "T": 1711929599,
             "window": 63072000
           },
-          "query_ms": 1.9819999979517888,
-          "server_ms": 0.11777
+          "query_ms": 2.833700000337558,
+          "server_ms": 0.216237
         },
         {
           "metric": "active_keepers",
@@ -476,8 +476,8 @@
             "T": 1711929599,
             "window": 7776000
           },
-          "query_ms": 1.1789000018325169,
-          "server_ms": 0.08832
+          "query_ms": 2.2668000019621104,
+          "server_ms": 0.147172
         },
         {
           "metric": "usual_path",
@@ -494,8 +494,8 @@
             "T": 1711929599,
             "window": 63072000
           },
-          "query_ms": 0.9473999998590443,
-          "server_ms": 0.079829
+          "query_ms": 2.309799998329254,
+          "server_ms": 0.135023
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -564,8 +564,8 @@
             "T": 1719791999,
             "window": 63072000
           },
-          "query_ms": 1.3469999976223335,
-          "server_ms": 0.099359
+          "query_ms": 2.1779999988211785,
+          "server_ms": 0.199237
         },
         {
           "metric": "active_keepers",
@@ -582,8 +582,8 @@
             "T": 1719791999,
             "window": 7776000
           },
-          "query_ms": 1.1225999987800606,
-          "server_ms": 0.082348
+          "query_ms": 1.8191999988630414,
+          "server_ms": 0.132985
         },
         {
           "metric": "usual_path",
@@ -600,8 +600,8 @@
             "T": 1719791999,
             "window": 63072000
           },
-          "query_ms": 1.0452999995322898,
-          "server_ms": 0.073058
+          "query_ms": 2.7356000027793925,
+          "server_ms": 0.154232
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -670,8 +670,8 @@
             "T": 1727740799,
             "window": 63072000
           },
-          "query_ms": 1.320399998803623,
-          "server_ms": 0.09885
+          "query_ms": 2.396800002316013,
+          "server_ms": 0.205889
         },
         {
           "metric": "active_keepers",
@@ -688,8 +688,8 @@
             "T": 1727740799,
             "window": 7776000
           },
-          "query_ms": 1.2208999978611246,
-          "server_ms": 0.083438
+          "query_ms": 2.4660999988554977,
+          "server_ms": 0.139352
         },
         {
           "metric": "usual_path",
@@ -706,8 +706,8 @@
             "T": 1727740799,
             "window": 63072000
           },
-          "query_ms": 1.189499998872634,
-          "server_ms": 0.076832
+          "query_ms": 2.378000001044711,
+          "server_ms": 0.150126
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -776,8 +776,8 @@
             "T": 1735689599,
             "window": 63072000
           },
-          "query_ms": 1.3668999999936204,
-          "server_ms": 0.124174
+          "query_ms": 2.897400001529604,
+          "server_ms": 0.303153
         },
         {
           "metric": "active_keepers",
@@ -794,8 +794,8 @@
             "T": 1735689599,
             "window": 7776000
           },
-          "query_ms": 1.1874999981955625,
-          "server_ms": 0.088664
+          "query_ms": 2.3720000026514754,
+          "server_ms": 0.136535
         },
         {
           "metric": "usual_path",
@@ -812,8 +812,8 @@
             "T": 1735689599,
             "window": 63072000
           },
-          "query_ms": 1.125899998442037,
-          "server_ms": 0.113471
+          "query_ms": 2.0249000008334406,
+          "server_ms": 0.156035
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -882,8 +882,8 @@
             "T": 1743465599,
             "window": 63072000
           },
-          "query_ms": 1.1661999997159,
-          "server_ms": 0.113519
+          "query_ms": 2.3521000002801884,
+          "server_ms": 0.242896
         },
         {
           "metric": "active_keepers",
@@ -900,8 +900,8 @@
             "T": 1743465599,
             "window": 7776000
           },
-          "query_ms": 1.0439000034239143,
-          "server_ms": 0.077543
+          "query_ms": 2.679000001080567,
+          "server_ms": 0.172668
         },
         {
           "metric": "usual_path",
@@ -918,8 +918,8 @@
             "T": 1743465599,
             "window": 63072000
           },
-          "query_ms": 1.1766000025090761,
-          "server_ms": 0.082018
+          "query_ms": 1.8874000015784986,
+          "server_ms": 0.153784
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -988,8 +988,8 @@
             "T": 1751327999,
             "window": 63072000
           },
-          "query_ms": 1.1257999976805877,
-          "server_ms": 0.10109
+          "query_ms": 1.9639999991341028,
+          "server_ms": 0.169941
         },
         {
           "metric": "active_keepers",
@@ -1006,8 +1006,8 @@
             "T": 1751327999,
             "window": 7776000
           },
-          "query_ms": 1.2075000013282988,
-          "server_ms": 0.08534
+          "query_ms": 2.062299998215167,
+          "server_ms": 0.13608
         },
         {
           "metric": "usual_path",
@@ -1024,8 +1024,8 @@
             "T": 1751327999,
             "window": 63072000
           },
-          "query_ms": 1.3811999997415114,
-          "server_ms": 0.107327
+          "query_ms": 1.8982000001415145,
+          "server_ms": 0.135659
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -1094,8 +1094,8 @@
             "T": 1759276799,
             "window": 63072000
           },
-          "query_ms": 1.5949000007822178,
-          "server_ms": 0.141971
+          "query_ms": 2.284199999849079,
+          "server_ms": 0.176974
         },
         {
           "metric": "active_keepers",
@@ -1112,8 +1112,8 @@
             "T": 1759276799,
             "window": 7776000
           },
-          "query_ms": 1.123800000641495,
-          "server_ms": 0.090971
+          "query_ms": 2.412400001048809,
+          "server_ms": 0.131944
         },
         {
           "metric": "usual_path",
@@ -1130,8 +1130,8 @@
             "T": 1759276799,
             "window": 63072000
           },
-          "query_ms": 1.1126999997941311,
-          "server_ms": 0.096525
+          "query_ms": 2.362600000196835,
+          "server_ms": 0.144606
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -1200,8 +1200,8 @@
             "T": 1767225599,
             "window": 63072000
           },
-          "query_ms": 1.319099999818718,
-          "server_ms": 0.112185
+          "query_ms": 2.21610000153305,
+          "server_ms": 0.149044
         },
         {
           "metric": "active_keepers",
@@ -1218,8 +1218,8 @@
             "T": 1767225599,
             "window": 7776000
           },
-          "query_ms": 1.0544999968260527,
-          "server_ms": 0.084135
+          "query_ms": 1.9977999982074834,
+          "server_ms": 0.122516
         },
         {
           "metric": "usual_path",
@@ -1236,8 +1236,8 @@
             "T": 1767225599,
             "window": 63072000
           },
-          "query_ms": 1.9591000018408522,
-          "server_ms": 0.289029
+          "query_ms": 1.7461999996157829,
+          "server_ms": 0.122465
         },
         {
           "metric": "keeper_activity_median_90d",

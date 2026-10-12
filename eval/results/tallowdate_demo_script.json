@@ -2,7 +2,7 @@
   "synthetic": true,
   "case": "tallowdate",
   "label": "SYNTHETIC demo script. Beats are data, not claims.",
-  "generated_at_utc": "2026-10-12T13:15:52Z",
+  "generated_at_utc": "2026-10-12T13:17:16Z",
   "beats": [
     {
       "beat": "dm_note",
@@ -194,7 +194,7 @@
           "file": "data/synthetic/tallowdate.json",
           "field": "events.154.summary",
           "found": true,
-          "value": "Shipped 1.4.2, signed by two keepers"
+          "value": "Shipped 1.4.2, signed by two keepers."
         }
       },
       "synthetic": true
