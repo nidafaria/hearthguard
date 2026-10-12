@@ -1,0 +1,47 @@
+{
+  "graph": "ecosystem_xz",
+  "after_first_load": {
+    "nodes": {
+      "Decision": 4,
+      "Identity": 20,
+      "Place": 6,
+      "Role": 4,
+      "Signal": 43
+    },
+    "edges": {
+      "ACTIVE_IN": 25,
+      "CONCERNS": 4,
+      "EMITTED": 43,
+      "MADE_IN": 4,
+      "RECORDED_IN": 43,
+      "REFERENCES": 16,
+      "SAME_AS": 1,
+      "WATCHES": 4
+    },
+    "node_total": 77,
+    "edge_total": 140
+  },
+  "after_second_load": {
+    "nodes": {
+      "Decision": 4,
+      "Identity": 20,
+      "Place": 6,
+      "Role": 4,
+      "Signal": 43
+    },
+    "edges": {
+      "ACTIVE_IN": 25,
+      "CONCERNS": 4,
+      "EMITTED": 43,
+      "MADE_IN": 4,
+      "RECORDED_IN": 43,
+      "REFERENCES": 16,
+      "SAME_AS": 1,
+      "WATCHES": 4
+    },
+    "node_total": 77,
+    "edge_total": 140
+  },
+  "identical": true,
+  "events_loaded": 43
+}
