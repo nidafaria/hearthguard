@@ -2,7 +2,7 @@
   "synthetic": true,
   "case": "tallowdate",
   "label": "SYNTHETIC demo script. Beats are data, not claims.",
-  "generated_at_utc": "2026-10-12T13:17:30Z",
+  "generated_at_utc": "2026-10-12T13:18:01Z",
   "beats": [
     {
       "beat": "dm_note",

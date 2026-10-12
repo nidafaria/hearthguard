@@ -9,11 +9,13 @@
     "nodes": {
       "Action": 155,
       "Actor": 6,
+      "Normal": 12,
       "Org": 1,
       "Path": 1
     },
     "edges": {
       "DID": 155,
+      "OF": 12,
       "VIA": 1
     }
   },
@@ -21,11 +23,13 @@
     "nodes": {
       "Action": 155,
       "Actor": 6,
+      "Normal": 12,
       "Org": 1,
       "Path": 1
     },
     "edges": {
       "DID": 155,
+      "OF": 12,
       "VIA": 1
     }
   },
@@ -48,7 +52,7 @@
       "params": {
         "hid": "<hashed id of Tomás, not written>"
       },
-      "query_ms": 0.27308,
+      "query_ms": 0.526906,
       "synthetic": true
     }
   },

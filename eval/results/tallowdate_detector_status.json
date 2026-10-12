@@ -3,7 +3,7 @@
   "case": "tallowdate",
   "org": "tallowdate",
   "privilege": "release",
-  "generated_at_utc": "2026-10-12T13:14:52Z",
+  "generated_at_utc": "2026-10-12T13:18:00Z",
   "provisional": true,
   "note": "Synthetic case, not a finding. The generated events record no grant, so Rush, Lone keeper, takeover cost and guardians have nothing to read. A status other than NOT COMPUTED would be recorded here as it is, and no branch in the policy handles it.",
   "function_hashes": {
@@ -65,7 +65,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.6053999974683393,
+              "ms": 1.5044000028865412,
               "rows": 0
             }
           ]
@@ -81,7 +81,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.7088999997649807,
+              "ms": 1.3017999990552198,
               "rows": 0
             }
           ]
@@ -89,7 +89,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 2.921700001024874,
+          "query_ms": 1.5194999978120904,
           "queries": [
             {
               "name": "privilege_exists",
@@ -97,7 +97,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.921700001024874,
+              "ms": 1.5194999978120904,
               "rows": 0
             }
           ]
@@ -142,7 +142,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.1577000006800517,
+              "ms": 1.573699999426026,
               "rows": 0
             }
           ]
@@ -158,7 +158,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.075099997455254,
+              "ms": 1.836600000387989,
               "rows": 0
             }
           ]
@@ -166,7 +166,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 3.0375999995158054,
+          "query_ms": 1.8397999992885161,
           "queries": [
             {
               "name": "privilege_exists",
@@ -174,7 +174,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.0375999995158054,
+              "ms": 1.8397999992885161,
               "rows": 0
             }
           ]
@@ -219,7 +219,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.895499997976003,
+              "ms": 1.357500001176959,
               "rows": 0
             }
           ]
@@ -235,7 +235,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.439899999444606,
+              "ms": 1.2781000004906673,
               "rows": 0
             }
           ]
@@ -243,7 +243,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 2.420100001472747,
+          "query_ms": 2.2408000004361384,
           "queries": [
             {
               "name": "privilege_exists",
@@ -251,7 +251,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.420100001472747,
+              "ms": 2.2408000004361384,
               "rows": 0
             }
           ]
@@ -296,7 +296,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.974999999423744,
+              "ms": 1.2507999999797903,
               "rows": 0
             }
           ]
@@ -312,7 +312,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.107399999862537,
+              "ms": 1.2488000029406976,
               "rows": 0
             }
           ]
@@ -320,7 +320,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 3.4331999995629303,
+          "query_ms": 1.2806999984604772,
           "queries": [
             {
               "name": "privilege_exists",
@@ -328,7 +328,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.4331999995629303,
+              "ms": 1.2806999984604772,
               "rows": 0
             }
           ]
@@ -373,7 +373,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.9418999984045513,
+              "ms": 1.4237000032153446,
               "rows": 0
             }
           ]
@@ -389,7 +389,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.2334999996237457,
+              "ms": 1.922200000990415,
               "rows": 0
             }
           ]
@@ -397,7 +397,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 2.80189999830327,
+          "query_ms": 1.8138999985239934,
           "queries": [
             {
               "name": "privilege_exists",
@@ -405,7 +405,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.80189999830327,
+              "ms": 1.8138999985239934,
               "rows": 0
             }
           ]
@@ -450,7 +450,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.904500001022825,
+              "ms": 1.5219000015349593,
               "rows": 0
             }
           ]
@@ -466,7 +466,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.1493999995291233,
+              "ms": 3.897399998095352,
               "rows": 0
             }
           ]
@@ -474,7 +474,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 3.0910000023141038,
+          "query_ms": 2.1985000021231826,
           "queries": [
             {
               "name": "privilege_exists",
@@ -482,7 +482,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.0910000023141038,
+              "ms": 2.1985000021231826,
               "rows": 0
             }
           ]
@@ -527,7 +527,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.1775999996170867,
+              "ms": 1.6508999979123473,
               "rows": 0
             }
           ]
@@ -543,7 +543,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.987399999256013,
+              "ms": 2.0240999983798247,
               "rows": 0
             }
           ]
@@ -551,7 +551,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 3.2022000013967045,
+          "query_ms": 2.3742000012134667,
           "queries": [
             {
               "name": "privilege_exists",
@@ -559,7 +559,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.2022000013967045,
+              "ms": 2.3742000012134667,
               "rows": 0
             }
           ]
@@ -604,7 +604,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.0246999995142687,
+              "ms": 2.333699998416705,
               "rows": 0
             }
           ]
@@ -620,7 +620,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.99299999824143,
+              "ms": 1.7308999995293561,
               "rows": 0
             }
           ]
@@ -628,7 +628,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 2.8801999978895765,
+          "query_ms": 2.1190000006754417,
           "queries": [
             {
               "name": "privilege_exists",
@@ -636,7 +636,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.8801999978895765,
+              "ms": 2.1190000006754417,
               "rows": 0
             }
           ]
@@ -681,7 +681,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.946299999166513,
+              "ms": 1.6810999986773822,
               "rows": 0
             }
           ]
@@ -697,7 +697,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.0883999970683362,
+              "ms": 1.5004999986558687,
               "rows": 0
             }
           ]
@@ -705,7 +705,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 2.780200000415789,
+          "query_ms": 1.5468000019609462,
           "queries": [
             {
               "name": "privilege_exists",
@@ -713,7 +713,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.780200000415789,
+              "ms": 1.5468000019609462,
               "rows": 0
             }
           ]
@@ -758,7 +758,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 2.97100000170758,
+              "ms": 1.7007999995257705,
               "rows": 0
             }
           ]
@@ -774,7 +774,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.174999998009298,
+              "ms": 2.883600001950981,
               "rows": 0
             }
           ]
@@ -782,7 +782,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 3.126299998257309,
+          "query_ms": 1.7450000013923272,
           "queries": [
             {
               "name": "privilege_exists",
@@ -790,7 +790,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.126299998257309,
+              "ms": 1.7450000013923272,
               "rows": 0
             }
           ]
@@ -835,7 +835,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.5548999985621776,
+              "ms": 1.5045999971334822,
               "rows": 0
             }
           ]
@@ -851,7 +851,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.0399999996006954,
+              "ms": 1.523400002042763,
               "rows": 0
             }
           ]
@@ -859,7 +859,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 3.559799999493407,
+          "query_ms": 2.190799998061266,
           "queries": [
             {
               "name": "privilege_exists",
@@ -867,7 +867,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.559799999493407,
+              "ms": 2.190799998061266,
               "rows": 0
             }
           ]
@@ -912,7 +912,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.241799997340422,
+              "ms": 1.7721000003803056,
               "rows": 0
             }
           ]
@@ -928,7 +928,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.2732000036048703,
+              "ms": 1.8227000000479165,
               "rows": 0
             }
           ]
@@ -936,7 +936,7 @@
         "lone_keeper": {
           "status": "NOT_COMPUTED",
           "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
-          "query_ms": 3.480300001683645,
+          "query_ms": 1.5650999994250014,
           "queries": [
             {
               "name": "privilege_exists",
@@ -944,7 +944,7 @@
               "params": {
                 "kind": "release"
               },
-              "ms": 3.480300001683645,
+              "ms": 1.5650999994250014,
               "rows": 0
             }
           ]
