@@ -1,4 +1,4 @@
-.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -68,6 +68,35 @@ reader-testset:
 # Refuses, and lists the rows, if any label is missing.
 reader-score:
 	uv run python -m eval.reader_score
+
+# The Reader on every in-scope xz-devel message except the human-labelled test set. Resumable: it
+# stops at the daily token limit and picks up on the next run. Needs GROQ_API_KEY.
+reader-full:
+	uv run python -m eval.reader_full_run
+
+# Claims into org_xz, then Pressure and Vouch at each quarter-end. Needs FalkorDB.
+pressure-vouch-xz:
+	uv run python -m eval.xz_pressure_vouch_status
+
+# Rush, Bypass, Lone keeper, takeover cost and guardians at each quarter-end. Needs FalkorDB.
+quarterly-xz:
+	uv run python -m eval.xz_quarterly_status
+
+# The decision policy on the saved statuses. Reads files only.
+decision-xz:
+	uv run python -m eval.xz_decision_status
+
+# Replay from saved results only: make replay CASE=xz. Writes eval/results/xz_replay.json and .md.
+replay:
+	uv run python -m eval.replay_$(or $(CASE),xz)
+
+# The demo: the same replay table, from saved results only. No network, no key, no FalkorDB.
+demo:
+	uv run python -m eval.demo
+
+# The read-only page over eval/results/*.json. Needs no key and no FalkorDB.
+ui:
+	cd ui && npm install && npm run dev
 
 # Placeholders for later steps. Each one fails until it is built.
 demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:

@@ -1,8 +1,11 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "help")]
-    [string]$Target = "help"
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "replay", "demo", "ui", "help")]
+    [string]$Target = "help",
+
+    [Parameter(Position = 1)]
+    [string]$Case = "xz"
 )
 
 $ErrorActionPreference = "Stop"
@@ -83,7 +86,41 @@ switch ($Target) {
         uv run python -m eval.reader_score
         exit $LASTEXITCODE
     }
+    "reader-full" {
+        uv run python -m eval.reader_full_run
+        exit $LASTEXITCODE
+    }
+    "pressure-vouch-xz" {
+        uv run python -m eval.xz_pressure_vouch_status
+        exit $LASTEXITCODE
+    }
+    "quarterly-xz" {
+        uv run python -m eval.xz_quarterly_status
+        exit $LASTEXITCODE
+    }
+    "decision-xz" {
+        uv run python -m eval.xz_decision_status
+        exit $LASTEXITCODE
+    }
+    "replay" {
+        if ($Case -notmatch '^[a-z0-9_]+$') { Write-Host "bad CASE"; exit 2 }
+        uv run python -m "eval.replay_$Case"
+        exit $LASTEXITCODE
+    }
+    "demo" {
+        uv run python -m eval.demo
+        exit $LASTEXITCODE
+    }
+    "ui" {
+        Push-Location ui
+        npm install
+        if ($LASTEXITCODE -ne 0) { Pop-Location; exit $LASTEXITCODE }
+        npm run dev
+        $code = $LASTEXITCODE
+        Pop-Location
+        exit $code
+    }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|replay|demo|ui>"
     }
 }
