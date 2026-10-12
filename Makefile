@@ -15,7 +15,11 @@ lint:
 	uv run ruff check .
 	uv run ruff format --check .
 
+# Re-checks every FalkorDB procedure the product depends on, on the pinned image (exit 1 on any failure).
+smoke-algos:
+	uv run pytest tests/integration/test_smoke_algos.py -s -v
+
 # Placeholders for later steps. Each one fails until it is built.
-smoke-algos demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
+demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
 	@echo "$@: not built yet"
 	@exit 1

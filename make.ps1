@@ -1,7 +1,7 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "help")]
     [string]$Target = "help"
 )
 
@@ -29,7 +29,11 @@ switch ($Target) {
         uv run ruff format --check .
         exit $LASTEXITCODE
     }
+    "smoke-algos" {
+        uv run pytest tests/integration/test_smoke_algos.py -s -v
+        exit $LASTEXITCODE
+    }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos>"
     }
 }
