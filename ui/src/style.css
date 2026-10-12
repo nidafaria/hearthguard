@@ -1,0 +1,39 @@
+:root {
+  --bg: #fbfaf7; --fg: #1d1c1a; --muted: #6b675f; --line: #dcd8cf; --panel: #ffffff;
+  --ok: #1f6f43; --warn: #8a5a00; --bad: #8f2d2d; --na: #55524b;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #161513; --fg: #ece9e2; --muted: #a39e93; --line: #36332e; --panel: #1e1c1a;
+    --ok: #6fcf97; --warn: #e0b04f; --bad: #e57f7f; --na: #b8b3a8; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 16px; margin: 0 0 10px; }
+.sub { color: var(--muted); margin: 0 0 16px; }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 16px; margin: 0 0 16px; }
+.banner { border-left: 4px solid var(--warn); padding: 8px 12px; margin: 0 0 16px;
+  background: var(--panel); border-radius: 4px; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-weight: 600; }
+tr.sel td { background: color-mix(in srgb, var(--line) 40%, transparent); }
+tbody tr { cursor: pointer; }
+.tag { font-weight: 600; }
+.NOT_COMPUTED { color: var(--na); }
+.NOT_FIRED { color: var(--ok); }
+.FIRED { color: var(--bad); }
+.HOLD { color: var(--warn); }
+pre { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px;
+  overflow-x: auto; font-size: 12px; margin: 6px 0; white-space: pre-wrap; word-break: break-word; }
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.card { border: 1px solid var(--line); border-radius: 6px; padding: 10px; }
+.muted { color: var(--muted); }
+button.q { background: none; border: 1px solid var(--line); color: var(--fg); border-radius: 4px;
+  padding: 2px 8px; cursor: pointer; font-size: 12px; }
+@media (max-width: 600px) { main { padding: 16px; } }
