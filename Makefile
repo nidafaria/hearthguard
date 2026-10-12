@@ -1,4 +1,4 @@
-.PHONY: blog-check video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: redteam harden blog-check video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -131,8 +131,21 @@ video-check:
 ui:
 	cd ui && npm install && npm run dev
 
+# Red Team: N campaigns planted into copies of the case's org graph, scored by the frozen detectors.
+# Writes eval/results/redteam_<case>.json. Example: make redteam N=200 SEED=7 CASE=tallowdate
+N ?= 200
+SEED ?= 7
+CASE ?= tallowdate
+redteam:
+	uv run python -m redteam.run --n $(N) --seed $(SEED) --case $(CASE)
+
+# Hardening on a copy of the case graph, every menu step, the same campaigns. Writes
+# eval/results/hardening_redteam_<case>.json. Example: make harden CASE=xz
+harden:
+	uv run python -m redteam.harden --n $(N) --seed $(SEED) --case $(CASE)
+
 # Placeholders for later steps. Each one fails until it is built.
-gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
+gaps ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
 	@echo "$@: not built yet"
 	@exit 1
 

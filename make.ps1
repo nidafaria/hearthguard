@@ -1,16 +1,29 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "inbox", "replay", "hardening-fixture", "harden-xz", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "ecosystem-xz", "video-check", "blog-check", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "inbox", "replay", "hardening-fixture", "harden-xz", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "ecosystem-xz", "redteam", "harden", "video-check", "blog-check", "help")]
     [string]$Target = "help",
 
     [Parameter(Position = 1)]
-    [string]$Case = "xz"
+    [string]$Case = "xz",
+
+    [int]$N = 200,
+    [int]$Seed = 7
 )
 
 $ErrorActionPreference = "Stop"
 
 switch ($Target) {
+    "redteam" {
+        if ($Case -notmatch '^[a-z0-9_]+$') { Write-Host "bad CASE"; exit 2 }
+        uv run python -m redteam.run --n $N --seed $Seed --case $Case
+        exit $LASTEXITCODE
+    }
+    "harden" {
+        if ($Case -notmatch '^[a-z0-9_]+$') { Write-Host "bad CASE"; exit 2 }
+        uv run python -m redteam.harden --n $N --seed $Seed --case $Case
+        exit $LASTEXITCODE
+    }
     "ecosystem-xz" {
         uv run python -m eval.ecosystem_xz
         exit $LASTEXITCODE
