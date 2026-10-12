@@ -12,3 +12,4 @@ Every item below is open. None was decided by the build agent; where it chose a 
 | [0006-reader-test-set-choices.md](0006-reader-test-set-choices.md) | Shortfall policy `top-up`; the 60,000-token cap; held-back test set; unreadable messages | Reader recall and precision |
 
 Also waiting on the owner, not a decision file: a person must fill in `eval/results/reader_labelsheet.csv`.
+| [0008-inbox-no-llm.md](0008-inbox-no-llm.md) | Thread questions answered by a fixed tool router, no LLM (Groq allowance used up) | The Investigator's LLM planner (spec 8.1, 12.2) |

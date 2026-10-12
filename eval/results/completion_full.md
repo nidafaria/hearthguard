@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 23, PARTIAL 40, NOT STARTED 68. Score 32.8% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 31, PARTIAL 43, NOT STARTED 57. Score 40.1% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -27,7 +27,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 19 | §4.2 | OSS pack: parsers for GitHub, npm, mailing lists, bug trackers | PARTIAL | git, GitHub and mail parsers (f5d741a, 09c776c); npm and trackers none |
 | 20 | §4.2 | OSS pack: privileges, normal path, claim vocabulary | PARTIAL | claim vocabulary and normal path yes; no Privilege/grant data |
 | 21 | §4.2 | Finance pack (parsers, mapping, vocabulary, normal path) | NOT STARTED | packs/finance empty |
-| 22 | §4.3 | Maintainer private note | NOT STARTED | no Liaison, no note code |
+| 22 | §4.3 | Maintainer private note | PARTIAL | web inbox only: core/agents/liaison.py, api/inbox_actions.py; no Slack DM; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py; blockers_a.md |
 | 23 | §4.3 | Downstream packager question via MCP or web | NOT STARTED | no MCP, no web app |
 | 24 | §4.3 | Foundation view across projects (Could) | NOT STARTED | none |
 | 25 | §4.3 | Controller note with Mark callback done (finance) | NOT STARTED | none |
@@ -43,7 +43,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | NOT STARTED | not written anywhere |
 | 36 | §6.1 | org graph: SHARES edges built | NOT STARTED | no builder; decision 0004 |
 | 37 | §6.1 | org graph: CONTRADICTS / SUPERSEDES / QUALIFIES written | NOT STARTED | conflict policy computes, no edges written |
-| 38 | §6.1 | org graph: Finding, Gap, Objection, Request, Note, Draft, OwnerDecision, BACKUP | NOT STARTED | none |
+| 38 | §6.1 | org graph: Finding, Gap, Objection, Request, Note, Draft, OwnerDecision, BACKUP | PARTIAL | core/agents/inbox_graph.py writes Finding, Note, Draft, OwnerDecision, BACKUP, Gap (xz from eval/results/ecosystem_gaps.json), Hardening; Objection and Request writers exist but no Skeptic source and no test; blockers_a.md |
 | 39 | §6.1 | org graph: Hardening, Task, AgentStep | NOT STARTED | none |
 | 40 | §6.2 | ecosystem_<id> graph | PARTIAL | packs/oss/ecosystem/graph.py; eval/results/ecosystem_load.json: ecosystem_xz, 43 events, second load identical; no Foundation, HOSTED_BY or Campaign |
 | 41 | §6.3 | redteam_<run> and harden_<run> graphs | PARTIAL | harden_<run> by GRAPH.COPY in core/hardening/simulate.py; no redteam_<run> |
@@ -61,14 +61,14 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 53 | §7.3 | Decision policy (frozen decide()) | DONE | core/policy/decision.py; 6d3f62d, 2e9054f |
 | 54 | §7.5 | Visibility gaps (UNREACHABLE / UNNOTICED) | DONE | packs/oss/ecosystem/gaps.py runs the §7.5 query as written; eval/results/ecosystem_gaps.json: 4 decisions computed, 22 gap rows (a lower bound); tests/integration/test_ecosystem_xz.py |
 | 55 | §7.6 | Trust path query (SPpaths from a young actor) | NOT STARTED | none |
-| 56 | §7.6 | `why` query (finding to quote and link) | NOT STARTED | no Finding nodes |
+| 56 | §7.6 | `why` query (finding to quote and link) | DONE | core/agents/why.py run_why (spec 7.6 Cypher through core/graph/ro_guard.py, timeout); tests: tests/integration/test_why_quote_link.py, tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 57 | §7.6 | Read-path guard (RO_QUERY, timeout, write block, LIMIT cap) | DONE | core/graph/ro_guard.py; 2483a41 |
 | 58 | §7 | As-of-T helper; no future leakage | DONE | core/graph/as_of.py; tests/integration/test_as_of.py |
 | 59 | §8.1 | Watcher (idempotent ingest, normals, SHARES, visibility) | PARTIAL | ingest and normals as scripts; no worker, no SHARES, no visibility |
 | 60 | §8.1 | Reader (strict JSON, validation, injection test) | DONE | core/claims/reader.py; 5c51df4; tests/injection |
-| 61 | §8.1 | Investigator | NOT STARTED | core/agents is empty |
+| 61 | §8.1 | Investigator | PARTIAL | core/agents/investigator.py fixed tool router, no LLM (docs/decisions/0008-inbox-no-llm.md, OPEN); no Skeptic, no MCP tools/list; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 62 | §8.1 | Skeptic | NOT STARTED | none |
-| 63 | §8.1 | Liaison | NOT STARTED | none |
+| 63 | §8.1 | Liaison | PARTIAL | core/agents/liaison.py: note as question, dismiss, snooze, drafts; no Slack sender, no learned-exception proposals, no LLM wording; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 64 | §8.1 | Red Team generator | PARTIAL | redteam/tallowdate.py: one seeded synthetic campaign with planted flags; no parameterised generator, no N or SEED |
 | 65 | §8.2 | Task board with leases, stale-result rejection, requests | NOT STARTED | core/board is empty |
 | 66 | §8.3 | Learned exceptions with safety rules and regression gate | NOT STARTED | core/learning is empty |
@@ -80,7 +80,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | claims and spans written; no contradiction links |
 | 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (eval/results/xz_normal.json) |
 | 74 | §9 | Who-saw-what memory | PARTIAL | WATCHES and ACTIVE_IN in ecosystem_xz; no PARTICIPATES_IN in org graphs |
-| 75 | §9 | Owner memory | NOT STARTED | none |
+| 75 | §9 | Owner memory | PARTIAL | OwnerDecision written once per finding (core/agents/inbox_graph.py record_dismissal); the 'same situation does not return without new evidence' rule is not built; tests: tests/integration/test_inbox_loop.py |
 | 76 | §9 | Working memory (AgentStep, task board) | NOT STARTED | none |
 | 77 | §10.1 | Freeze protocol: dated spec published with hash; `make verify-frozen` | PARTIAL | docs/FREEZE.md is a DRAFT, hash in FREEZE.sha256; target not built; Reader frozen b6e3b1c |
 | 78 | §10.2 | Memory ablation (`make ablation-memory`) | NOT STARTED | target not built |
@@ -106,16 +106,16 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 98 | §12.1 | pack-finance MCP server | NOT STARTED | none |
 | 99 | §12.1 | FalkorDB MCP wired read-only; Claude Code check_trust demo | NOT STARTED | none |
 | 100 | §12.2 | Slack app (Bolt, Socket Mode) sends the note | PARTIAL | slack_app/render.py renders the note (eval/results/slack_preview.json, sent_to_slack false); no Bolt, nothing sent |
-| 101 | §12.2 | Show me why button | PARTIAL | slack_app/show_why.py and api /api/notes/{quarter}/why, from saved results; not in Slack |
-| 102 | §12.2 | Simulate a fix button | PARTIAL | api /api/notes/{quarter}/simulate reads eval/results/xz_hardening.json; not run live, not in Slack |
-| 103 | §12.2 | Draft a reply button | NOT STARTED | none |
+| 101 | §12.2 | Show me why button | DONE | web inbox: api/inbox_actions.py show_why, ui/src/Thread.tsx; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
+| 102 | §12.2 | Simulate a fix button | PARTIAL | live simulate on GRAPH.COPY (core/agents/simulate_fix.py, core/hardening/xz.py); caught and lead time NOT COMPUTED (no saved red-team file); tests: tests/integration/test_inbox_loop.py |
+| 103 | §12.2 | Draft a reply button | DONE | core/agents/inbox_graph.py create_draft/edit_draft/mark_draft_sent; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/integration/test_inbox_loop.py |
 | 104 | §12.2 | It's fine button and learning result in thread | PARTIAL | api dismiss writes a local JSONL file; no OwnerDecision, no learned exception |
-| 105 | §12.2 | Thread questions answered from tools | NOT STARTED | none |
-| 106 | §12.2 | Availability routing to the named backup; shared thread for two keepers | NOT STARTED | none |
-| 107 | §12.2 | Weekly digest | NOT STARTED | none |
+| 105 | §12.2 | Thread questions answered from tools | DONE | core/agents/investigator.py; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/unit/test_inbox_rules.py, tests/integration/test_inbox_loop.py |
+| 106 | §12.2 | Availability routing to the named backup; shared thread for two keepers | DONE | core/agents/routing.py (tested rules); api/inbox_actions.py routing endpoints; tests/unit/test_inbox_rules.py |
+| 107 | §12.2 | Weekly digest | DONE | core/agents/digest.py (saved results, quiet-week case); eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/unit/test_inbox_rules.py |
 | 108 | §12.2 | Slash commands (Could) | NOT STARTED | none |
-| 109 | §12.2 | Slack safety tests: injection, double tap, Slack down | NOT STARTED | none |
-| 110 | §12.2 | Web inbox fallback | PARTIAL | api/app.py, ui/src/Inbox.tsx: note, why, simulate, dismiss; no thread questions |
+| 109 | §12.2 | Slack safety tests: injection, double tap, Slack down | PARTIAL | injection and double-tap tests pass (tests/integration/test_inbox_loop.py); no Slack code exists in this build, so there is no Slack-down test |
+| 110 | §12.2 | Web inbox fallback | DONE | api/inbox_actions.py, ui/src/Thread.tsx mounted in ui/src/Inbox.tsx; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 111 | §13.1 | Replay timeline | PARTIAL | ui/ replay table over eval/results; no chart or markers |
 | 112 | §13.2 | Who saw what | NOT STARTED | none |
 | 113 | §13.3 | Takeover cost gauge | NOT STARTED | none |
@@ -126,7 +126,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 118 | §13.8 | Connect your repo | NOT STARTED | none |
 | 119 | §13.9 | Census screen | NOT STARTED | none |
 | 120 | §13.10 | Playbook screen | NOT STARTED | none |
-| 121 | §13.11 | Inbox screen | PARTIAL | ui/src/Inbox.tsx over api/app.py; no thread |
+| 121 | §13.11 | Inbox screen | DONE | ui/src/Inbox.tsx + ui/src/Thread.tsx: note, buttons and thread; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png |
 | 122 | §13.12 | Two endings screen | NOT STARTED | none |
 | 123 | §13 | Pack header and synthetic labels on every screen | PARTIAL | ui/ labels its data source; no pack header |
 | 124 | §15 Could | Discord and email front ends | NOT STARTED | none |
