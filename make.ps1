@@ -1,7 +1,7 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "replay", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "replay", "hardening-fixture", "harden-xz", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "help")]
     [string]$Target = "help",
 
     [Parameter(Position = 1)]
@@ -102,6 +102,14 @@ switch ($Target) {
         uv run python -m eval.xz_decision_status
         exit $LASTEXITCODE
     }
+    "hardening-fixture" {
+        uv run python -m core.hardening.simulate
+        exit $LASTEXITCODE
+    }
+    "harden-xz" {
+        uv run python -m core.hardening.xz
+        exit $LASTEXITCODE
+    }
     "replay" {
         if ($Case -notmatch '^[a-z0-9_]+$') { Write-Host "bad CASE"; exit 2 }
         uv run python -m "eval.replay_$Case"
@@ -129,6 +137,6 @@ switch ($Target) {
         exit $code
     }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|replay|demo|ui|synthetic-tallowdate|tallowdate-run>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|replay|hardening-fixture|harden-xz|demo|ui|synthetic-tallowdate|tallowdate-run>"
     }
 }

@@ -1,0 +1,1228 @@
+{
+  "org": "xz",
+  "privilege": "release",
+  "provisional": true,
+  "rule": "0001-outsider-edges (PROPOSED)",
+  "spec": "docs/HEARTHGUARD.md section 8.5 (OSS menu: three rows)",
+  "red_team": "not run: caught and lead time are not in this file",
+  "org_counts_before": {
+    "nodes": 4679,
+    "edges": 4668
+  },
+  "org_counts_after": {
+    "nodes": 4679,
+    "edges": 4668
+  },
+  "results": [
+    {
+      "quarter": "2021-Q4",
+      "T": 1640995199,
+      "T_iso": "2021-12-31T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzaf76a6d24de"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzaa3d415b370"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza0325bebda2"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2022-Q1",
+      "T": 1648771199,
+      "T_iso": "2022-03-31T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza002221c934"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza4143a027fd"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza0fad1572da"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2022-Q2",
+      "T": 1656633599,
+      "T_iso": "2022-06-30T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza75124e6949"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza233c3f84a3"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza5b6c05cfdb"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2022-Q3",
+      "T": 1664582399,
+      "T_iso": "2022-09-30T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza315c0b9f9f"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza3b85a6d2c6"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzab7769822b4"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2022-Q4",
+      "T": 1672531199,
+      "T_iso": "2022-12-31T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza8dbe1310f6"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzaf49b269536"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza80760fd7aa"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2023-Q1",
+      "T": 1680307199,
+      "T_iso": "2023-03-31T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza87c396c9cd"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzaca22595752"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza842eb6a4f4"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2023-Q2",
+      "T": 1688169599,
+      "T_iso": "2023-06-30T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzab1f647b5cb"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza45d5f7d60f"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza791e75f594"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2023-Q3",
+      "T": 1696118399,
+      "T_iso": "2023-09-30T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza5ee026e4b8"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza64dd9f954f"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza57b6d3dd20"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2023-Q4",
+      "T": 1704067199,
+      "T_iso": "2023-12-31T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzadc835b778e"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzad06e4c07f7"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hzad34b707b56"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    },
+    {
+      "quarter": "2024-Q1",
+      "T": 1711929599,
+      "T_iso": "2024-03-31T23:59:59Z",
+      "steps": [
+        {
+          "step": "add_second_keeper",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza97d4d1c3c8"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        },
+        {
+          "step": "require_provenance_ci",
+          "applied": true,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 10.0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza4bee0d53da"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": null
+        },
+        {
+          "step": "require_two_approvals",
+          "applied": false,
+          "graph_changes": {
+            "nodes_created": 0,
+            "relationships_created": 0,
+            "properties_set": 0
+          },
+          "copy_counts": {
+            "nodes": 4679,
+            "edges": 4668
+          },
+          "before": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_xz"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "after": {
+            "takeover_cost": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": "no CAN_GRANT or Privilege data in org_hza7daffa3a05"
+            },
+            "guardians": {
+              "status": "NOT COMPUTED",
+              "value": null,
+              "reason": null
+            }
+          },
+          "note": "the step found nothing to change in this graph (no Privilege, grant edge or usual_path Normal to act on)"
+        }
+      ]
+    }
+  ]
+}

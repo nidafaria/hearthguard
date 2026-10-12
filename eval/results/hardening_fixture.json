@@ -1,0 +1,193 @@
+{
+  "spec": "docs/HEARTHGUARD.md section 8.5",
+  "rule": "docs/decisions/0001-outsider-edges.md (PROPOSED, provisional)",
+  "new_keeper_approvals": 1,
+  "results": [
+    {
+      "fixture": "a_single_chain",
+      "step": "add_second_keeper",
+      "T": 1000,
+      "before": {
+        "cost": 1,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 1,
+        "guardians_status": "COMPUTED"
+      },
+      "after": {
+        "cost": 1,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 2,
+        "guardians_status": "COMPUTED"
+      },
+      "original_counts_before": {
+        "nodes": 3,
+        "edges": 1
+      },
+      "original_counts_after": {
+        "nodes": 3,
+        "edges": 1
+      },
+      "hardened_copy_counts": {
+        "nodes": 4,
+        "edges": 2
+      }
+    },
+    {
+      "fixture": "a_single_chain",
+      "step": "require_two_approvals",
+      "T": 1000,
+      "before": {
+        "cost": 1,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 1,
+        "guardians_status": "COMPUTED"
+      },
+      "after": {
+        "cost": 2,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 1,
+        "guardians_status": "COMPUTED"
+      },
+      "original_counts_before": {
+        "nodes": 3,
+        "edges": 1
+      },
+      "original_counts_after": {
+        "nodes": 3,
+        "edges": 1
+      },
+      "hardened_copy_counts": {
+        "nodes": 3,
+        "edges": 1
+      }
+    },
+    {
+      "fixture": "b_two_keepers",
+      "step": "add_second_keeper",
+      "T": 1000,
+      "before": {
+        "cost": 1,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 2,
+        "guardians_status": "COMPUTED"
+      },
+      "after": {
+        "cost": 1,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 3,
+        "guardians_status": "COMPUTED"
+      },
+      "original_counts_before": {
+        "nodes": 3,
+        "edges": 2
+      },
+      "original_counts_after": {
+        "nodes": 3,
+        "edges": 2
+      },
+      "hardened_copy_counts": {
+        "nodes": 4,
+        "edges": 3
+      }
+    },
+    {
+      "fixture": "b_two_keepers",
+      "step": "require_two_approvals",
+      "T": 1000,
+      "before": {
+        "cost": 1,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 2,
+        "guardians_status": "COMPUTED"
+      },
+      "after": {
+        "cost": 2,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 2,
+        "guardians_status": "COMPUTED"
+      },
+      "original_counts_before": {
+        "nodes": 3,
+        "edges": 2
+      },
+      "original_counts_after": {
+        "nodes": 3,
+        "edges": 2
+      },
+      "hardened_copy_counts": {
+        "nodes": 3,
+        "edges": 2
+      }
+    },
+    {
+      "fixture": "c_two_approvals",
+      "step": "add_second_keeper",
+      "T": 1000,
+      "before": {
+        "cost": 2,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 1,
+        "guardians_status": "COMPUTED"
+      },
+      "after": {
+        "cost": 1,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 2,
+        "guardians_status": "COMPUTED"
+      },
+      "original_counts_before": {
+        "nodes": 2,
+        "edges": 1
+      },
+      "original_counts_after": {
+        "nodes": 2,
+        "edges": 1
+      },
+      "hardened_copy_counts": {
+        "nodes": 3,
+        "edges": 2
+      }
+    },
+    {
+      "fixture": "c_two_approvals",
+      "step": "require_two_approvals",
+      "T": 1000,
+      "before": {
+        "cost": 2,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 1,
+        "guardians_status": "COMPUTED"
+      },
+      "after": {
+        "cost": 2,
+        "cost_status": "COMPUTED",
+        "cost_reason": null,
+        "guardians": 1,
+        "guardians_status": "COMPUTED"
+      },
+      "original_counts_before": {
+        "nodes": 2,
+        "edges": 1
+      },
+      "original_counts_after": {
+        "nodes": 2,
+        "edges": 1
+      },
+      "hardened_copy_counts": {
+        "nodes": 2,
+        "edges": 1
+      }
+    }
+  ]
+}
