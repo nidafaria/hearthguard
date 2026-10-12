@@ -1,0 +1,666 @@
+{
+  "rule": "Pool: cached xz-devel messages dated 2021-01-01 to 2024-12-31 (UTC), minus the 20 spot-check messages. Stratified by year, 15 per year. Within a year: sort by message id, take every k-th, k = floor(pool size / 15), starting at the first id.",
+  "window": [
+    "2021-01-01",
+    "2024-12-31"
+  ],
+  "per_year_target": 15,
+  "pool_sizes": {
+    "2021": 122,
+    "2022": 99,
+    "2023": 8,
+    "2024": 51
+  },
+  "k_by_year": {
+    "2021": 8,
+    "2022": 6,
+    "2023": null,
+    "2024": 3
+  },
+  "shortfall": {
+    "2023": 7
+  },
+  "shortfall_policy": "top-up",
+  "topup_ids": [
+    "msg00398",
+    "msg00436",
+    "msg00476",
+    "msg00515",
+    "msg00555",
+    "msg00596",
+    "msg00644"
+  ],
+  "excluded_spotcheck_ids": [
+    "msg00407",
+    "msg00422",
+    "msg00437",
+    "msg00452",
+    "msg00467",
+    "msg00482",
+    "msg00497",
+    "msg00512",
+    "msg00527",
+    "msg00542",
+    "msg00557",
+    "msg00572",
+    "msg00587",
+    "msg00602",
+    "msg00617",
+    "msg00632",
+    "msg00647",
+    "msg00662",
+    "msg00677",
+    "msg00692"
+  ],
+  "count": 60,
+  "ids_by_year": {
+    "2021": [
+      "msg00397",
+      "msg00405",
+      "msg00414",
+      "msg00423",
+      "msg00431",
+      "msg00440",
+      "msg00448",
+      "msg00457",
+      "msg00465",
+      "msg00474",
+      "msg00483",
+      "msg00491",
+      "msg00500",
+      "msg00508",
+      "msg00517"
+    ],
+    "2022": [
+      "msg00528",
+      "msg00534",
+      "msg00540",
+      "msg00547",
+      "msg00553",
+      "msg00560",
+      "msg00566",
+      "msg00573",
+      "msg00579",
+      "msg00585",
+      "msg00592",
+      "msg00598",
+      "msg00605",
+      "msg00611",
+      "msg00618"
+    ],
+    "2023": [
+      "msg00634",
+      "msg00635",
+      "msg00636",
+      "msg00637",
+      "msg00638",
+      "msg00639",
+      "msg00640",
+      "msg00641"
+    ],
+    "2024": [
+      "msg00642",
+      "msg00645",
+      "msg00649",
+      "msg00652",
+      "msg00655",
+      "msg00658",
+      "msg00661",
+      "msg00665",
+      "msg00668",
+      "msg00671",
+      "msg00674",
+      "msg00678",
+      "msg00681",
+      "msg00684",
+      "msg00687"
+    ]
+  },
+  "ids": [
+    "msg00397",
+    "msg00398",
+    "msg00405",
+    "msg00414",
+    "msg00423",
+    "msg00431",
+    "msg00436",
+    "msg00440",
+    "msg00448",
+    "msg00457",
+    "msg00465",
+    "msg00474",
+    "msg00476",
+    "msg00483",
+    "msg00491",
+    "msg00500",
+    "msg00508",
+    "msg00515",
+    "msg00517",
+    "msg00528",
+    "msg00534",
+    "msg00540",
+    "msg00547",
+    "msg00553",
+    "msg00555",
+    "msg00560",
+    "msg00566",
+    "msg00573",
+    "msg00579",
+    "msg00585",
+    "msg00592",
+    "msg00596",
+    "msg00598",
+    "msg00605",
+    "msg00611",
+    "msg00618",
+    "msg00634",
+    "msg00635",
+    "msg00636",
+    "msg00637",
+    "msg00638",
+    "msg00639",
+    "msg00640",
+    "msg00641",
+    "msg00642",
+    "msg00644",
+    "msg00645",
+    "msg00649",
+    "msg00652",
+    "msg00655",
+    "msg00658",
+    "msg00661",
+    "msg00665",
+    "msg00668",
+    "msg00671",
+    "msg00674",
+    "msg00678",
+    "msg00681",
+    "msg00684",
+    "msg00687"
+  ],
+  "empty_text_ids": [],
+  "reader_frozen_version": 1,
+  "generated_at_utc": "2026-10-12T11:51:27Z",
+  "messages": [
+    {
+      "message_id": "msg00397",
+      "year": "2021",
+      "date_utc": "2021-01-05T22:50:01Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 53096,
+      "text_sha256": "de9f0a832e9a78d10be8067a46e2bb56508bb381aaa128013fbcc59f8784d704"
+    },
+    {
+      "message_id": "msg00398",
+      "year": "2021",
+      "date_utc": "2021-01-08T16:40:27Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1727,
+      "text_sha256": "03d9a51a882ae983ce7ddb6f589ffdabaf08390f7375ae40371b380b7d50c7c9"
+    },
+    {
+      "message_id": "msg00405",
+      "year": "2021",
+      "date_utc": "2021-01-09T15:38:36Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 3927,
+      "text_sha256": "9b7beabfd34173fbee1332abb87d12813b54d888d7cce403500c63d47524a9f3"
+    },
+    {
+      "message_id": "msg00414",
+      "year": "2021",
+      "date_utc": "2021-01-11T16:04:19Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1179,
+      "text_sha256": "b495dd3710039506d465d77f6432dc147857c7d137faea8f5eef4af277445f6a"
+    },
+    {
+      "message_id": "msg00423",
+      "year": "2021",
+      "date_utc": "2021-01-16T21:26:26Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 11814,
+      "text_sha256": "202d0105b0eda45bbdb70701517ef7f2e40409559f840d1e7f9c23f36faf0576"
+    },
+    {
+      "message_id": "msg00431",
+      "year": "2021",
+      "date_utc": "2021-01-20T22:03:50Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 254,
+      "text_sha256": "dbc21c91e9a71fd985f1406fc416cc0d90136f443b047c7e48d0a7aede03ed87"
+    },
+    {
+      "message_id": "msg00436",
+      "year": "2021",
+      "date_utc": "2021-01-22T23:49:58Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 24724,
+      "text_sha256": "4da0e03150b77112cc22c1af437e4208130260ad194e4bfc8fe35d9c135e2da2"
+    },
+    {
+      "message_id": "msg00440",
+      "year": "2021",
+      "date_utc": "2021-01-27T23:17:27Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 1118,
+      "text_sha256": "558188cc5a3856851bf1c46712282acc2fe839f217e73ccd08f4d5e577d92bdb"
+    },
+    {
+      "message_id": "msg00448",
+      "year": "2021",
+      "date_utc": "2021-02-01T18:49:00Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 2709,
+      "text_sha256": "40eddd4607bb7c8f4d9c06d678118bd261df01e6a6c565e0186d7fa2623f259e"
+    },
+    {
+      "message_id": "msg00457",
+      "year": "2021",
+      "date_utc": "2021-02-04T03:03:32Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 2781,
+      "text_sha256": "47c006ef5b3c7116b709a14fed697f92699f5cd64fb0a8d281d2d6619b66da50"
+    },
+    {
+      "message_id": "msg00465",
+      "year": "2021",
+      "date_utc": "2021-02-05T19:21:32Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 534,
+      "text_sha256": "8736b80ee4440b74c4b79e3f91248670c7779bf97c8180c9101ea2e9ab7b43b5"
+    },
+    {
+      "message_id": "msg00474",
+      "year": "2021",
+      "date_utc": "2021-02-11T18:51:25Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 326,
+      "text_sha256": "250deada711f0f2a0165cfbb0834510f8b4118da48cd489a76d6599755b57d98"
+    },
+    {
+      "message_id": "msg00476",
+      "year": "2021",
+      "date_utc": "2021-02-13T20:36:02Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 3556,
+      "text_sha256": "d627108e665ec938f814f9eecf3493830b593072c62cb432abe404065df7b77d"
+    },
+    {
+      "message_id": "msg00483",
+      "year": "2021",
+      "date_utc": "2021-02-16T18:48:13Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1038,
+      "text_sha256": "44a26673c738ddcc94f85263ac62e75137581924ba1ebe24fe8d44ce704b89fd"
+    },
+    {
+      "message_id": "msg00491",
+      "year": "2021",
+      "date_utc": "2021-03-23T12:53:08Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 4549,
+      "text_sha256": "e7a5a8a78c9a167c2be5a4d2d771d7eef188961be84061c76902119ab61338c2"
+    },
+    {
+      "message_id": "msg00500",
+      "year": "2021",
+      "date_utc": "2021-04-15T17:14:44Z",
+      "author_hash": "075ece75d4e5e15461bcf268cce435b12071f4db131c8cd2d2a6cda563ed7050",
+      "text_chars": 185,
+      "text_sha256": "819b21a26110af82848457f73841ecfbd07cfb7b58bf6eaaef3518443c4f313c"
+    },
+    {
+      "message_id": "msg00508",
+      "year": "2021",
+      "date_utc": "2021-09-08T20:40:33Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 3748,
+      "text_sha256": "7f88be43b9f14c534e4a030445cc352106d39c62df55b755a29a035875d4e10c"
+    },
+    {
+      "message_id": "msg00515",
+      "year": "2021",
+      "date_utc": "2021-11-10T22:56:46Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 287,
+      "text_sha256": "461c0a1aaafccd1344e6276586b8f9a8ab981150c0cb3f4df36484c5c0b91d48"
+    },
+    {
+      "message_id": "msg00517",
+      "year": "2021",
+      "date_utc": "2021-11-12T14:38:12Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 1363,
+      "text_sha256": "6f3c8d5243d2058e8f78300ee6e55984314f162ea57d136f50ac836be010edbb"
+    },
+    {
+      "message_id": "msg00528",
+      "year": "2022",
+      "date_utc": "2022-02-06T23:46:40Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 6334,
+      "text_sha256": "eacb8b0bce2c30dba234d3ed2c9494f02881dd5d4e3484e9ac2016dd093cc638"
+    },
+    {
+      "message_id": "msg00534",
+      "year": "2022",
+      "date_utc": "2022-02-12T17:58:38Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 21,
+      "text_sha256": "8310b052426dbbb08e7e787185c07ee56c1bfc16a220740bae8a7c753250e231"
+    },
+    {
+      "message_id": "msg00540",
+      "year": "2022",
+      "date_utc": "2022-03-10T14:16:49Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 1681,
+      "text_sha256": "9b04ad9a00dae56762db45529a836a7587fe8ce4f49fc0603aca7572738d78ad"
+    },
+    {
+      "message_id": "msg00547",
+      "year": "2022",
+      "date_utc": "2022-03-17T11:37:32Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 601,
+      "text_sha256": "cd5ebe84a7f5fa2da3d8880d9184d7903d42b4ccb740c12fde5407009cd6c305"
+    },
+    {
+      "message_id": "msg00553",
+      "year": "2022",
+      "date_utc": "2022-04-19T14:07:18Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 45216,
+      "text_sha256": "0470293227b3cd4f569eac35e21822ab585cb13540814260edadd33465edc846"
+    },
+    {
+      "message_id": "msg00555",
+      "year": "2022",
+      "date_utc": "2022-04-27T18:42:57Z",
+      "author_hash": "2c7c788174d5ef4e2e7943d3c7f5caa74c578aa549d77176ac92164b5cbadb94",
+      "text_chars": 602,
+      "text_sha256": "780e62987cec3c05f14d97c00e21702491456c3772417fa5ff1ac0e78149b54d"
+    },
+    {
+      "message_id": "msg00560",
+      "year": "2022",
+      "date_utc": "2022-05-10T21:32:30Z",
+      "author_hash": "9f2ec0dcb90c314d4971ef9ccef442a95a7c374980015986c70861dfe44de9b3",
+      "text_chars": 37,
+      "text_sha256": "0f299b8aec0e4fc3ab4a35c151259e2b12b2502c4efb24242f8b99cecf07cf39"
+    },
+    {
+      "message_id": "msg00566",
+      "year": "2022",
+      "date_utc": "2022-06-07T16:00:18Z",
+      "author_hash": "2c7c788174d5ef4e2e7943d3c7f5caa74c578aa549d77176ac92164b5cbadb94",
+      "text_chars": 338,
+      "text_sha256": "0164b0049336354b4f78e47133b8c2491fb07d2c058dbeba536749c1051eaf92"
+    },
+    {
+      "message_id": "msg00573",
+      "year": "2022",
+      "date_utc": "2022-07-09T23:58:14Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 299,
+      "text_sha256": "1e17071b7eab9a5086c818594be7b5196fe2f18f9b68ef35d275e9e0c2a1f788"
+    },
+    {
+      "message_id": "msg00579",
+      "year": "2022",
+      "date_utc": "2022-07-11T02:07:17Z",
+      "author_hash": "71ec4487f4c70e6261fdbce2ca4ff0ed94ec540ed2c36c310d01cd23478790a9",
+      "text_chars": 1607,
+      "text_sha256": "02befbf3914551f36d9805f6bc28ee857b0c813598aa64e3ba0814daa5e58ef4"
+    },
+    {
+      "message_id": "msg00585",
+      "year": "2022",
+      "date_utc": "2022-08-18T13:09:55Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 2931,
+      "text_sha256": "0106e57bc2dee522af4d9d5bb8272c662f2b36db23b7ab41d2b625d7547531e5"
+    },
+    {
+      "message_id": "msg00592",
+      "year": "2022",
+      "date_utc": "2022-09-26T19:45:05Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 105,
+      "text_sha256": "af0e0003e1017bea9e642f4f9f99abf587fb1f9db60eb82a98aef4a13b13db6d"
+    },
+    {
+      "message_id": "msg00596",
+      "year": "2022",
+      "date_utc": "2022-09-28T13:42:38Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 1151,
+      "text_sha256": "be9aa89137073d3e4c081011acd3022528d62280f29d398cc89f98ed6c5f5a23"
+    },
+    {
+      "message_id": "msg00598",
+      "year": "2022",
+      "date_utc": "2022-09-30T15:56:09Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 3434,
+      "text_sha256": "0f56b263e396ad6f22a65b35f9168bb2f29dfa3d6a4bc2ff0543be4c054dd389"
+    },
+    {
+      "message_id": "msg00605",
+      "year": "2022",
+      "date_utc": "2022-10-23T13:38:51Z",
+      "author_hash": "c6e3055182c0d1a19e3db593fd4ebfcfb9a071c91fa5ffb821692ecc987499e2",
+      "text_chars": 142,
+      "text_sha256": "821bb1a2afedfbcf855ef981754f81e897cb88cbb2ecf7e8ad8c41cb0e7e253a"
+    },
+    {
+      "message_id": "msg00611",
+      "year": "2022",
+      "date_utc": "2022-11-22T20:17:05Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 1455,
+      "text_sha256": "3804c3423bd08da3b651065d27c8998c6b39ead6ee73366b347f87c602cc1f3f"
+    },
+    {
+      "message_id": "msg00618",
+      "year": "2022",
+      "date_utc": "2022-11-23T14:09:10Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1180,
+      "text_sha256": "b75944f28beca4dcb734933a30449d061188aa7bae0b393b00fe9facc05df224"
+    },
+    {
+      "message_id": "msg00634",
+      "year": "2023",
+      "date_utc": "2023-01-11T18:26:15Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 3291,
+      "text_sha256": "6ff31fb27b3ec514deba04e09bbccd58015eb7a28025b96149e01104e6602fc3"
+    },
+    {
+      "message_id": "msg00635",
+      "year": "2023",
+      "date_utc": "2023-03-18T17:01:38Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 3078,
+      "text_sha256": "49753bc3316c1ddf331b458b7da240518bba3fe901acf1c30f70a7aa21c93fc7"
+    },
+    {
+      "message_id": "msg00636",
+      "year": "2023",
+      "date_utc": "2023-05-04T16:34:53Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 1178,
+      "text_sha256": "1ebf88cc71f169e47d8d83bb9dc34415aa397f963519c58389b62c2edd9e4436"
+    },
+    {
+      "message_id": "msg00637",
+      "year": "2023",
+      "date_utc": "2023-08-02T13:51:45Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 1419,
+      "text_sha256": "c80e0074634b42f5703094735bd89309d545c91ce341aca0941860ea1ea07ab4"
+    },
+    {
+      "message_id": "msg00638",
+      "year": "2023",
+      "date_utc": "2023-09-07T15:14:16Z",
+      "author_hash": "f296fb4087b541d7a5eaeff8947a5109964755d0e8496095311b8384d88b837d",
+      "text_chars": 1114,
+      "text_sha256": "452766bd111dbbc9d3d241328f807069d44b3f696fd5ff1fc45513d734e8900d"
+    },
+    {
+      "message_id": "msg00639",
+      "year": "2023",
+      "date_utc": "2023-09-08T13:06:11Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 198,
+      "text_sha256": "18b44c3b13b8ccf5c4cd009ae57735672af52055ee4e655cdb3b8264340dfc63"
+    },
+    {
+      "message_id": "msg00640",
+      "year": "2023",
+      "date_utc": "2023-09-08T17:56:54Z",
+      "author_hash": "f296fb4087b541d7a5eaeff8947a5109964755d0e8496095311b8384d88b837d",
+      "text_chars": 103,
+      "text_sha256": "dcbf21cd46188f84f0c095c20d9862741d2b88486617b4d02f2f935af5ddc82c"
+    },
+    {
+      "message_id": "msg00641",
+      "year": "2023",
+      "date_utc": "2023-11-01T13:39:40Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 2859,
+      "text_sha256": "f95d4e99c24c72e45371da1b62aac53f836264851bf643d234efca97aebfcdad"
+    },
+    {
+      "message_id": "msg00642",
+      "year": "2024",
+      "date_utc": "2024-01-26T12:33:48Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 4040,
+      "text_sha256": "749122a762258101f3d1b899fa089313098a0be00749e112a9f3e394d76c8ffb"
+    },
+    {
+      "message_id": "msg00644",
+      "year": "2024",
+      "date_utc": "2024-02-14T18:23:41Z",
+      "author_hash": "b36d31253b455048373ca2c977f82f5aef7b8ac04a6114abc6a25872194ffe6c",
+      "text_chars": 2753,
+      "text_sha256": "72e0bd4838cebab7c4e51fe5a0732f832f2ab1bc414876c3b1f2ad07eb2c658b"
+    },
+    {
+      "message_id": "msg00645",
+      "year": "2024",
+      "date_utc": "2024-02-17T20:57:58Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 4429,
+      "text_sha256": "9fb8e96e4566dbf893b83fff5a7c83b008faa1353ad1d45cc859a84de5c1e26b"
+    },
+    {
+      "message_id": "msg00649",
+      "year": "2024",
+      "date_utc": "2024-02-19T18:55:51Z",
+      "author_hash": "6d4779dc49e34f77c7090eafe9e4c1dfa964b43948aa1b7f9b62b4c11332cc63",
+      "text_chars": 86,
+      "text_sha256": "0a4749414808539f000ebc5fc0da182a99aa178309a39860fb1bf2825f35f607"
+    },
+    {
+      "message_id": "msg00652",
+      "year": "2024",
+      "date_utc": "2024-02-20T22:42:21Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1373,
+      "text_sha256": "4403bffd2a3af70e6d7062f2445527b629008373365b1137a9fe8b90ce14e31b"
+    },
+    {
+      "message_id": "msg00655",
+      "year": "2024",
+      "date_utc": "2024-02-26T20:33:11Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 3595,
+      "text_sha256": "f74123402d8812498a9006a08c847e6b6b33356f03ea77de62ab8fda45bc8676"
+    },
+    {
+      "message_id": "msg00658",
+      "year": "2024",
+      "date_utc": "2024-02-28T11:00:18Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1142,
+      "text_sha256": "122744b451e4c012544be9e28b823a9f9f2817cc0738cea191551e0a4a52c4be"
+    },
+    {
+      "message_id": "msg00661",
+      "year": "2024",
+      "date_utc": "2024-02-29T15:25:10Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 244,
+      "text_sha256": "429f73b5c30e05a06fef80f55377bef0e57ba97982c0ad6aac4ff64bfe72c5ff"
+    },
+    {
+      "message_id": "msg00665",
+      "year": "2024",
+      "date_utc": "2024-03-05T02:53:54Z",
+      "author_hash": "9f2ec0dcb90c314d4971ef9ccef442a95a7c374980015986c70861dfe44de9b3",
+      "text_chars": 755,
+      "text_sha256": "fec759bfc2379ab665cdf8fc5afbe6d7f7c5f1f94cf6bbe2cbfcb92adc329e18"
+    },
+    {
+      "message_id": "msg00668",
+      "year": "2024",
+      "date_utc": "2024-03-05T13:10:15Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1845,
+      "text_sha256": "670f1d1ae9267d319664d89cf8b086a94b74c15ed35c848f500f6394d7cb84d8"
+    },
+    {
+      "message_id": "msg00671",
+      "year": "2024",
+      "date_utc": "2024-03-07T21:37:21Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 2597,
+      "text_sha256": "ed9026cb83500fc4767874e2c39bf83a8f353fbfef0e28d1ff54923b08add786"
+    },
+    {
+      "message_id": "msg00674",
+      "year": "2024",
+      "date_utc": "2024-03-09T21:51:12Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1342,
+      "text_sha256": "d670ade85c7db09ca9a2fc80756cc2bf67e57e821e8dda5cf329706a764c354d"
+    },
+    {
+      "message_id": "msg00678",
+      "year": "2024",
+      "date_utc": "2024-03-12T17:55:52Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 1192,
+      "text_sha256": "25b71336b75278541f59f2cea9459a6c06471e4321a636d842f2e18c2e53702a"
+    },
+    {
+      "message_id": "msg00681",
+      "year": "2024",
+      "date_utc": "2024-05-29T18:45:19Z",
+      "author_hash": "d36babfb2316a7bd0c0a1e7c652224d15aeb1f3b76e6526fc2794ddf1990bdfd",
+      "text_chars": 13112,
+      "text_sha256": "5cf8da30ae2982c177b7e1b2607ff36688ea143d1fb40c52c804bf0779ebc5a0"
+    },
+    {
+      "message_id": "msg00684",
+      "year": "2024",
+      "date_utc": "2024-07-07T21:24:50Z",
+      "author_hash": "83203410b1d4d3b8a56e508152e20da916cb784c5b989c7f0f83b7bad858f0c1",
+      "text_chars": 212,
+      "text_sha256": "6d81c55da09a0272f16e4f04b5ce9c9b542ba356438916229972585877994876"
+    },
+    {
+      "message_id": "msg00687",
+      "year": "2024",
+      "date_utc": "2024-07-11T17:21:44Z",
+      "author_hash": "402be60562926f8ae710327a49f2a99d3a734135c227d39bc8cd0d9493a6e0a8",
+      "text_chars": 229,
+      "text_sha256": "ced2d2bce25d9afdf6be46f097a5839a102c27aec46fe22200e107c0a1fe5907"
+    }
+  ]
+}
