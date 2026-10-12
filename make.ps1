@@ -1,7 +1,7 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "replay", "demo", "ui", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "inbox", "replay", "demo", "ui", "help")]
     [string]$Target = "help",
 
     [Parameter(Position = 1)]
@@ -106,6 +106,16 @@ switch ($Target) {
         uv run python -m slack_app.render
         exit $LASTEXITCODE
     }
+    "inbox" {
+        Push-Location ui
+        npm install --no-audit --no-fund
+        if ($LASTEXITCODE -ne 0) { Pop-Location; exit $LASTEXITCODE }
+        npm run build
+        if ($LASTEXITCODE -ne 0) { Pop-Location; exit $LASTEXITCODE }
+        Pop-Location
+        uv run python -m api.serve
+        exit $LASTEXITCODE
+    }
     "replay" {
         if ($Case -notmatch '^[a-z0-9_]+$') { Write-Host "bad CASE"; exit 2 }
         uv run python -m "eval.replay_$Case"
@@ -125,6 +135,6 @@ switch ($Target) {
         exit $code
     }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|slack-preview|replay|demo|ui>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|slack-preview|inbox|replay|demo|ui>"
     }
 }
