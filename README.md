@@ -30,7 +30,7 @@ Each name works as `make <name>`, or on Windows as `.\make.ps1 <name>`.
 | Command | What it does | Needs | Source |
 |---|---|---|---|
 | `up` / `down` | Start or stop FalkorDB. The image is pinned to `falkordb/falkordb:6.0.2`. If a port is taken, set `FALKORDB_PORT` or `FALKORDB_UI_PORT` in `.env` | Docker | docker-compose.yml |
-| `test` | Run the test suite (pytest) | uv | Makefile |
+| `test` | Run the test suite (pytest). Without FalkorDB (`up`) and a `.env` with `HEARTHGUARD_HASH_SALT`, the graph and hashing tests fail; the demo does not need them | uv; FalkorDB and `.env` for the full suite | Makefile |
 | `lint` | Run ruff check and format check | uv | Makefile |
 | `smoke-algos` | Re-check each FalkorDB procedure the product depends on | FalkorDB | Makefile |
 | `schema-test` | Schema, as-of helper, read-only guard and hashing tests | FalkorDB | Makefile |
