@@ -1,0 +1,56 @@
+{
+  "synthetic": true,
+  "case": "tallowdate",
+  "label": "SYNTHETIC: fictional project, fictional people",
+  "graph": "org_tallowdate",
+  "source": "data/synthetic/tallowdate.json",
+  "events_in_source": 155,
+  "counts_after_run_1": {
+    "nodes": {
+      "Action": 155,
+      "Actor": 6,
+      "Org": 1,
+      "Path": 1
+    },
+    "edges": {
+      "DID": 155,
+      "VIA": 1
+    }
+  },
+  "counts_after_run_2": {
+    "nodes": {
+      "Action": 155,
+      "Actor": 6,
+      "Org": 1,
+      "Path": 1
+    },
+    "edges": {
+      "DID": 155,
+      "VIA": 1
+    }
+  },
+  "idempotent": true,
+  "queries": {
+    "org": "MERGE (o:Org {id: $id}) SET o.name = $id, o.pack = 'oss', o.connected_by = 'synthetic_case', o.synthetic = true",
+    "actors": "UNWIND $rows AS r\nMERGE (a:Actor {hid: r.hid})\n  SET a.kind = 'human', a.first_seen_in_org = r.first_seen, a.synthetic = true,\n      a.planted = r.planted, a.campaign_id = r.campaign_id, a.name = r.name",
+    "actions": "UNWIND $rows AS r\nMERGE (a:Actor {hid: r.hid})\nMERGE (c:Action {ref: r.ref})\n  SET c.kind = r.kind, c.at = r.at, c.case = $case, c.synthetic = true,\n      c.planted = r.planted, c.campaign_id = r.campaign_id\nMERGE (a)-[d:DID]->(c)\n  SET d.at = r.at, d.synthetic = true",
+    "releases": "UNWIND $rows AS r\nMERGE (c:Action {ref: r.ref})\nMERGE (p:Path {channel: $channel, verified: $verified, approvers: $approvers, synthetic: true})\nMERGE (c)-[v:VIA]->(p)\n  SET v.synthetic = true"
+  },
+  "release_path": {
+    "channel": "git",
+    "verified": false,
+    "approvers": 2
+  },
+  "facts": {
+    "tomas_review_count": {
+      "value": 140,
+      "query": "MATCH (a:Actor {hid: $hid})-[:DID]->(r:Action {kind: 'review'}) RETURN count(r) AS n",
+      "params": {
+        "hid": "<hashed id of Tomás, not written>"
+      },
+      "query_ms": 0.27308,
+      "synthetic": true
+    }
+  },
+  "note": "Hashed ids are not written. Only Mira, Tomás and Rowan keep a name, each marked synthetic. Path.verified is false: no release signature exists in this case."
+}
