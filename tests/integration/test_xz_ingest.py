@@ -9,6 +9,11 @@ from core.normal import metrics
 from eval.xz_normal import QUARTER_ENDS, end_of_day_utc
 from packs.oss import git_ingest, xz_graph
 
+# Every test here needs the public xz mirror, which is git-ignored (data/raw/xz.git).
+pytestmark = pytest.mark.skipif(
+    not (git_ingest.RAW_DIR / "xz.git").exists(),
+    reason="data/raw/xz.git is absent (git-ignored): run `make ingest-xz` to create it",
+)
 TEST_ORG = "xz_test"  # metrics read org_<id>, so this scratch org lives in graph org_xz_test
 TEST_GRAPH = f"org_{TEST_ORG}"
 D = 86_400

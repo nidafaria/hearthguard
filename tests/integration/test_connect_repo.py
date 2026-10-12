@@ -13,6 +13,10 @@ import pytest
 from core.graph.client import FalkorClient
 from packs.oss import connect_repo as C
 from packs.oss.xz_graph import scan_for_at_sign
+from tests.unit.conftest import needs_salt
+
+# Every test here hashes identifiers. .env is git-ignored, so a clean clone has no salt: skip then.
+pytestmark = needs_salt
 
 FAST = {"min_interval_s": 0.0, "sleep": lambda s: None}
 
