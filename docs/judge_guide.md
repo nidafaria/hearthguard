@@ -4,7 +4,7 @@ A path through the project. The whole path is meant to take about half an hour. 
 
 Steps 1 to 9 need no database and no key. Steps 10 to 13 are optional. They need Docker, and a local `.env` with `HEARTHGUARD_HASH_SALT`.
 
-Each step says what to run or read, the output to expect, and the file it comes from. Windows commands use `.\make.ps1`. On Linux or macOS, use `make` with the same target name, once `make` is installed.
+Each step says what to run or read, the output to expect, and the file it comes from. Windows commands use `.\make.ps1`. On a default Windows install, run them as `powershell -ExecutionPolicy Bypass -File .\make.ps1 <target>`, because the Restricted policy blocks a plain `.\make.ps1`. On Linux or macOS, use `make` with the same target name, once `make` is installed.
 
 ## 1. Read what the project claims
 
