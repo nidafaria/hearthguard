@@ -1,4 +1,4 @@
-.PHONY: hardening-fixture reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: harden-xz hardening-fixture reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -93,6 +93,10 @@ replay:
 # Hardening simulator on fixture graphs -> eval/results/hardening_fixture.json (needs FalkorDB up).
 hardening-fixture:
 	uv run python -m core.hardening.simulate
+
+# Hardening on org_xz, every quarter-end and OSS menu step -> eval/results/xz_hardening.json (needs FalkorDB up).
+harden-xz:
+	uv run python -m core.hardening.xz
 
 # The demo: the same replay table, from saved results only. No network, no key, no FalkorDB.
 demo:
