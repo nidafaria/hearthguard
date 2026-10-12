@@ -130,7 +130,7 @@ The tracks entered are not named in this README yet. The spec's planned mapping 
 
 ## Docs
 
-- Judge guide (under 30 minutes, with expected outputs): [docs/judge_guide.md](docs/judge_guide.md)
+- Judge guide (about half an hour, not timed, with expected outputs): [docs/judge_guide.md](docs/judge_guide.md)
 - Spec: [docs/HEARTHGUARD.md](docs/HEARTHGUARD.md)
 - Project rules: [CLAUDE.md](CLAUDE.md)
 - Decisions: [docs/decisions/index.md](docs/decisions/index.md)

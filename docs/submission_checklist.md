@@ -32,7 +32,8 @@ Judging criteria are not published for this event (docs/HEARTHGUARD.md §1). Thi
 
 ## Open issues found while writing this
 
-- **`make demo` may fail on Linux and macOS.** The Makefile has two recipes for `demo`. The "not built yet" placeholder at the bottom is the last one, so GNU make would likely use it. `make` is not installed here, so this is untested. The fix is in the Makefile (out of scope for this step).
+- **Makefile placeholders (fixed).** `demo` and `replay` each had a second "not built yet" rule, which GNU make would likely use. Both were removed on `main`. `make` is not installed on the check machine, so the Linux and macOS route is still untested.
+- **`make up` port clash (fixed).** The FalkorDB browser UI port was hardcoded to 3000. It is now `FALKORDB_UI_PORT`.
 - **The old README had numbers without a source.** "4,569 actions" had no file. It is now in eval/results/build_report.md. The "8,000 tokens a minute" limit in build_report.md has no matching field in eval/results/reader_full_run.json, so it is left out.
 - **The old README named a model for Claude Code.** No file in the repo names it, so the new README does not.
 - **Grant search.** The result is 0 grant records, from 14 sources (eval/results/xz_grant_search.json; eval/results/build_report.md). One commit-message match was read and found not to be a grant. The README says so, rather than saying "0 in 14 sources" with nothing else.
