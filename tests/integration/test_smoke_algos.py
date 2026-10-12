@@ -247,3 +247,169 @@ def test_query_timeout_is_enforced(client, g):
     print(f"\n[smoke] per-query timeout 50 ms -> {exc.value} after {elapsed_ms:.0f} ms")
     assert "timed out" in str(exc.value)
     assert elapsed_ms < 2000
+
+
+def test_bfs_depth_limits_reach(client, g):
+    # Chain a->b->c->d. BFS from a with maxDepth 2 reaches b and c, not d. The source is excluded.
+    build(client, g, ["a", "b", "c", "d"], [("a", "b", 1), ("b", "c", 1), ("c", "d", 1)])
+    r = client.query(
+        g,
+        """MATCH (s:N {n:'a'})
+           CALL algo.BFS(s, 2, 'E') YIELD nodes, edges
+           RETURN [x IN nodes | x.n] AS reached""",
+    )
+    record("algo.BFS", "algo.BFS(sourceNode, maxDepth, relationshipTypes)", ["nodes", "edges"])
+    assert sorted(r.result_set[0][0]) == ["b", "c"]
+
+
+SSPATHS_QUERY = """MATCH (a:N {n:'a'}), (c:N {n:'c'})
+   CALL algo.SSpaths({sourceNode: a, targetNode: c, relTypes: ['E'], weightProp: 'w'})
+   YIELD pathWeight RETURN pathWeight"""
+
+
+def test_sspaths_counts_hops_and_ignores_weight_prop(client, g):
+    # Direct a->c has weight 10 (1 hop). a->b->c has weight 2 (2 hops).
+    # Observed: SSpaths returns the hop-shortest path (the direct edge, pathWeight 1) and ignores
+    # weightProp. SPpaths on the same graph returns the weighted answer 2.
+    build(client, g, ["a", "b", "c"], [("a", "c", 10), ("a", "b", 1), ("b", "c", 1)])
+    r = client.query(g, SSPATHS_QUERY)
+    record(
+        "algo.SSpaths",
+        "algo.SSpaths({sourceNode, targetNode, relTypes, weightProp}) (observed: hop count)",
+        ["pathWeight"],
+    )
+    assert [row[0] for row in r.result_set] == [1]
+    sp = client.query(
+        g,
+        """MATCH (a:N {n:'a'}), (c:N {n:'c'})
+           CALL algo.SPpaths({sourceNode: a, targetNode: c, relTypes: ['E'], weightProp: 'w'})
+           YIELD pathWeight RETURN pathWeight""",
+    )
+    assert sp.result_set[0][0] == 2
+
+
+@pytest.mark.xfail(
+    strict=True,
+    reason="algo.SSpaths ignores weightProp and counts hops; a weighted answer would be 2",
+)
+def test_sspaths_weighted_expectation(client, g):
+    # Same graph as above. The weighted shortest a->c is 1 + 1 = 2.
+    build(client, g, ["a", "b", "c"], [("a", "c", 10), ("a", "b", 1), ("b", "c", 1)])
+    r = client.query(g, SSPATHS_QUERY)
+    assert [row[0] for row in r.result_set] == [2]
+
+
+def test_msf_with_weight_attribute_is_minimum_spanning_forest(client, g):
+    # Triangle a->b (3), b->c (4), a->c (9). A minimum spanning forest keeps {3, 4} and drops 9.
+    # Observed: correct when weightAttribute is given. Without it, MSF returns an arbitrary tree.
+    build(client, g, ["a", "b", "c"], [("a", "b", 3), ("b", "c", 4), ("a", "c", 9)])
+    r = client.query(
+        g,
+        """CALL algo.MSF({nodeLabels:['N'], relationshipTypes:['E'], weightAttribute:'w'})
+           YIELD edges UNWIND edges AS e RETURN e.w""",
+    )
+    record(
+        "algo.MSF",
+        "algo.MSF({nodeLabels, relationshipTypes, weightAttribute}) (yields edges)",
+        ["edges"],
+    )
+    assert sorted(row[0] for row in r.result_set) == [3, 4]
+
+
+def test_pagerank_two_cycle_is_half_each(client, g):
+    # a<->b. Symmetric, so each node has score 1/2 exactly.
+    build(client, g, ["a", "b"], [("a", "b", 1), ("b", "a", 1)])
+    r = client.query(
+        g,
+        "CALL algo.pageRank('N', 'E') YIELD node, score RETURN node.n, score",
+    )
+    record("algo.pageRank", "algo.pageRank(label, relationshipType)", ["node", "score"])
+    scores = {row[0]: row[1] for row in r.result_set}
+    assert scores["a"] == pytest.approx(0.5, abs=1e-6)
+    assert scores["b"] == pytest.approx(0.5, abs=1e-6)
+
+
+def test_pagerank_in_star_hub_ranks_highest(client, g):
+    # Three leaves point at hub h. The hub ranks highest, the leaves tie, scores sum to 1.
+    build(client, g, ["h", "l1", "l2", "l3"], [("l1", "h", 1), ("l2", "h", 1), ("l3", "h", 1)])
+    r = client.query(g, "CALL algo.pageRank('N', 'E') YIELD node, score RETURN node.n, score")
+    scores = {row[0]: row[1] for row in r.result_set}
+    leaves = [scores["l1"], scores["l2"], scores["l3"]]
+    assert scores["h"] == max(scores.values())
+    assert max(leaves) - min(leaves) < 1e-9
+    assert sum(scores.values()) == pytest.approx(1.0, abs=1e-6)
+
+
+def test_harmonic_centrality_is_approximate(client, g):
+    # Chain a->b->c->d. Exact harmonic (outgoing): a = 1 + 1/2 + 1/3, b = 1 + 1/2, c = 1, d = 0.
+    # The server returns a sketch-based estimate. Observed error on this graph is about 0.2%,
+    # so the check uses a 2% relative bound and records the observed values.
+    build(client, g, ["a", "b", "c", "d"], [("a", "b", 1), ("b", "c", 1), ("c", "d", 1)])
+    r = client.query(
+        g,
+        """CALL algo.HarmonicCentrality({nodeLabels:['N'], relationshipTypes:['E']})
+           YIELD node, score RETURN node.n, score""",
+    )
+    record(
+        "algo.HarmonicCentrality",
+        "algo.HarmonicCentrality({nodeLabels, relationshipTypes}) (approximate)",
+        ["node", "score"],
+    )
+    scores = {row[0]: row[1] for row in r.result_set}
+    print(f"\n[smoke] harmonic observed: {scores}")
+    exact = {"a": 1 + 1 / 2 + 1 / 3, "b": 1 + 1 / 2, "c": 1.0, "d": 0.0}
+    for node, value in exact.items():
+        assert scores[node] == pytest.approx(value, rel=0.02, abs=0.01)
+
+
+def test_fulltext_ddl_index_and_query(client, g):
+    # The procedure form db.idx.fulltext.createNodeIndex is refused in this context (see the next
+    # test). Create the index with the DDL instead, then query it.
+    client.query(g, "CREATE (:Span {text: 'hello world'}), (:Span {text: 'goodbye moon'})")
+    client.query(g, "CREATE FULLTEXT INDEX FOR (n:Span) ON (n.text)")
+    r = client.query(
+        g,
+        "CALL db.idx.fulltext.queryNodes('Span', 'hello') YIELD node RETURN node.text",
+    )
+    record(
+        "db.idx.fulltext.queryNodes",
+        "CREATE FULLTEXT INDEX FOR (n:Span) ON (n.text); db.idx.fulltext.queryNodes(label, term)",
+        ["node.text"],
+    )
+    assert [row[0] for row in r.result_set] == ["hello world"]
+
+
+def test_fulltext_create_procedure_form_is_refused(client, g):
+    client.query(g, "CREATE (:Span {text: 'x'})")
+    with pytest.raises(ResponseError) as exc:
+        client.query(g, "CALL db.idx.fulltext.createNodeIndex('Span', 'text')")
+    msg = str(exc.value)
+    print(f"\n[smoke] db.idx.fulltext.createNodeIndex error: {msg}")
+    assert "expected at most 1" in msg
+
+
+def test_vector_index_ddl_and_nearest_neighbour(client, g):
+    # Three unit vectors. The nearest to (0.9, 0.1, 0) under cosine is (1, 0, 0).
+    client.query(
+        g,
+        """CREATE (:Span {text: 'x', embedding: vecf32([1.0, 0.0, 0.0])}),
+                  (:Span {text: 'y', embedding: vecf32([0.0, 1.0, 0.0])}),
+                  (:Span {text: 'z', embedding: vecf32([0.0, 0.0, 1.0])})""",
+    )
+    client.query(
+        g,
+        "CREATE VECTOR INDEX FOR (n:Span) ON (n.embedding) "
+        "OPTIONS {dimension: 3, similarityFunction: 'cosine'}",
+    )
+    r = client.query(
+        g,
+        """CALL db.idx.vector.queryNodes('Span', 'embedding', 1, vecf32([0.9, 0.1, 0.0]))
+           YIELD node, score RETURN node.text, score""",
+    )
+    record(
+        "db.idx.vector.queryNodes",
+        "CREATE VECTOR INDEX FOR (n:Span) ON (n.embedding) "
+        "OPTIONS {dimension, similarityFunction}; db.idx.vector.queryNodes(label, prop, k, vecf32)",
+        ["node.text", "score"],
+    )
+    assert r.result_set[0][0] == "x"

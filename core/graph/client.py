@@ -15,12 +15,26 @@ from redis.exceptions import ResponseError
 DEFAULT_TIMEOUT_MS = 5000
 
 
+def require_timeout(timeout_ms: int) -> int:
+    """Every query needs an explicit positive timeout in milliseconds."""
+    if not isinstance(timeout_ms, int) or isinstance(timeout_ms, bool) or timeout_ms <= 0:
+        raise ValueError("timeout_ms must be a positive integer number of milliseconds")
+    return timeout_ms
+
+
 class FalkorClient:
     def __init__(self, host: str | None = None, port: int | None = None) -> None:
         load_dotenv()
         self.host = host or os.environ.get("FALKORDB_HOST", "localhost")
         self.port = port or int(os.environ.get("FALKORDB_PORT", "6379"))
-        self.db = FalkorDB(host=self.host, port=self.port)
+        self._db: FalkorDB | None = None
+
+    @property
+    def db(self) -> FalkorDB:
+        """Connect on first use, so building a client never touches the network."""
+        if self._db is None:
+            self._db = FalkorDB(host=self.host, port=self.port)
+        return self._db
 
     def graph(self, name: str) -> Graph:
         return self.db.select_graph(name)
@@ -33,9 +47,7 @@ class FalkorClient:
         *,
         timeout_ms: int = DEFAULT_TIMEOUT_MS,
     ) -> QueryResult:
-        if timeout_ms <= 0:
-            raise ValueError("timeout_ms must be a positive number of milliseconds")
-        return self.graph(name).query(cypher, params=params, timeout=timeout_ms)
+        return self.graph(name).query(cypher, params=params, timeout=require_timeout(timeout_ms))
 
     def copy(self, src: str, dst: str) -> None:
         """GRAPH.COPY: dst becomes an independent copy of src. Fails if dst already exists."""
