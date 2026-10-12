@@ -60,7 +60,11 @@ def baseline_check(case: str, found: dict) -> dict:
 
 def case_label(case: str) -> str:
     if case == "xz":
-        return "campaign planted into a copy of public xz history; not a finding about xz"
+        return (
+            "campaign planted into a copy of public xz history; not a finding about xz; "
+            "run on an isolated rebuild of org_xz, 4669 nodes / 4659 edges; "
+            "saved baseline 4679 / 4668"
+        )
     return "SYNTHETIC: campaign planted into a copy of the fictional tallowdate history"
 
 

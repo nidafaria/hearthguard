@@ -1,6 +1,6 @@
 {
   "case": "xz",
-  "label": "campaign planted into a copy of public xz history; not a finding about xz",
+  "label": "campaign planted into a copy of public xz history; not a finding about xz; run on an isolated rebuild of org_xz, 4669 nodes / 4659 edges; saved baseline 4679 / 4668",
   "n": 200,
   "seed": 7,
   "generated_at_utc": "2026-10-12T17:31:38Z",

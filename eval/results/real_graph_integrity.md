@@ -30,6 +30,16 @@ of org_xz, 4669 nodes / 4659 edges; saved baseline 4679 / 4668". That label conf
 4679 / 4668 counts recorded in the same files, and the conflict is unresolved. The commit that
 removed the hard-coded label from the code (9551624) and the label in these files now disagree.
 
+### Conflict: 4679 / 4668 versus 4669 / 4659 (UNRESOLVED)
+
+- The xz result files record `org_xz` at 4679 nodes / 4668 edges, equal to the saved baseline.
+- The isolated-rebuild label (restored in `redteam/run.py` and applied to `redteam_xz.json` and
+  `hardening_redteam_xz.json`) records 4669 nodes / 4659 edges.
+- Both cannot be true of the same graph. The 4679 / 4668 counts were not re-measured on the
+  isolated instance (see the status note above). The 4669 / 4659 figure is the first rebuild,
+  before the Reader claims were written, as measured earlier.
+- No count was changed to resolve this. Status: **unresolved**.
+
 ### Isolated org_xz against the saved baseline (4679 nodes / 4668 edges)
 
 The first isolated rebuild had 4669 nodes / 4659 edges. The difference was the Reader-claims step,
