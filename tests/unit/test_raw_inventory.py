@@ -6,7 +6,7 @@ from packs.oss import github_cache as gc
 from packs.oss import mail_cache as mc
 from packs.oss import raw_inventory as inv
 from packs.oss.raw_cache import Fetcher
-from tests.unit.conftest import Clock
+from tests.unit.conftest import Clock, needs_salt
 from tests.unit.test_github_cache import serve
 from tests.unit.test_mail_cache import archive
 
@@ -60,6 +60,7 @@ def test_an_empty_cache_is_not_complete(tmp_path):
     assert g["sources"]["pull_requests"]["earliest"] is None
 
 
+@needs_salt
 def test_mail_counts_only_messages_in_scope_and_dates_them(site, monkeypatch, tmp_path):
     dates = archive(site, monkeypatch)
     mc.cache_messages(fetcher(tmp_path), log=lambda _: None)
@@ -76,6 +77,7 @@ def test_mail_counts_only_messages_in_scope_and_dates_them(site, monkeypatch, tm
     assert m["fetched_first_utc"].endswith("Z") and m["fetched_last_utc"].endswith("Z")
 
 
+@needs_salt
 def test_the_inventory_text_has_no_name_email_subject_or_url(site, monkeypatch, tmp_path):
     github_cache_of_three_prs(site, tmp_path / "gh")
     archive(site, monkeypatch)

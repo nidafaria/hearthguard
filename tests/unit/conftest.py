@@ -6,6 +6,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import pytest
 
+from core.graph.hashing import MissingSaltError, load_salt
+
 
 class Site:
     """Routes map a path (with its query string) to (status, headers, body) or to a function of
@@ -75,3 +77,19 @@ class Clock:
     def sleep(self, seconds: float) -> None:
         self.sleeps.append(seconds)
         self.t += seconds
+
+
+def salt_is_set() -> bool:
+    try:
+        load_salt()
+    except MissingSaltError:
+        return False
+    return True
+
+
+# .env is git-ignored, so a clean clone has no salt. Tests that hash identifiers need it.
+# They skip, with this reason, when it is absent.
+needs_salt = pytest.mark.skipif(
+    not salt_is_set(),
+    reason="HEARTHGUARD_HASH_SALT is not set (.env is git-ignored): add it to run hashing tests",
+)

@@ -6,10 +6,10 @@ from email.utils import format_datetime
 
 import pytest
 
-from core.graph.hashing import MissingSaltError, identifier_hash, load_salt
+from core.graph.hashing import identifier_hash
 from packs.oss import mail_cache as mc
 from packs.oss.raw_cache import Fetcher
-from tests.unit.conftest import Clock
+from tests.unit.conftest import Clock, needs_salt
 
 LIST_PATH = "/list/"
 
@@ -61,21 +61,6 @@ def test_an_address_in_the_body_is_not_taken_as_the_author():
 
 
 # ------------------------------------------------------------------ hashing
-def _salt_is_set() -> bool:
-    try:
-        load_salt()
-    except MissingSaltError:
-        return False
-    return True
-
-
-# .env is git-ignored, so a clean clone has no salt. These tests need it; they skip without it.
-needs_salt = pytest.mark.skipif(
-    not _salt_is_set(),
-    reason="HEARTHGUARD_HASH_SALT is not set (.env is git-ignored): add it to run hashing tests",
-)
-
-
 @needs_salt
 def test_an_email_is_hashed_when_the_header_shows_one():
     html = page(1, datetime(2022, 1, 1, tzinfo=UTC), email="Pat@Example.org").decode()
@@ -159,6 +144,7 @@ def test_a_second_run_asks_for_nothing(site, monkeypatch, tmp_path):
 
 
 # ------------------------------------------------------------------ the index
+@needs_salt
 def test_the_index_holds_no_name_no_email_and_no_address(site, monkeypatch, tmp_path):
     archive(site, monkeypatch)
     mc.cache_messages(fetcher(tmp_path), log=lambda _: None)
