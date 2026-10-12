@@ -1,5 +1,68 @@
 # Real-graph integrity check (block C)
 
+## Update: isolated runs on the final code commit (9551624)
+
+All four result files below were produced on a FalkorDB container used only by block C
+(`hearthguard-block-c-falkordb`, 127.0.0.1:6381). Its only client was the block's own run script:
+`CLIENT LIST` showed one connection (the check itself) before the runs started. The test suite ran
+on a second container (`hearthguard-block-c-tests-falkordb`, port 6382). Seed 7, N 200, commit
+9551624, code tree clean for core/, config/ and docs/ (the provenance check scope).
+
+| Result file | Real graph | Before (nodes/edges) | After | Unchanged | Equals saved baseline | Seed | N | Commit | Label |
+|---|---|---|---|---|---|---|---|---|---|
+| redteam_tallowdate.json | org_tallowdate | 175/168 | 175/168 | True | True | 7 | 200 | 9551624 | SYNTHETIC: campaign planted into a copy of the fictional tallowdate history |
+| redteam_xz.json | org_xz | 4679/4668 | 4679/4668 | True | True | 7 | 200 | 9551624 | campaign planted into a copy of public xz history; not a finding about xz |
+| hardening_redteam_tallowdate.json | org_tallowdate | 175/168 | 175/168 | True | True | 7 | 200 | 9551624 | SYNTHETIC: campaign planted into a copy of the fictional tallowdate history |
+| hardening_redteam_xz.json | org_xz | 4679/4668 | 4679/4668 | True | True | 7 | 200 | 9551624 | campaign planted into a copy of public xz history; not a finding about xz |
+
+After the four runs, port 6381 held only `org_xz` (4679/4668) and `org_tallowdate` (175/168).
+
+### Isolated org_xz against the saved baseline (4679 nodes / 4668 edges)
+
+The first isolated rebuild had 4669 nodes / 4659 edges. The difference was the Reader-claims step,
+which I had not run on that instance. It is not a stray writer. Label by label, that first rebuild
+against the saved baseline:
+
+| Label or type | Isolated, first rebuild | Saved baseline | Difference |
+|---|---|---|---|
+| Actor | 68 | 69 | -1 (the mail-only actor) |
+| Claim | 0 | 3 | -3 |
+| Source | 0 | 3 | -3 |
+| Span | 0 | 3 | -3 |
+| ASSERTED | 0 | 3 | -3 |
+| FROM | 0 | 3 | -3 |
+| HAS | 0 | 3 | -3 |
+| Action, Normal, Org, Path, DID, OF, VIA | 4569, 30, 1, 1, 4569, 30, 60 | same | 0 |
+
+Total: 10 nodes and 9 edges. I then copied `data/derived/reader_claims.json` from the main checkout
+and ran `graph_write.write_claims` on the isolated instance. The rebuilt `org_xz` is 4679 nodes /
+4668 edges, with every label and relationship type equal to the baseline (Action 4569, Actor 69,
+Claim 3, Normal 30, Org 1, Path 1, Source 3, Span 3; DID 4569, VIA 60, OF 30, ASSERTED 3, FROM 3,
+HAS 3). So the counts no longer differ, and the earlier label "run on an isolated rebuild of
+org_xz, 4669 nodes / 4659 edges" was removed from the code. Each result file now records
+`real_graph.baseline_check` with the saved baseline, the counts found, and whether they match.
+
+### Findings
+
+- **Cause of the earlier transient change: unknown.** No writer was found. The transient values
+  (4725/4733 on org_xz, 199/192 on org_tallowdate) were seen on the shared server (port 6380) while
+  other blocks' test suites ran against it. Nothing I measured links any of those processes to the
+  change. The label-level content of the transient was never captured.
+- **Cause of the earlier N=200 hardening crash** (`Invalid graph operation on empty key`): my own
+  cleanup. I dropped leftover `org_rt*` copies while the run was still using one of them. It
+  touched copies only. The rerun on the isolated instance started with no leftover graphs and
+  finished.
+- **Weak or odd result, reported as measured:** in both hardening files the step `add_second_keeper`
+  lowers the caught count (tallowdate 182 to 156 of 200, xz 167 to 152 of 200) while guardians go
+  from 1 to 2. I did not change any detector or the decision policy to alter that. The other two
+  steps change nothing for these campaigns. The cause has not been investigated.
+- **Not fixed here:** the shared-server problem. Blocks A, C and D now each run on their own
+  container, but the original shared-server transient stays unexplained.
+
+---
+
+# Earlier findings (shared server, port 6380; superseded by the section above where they differ)
+
 Question: did any red-team run change the real graphs `org_xz` or `org_tallowdate`, and if so, what
 wrote to the same FalkorDB server (port 6380) at that time?
 

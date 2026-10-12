@@ -32,3 +32,4 @@ Day 2: Claude Code ran the synthetic tallowdate case through the loader, normal 
 Oct 12: Claude Code (Haiku 5.5, agent writeup) drafted README.md, docs/submission_checklist.md and docs/blog_outline.md from the three result files, and checked every number against its source file with a script (82 numbers, none without a source).
 Oct 12: Claude Code (Haiku 5.5) wrote docs/judge_guide.md, checked each README make command against the Makefile and make.ps1, and removed the 16 README command names that are placeholders or not in the Makefile.
 Oct 12: Claude Code (Haiku 5.5, agent video) wrote eval/video_check.py and docs/video/, recorded eval/results/video_quotes.json and video_numbers.json.
+Oct 12: Claude Code (Sonnet 5.5, block C) re-ran the red-team and hardening runs on an isolated FalkorDB (port 6381) at commit 9551624 and updated eval/results/real_graph_integrity.md.

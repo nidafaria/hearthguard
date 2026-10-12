@@ -1,0 +1,319 @@
+{
+  "case": "tallowdate",
+  "label": "SYNTHETIC: campaign planted into a copy of the fictional tallowdate history",
+  "n": 200,
+  "seed": 7,
+  "generated_at_utc": "2026-10-12T17:36:12Z",
+  "definitions": {
+    "caught": "NOTE or WATCH from decide_with_unknowns() at any evaluation point, i.e. by the campaign's last move",
+    "lead_time_days": "days from the first evaluation point whose decision is NOTE or WATCH to the final action; the final action is the Bypass release if the campaign has one, else its last move; undefined for a missed campaign",
+    "median_lead_time_days": "median of lead_time_days over caught campaigns; null if none caught",
+    "takeover_cost_guardians_T": "as of the end of the campaign horizon on the copy",
+    "no_change": "a step that touches nothing a frozen detector or the cost reads is reported as no change, not as a benefit"
+  },
+  "menu": [
+    "add_second_keeper",
+    "require_provenance_ci",
+    "require_two_approvals"
+  ],
+  "campaigns_sha256": "fbcda7f8a6645a4593dff431cc06728be907e4f20f6c837cd4369dcfd130c0c3",
+  "e0": 1788998400,
+  "baseline_campaigns": {
+    "n": 200,
+    "caught": 182,
+    "missed": 18,
+    "caught_rate": 0.91,
+    "median_lead_time_days": 12.8239585
+  },
+  "steps": [
+    {
+      "step": "add_second_keeper",
+      "graph_changes": {
+        "nodes_created": 1.0,
+        "relationships_created": 1.0,
+        "properties_set": 4.0
+      },
+      "changed_anything": true,
+      "takeover_cost": {
+        "before": 1,
+        "after": 1,
+        "before_status": "COMPUTED",
+        "after_status": "COMPUTED"
+      },
+      "guardians": {
+        "before": 1,
+        "after": 2,
+        "before_status": "COMPUTED",
+        "after_status": "COMPUTED"
+      },
+      "campaigns": {
+        "before": {
+          "n": 200,
+          "caught": 182,
+          "missed": 18,
+          "caught_rate": 0.91,
+          "median_lead_time_days": 12.8239585
+        },
+        "after": {
+          "n": 200,
+          "caught": 156,
+          "missed": 44,
+          "caught_rate": 0.78,
+          "median_lead_time_days": 0.0
+        }
+      }
+    },
+    {
+      "step": "require_provenance_ci",
+      "graph_changes": {
+        "nodes_created": 0,
+        "relationships_created": 0,
+        "properties_set": 1.0
+      },
+      "changed_anything": true,
+      "takeover_cost": {
+        "before": 1,
+        "after": 1,
+        "before_status": "COMPUTED",
+        "after_status": "COMPUTED"
+      },
+      "guardians": {
+        "before": 1,
+        "after": 1,
+        "before_status": "COMPUTED",
+        "after_status": "COMPUTED"
+      },
+      "campaigns": {
+        "before": {
+          "n": 200,
+          "caught": 182,
+          "missed": 18,
+          "caught_rate": 0.91,
+          "median_lead_time_days": 12.8239585
+        },
+        "after": {
+          "n": 200,
+          "caught": 182,
+          "missed": 18,
+          "caught_rate": 0.91,
+          "median_lead_time_days": 12.8239585
+        }
+      }
+    },
+    {
+      "step": "require_two_approvals",
+      "graph_changes": {
+        "nodes_created": 0,
+        "relationships_created": 0,
+        "properties_set": 1.0
+      },
+      "changed_anything": true,
+      "takeover_cost": {
+        "before": 1,
+        "after": 1,
+        "before_status": "COMPUTED",
+        "after_status": "COMPUTED"
+      },
+      "guardians": {
+        "before": 1,
+        "after": 1,
+        "before_status": "COMPUTED",
+        "after_status": "COMPUTED"
+      },
+      "campaigns": {
+        "before": {
+          "n": 200,
+          "caught": 182,
+          "missed": 18,
+          "caught_rate": 0.91,
+          "median_lead_time_days": 12.8239585
+        },
+        "after": {
+          "n": 200,
+          "caught": 182,
+          "missed": 18,
+          "caught_rate": 0.91,
+          "median_lead_time_days": 12.8239585
+        }
+      }
+    }
+  ],
+  "provenance": {
+    "git_commit": "95516244ebc4f7c545a3577176e53817e7dad836",
+    "base_commit": "a827c165843d8a562b8b181a504023dd69a55afa",
+    "working_tree_dirty": false,
+    "functions": [
+      {
+        "file": "core/detectors/rush.py",
+        "function": "rush",
+        "found": true,
+        "sha256": "0f69a8e38bd57e44f9d98c42914405a40ad6084d7b5e63b80085d6f8da7d38f1",
+        "base_sha256": "0f69a8e38bd57e44f9d98c42914405a40ad6084d7b5e63b80085d6f8da7d38f1",
+        "match": true
+      },
+      {
+        "file": "core/detectors/rush.py",
+        "function": "decide",
+        "found": true,
+        "sha256": "4f1dd3ea34908839d55734e0575bb720e9fd386ec3df4ed57d362e9acaf48901",
+        "base_sha256": "4f1dd3ea34908839d55734e0575bb720e9fd386ec3df4ed57d362e9acaf48901",
+        "match": true
+      },
+      {
+        "file": "core/detectors/rush.py",
+        "function": "percentile_cont",
+        "found": true,
+        "sha256": "f51f1cee43464612befd6c77fef0ce15cc44c6f2ed5715f9d3e69b76d463c207",
+        "base_sha256": "f51f1cee43464612befd6c77fef0ce15cc44c6f2ed5715f9d3e69b76d463c207",
+        "match": true
+      },
+      {
+        "file": "core/detectors/bypass.py",
+        "function": "bypass",
+        "found": true,
+        "sha256": "18263092e978ec2239797e7f61affcf0d44eac8ec5090cd4f829d2d729c96943",
+        "base_sha256": "18263092e978ec2239797e7f61affcf0d44eac8ec5090cd4f829d2d729c96943",
+        "match": true
+      },
+      {
+        "file": "core/detectors/bypass.py",
+        "function": "judge",
+        "found": true,
+        "sha256": "765f4288b95befa8adb53eb8013e962615a5947106a73420f9ff439628b74587",
+        "base_sha256": "765f4288b95befa8adb53eb8013e962615a5947106a73420f9ff439628b74587",
+        "match": true
+      },
+      {
+        "file": "core/detectors/lone_keeper.py",
+        "function": "lone_keeper",
+        "found": true,
+        "sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
+        "base_sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
+        "match": true
+      },
+      {
+        "file": "core/detectors/pressure.py",
+        "function": "pressure",
+        "found": true,
+        "sha256": "25f0363e51b429a579c2aedc9fdc8563af1db84f08713d11ebe084dc9ded8977",
+        "base_sha256": "25f0363e51b429a579c2aedc9fdc8563af1db84f08713d11ebe084dc9ded8977",
+        "match": true
+      },
+      {
+        "file": "core/detectors/vouch.py",
+        "function": "vouch",
+        "found": true,
+        "sha256": "ca0bbcc6e25b7ed2366fe5644d67ac8c25f8db0c34e0c591d8ccfbcfd0500902",
+        "base_sha256": "ca0bbcc6e25b7ed2366fe5644d67ac8c25f8db0c34e0c591d8ccfbcfd0500902",
+        "match": true
+      },
+      {
+        "file": "core/detectors/vouch.py",
+        "function": "components",
+        "found": true,
+        "sha256": "3fc024b86a45cd0375da375e0dce0c56461cbcb982ce149a1d89e01bfde10246",
+        "base_sha256": "3fc024b86a45cd0375da375e0dce0c56461cbcb982ce149a1d89e01bfde10246",
+        "match": true
+      },
+      {
+        "file": "core/detectors/low_history.py",
+        "function": "is_low",
+        "found": true,
+        "sha256": "e7e02daf9ceadbb4bf584faefb9b771e94630c22f00f5567a3e5c7249c137d67",
+        "base_sha256": "e7e02daf9ceadbb4bf584faefb9b771e94630c22f00f5567a3e5c7249c137d67",
+        "match": true
+      },
+      {
+        "file": "core/takeover/cost.py",
+        "function": "takeover_cost",
+        "found": true,
+        "sha256": "89093a0632f10ca71cdf039f1ed0f98602b65fbe74490eb0e9344e9d5b70c876",
+        "base_sha256": "89093a0632f10ca71cdf039f1ed0f98602b65fbe74490eb0e9344e9d5b70c876",
+        "match": true
+      },
+      {
+        "file": "core/takeover/guardians.py",
+        "function": "guardians",
+        "found": true,
+        "sha256": "ed0a6ccccccff9659166d1920915fe8903915cb42ce16e416a05f493fd51802b",
+        "base_sha256": "ed0a6ccccccff9659166d1920915fe8903915cb42ce16e416a05f493fd51802b",
+        "match": true
+      },
+      {
+        "file": "core/policy/decision.py",
+        "function": "decide",
+        "found": true,
+        "sha256": "d43a71a7d0e9ddf9d56667bd3ad1463fe4f2dcded4278514fdf4d18b8b72bdf2",
+        "base_sha256": "d43a71a7d0e9ddf9d56667bd3ad1463fe4f2dcded4278514fdf4d18b8b72bdf2",
+        "match": true
+      },
+      {
+        "file": "core/policy/decision.py",
+        "function": "decide_with_unknowns",
+        "found": true,
+        "sha256": "4fa4ebc9f19c7669b25ef5317c4fc88797f71e0a9fa4a87c63cf91eb33b238a7",
+        "base_sha256": "4fa4ebc9f19c7669b25ef5317c4fc88797f71e0a9fa4a87c63cf91eb33b238a7",
+        "match": true
+      },
+      {
+        "file": "core/policy/decision.py",
+        "function": "evidence_from_moves",
+        "found": true,
+        "sha256": "cb38c82125ca0360f2737ef15a676fbaab2b2d3e74086046d3ef6aa37fccd8cf",
+        "base_sha256": "cb38c82125ca0360f2737ef15a676fbaab2b2d3e74086046d3ef6aa37fccd8cf",
+        "match": true
+      },
+      {
+        "file": "core/policy/conflict.py",
+        "function": "resolve",
+        "found": true,
+        "sha256": "df8d62d02bf38e7f912b34f0c8ade6b871dac58a1e8803148c41dc140b002160",
+        "base_sha256": "df8d62d02bf38e7f912b34f0c8ade6b871dac58a1e8803148c41dc140b002160",
+        "match": true
+      }
+    ],
+    "files": [
+      {
+        "file": "config/frozen.yaml",
+        "sha256": "2a1a1214e7954c5730f78bacf4ebaa3b720e484e70e56d7e863238882adc7ccc",
+        "match": true
+      },
+      {
+        "file": "docs/FREEZE.md",
+        "sha256": "39830e6cfbbe1280db4faef53ddc6fdbe53fc84172b55e699e5181e53130f300",
+        "match": true
+      },
+      {
+        "file": "docs/FREEZE.sha256",
+        "sha256": "24a9cd0d88020990761a385311a1fae407c8ff8924e123de687deaea3b2e86b0",
+        "match": true
+      }
+    ],
+    "frozen_unchanged": true
+  },
+  "note": "the template holds the same scaffold for before and after; only the menu step differs between them",
+  "real_graph": {
+    "name": "org_tallowdate",
+    "port": 6381,
+    "counts_before": {
+      "nodes": 175,
+      "edges": 168
+    },
+    "counts_after": {
+      "nodes": 175,
+      "edges": 168
+    },
+    "unchanged": true,
+    "baseline_check": {
+      "saved_baseline": {
+        "nodes": 175,
+        "edges": 168
+      },
+      "found": {
+        "nodes": 175,
+        "edges": 168
+      },
+      "matches_saved_baseline": true
+    }
+  }
+}
