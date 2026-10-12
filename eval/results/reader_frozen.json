@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "frozen_at_utc": "2026-10-12T10:51:25Z",
+  "git_head_when_frozen": "5c51df4341437d107ffcbe8259c001810f5456c2",
+  "components": {
+    "system_prompt_sha256": "c2b509e1d058a6c3ae22dde23db0816928fa49453ce897e6d2ba1c77d609f8a1",
+    "user_template_sha256": "264e27236f2aa5ea804e0f35c11ec3a6b3ee5b126d6b221bc3f00694d801fd54",
+    "schema_sha256": "b36f1e4a51407242aa07c42dc007f8f8af4f62eae5613bbdeaccf5407bb83e17",
+    "models_yaml_sha256": "7deca3edfe5546ee347ce65d0cf6c5d88960ffff185ebba0a28f36afd8eb7ea2",
+    "parameters_sha256": "b369157139a9c40289862aa7236ab8d91be4096b773dda59fbb753bf8c961f56"
+  },
+  "parameters": {
+    "model": "openai/gpt-oss-20b",
+    "temperature": 0,
+    "max_completion_tokens": 2000,
+    "max_quote_words": 25,
+    "reasoning_effort": "not set (the model's default)",
+    "response_format": "json_schema, strict",
+    "validation": "pydantic strict; a claim is kept only if its quote is an exact substring"
+  },
+  "reader_source_sha256_informational": "2c2a1ebea3137ae5aadf232e9a67b8d17dc6ffe75e8e27f7841b79b096a7b34d",
+  "note": "Frozen before any labelling. A later change to any component makes the labelled test invalid and must be logged as a new version in `history`.",
+  "history": []
+}
