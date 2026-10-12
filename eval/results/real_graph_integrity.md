@@ -17,6 +17,19 @@ on a second container (`hearthguard-block-c-tests-falkordb`, port 6382). Seed 7,
 
 After the four runs, port 6381 held only `org_xz` (4679/4668) and `org_tallowdate` (175/168).
 
+### Status of the 4679 / 4668 counts (added later)
+
+The 4679 / 4668 counts in this section are the values the four result files recorded during
+their runs. They were **not verified on the isolated instance** afterwards. At 01:45 on
+2026-10-13, port 6381 refused connections and the container `hearthguard-block-c-falkordb` no
+longer existed. Its volume `hearthguard_block_c_falkordb_data` still exists and was not removed.
+No re-count has been taken since. Treat 4679 / 4668 as recorded, not verified.
+
+The two xz result files carry the label requested for this rebuild: "run on an isolated rebuild
+of org_xz, 4669 nodes / 4659 edges; saved baseline 4679 / 4668". That label conflicts with the
+4679 / 4668 counts recorded in the same files, and the conflict is unresolved. The commit that
+removed the hard-coded label from the code (9551624) and the label in these files now disagree.
+
 ### Isolated org_xz against the saved baseline (4679 nodes / 4668 edges)
 
 The first isolated rebuild had 4669 nodes / 4659 edges. The difference was the Reader-claims step,
