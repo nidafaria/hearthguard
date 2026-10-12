@@ -1,4 +1,4 @@
-"""Every demo beat reads from a file and field that exist; a missing field must read NOT COMPUTED."""
+"""Every demo beat reads from an existing file and field; a missing field reads NOT COMPUTED."""
 
 import json
 

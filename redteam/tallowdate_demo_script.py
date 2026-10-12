@@ -85,7 +85,9 @@ def _beats() -> list[dict]:
             "beat": "who_could_i_ask",
             "time": "Apr 2",
             "screen": "Slack thread: Who could I even ask?",
-            "text": "Tomás has reviewed {reviews} of her pull requests over three years (generated).",
+            "text": (
+                "Tomás has reviewed {reviews} of her pull requests over three years (generated)."
+            ),
             "reads": {
                 "reviews": (LOAD, "facts.tomas_review_count.value"),
             },
