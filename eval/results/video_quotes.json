@@ -1,0 +1,39 @@
+{
+  "matching": "exact: case-sensitive, punctuation-exact, whitespace-normalised, HTML unescaped",
+  "corpus": "data/raw/mail/xz-devel/*.html",
+  "quotes": {
+    "Q1": {
+      "text": "It's clear that my resources are too limited.",
+      "status": "NOT FOUND",
+      "cited_file": "data/raw/mail/xz-devel/msg00563.html",
+      "file": null,
+      "message_date_utc": "2022-05-19T20:41:31Z",
+      "also_found_in": [],
+      "case_insensitive_match_in": []
+    },
+    "Q2": {
+      "text": "unpaid hobby project",
+      "status": "FOUND",
+      "cited_file": "data/raw/mail/xz-devel/msg00567.html",
+      "file": "data/raw/mail/xz-devel/msg00567.html",
+      "message_date_utc": "2022-06-08T10:28:08Z",
+      "also_found_in": [
+        "data/raw/mail/xz-devel/msg00569.html",
+        "data/raw/mail/xz-devel/msg00672.html"
+      ],
+      "case_insensitive_match_in": [],
+      "only_in_quoted_reply": false
+    },
+    "Q3": {
+      "text": "Practically a co-maintainer already.",
+      "status": "NOT FOUND",
+      "cited_file": "data/raw/mail/xz-devel/msg00571.html",
+      "file": null,
+      "message_date_utc": "2022-06-29T20:07:07Z",
+      "also_found_in": [],
+      "case_insensitive_match_in": [
+        "data/raw/mail/xz-devel/msg00571.html"
+      ]
+    }
+  }
+}
