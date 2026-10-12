@@ -1,0 +1,14 @@
+{
+  "total_rows": 131,
+  "DONE": 20,
+  "PARTIAL": 25,
+  "NOT_STARTED": 86,
+  "score_points": 32.5,
+  "score_percent": 24.8,
+  "weights": {
+    "DONE": 1,
+    "PARTIAL": 0.5,
+    "NOT STARTED": 0
+  },
+  "source": "docs/HEARTHGUARD.md plus pitch deliverables; rows in eval/completion_full.py"
+}
