@@ -1,5 +1,7 @@
 """Fixtures shared by the integration tests."""
 
+import uuid
+
 import pytest
 
 from core.graph.client import FalkorClient
@@ -25,3 +27,18 @@ def xz_org() -> str:
         sigs = git_ingest.verify_tags(mirror, annotated)
         xz_graph.load(client, commits, tags, sigs, graph="org_xz")
     return "xz"
+
+
+@pytest.fixture(scope="module")
+def client() -> FalkorClient:
+    return FalkorClient()
+
+
+@pytest.fixture
+def org_graph(client):
+    org = "bd" + uuid.uuid4().hex[:10]
+    g = f"org_{org}"
+    client.drop(g)
+    client.query(g, "MERGE (:Org {id: $id, name: $id, pack: 'oss'})", {"id": org})
+    yield org
+    client.drop(g)
