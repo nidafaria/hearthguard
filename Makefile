@@ -1,4 +1,4 @@
-.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -53,6 +53,10 @@ cache-inventory-xz:
 # One live call to the extraction model. Needs GROQ_API_KEY in .env. Prints status, JSON parse and tokens.
 llm-test:
 	uv run python -m eval.llm_connection_test
+
+# The Reader on 20 fixed xz-devel messages (live Groq, cached). Writes eval/results/reader_*.json.
+reader-spotcheck:
+	uv run python -m eval.reader_spotcheck
 
 # Placeholders for later steps. Each one fails until it is built.
 demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:

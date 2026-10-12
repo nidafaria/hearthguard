@@ -1,0 +1,28 @@
+{
+  "rule": "every 15th of the 300 in-scope xz-devel messages (msg00397 to msg00696), grid anchored so that msg00512 is on it; no hand-picking",
+  "anchor": "msg00512",
+  "step": 15,
+  "count": 20,
+  "ids": [
+    "msg00407",
+    "msg00422",
+    "msg00437",
+    "msg00452",
+    "msg00467",
+    "msg00482",
+    "msg00497",
+    "msg00512",
+    "msg00527",
+    "msg00542",
+    "msg00557",
+    "msg00572",
+    "msg00587",
+    "msg00602",
+    "msg00617",
+    "msg00632",
+    "msg00647",
+    "msg00662",
+    "msg00677",
+    "msg00692"
+  ]
+}

@@ -24,3 +24,5 @@ Day 2: Claude Code finished the GitHub cache with the token (383 requests, 436 r
 Day 2: Claude Code noticed the hash salt changed and recorded that the existing org_xz graph no longer matches it.
 Day 2: Claude Code dropped org_xz and rebuilt it with the rotated salt (ingest, normal, takeover and detector status), confirming 68 actors and that every graph id matches the current salt.
 Day 2: Claude Code wrote the LLM client (one OpenAI-compatible module with cache, rate limiter, retries and strict JSON validation), its config and tests; the live Groq call is not run yet because GROQ_API_KEY is not set.
+Day 2: Claude Code built the Reader (cleaned text in, typed claims with exact quotes out, strict validation) and ran it on a fixed sample of 20 xz-devel messages.
+Day 2: Claude Code hand-checked the 20 results (one clear miss, no invented quotes), ran the three prompt-injection messages live, and recorded only the measured numbers.

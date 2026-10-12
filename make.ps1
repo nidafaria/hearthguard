@@ -1,7 +1,7 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "help")]
     [string]$Target = "help"
 )
 
@@ -69,7 +69,11 @@ switch ($Target) {
         uv run python -m eval.llm_connection_test
         exit $LASTEXITCODE
     }
+    "reader-spotcheck" {
+        uv run python -m eval.reader_spotcheck
+        exit $LASTEXITCODE
+    }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck>"
     }
 }
