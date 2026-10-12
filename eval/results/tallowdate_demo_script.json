@@ -1,0 +1,203 @@
+{
+  "synthetic": true,
+  "case": "tallowdate",
+  "label": "SYNTHETIC demo script. Beats are data, not claims.",
+  "generated_at_utc": "2026-10-12T13:15:52Z",
+  "beats": [
+    {
+      "beat": "dm_note",
+      "time": "Apr 2",
+      "screen": "Slack DM to Mira",
+      "text": "Four facts. Takeover cost: NOT COMPUTED. One question.",
+      "reads": {
+        "cost": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "quarters.11.checks.takeover_cost.status",
+          "found": true,
+          "value": "NOT COMPUTED"
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "show_me_why",
+      "time": "Apr 2",
+      "screen": "Slack thread: Show me why",
+      "text": "Three accounts created on 2026-02-10, 2026-02-11, 2026-02-12. Never touched another project: NOT COMPUTED.",
+      "reads": {
+        "created_a": {
+          "file": "data/synthetic/tallowdate.json",
+          "field": "events.144.date",
+          "found": true,
+          "value": "2026-02-10"
+        },
+        "created_b": {
+          "file": "data/synthetic/tallowdate.json",
+          "field": "events.145.date",
+          "found": true,
+          "value": "2026-02-11"
+        },
+        "created_c": {
+          "file": "data/synthetic/tallowdate.json",
+          "field": "events.146.date",
+          "found": true,
+          "value": "2026-02-12"
+        },
+        "other_projects": {
+          "file": "eval/results/tallowdate_load.json",
+          "field": "facts.other_project_touches.value",
+          "found": false,
+          "value": "NOT COMPUTED"
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "simulate_fix",
+      "time": "Apr 2",
+      "screen": "Slack thread: Simulate a fix",
+      "text": "Second keeper and provenance: takeover cost NOT COMPUTED -> NOT COMPUTED. Planted attacks caught NOT COMPUTED -> NOT COMPUTED.",
+      "reads": {
+        "cost_before": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "hardening.takeover_cost_before",
+          "found": false,
+          "value": "NOT COMPUTED"
+        },
+        "cost_after": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "hardening.takeover_cost_after",
+          "found": false,
+          "value": "NOT COMPUTED"
+        },
+        "caught_before": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "hardening.caught_before",
+          "found": false,
+          "value": "NOT COMPUTED"
+        },
+        "caught_after": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "hardening.caught_after",
+          "found": false,
+          "value": "NOT COMPUTED"
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "who_could_i_ask",
+      "time": "Apr 2",
+      "screen": "Slack thread: Who could I even ask?",
+      "text": "Tomás has reviewed 140 of her pull requests over three years (generated).",
+      "reads": {
+        "reviews": {
+          "file": "eval/results/tallowdate_load.json",
+          "field": "facts.tomas_review_count.value",
+          "found": true,
+          "value": 140
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "draft_reply",
+      "time": "Apr 3",
+      "screen": "Slack modal: Draft a reply to the pressure",
+      "text": "Draft shown; Mira edits and posts it herself. Note state: HOLD.",
+      "reads": {
+        "decision": {
+          "file": "eval/results/tallowdate_decision.json",
+          "field": "quarters.11.decision",
+          "found": true,
+          "value": "HOLD"
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "dismiss_exception",
+      "time": "Apr 3",
+      "screen": "Slack thread: learned exception",
+      "text": "Exception tested against NOT COMPUTED planted attacks, NOT COMPUTED lost. Status: NOT COMPUTED.",
+      "reads": {
+        "planted": {
+          "file": "eval/results/tallowdate_decision.json",
+          "field": "learning.planted_attacks_tested",
+          "found": false,
+          "value": "NOT COMPUTED"
+        },
+        "lost": {
+          "file": "eval/results/tallowdate_decision.json",
+          "field": "learning.planted_attacks_lost",
+          "found": false,
+          "value": "NOT COMPUTED"
+        },
+        "status": {
+          "file": "eval/results/tallowdate_decision.json",
+          "field": "learning.status",
+          "found": false,
+          "value": "NOT COMPUTED"
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "tomas_accepts",
+      "time": "Apr 10",
+      "screen": "Weekly digest",
+      "text": "Tomás accepts. Takeover cost: NOT COMPUTED.",
+      "reads": {
+        "cost": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "quarters.11.checks.takeover_cost.value",
+          "found": false,
+          "value": "NOT COMPUTED"
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "rush_move",
+      "time": "May 6",
+      "screen": "Slack DM to both keepers",
+      "text": "Rush move: NOT COMPUTED.",
+      "reads": {
+        "rush": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "quarters.11.checks.rush.status",
+          "found": true,
+          "value": "NOT COMPUTED"
+        }
+      },
+      "synthetic": true
+    },
+    {
+      "beat": "june_digest",
+      "time": "June",
+      "screen": "Weekly digest",
+      "text": "Takeover cost NOT COMPUTED · decision HOLD · Shipped 1.4.2, signed by two keepers.",
+      "reads": {
+        "cost": {
+          "file": "eval/results/tallowdate_detector_status.json",
+          "field": "quarters.11.checks.takeover_cost.value",
+          "found": false,
+          "value": "NOT COMPUTED"
+        },
+        "decision": {
+          "file": "eval/results/tallowdate_decision.json",
+          "field": "quarters.11.decision",
+          "found": true,
+          "value": "HOLD"
+        },
+        "shipped": {
+          "file": "data/synthetic/tallowdate.json",
+          "field": "events.154.summary",
+          "found": true,
+          "value": "Shipped 1.4.2, signed by two keepers"
+        }
+      },
+      "synthetic": true
+    }
+  ]
+}
