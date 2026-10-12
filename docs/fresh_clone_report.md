@@ -160,3 +160,19 @@ Results (clone of agent/block-b at the final commit):
 What a judge sees in a clean clone after this run: no git-ignored data is needed by any test that passes or fails for a data reason. A full run still needs FalkorDB (`make up`) and `.env` with the salt, as README "Commands" says. Lint still fails on the files named above.
 
 Not fixed here: the `decision-xz` step rewrites a tracked file (F3). Not fixed here: the FalkorDB requirement, which is a service and not git-ignored data.
+
+## Run 6: after the preview-stamp fix and the README first step
+
+Commit: 776f07b. Command: `powershell -ExecutionPolicy Bypass -File eval\fresh_clone_test.ps1 -WithTests`. Logs in the scratchpad folder, not committed.
+
+- `test_preview_file_matches_a_fresh_render` now passes in the clone. decision-xz still rewrites `generated_at_utc` in `decision_status.json`, and the test checks that stamp as a timestamp and the rest of the content without it. The clone's `test_xz_decision_status` passed in both steps.
+- Every remaining error line in both test steps is `redis.exceptions.AuthenticationError`. The clone has no `.env` and no FalkorDB, so the default port reaches an auth-protected Redis or nothing.
+
+| Step | Exit | Result |
+|---|---|---|
+| `unit tests, no services` | 1 | 14 failed, 380 passed, 17 skipped, 6 errors. All FalkorDB `AuthenticationError` |
+| `test full` | 1 | 16 failed, 402 passed, 40 skipped, 1 xfailed, 120 errors. All FalkorDB `AuthenticationError` |
+| `lint` | 1 | 44 repo-wide errors, unchanged cause (see run 5) |
+| `decision-xz`, `ui build`, demo, replay | 0 | as before |
+
+What still stops a clean clone from going green: a FalkorDB database (`make up`) and a `.env` with `HEARTHGUARD_HASH_SALT`, both listed in the README's first step. Lint is unchanged.
