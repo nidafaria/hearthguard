@@ -17,35 +17,35 @@
           "params": {
             "kind": "release"
           },
-          "ms": 1.965000001291628,
+          "ms": 0.8645999987493269,
           "rows": 0
         }
       ]
     },
     "bypass": {
       "status": "NOT_COMPUTED",
-      "reason": "properties that could not be compared: ci, provenance, key_hid, publisher_in_set, artifact_matches_tag (git records only channel and verified on a release path)",
+      "reason": "single shared Path node, no variation to compare (the xz git ingest gives every release the same Path node)",
       "queries": [
         {
           "name": "org_pack",
           "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
           "params": {},
-          "ms": 1.8454000000929227,
+          "ms": 0.8020000004762551,
           "rows": 1
         },
         {
           "name": "action_path",
-          "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T RETURN a.kind AS kind, a.at AS at, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+          "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
           "params": {
             "ref": "v5.6.1",
             "T": 1711929599
           },
-          "ms": 2.7491000000736676,
+          "ms": 1.4203999999153893,
           "rows": 1
         },
         {
           "name": "history_paths",
-          "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+          "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
           "params": {
             "kind": "release",
             "at": 1709972160,
@@ -54,7 +54,7 @@
             "skip": 0,
             "T": 1711929599
           },
-          "ms": 4.434799999216921,
+          "ms": 2.619500000946573,
           "rows": 21
         }
       ]
@@ -69,7 +69,7 @@
           "params": {
             "kind": "release"
           },
-          "ms": 1.583899998877314,
+          "ms": 0.8336999999301042,
           "rows": 0
         }
       ]

@@ -364,3 +364,116 @@ LONE_CASES: tuple[LoneCase, ...] = (
     LoneCase("k_one_active_keeper", lone_k, tc.T, "FLAG_SET", True, 2, 1),
     LoneCase("l_two_active_keepers", lone_l, tc.T, "FLAG_NOT_SET", False, 2, 2),
 )
+
+
+# ------------------------------------------------------------------ Bypass: shared Path nodes
+# Some ingests give many actions the SAME Path node (the xz git ingest does). Comparing an action
+# with a normal built from its own node is a self-comparison, not evidence. Rules
+# (core/detectors/bypass.py):
+#   - the action and every earlier action use ONE Path node -> whole check NOT_COMPUTED,
+#     reason "single shared Path node, no variation to compare";
+#   - the action's own node is shared (used by more than one action at <= T): a property is
+#     comparable only if the earlier actions show at least two distinct values for it;
+#   - an action whose own node is used by that action alone has no such limit.
+SHARED_REASON = "single shared Path node, no variation to compare"
+MANUAL = {**OSS_FULL, "channel": "manual"}
+
+
+def _shared_node(client, g, tag: str, props: dict) -> None:
+    inline = ", ".join(["node: $tag", *[f"{k}: $v_{k}" for k in props]])
+    params = {"tag": tag, **{f"v_{k}": v for k, v in props.items()}}
+    client.query(g, f"CREATE (:Path {{{inline}}})", params)
+
+
+def _use(client, g, tag: str, ref: str, day: int) -> None:
+    client.query(
+        g,
+        "MATCH (p:Path {node: $tag}) "
+        "CREATE (:Action {ref: $ref, kind: 'release', at: $at})-[:VIA]->(p)",
+        {"tag": tag, "ref": ref, "at": day * DAY},
+    )
+
+
+def bypass_shared_single(client, g):
+    # One Path node, used by three earlier releases and by the new one. The action's path is the
+    # normal's only source: nothing varies. The whole check is NOT_COMPUTED with the shared reason.
+    _org(client, g, "oss")
+    _shared_node(client, g, "n1", OSS_FULL)
+    for i in (1, 2, 3):
+        _use(client, g, "n1", f"hist_{i}", 100 + i)
+    _use(client, g, "n1", "new", ACTION_DAY)
+
+
+def _two_shared_nodes(client, g, new_on: str):
+    _org(client, g, "oss")
+    _shared_node(client, g, "n1", OSS_FULL)  # channel ci
+    _shared_node(client, g, "n2", MANUAL)  # channel manual, everything else the same
+    for i in (1, 2, 3):
+        _use(client, g, "n1", f"hist_{i}", 100 + i)
+    for i in (4, 5):
+        _use(client, g, "n2", f"hist_{i}", 100 + i)
+    _use(client, g, new_on, "new", ACTION_DAY)
+
+
+def bypass_two_nodes_match(client, g):
+    # Earlier channels: ci x3 (node n1), manual x2 (node n2). Two distinct values, so channel is
+    # comparable. The normal is ci (3 votes to 2). The new release is on n1 (ci): MATCHES.
+    # The other six properties have ONE value across all earlier paths and the action's node is
+    # shared, so each is NOT_COMPUTED. Overall NOT_COMPUTED.
+    _two_shared_nodes(client, g, "n1")
+
+
+def bypass_two_nodes_differs(client, g):
+    # Same history. The new release is on n2 (manual), which the normal (ci) does not match:
+    # channel DIFFERS. The other six are NOT_COMPUTED as above. FIRED, differing = ["channel"].
+    _two_shared_nodes(client, g, "n2")
+
+
+def bypass_own_path_unshared(client, g):
+    # Three earlier releases share node n1 (channel ci). The new release has its OWN node
+    # (channel email), used by that one action: two distinct nodes, and the action's node is not
+    # shared, so every property is comparable. channel DIFFERS (ci vs email); the other six equal.
+    # FIRED, differing = ["channel"], nothing NOT_COMPUTED.
+    _org(client, g, "oss")
+    _shared_node(client, g, "n1", OSS_FULL)
+    for i in (1, 2, 3):
+        _use(client, g, "n1", f"hist_{i}", 100 + i)
+    _path_action(client, g, "new", ACTION_DAY, {**OSS_FULL, "channel": "email"})
+
+
+SIX_FLAT = ("verified", "ci", "provenance", "key_hid", "publisher_in_set", "artifact_matches_tag")
+
+BYPASS_SHARED_CASES: tuple[BypassCase, ...] = (
+    BypassCase(
+        "shared_single_node",
+        bypass_shared_single,
+        BT,
+        "NOT_COMPUTED",
+        reason_contains=SHARED_REASON,
+    ),
+    BypassCase(
+        "two_shared_nodes_channel_matches",
+        bypass_two_nodes_match,
+        BT,
+        "NOT_COMPUTED",
+        not_computed=SIX_FLAT,
+        prop_status={"channel": "MATCHES", "verified": "NOT_COMPUTED"},
+    ),
+    BypassCase(
+        "two_shared_nodes_channel_differs",
+        bypass_two_nodes_differs,
+        BT,
+        "FIRED",
+        differing=("channel",),
+        not_computed=SIX_FLAT,
+    ),
+    BypassCase(
+        "own_unshared_path_is_comparable",
+        bypass_own_path_unshared,
+        BT,
+        "FIRED",
+        differing=("channel",),
+        not_computed=(),
+        prop_status={"verified": "MATCHES", "ci": "MATCHES"},
+    ),
+)

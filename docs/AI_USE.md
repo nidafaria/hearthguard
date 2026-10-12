@@ -14,3 +14,6 @@ Day 1: Claude Code wrote the hand-built fixtures with hand-derived answers, the 
 Day 2: Claude Code wrote the Rush detector (leave-one-out 10th percentile, 180-day fallback, never defaults a missing timestamp) with the formula in the code comment.
 Day 2: Claude Code wrote the Bypass detector (per-property remembered normal; absent or tied values are NOT_COMPUTED, never a match) and the Lone keeper multiplier flag on top of guardians.
 Day 2: Claude Code wrote the hand-derived detector fixtures, the tests, and the xz NOT_COMPUTED status file with no values.
+Day 2: Claude Code wrote the decision and conflict policy fixtures with hand-derived results and committed them before any implementation.
+Day 2: Claude Code implemented the frozen decision policy line for line, the conflict policy, and the separate PROPOSED unknown-input layer, with unit tests including an oracle run of the spec code.
+Day 2: Claude Code fixed Bypass so a shared Path node gives NOT_COMPUTED, found and worked around a FalkorDB 6.0.2 crash on aggregates with NULL columns, and recorded the xz status diff.

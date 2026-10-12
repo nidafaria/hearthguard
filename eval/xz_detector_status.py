@@ -31,7 +31,7 @@ PICK_RELEASE = (
 SUFFIX = {
     "rush": " (git history has no grant record)",
     "lone_keeper": " (git history has no grant record)",
-    "bypass": " (git records only channel and verified on a release path)",
+    "bypass": " (the xz git ingest gives every release the same Path node)",
 }
 
 

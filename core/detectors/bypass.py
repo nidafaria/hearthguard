@@ -15,6 +15,17 @@ window as the stored usual_path metric. A property is judged separately:
                     the earlier values tie for most common. Never counted as a match.
 Overall: FIRED if any property DIFFERS (the differing names are listed); else NOT_FIRED only if
 every property MATCHES; else NOT_COMPUTED, listing the properties that could not be compared.
+
+Shared Path nodes (self-comparison)
+-----------------------------------
+Some ingests give every action of a kind the SAME Path node (the xz git ingest does). Comparing
+such an action with a "normal" built from the same node compares the node with itself, which is
+not evidence. So:
+  - if the action and all earlier actions of its kind use one single Path node, the whole check is
+    NOT_COMPUTED, reason "single shared Path node, no variation to compare";
+  - if the action's own Path node is shared (used by more than one action at <= T), a property is
+    comparable only when the earlier actions show at least two distinct values for it; otherwise
+    that property is NOT_COMPUTED. A Path node used by one action only carries no such limit.
 """
 
 from collections import Counter
@@ -50,13 +61,21 @@ FEWER_IS_BYPASS = frozenset({"approvers"})
 DIFFERS = "DIFFERS"
 MATCHES = "MATCHES"
 
+SHARED_PATH_REASON = "single shared Path node, no variation to compare"
+
 
 def action_query(props: tuple[str, ...]) -> str:
     cols = ", ".join(f"p.{p} AS {p}" for p in props)
+    # `users` counts the actions (at <= T) that use this very Path node, the action itself included.
     return (
         "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) "
         "WHERE a.at <= $T "
-        f"RETURN a.kind AS kind, a.at AS at, {cols} LIMIT 10"
+        "OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T "
+        # The aggregate is computed first, then the properties are returned. FalkorDB 6.0.2 panics
+        # on `RETURN count(x), <three or more NULL properties>` (docs/VERIFIED.md), and this
+        # shape avoids that.
+        "WITH a, p, count(x) AS users "
+        f"RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, {cols} LIMIT 10"
     )
 
 
@@ -65,17 +84,22 @@ def history_query(props: tuple[str, ...]) -> str:
     return (
         "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) "
         "WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref "
-        f"RETURN {cols} ORDER BY a.at, a.ref"
+        f"RETURN id(p) AS pid, {cols} ORDER BY a.at, a.ref"
     )
 
 
-def judge(prop: str, action_value, history_values: list) -> dict:
-    """Pure: one property's verdict from the action's value and the earlier values."""
+def judge(prop: str, action_value, history_values: list, shared: bool = False) -> dict:
+    """Pure: one property's verdict from the action's value and the earlier values.
+
+    `shared` is True when the action's own Path node is used by more than one action.
+    """
     present = [v for v in history_values if v is not None]
     if action_value is None:
         return {"status": NOT_COMPUTED, "reason": "property absent on the action's path"}
     if not present:
         return {"status": NOT_COMPUTED, "reason": "property absent from every earlier path"}
+    if shared and len(set(present)) < 2:
+        return {"status": NOT_COMPUTED, "reason": "shared Path node, no variation in this property"}
     counts = Counter(present).most_common()
     if len(counts) > 1 and counts[0][1] == counts[1][1]:
         return {"status": NOT_COMPUTED, "reason": "earlier values tie for most common"}
@@ -122,7 +146,7 @@ def bypass(
     if len(acted) > 1:
         res.reason = "action has more than one Path"
         return rd.finish(res)
-    kind, at, *action_values = acted[0]
+    kind, at, action_pid, users, *action_values = acted[0]
     if kind is None or at is None:
         res.reason = "action has no kind or no timestamp"
         return rd.finish(res)
@@ -137,8 +161,21 @@ def bypass(
         res.evidence = {"action_kind": kind, "pack": pack_name, "history_actions": 0}
         return rd.finish(res)
 
+    path_nodes = {row[0] for row in hist} | {action_pid}
+    if len(path_nodes) == 1:
+        res.reason = SHARED_PATH_REASON
+        res.evidence = {
+            "action_kind": kind,
+            "pack": pack_name,
+            "history_actions": len(hist),
+            "distinct_path_nodes": 1,
+            "actions_using_the_path": users,
+        }
+        return rd.finish(res)
+
+    shared = users > 1
     verdicts = {
-        prop: judge(prop, action_values[i], [row[i] for row in hist])
+        prop: judge(prop, action_values[i], [row[i + 1] for row in hist], shared)
         for i, prop in enumerate(props)
     }
     differing = [p for p, v in verdicts.items() if v["status"] == DIFFERS]
@@ -147,6 +184,8 @@ def bypass(
         "action_kind": kind,
         "pack": pack_name,
         "history_actions": len(hist),
+        "distinct_path_nodes": len(path_nodes),
+        "action_path_shared": shared,
         "window_days": CHANNEL_WINDOW_DAYS,
         "properties": verdicts,
         "differing": differing,

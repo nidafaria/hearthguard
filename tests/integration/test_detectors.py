@@ -17,10 +17,12 @@ from eval import xz_detector_status
 from packs.oss import xz_graph
 from tests.fixtures.detector_cases import (
     BYPASS_CASES,
+    BYPASS_SHARED_CASES,
     LONE_CASES,
     PRIV,
     RUSH_CASES,
     RUSH_E_LATER,
+    SHARED_REASON,
     BypassCase,
     LoneCase,
     RushCase,
@@ -127,7 +129,7 @@ def test_rush_without_privilege_is_not_computed(client, org):
 
 
 # ------------------------------------------------------------------ Bypass
-@pytest.mark.parametrize("case", BYPASS_CASES, ids=lambda c: c.name)
+@pytest.mark.parametrize("case", BYPASS_CASES + BYPASS_SHARED_CASES, ids=lambda c: c.name)
 def test_bypass_fixture(client, org, case: BypassCase):
     build(client, org, case)
     res = bypass.bypass(client, org, "new", case.T)
@@ -262,11 +264,10 @@ def test_real_xz_is_not_computed_for_all_three(client, xz_org):
         assert d[name]["queries"], name
     assert "no grant data" in d["rush"]["reason"]
     assert "guardians not computed" in d["lone_keeper"]["reason"]
-    assert "could not be compared" in d["bypass"]["reason"]
-    # Only channel and verified are recorded on a git release path.
-    for absent in ("ci", "provenance", "key_hid", "publisher_in_set", "artifact_matches_tag"):
-        assert absent in d["bypass"]["reason"]
-    assert not any(p in d["bypass"]["reason"] for p in ("channel,", "verified,"))
+    # Every git release shares ONE Path node, so Bypass has nothing to compare. It says so for the
+    # whole check and reports no per-property match at all.
+    assert d["bypass"]["reason"].startswith(SHARED_REASON)
+    assert "could not be compared" not in d["bypass"]["reason"]
     # No computed value and no hashed id anywhere in the status.
     blob = json.dumps(status)
     for key in ('"evidence"', '"days"', '"threshold_days"', '"flag"', '"guardians":'):
@@ -282,7 +283,7 @@ def test_real_xz_is_not_computed_for_all_three(client, xz_org):
     assert "Privilege" not in nodes and "Flow" not in nodes
 
 
-def test_real_xz_bypass_never_returns_not_fired(client, xz_org):
+def test_real_xz_bypass_is_not_computed_because_the_path_node_is_shared(client, xz_org):
     row = client.query(
         "org_xz",
         "MATCH (r:Action {kind: 'release'}) WHERE r.at <= 1711929599 "
@@ -290,8 +291,22 @@ def test_real_xz_bypass_never_returns_not_fired(client, xz_org):
     ).result_set
     res = bypass.bypass(client, "xz", row[0][0], 1711929599)
     assert res.status == NOT_COMPUTED and res.status != NOT_FIRED
-    comparable = {p for p, v in res.evidence["properties"].items() if v["status"] == "MATCHES"}
-    assert comparable == {"channel", "verified"}  # the computed basis, stated
+    assert res.reason == SHARED_REASON
+    # No per-property verdict is reported: a match against the same node is not evidence.
+    assert "properties" not in res.evidence and "differing" not in res.evidence
+    assert res.evidence["distinct_path_nodes"] == 1
+    # The graph really has one Path node, shared by every release, and the detector's count of
+    # actions using it matches an independent count of releases at or before T.
+    distinct, total = client.query(
+        "org_xz",
+        "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) "
+        "RETURN count(DISTINCT id(p)), count(r)",
+    ).result_set[0]
+    at_T = client.query(
+        "org_xz", "MATCH (r:Action {kind: 'release'}) WHERE r.at <= 1711929599 RETURN count(r)"
+    ).result_set[0][0]
+    assert distinct == 1 and total == 60
+    assert res.evidence["actions_using_the_path"] == at_T
 
 
 def test_committed_xz_status_file_holds_no_value(xz_org):
@@ -302,3 +317,11 @@ def test_committed_xz_status_file_holds_no_value(xz_org):
     for d in saved["detectors"].values():
         assert d["status"] == NOT_COMPUTED and d["reason"] and d["queries"]
         assert set(d) == {"status", "reason", "queries"}
+
+
+def test_bypass_action_query_computes_the_aggregate_before_returning_properties():
+    # FalkorDB 6.0.2 panics on `RETURN count(x), <two or more NULL properties>` (docs/VERIFIED.md).
+    # Bypass avoids it by aggregating in a WITH first. This pins that shape.
+    q = bypass.action_query(bypass.PACK_PROPERTIES["oss"])
+    assert "WITH a, p, count(x) AS users RETURN" in q
+    assert "RETURN a.kind AS kind, a.at AS at, id(p) AS pid, count(" not in q
