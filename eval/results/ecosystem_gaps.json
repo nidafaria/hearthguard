@@ -25,9 +25,9 @@
           "evidenced_before_decision": true
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:11:42Z",
-      "query_wall_ms": 5.1,
-      "query_server_ms": 1.245921,
+      "query_run_at_utc": "2026-10-12T14:14:02Z",
+      "query_wall_ms": 2.4,
+      "query_server_ms": 0.447126,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
@@ -48,7 +48,7 @@
         },
         {
           "gap": "UNNOTICED",
-          "signal": "oss_fuzz_6403e933:commit:oss-fuzz@6403e933",
+          "signal": "oss_fuzz_6403e933:commit:oss-fuzz/commit/6403e933",
           "signal_kind": "commit",
           "signal_at": "2023-03-20T15:21:06Z",
           "signal_place": "oss-fuzz",
@@ -83,9 +83,9 @@
           "evidenced_before_decision": false
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:11:42Z",
-      "query_wall_ms": 3.1,
-      "query_server_ms": 0.590375,
+      "query_run_at_utc": "2026-10-12T14:14:02Z",
+      "query_wall_ms": 1.9,
+      "query_server_ms": 0.354842,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
@@ -104,7 +104,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "oss_fuzz_6403e933:commit:oss-fuzz@6403e933",
+          "signal": "oss_fuzz_6403e933:commit:oss-fuzz/commit/6403e933",
           "signal_kind": "commit",
           "signal_at": "2023-03-20T15:21:06Z",
           "signal_place": "oss-fuzz",
@@ -130,7 +130,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "oss_fuzz_d2e42b2e:commit:oss-fuzz@d2e42b2e",
+          "signal": "oss_fuzz_d2e42b2e:commit:oss-fuzz/commit/d2e42b2e",
           "signal_kind": "commit",
           "signal_at": "2023-07-07T14:01:15Z",
           "signal_place": "oss-fuzz",
@@ -143,7 +143,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_233885a4:commit_applied:xz@233885a4#applied",
+          "signal": "gh_xz_commit_233885a4:commit_applied:xz/commit/233885a4#applied",
           "signal_kind": "commit_applied",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -156,7 +156,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_93e6fb08:commit_applied:xz@93e6fb08#applied",
+          "signal": "gh_xz_commit_93e6fb08:commit_applied:xz/commit/93e6fb08#applied",
           "signal_kind": "commit_applied",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -169,7 +169,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_f1cd9d71:commit_applied:xz@f1cd9d71#applied",
+          "signal": "gh_xz_commit_f1cd9d71:commit_applied:xz/commit/f1cd9d71#applied",
           "signal_kind": "commit_applied",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -202,15 +202,15 @@
           "evidenced_before_decision": false
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:11:42Z",
-      "query_wall_ms": 3.5,
-      "query_server_ms": 0.788577,
+      "query_run_at_utc": "2026-10-12T14:14:02Z",
+      "query_wall_ms": 2.2,
+      "query_server_ms": 0.563662,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_23b5c36f:commit:xz@23b5c36f",
+          "signal": "gh_xz_commit_23b5c36f:commit:xz/commit/23b5c36f",
           "signal_kind": "commit",
           "signal_at": "2023-06-27T12:33:15Z",
           "signal_place": "xz-git",
@@ -223,7 +223,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_b72d2120:commit:xz@b72d2120",
+          "signal": "gh_xz_commit_b72d2120:commit:xz/commit/b72d2120",
           "signal_kind": "commit",
           "signal_at": "2023-06-27T12:33:15Z",
           "signal_place": "xz-git",
@@ -236,7 +236,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_233885a4:commit:xz@233885a4",
+          "signal": "gh_xz_commit_233885a4:commit:xz/commit/233885a4",
           "signal_kind": "commit",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -249,7 +249,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_93e6fb08:commit:xz@93e6fb08",
+          "signal": "gh_xz_commit_93e6fb08:commit:xz/commit/93e6fb08",
           "signal_kind": "commit",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -262,7 +262,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_f1cd9d71:commit:xz@f1cd9d71",
+          "signal": "gh_xz_commit_f1cd9d71:commit:xz/commit/f1cd9d71",
           "signal_kind": "commit",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -295,9 +295,9 @@
           "evidenced_before_decision": false
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:11:42Z",
-      "query_wall_ms": 3.9,
-      "query_server_ms": 0.754799,
+      "query_run_at_utc": "2026-10-12T14:14:02Z",
+      "query_wall_ms": 2.0,
+      "query_server_ms": 0.492651,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
@@ -319,7 +319,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "oss_fuzz_6403e933:commit:oss-fuzz@6403e933",
+          "signal": "oss_fuzz_6403e933:commit:oss-fuzz/commit/6403e933",
           "signal_kind": "commit",
           "signal_at": "2023-03-20T15:21:06Z",
           "signal_place": "oss-fuzz",
@@ -351,7 +351,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "oss_fuzz_d2e42b2e:commit:oss-fuzz@d2e42b2e",
+          "signal": "oss_fuzz_d2e42b2e:commit:oss-fuzz/commit/d2e42b2e",
           "signal_kind": "commit",
           "signal_at": "2023-07-07T14:01:15Z",
           "signal_place": "oss-fuzz",
@@ -367,7 +367,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_233885a4:commit_applied:xz@233885a4#applied",
+          "signal": "gh_xz_commit_233885a4:commit_applied:xz/commit/233885a4#applied",
           "signal_kind": "commit_applied",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -383,7 +383,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_93e6fb08:commit_applied:xz@93e6fb08#applied",
+          "signal": "gh_xz_commit_93e6fb08:commit_applied:xz/commit/93e6fb08#applied",
           "signal_kind": "commit_applied",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",
@@ -399,7 +399,7 @@
         },
         {
           "gap": "UNREACHABLE",
-          "signal": "gh_xz_commit_f1cd9d71:commit_applied:xz@f1cd9d71#applied",
+          "signal": "gh_xz_commit_f1cd9d71:commit_applied:xz/commit/f1cd9d71#applied",
           "signal_kind": "commit_applied",
           "signal_at": "2023-10-13T12:54:05Z",
           "signal_place": "xz-git",

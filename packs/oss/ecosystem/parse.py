@@ -234,7 +234,7 @@ def parse_oss_fuzz() -> list[Event]:
                 _epoch(parsedate_to_datetime(d.group(1))),
                 "contributor",
                 author,
-                f"oss-fuzz@{sha}",
+                f"oss-fuzz/commit/{sha}",
                 refs_records=_refs_in(patch, record),
             )
         )
@@ -523,7 +523,7 @@ def parse_xz_git() -> list[Event]:
                 at,
                 "contributor",
                 Obs(a["name"], _tok(a["email"]), ("github", d["author"]["login"])),
-                f"xz@{sha[:8]}",
+                f"xz/commit/{sha[:8]}",
             )
         )
         committer_role = ROLE_UPSTREAM if c["name"] in upstream_names else "committer"
@@ -538,7 +538,7 @@ def parse_xz_git() -> list[Event]:
                 at,
                 committer_role,
                 Obs(c["name"], _tok(c["email"]), ("github", d["committer"]["login"])),
-                f"xz@{sha[:8]}#applied",
+                f"xz/commit/{sha[:8]}#applied",
             )
         )
     return events

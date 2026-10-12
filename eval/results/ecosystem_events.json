@@ -70,7 +70,7 @@
       "cites_records": []
     },
     {
-      "event_id": "oss_fuzz_6403e933:commit:oss-fuzz@6403e933",
+      "event_id": "oss_fuzz_6403e933:commit:oss-fuzz/commit/6403e933",
       "source_id": "oss_fuzz_6403e933",
       "source_url": "https://github.com/google/oss-fuzz/commit/6403e933.patch",
       "place": "oss-fuzz",
@@ -100,7 +100,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_23b5c36f:commit:xz@23b5c36f",
+      "event_id": "gh_xz_commit_23b5c36f:commit:xz/commit/23b5c36f",
       "source_id": "gh_xz_commit_23b5c36f",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/23b5c36fb71904bfbe16bb20f976da38dadf6c3b",
       "place": "xz-git",
@@ -115,7 +115,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_23b5c36f:commit_applied:xz@23b5c36f#applied",
+      "event_id": "gh_xz_commit_23b5c36f:commit_applied:xz/commit/23b5c36f#applied",
       "source_id": "gh_xz_commit_23b5c36f",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/23b5c36fb71904bfbe16bb20f976da38dadf6c3b",
       "place": "xz-git",
@@ -130,7 +130,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_b72d2120:commit:xz@b72d2120",
+      "event_id": "gh_xz_commit_b72d2120:commit:xz/commit/b72d2120",
       "source_id": "gh_xz_commit_b72d2120",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/b72d21202402a603db6d512fb9271cfa83249639",
       "place": "xz-git",
@@ -145,7 +145,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_b72d2120:commit_applied:xz@b72d2120#applied",
+      "event_id": "gh_xz_commit_b72d2120:commit_applied:xz/commit/b72d2120#applied",
       "source_id": "gh_xz_commit_b72d2120",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/b72d21202402a603db6d512fb9271cfa83249639",
       "place": "xz-git",
@@ -190,7 +190,7 @@
       "cites_records": []
     },
     {
-      "event_id": "oss_fuzz_d2e42b2e:commit:oss-fuzz@d2e42b2e",
+      "event_id": "oss_fuzz_d2e42b2e:commit:oss-fuzz/commit/d2e42b2e",
       "source_id": "oss_fuzz_d2e42b2e",
       "source_url": "https://github.com/google/oss-fuzz/commit/d2e42b2e.patch",
       "place": "oss-fuzz",
@@ -220,7 +220,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_233885a4:commit:xz@233885a4",
+      "event_id": "gh_xz_commit_233885a4:commit:xz/commit/233885a4",
       "source_id": "gh_xz_commit_233885a4",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/233885a437f8b55a5c8442984ebc0aaa579e92de",
       "place": "xz-git",
@@ -235,7 +235,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_233885a4:commit_applied:xz@233885a4#applied",
+      "event_id": "gh_xz_commit_233885a4:commit_applied:xz/commit/233885a4#applied",
       "source_id": "gh_xz_commit_233885a4",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/233885a437f8b55a5c8442984ebc0aaa579e92de",
       "place": "xz-git",
@@ -250,7 +250,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_93e6fb08:commit:xz@93e6fb08",
+      "event_id": "gh_xz_commit_93e6fb08:commit:xz/commit/93e6fb08",
       "source_id": "gh_xz_commit_93e6fb08",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/93e6fb08b22c7c13be2dd1e7274fe78413436254",
       "place": "xz-git",
@@ -265,7 +265,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_93e6fb08:commit_applied:xz@93e6fb08#applied",
+      "event_id": "gh_xz_commit_93e6fb08:commit_applied:xz/commit/93e6fb08#applied",
       "source_id": "gh_xz_commit_93e6fb08",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/93e6fb08b22c7c13be2dd1e7274fe78413436254",
       "place": "xz-git",
@@ -280,7 +280,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_f1cd9d71:commit:xz@f1cd9d71",
+      "event_id": "gh_xz_commit_f1cd9d71:commit:xz/commit/f1cd9d71",
       "source_id": "gh_xz_commit_f1cd9d71",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/f1cd9d7194f005cd66ec03c6635ceae75f90ef17",
       "place": "xz-git",
@@ -295,7 +295,7 @@
       "cites_records": []
     },
     {
-      "event_id": "gh_xz_commit_f1cd9d71:commit_applied:xz@f1cd9d71#applied",
+      "event_id": "gh_xz_commit_f1cd9d71:commit_applied:xz/commit/f1cd9d71#applied",
       "source_id": "gh_xz_commit_f1cd9d71",
       "source_url": "https://api.github.com/repos/tukaani-project/xz/commits/f1cd9d7194f005cd66ec03c6635ceae75f90ef17",
       "place": "xz-git",
