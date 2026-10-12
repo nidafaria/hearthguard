@@ -1,0 +1,736 @@
+{
+  "generated_at_utc": "2026-10-12T12:25:07Z",
+  "org": "xz",
+  "reader_frozen_version": 1,
+  "coverage": {
+    "in_scope_messages": 300,
+    "excluded_human_labelled_test_set": 60,
+    "to_read": 240,
+    "read_so_far": 20,
+    "complete": false
+  },
+  "claims_written_to_graph": {
+    "claims_written": 2,
+    "left_out": {
+      "no_date": 0,
+      "no_author": 0
+    }
+  },
+  "provisional": true,
+  "quarters": [
+    {
+      "quarter": "2021-Q4",
+      "T": 1640995199,
+      "T_iso": "2021-12-31T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 19,
+          "read": 0,
+          "unread": 19
+        },
+        "vouch": {
+          "messages_in_window": 130,
+          "read": 20,
+          "unread": 110
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.4770000016142149,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1630627199,
+              "skip": 0,
+              "T": 1640995199
+            },
+            "ms": 1.4770000016142149,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.8162999984051567,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1640995199
+            },
+            "ms": 0.8162999984051567,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2022-Q1",
+      "T": 1648771199,
+      "T_iso": "2022-03-31T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 28,
+          "read": 0,
+          "unread": 28
+        },
+        "vouch": {
+          "messages_in_window": 154,
+          "read": 20,
+          "unread": 134
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.1501000008138362,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1638403199,
+              "skip": 0,
+              "T": 1648771199
+            },
+            "ms": 1.1501000008138362,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.8032000005187001,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1648771199
+            },
+            "ms": 0.8032000005187001,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2022-Q2",
+      "T": 1656633599,
+      "T_iso": "2022-06-30T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 34,
+          "read": 0,
+          "unread": 34
+        },
+        "vouch": {
+          "messages_in_window": 175,
+          "read": 20,
+          "unread": 155
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.15640000149142,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1646265599,
+              "skip": 0,
+              "T": 1656633599
+            },
+            "ms": 1.15640000149142,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.7638000024599023,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1656633599
+            },
+            "ms": 0.7638000024599023,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2022-Q3",
+      "T": 1664582399,
+      "T_iso": "2022-09-30T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 35,
+          "read": 0,
+          "unread": 35
+        },
+        "vouch": {
+          "messages_in_window": 204,
+          "read": 20,
+          "unread": 184
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.6185999993467703,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1654214399,
+              "skip": 0,
+              "T": 1664582399
+            },
+            "ms": 1.6185999993467703,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 1.0580000016489066,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1664582399
+            },
+            "ms": 1.0580000016489066,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2022-Q4",
+      "T": 1672531199,
+      "T_iso": "2022-12-31T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 42,
+          "read": 0,
+          "unread": 42
+        },
+        "vouch": {
+          "messages_in_window": 237,
+          "read": 20,
+          "unread": 217
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.0790999986056704,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1662163199,
+              "skip": 0,
+              "T": 1672531199
+            },
+            "ms": 1.0790999986056704,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.7670999984839,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1672531199
+            },
+            "ms": 0.7670999984839,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2023-Q1",
+      "T": 1680307199,
+      "T_iso": "2023-03-31T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 3,
+          "read": 0,
+          "unread": 3
+        },
+        "vouch": {
+          "messages_in_window": 239,
+          "read": 20,
+          "unread": 219
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.3246000016806647,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1669939199,
+              "skip": 0,
+              "T": 1680307199
+            },
+            "ms": 1.3246000016806647,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 1.0150000016437843,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1680307199
+            },
+            "ms": 1.0150000016437843,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2023-Q2",
+      "T": 1688169599,
+      "T_iso": "2023-06-30T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 2,
+          "read": 0,
+          "unread": 2
+        },
+        "vouch": {
+          "messages_in_window": 240,
+          "read": 20,
+          "unread": 220
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.025199999276083,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1677801599,
+              "skip": 0,
+              "T": 1688169599
+            },
+            "ms": 1.025199999276083,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.7593000009364914,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1688169599
+            },
+            "ms": 0.7593000009364914,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2023-Q3",
+      "T": 1696118399,
+      "T_iso": "2023-09-30T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 4,
+          "read": 0,
+          "unread": 4
+        },
+        "vouch": {
+          "messages_in_window": 244,
+          "read": 20,
+          "unread": 224
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.1231000025873072,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1685750399,
+              "skip": 0,
+              "T": 1696118399
+            },
+            "ms": 1.1231000025873072,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.6974000025365967,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1696118399
+            },
+            "ms": 0.6974000025365967,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2023-Q4",
+      "T": 1704067199,
+      "T_iso": "2023-12-31T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 4,
+          "read": 0,
+          "unread": 4
+        },
+        "vouch": {
+          "messages_in_window": 245,
+          "read": 20,
+          "unread": 225
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.069199999619741,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1693699199,
+              "skip": 0,
+              "T": 1704067199
+            },
+            "ms": 1.069199999619741,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.8235000022978056,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1704067199
+            },
+            "ms": 0.8235000022978056,
+            "rows": 0
+          }
+        ]
+      }
+    },
+    {
+      "quarter": "2024-Q1",
+      "T": 1711929599,
+      "T_iso": "2024-03-31T23:59:59Z",
+      "window_coverage": {
+        "pressure": {
+          "messages_in_window": 39,
+          "read": 0,
+          "unread": 39
+        },
+        "vouch": {
+          "messages_in_window": 284,
+          "read": 20,
+          "unread": 264
+        }
+      },
+      "pressure": {
+        "status": "NOT_FIRED",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "evidence": {
+          "window_days": 120,
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
+          "min_claims": 3,
+          "min_distinct_actors": 2
+        },
+        "query_ms": 1.0459999975864775,
+        "queries": [
+          {
+            "name": "read_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim) WHERE c.kind IN $kinds AND c.at <= $T AND c.at > $start RETURN a.hid AS hid, c.id AS claim_id, c.kind AS kind, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "kinds": [
+                "PRESSURE",
+                "URGENCY"
+              ],
+              "start": 1701561599,
+              "skip": 0,
+              "T": 1711929599
+            },
+            "ms": 1.0459999975864775,
+            "rows": 0
+          }
+        ]
+      },
+      "vouch": {
+        "status": "NOT_FIRED",
+        "reason": "0 low-history actors vouched; need 2",
+        "evidence": {
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
+          "min_vouchers": 2,
+          "min_signal_types": 2
+        },
+        "query_ms": 0.7006000014371239,
+        "queries": [
+          {
+            "name": "read_vouch_claims",
+            "query": "MATCH (a:Actor)-[:ASSERTED]->(c:Claim {kind: 'VOUCH'}) WHERE c.at <= $T RETURN a.hid AS hid, c.id AS claim_id, c.target_hid AS target, c.at AS at ORDER BY at, claim_id SKIP $skip LIMIT 1000",
+            "params": {
+              "skip": 0,
+              "T": 1711929599
+            },
+            "ms": 0.7006000014371239,
+            "rows": 0
+          }
+        ]
+      }
+    }
+  ],
+  "not_computed_notes": {
+    "pressure": "Condition 2 (keeper activity <= 50% of the org's trailing-two-year median, or a keeper CAPACITY_STATEMENT) is open in the freeze, so Pressure can only be NOT_FIRED (condition 1 fails) or NOT_COMPUTED (condition 1 holds).",
+    "vouch": "The Reader does not extract the candidate (target), and no SHARES edge can be built from the public record we hold, so Vouch can only be NOT_FIRED or NOT_COMPUTED."
+  }
+}

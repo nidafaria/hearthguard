@@ -1,0 +1,719 @@
+{
+  "case": "xz",
+  "what": "Replay of the public xz git history and xz-devel mailing list. Provisional.",
+  "sources": [
+    "xz_normal.json",
+    "xz_quarterly_status.json",
+    "pressure_vouch_status.json",
+    "decision_status.json"
+  ],
+  "reader_coverage": {
+    "in_scope_messages": 300,
+    "excluded_human_labelled_test_set": 60,
+    "to_read": 240,
+    "read_so_far": 20,
+    "complete": false
+  },
+  "quarters": [
+    {
+      "quarter": "2021-Q4",
+      "T_iso": "2021-12-31T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.005231481481481481,
+          "unit": "days",
+          "n": 201,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 4,
+          "unit": "actors",
+          "n": 4,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 2,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 19,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2022-Q1",
+      "T_iso": "2022-03-31T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.009074074074074075,
+          "unit": "days",
+          "n": 121,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 3,
+          "unit": "actors",
+          "n": 3,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 1,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 28,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2022-Q2",
+      "T_iso": "2022-06-30T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.01857638888888889,
+          "unit": "days",
+          "n": 173,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 3,
+          "unit": "actors",
+          "n": 3,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 1,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 34,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2022-Q3",
+      "T_iso": "2022-09-30T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.014074074074074074,
+          "unit": "days",
+          "n": 281,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 3,
+          "unit": "actors",
+          "n": 3,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 4,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 35,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2022-Q4",
+      "T_iso": "2022-12-31T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.014392361111111111,
+          "unit": "days",
+          "n": 502,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 2,
+          "unit": "actors",
+          "n": 2,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 10,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 42,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2023-Q1",
+      "T_iso": "2023-03-31T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.005509259259259259,
+          "unit": "days",
+          "n": 827,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 2,
+          "unit": "actors",
+          "n": 2,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 14,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 3,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2023-Q2",
+      "T_iso": "2023-06-30T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.00494212962962963,
+          "unit": "days",
+          "n": 935,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 5,
+          "unit": "actors",
+          "n": 5,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 16,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 2,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2023-Q3",
+      "T_iso": "2023-09-30T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.0040335648148148145,
+          "unit": "days",
+          "n": 1180,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 7,
+          "unit": "actors",
+          "n": 7,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 17,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 4,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2023-Q4",
+      "T_iso": "2023-12-31T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.004774305555555556,
+          "unit": "days",
+          "n": 1306,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 5,
+          "unit": "actors",
+          "n": 5,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 17,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 4,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    },
+    {
+      "quarter": "2024-Q1",
+      "T_iso": "2024-03-31T23:59:59Z",
+      "normal": {
+        "cadence_days": {
+          "status": "COMPUTED",
+          "value": 0.0038194444444444443,
+          "unit": "days",
+          "n": 1584,
+          "source": "xz_normal.json"
+        },
+        "active_keepers": {
+          "status": "COMPUTED",
+          "value": 7,
+          "unit": "actors",
+          "n": 7,
+          "source": "xz_normal.json"
+        },
+        "usual_path": {
+          "status": "COMPUTED",
+          "value": "git",
+          "unit": "channel",
+          "n": 22,
+          "source": "xz_normal.json"
+        }
+      },
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "lone_keeper": {
+          "status": "NOT COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "source": "xz_quarterly_status.json"
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "source": "xz_quarterly_status.json"
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "source": "xz_quarterly_status.json"
+        },
+        "pressure": {
+          "status": "NOT_FIRED",
+          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "source": "pressure_vouch_status.json"
+        },
+        "vouch": {
+          "status": "NOT_FIRED",
+          "reason": "0 low-history actors vouched; need 2",
+          "source": "pressure_vouch_status.json"
+        }
+      },
+      "reader_unread_in_pressure_window": 39,
+      "decision": {
+        "type": "HOLD",
+        "reason": "move unknown: RUSH, BYPASS",
+        "source": "decision_status.json"
+      }
+    }
+  ]
+}

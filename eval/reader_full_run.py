@@ -23,13 +23,22 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from core.claims import reader
-from core.llm.client import DailyLimitReached, LLMClient, load_config
+from core.llm.client import (
+    DailyLimitReached,
+    InvalidJSON,
+    LLMClient,
+    LLMError,
+    LLMHTTPError,
+    load_config,
+)
 from eval import reader_freeze as rf
 from eval import reader_spotcheck as rs
 from packs.oss import mail_cache
 
 ROOT = Path(__file__).resolve().parent.parent
 DERIVED = ROOT / "data" / "derived" / "reader_claims.json"
+TOO_LONG = "too long for one request under the 8,000 tokens a minute limit; not read"
+NO_VALID_JSON = "the model could not return valid JSON for this message; not read"
 PROGRESS = ROOT / "eval" / "results" / "reader_full_progress.json"
 OUT = ROOT / "eval" / "results" / "reader_full_run.json"
 TESTSET = ROOT / "eval" / "results" / "reader_testset.json"
@@ -106,6 +115,10 @@ def public_summary(saved: dict, todo_total: int) -> dict:
             "rejections_by_reason": dict(sorted(reasons.items())),
             "none_items": sum(e["none_items"] for e in items),
             "messages_without_claims": sum(1 for e in items if not e["claims"]),
+            "messages_not_read_too_long": sum(1 for e in items if e["skipped"] == TOO_LONG),
+            "messages_not_read_no_valid_json": sum(
+                1 for e in items if e["skipped"] == NO_VALID_JSON
+            ),
             "input_tokens": sum(t["input"] for t in tok),
             "output_tokens": sum(t["output"] for t in tok),
             "reasoning_tokens": sum(t["reasoning"] or 0 for t in tok),
@@ -151,6 +164,19 @@ def main() -> int:
         except DailyLimitReached as exc:
             stop = str(exc)
             break
+        except (InvalidJSON, LLMHTTPError) as exc:
+            if isinstance(exc, LLMHTTPError) and exc.status != 400:
+                raise
+            # The model could not produce JSON that fits the schema for this message (the server
+            # says so with HTTP 400). The same input at temperature 0 gives the same failure, so it
+            # is recorded as not read and counted, never retried until it passes or guessed.
+            res = reader.ReadResult(skipped=NO_VALID_JSON)
+        except LLMError as exc:
+            if "exceeds" not in str(exc) or "per minute" not in str(exc):
+                raise
+            # One request cannot fit the account's per-minute token limit. The frozen Reader sends
+            # the whole message, so it is not cut or split: it is recorded as not read.
+            res = reader.ReadResult(skipped=TOO_LONG)
         saved[key] = entry(n, head, author_hash, res)
         if len(saved) % 10 == 0:
             save(saved)

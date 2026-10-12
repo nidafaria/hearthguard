@@ -1,0 +1,1107 @@
+{
+  "generated_at_utc": "2026-10-12T12:23:53Z",
+  "org": "xz",
+  "provisional": true,
+  "quarters": [
+    {
+      "quarter": "2021-Q4",
+      "T": 1640995199,
+      "T_iso": "2021-12-31T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6921999993210193,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.569200001336867,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.5357000009098556,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5357000009098556,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.5316999995557126,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5316999995557126,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 2.517299999453826,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.5703999995603226,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.3.2alpha",
+                "T": 1640995199
+              },
+              "ms": 0.9466000010434072,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1635452424,
+                "window": 63072000,
+                "ref": "v5.3.2alpha",
+                "skip": 0,
+                "T": 1640995199
+              },
+              "ms": 1.000299998850096,
+              "rows": 1
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.3.2alpha"
+    },
+    {
+      "quarter": "2022-Q1",
+      "T": 1648771199,
+      "T_iso": "2022-03-31T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6025000002409797,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5554999988817144,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.5319999982020818,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5319999982020818,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.5085999982838985,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5085999982838985,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 2.6313999987905845,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.5645999990520068,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.3.2alpha",
+                "T": 1648771199
+              },
+              "ms": 1.016999998682877,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1635452424,
+                "window": 63072000,
+                "ref": "v5.3.2alpha",
+                "skip": 0,
+                "T": 1648771199
+              },
+              "ms": 1.0498000010557007,
+              "rows": 1
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.3.2alpha"
+    },
+    {
+      "quarter": "2022-Q2",
+      "T": 1656633599,
+      "T_iso": "2022-06-30T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5930000006628688,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.738000002456829,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.5826999986311421,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5826999986311421,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.61690000075032,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.61690000075032,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 2.4515000004612375,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.5590000000665896,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.3.2alpha",
+                "T": 1656633599
+              },
+              "ms": 0.9032000016304664,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1635452424,
+                "window": 63072000,
+                "ref": "v5.3.2alpha",
+                "skip": 0,
+                "T": 1656633599
+              },
+              "ms": 0.9892999987641815,
+              "rows": 1
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.3.2alpha"
+    },
+    {
+      "quarter": "2022-Q3",
+      "T": 1664582399,
+      "T_iso": "2022-09-30T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5686000004061498,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5888999985472765,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.7286000000021886,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.7286000000021886,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.6468999999924563,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6468999999924563,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 2.6424999996379483,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.5479999999806751,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.2.7",
+                "T": 1664582399
+              },
+              "ms": 0.9098000009544194,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1664545340,
+                "window": 63072000,
+                "ref": "v5.2.7",
+                "skip": 0,
+                "T": 1664582399
+              },
+              "ms": 1.184699998702854,
+              "rows": 3
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.2.7"
+    },
+    {
+      "quarter": "2022-Q4",
+      "T": 1672531199,
+      "T_iso": "2022-12-31T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.642299997707596,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.7508000016969163,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.6271000020205975,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6271000020205975,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.72580000050948,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.72580000050948,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 3.01709999985178,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.7807000001776032,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.4.0",
+                "T": 1672531199
+              },
+              "ms": 0.9840999991865829,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1670957206,
+                "window": 63072000,
+                "ref": "v5.4.0",
+                "skip": 0,
+                "T": 1672531199
+              },
+              "ms": 1.252300000487594,
+              "rows": 9
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.4.0"
+    },
+    {
+      "quarter": "2023-Q1",
+      "T": 1680307199,
+      "T_iso": "2023-03-31T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5558000011660624,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5584999998973217,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.7064999990689103,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.7064999990689103,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.5407000026025344,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5407000026025344,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 3.1321999995270744,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.5866999999852851,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.4.2",
+                "T": 1680307199
+              },
+              "ms": 0.9532000003673602,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1679153836,
+                "window": 63072000,
+                "ref": "v5.4.2",
+                "skip": 0,
+                "T": 1680307199
+              },
+              "ms": 1.592299999174429,
+              "rows": 13
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.4.2"
+    },
+    {
+      "quarter": "2023-Q2",
+      "T": 1688169599,
+      "T_iso": "2023-06-30T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5858000004081987,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5468000017572194,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.5294999973557424,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5294999973557424,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.5807999987155199,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5807999987155199,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 3.1030999998620246,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.6501999996544328,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.4.3",
+                "T": 1688169599
+              },
+              "ms": 0.9680999974079896,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1683211416,
+                "window": 63072000,
+                "ref": "v5.4.3",
+                "skip": 0,
+                "T": 1688169599
+              },
+              "ms": 1.4848000027996022,
+              "rows": 15
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.4.3"
+    },
+    {
+      "quarter": "2023-Q3",
+      "T": 1696118399,
+      "T_iso": "2023-09-30T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6155000010039657,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5706000010832213,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.5197999998927116,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5197999998927116,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.5111999998916872,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5111999998916872,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 3.0779000007896684,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.4861999987042509,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.4.4",
+                "T": 1696118399
+              },
+              "ms": 1.0552999992796686,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1690983762,
+                "window": 63072000,
+                "ref": "v5.4.4",
+                "skip": 0,
+                "T": 1696118399
+              },
+              "ms": 1.536400002805749,
+              "rows": 16
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.4.4"
+    },
+    {
+      "quarter": "2023-Q4",
+      "T": 1704067199,
+      "T_iso": "2023-12-31T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6186999999044929,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6272999999055173,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.5920000003243331,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5920000003243331,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.5161000008229166,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5161000008229166,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 3.0249000010371674,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.5439000015030615,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.4.5",
+                "T": 1704067199
+              },
+              "ms": 0.8998000012070406,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1698841607,
+                "window": 63072000,
+                "ref": "v5.4.5",
+                "skip": 0,
+                "T": 1704067199
+              },
+              "ms": 1.5811999983270653,
+              "rows": 16
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.4.5"
+    },
+    {
+      "quarter": "2024-Q1",
+      "T": 1711929599,
+      "T_iso": "2024-03-31T23:59:59Z",
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.7561999991594348,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6162999998196028,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz",
+          "query_ms": 0.6035000005795155,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.6035000005795155,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT_COMPUTED",
+          "reason": "no Privilege of kind 'release' in org_xz, so no grant data",
+          "query_ms": 0.5921000010857824,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 0.5921000010857824,
+              "rows": 0
+            }
+          ]
+        },
+        "bypass": {
+          "status": "NOT_COMPUTED",
+          "reason": "single shared Path node, no variation to compare",
+          "query_ms": 3.222199997253483,
+          "queries": [
+            {
+              "name": "org_pack",
+              "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+              "params": {},
+              "ms": 0.5700000001525041,
+              "rows": 1
+            },
+            {
+              "name": "action_path",
+              "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T OPTIONAL MATCH (p)<-[:VIA]-(x:Action) WHERE x.at <= $T WITH a, p, count(x) AS users RETURN a.kind AS kind, a.at AS at, id(p) AS pid, users, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+              "params": {
+                "ref": "v5.6.1",
+                "T": 1711929599
+              },
+              "ms": 0.8903999987524003,
+              "rows": 1
+            },
+            {
+              "name": "history_paths",
+              "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN id(p) AS pid, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+              "params": {
+                "kind": "release",
+                "at": 1709972160,
+                "window": 63072000,
+                "ref": "v5.6.1",
+                "skip": 0,
+                "T": 1711929599
+              },
+              "ms": 1.7617999983485788,
+              "rows": 21
+            }
+          ]
+        }
+      },
+      "latest_release_at_T": "v5.6.1"
+    }
+  ]
+}

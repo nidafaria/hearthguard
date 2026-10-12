@@ -46,16 +46,24 @@ def _redact(queries: list[dict]) -> list[dict]:
     return out
 
 
+def is_read(saved: dict, key: str) -> bool:
+    """Read by the Reader. A message too long for one request was recorded but not read."""
+    return key in saved and saved[key]["skipped"] not in (rfr.TOO_LONG, rfr.NO_VALID_JSON)
+
+
 def coverage() -> dict:
     todo = [n for n in rfr.in_scope_ids() if n not in rfr.excluded_ids()]
     saved = rfr.load_saved()
-    done = sum(1 for n in todo if f"msg{n:05d}" in saved)
+    done = sum(1 for n in todo if is_read(saved, f"msg{n:05d}"))
     return {
         "in_scope_messages": len(rfr.in_scope_ids()),
         "excluded_human_labelled_test_set": len(rfr.excluded_ids()),
         "to_read": len(todo),
         "read_so_far": done,
         "complete": done == len(todo),
+        "recorded_but_not_read": sum(
+            1 for n in todo if f"msg{n:05d}" in saved and not is_read(saved, f"msg{n:05d}")
+        ),
     }
 
 
@@ -74,7 +82,7 @@ def window_coverage(T: int, window_days: int | None, saved: dict) -> dict:
         if at > T or (start is not None and at <= start):
             continue
         total += 1
-        read += f"msg{r['msg']:05d}" in saved
+        read += is_read(saved, f"msg{r['msg']:05d}")
     return {"messages_in_window": total, "read": read, "unread": total - read}
 
 
