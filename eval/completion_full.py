@@ -336,6 +336,94 @@ ROWS = [
     ("Pitch", "Submission form and track mapping (§19)", N, "none"),
 ]
 
+# Re-assessment on main after merging agent/synthetic, agent/hardening, agent/slack and
+# agent/writeup (merge commits c5a82c0 and earlier). Only merged work counts. Row order and row
+# numbers do not change, because README.md and docs/submission_checklist.md cite them.
+# item prefix -> (new status, new evidence)
+UPDATES = {
+    "Tracks named in the submission": (
+        P,
+        "README.md names Track 02 (Tracks section); the submission itself is not made",
+    ),
+    "`tallowdate` synthetic case generated": (
+        D,
+        "redteam/tallowdate.py (seeded), data/synthetic/tallowdate.json, "
+        "redteam/load_tallowdate.py; tests/integration/test_tallowdate_*.py",
+    ),
+    "redteam_<run> and harden_<run> graphs": (
+        P,
+        "harden_<run> by GRAPH.COPY in core/hardening/simulate.py; no redteam_<run>",
+    ),
+    "Red Team generator": (
+        P,
+        "redteam/tallowdate.py: one seeded synthetic campaign with planted flags; "
+        "no parameterised generator, no N or SEED",
+    ),
+    "Hardening simulator (up to three steps, measured)": (
+        P,
+        "core/hardening/simulate.py, eval/results/hardening_fixture.json: cost and guardians "
+        "before and after on fixtures; caught and lead time not run",
+    ),
+    "Hardening on xz and 10 false-alarm projects": (
+        P,
+        "core/hardening/xz.py, eval/results/xz_hardening.json: all NOT COMPUTED on xz; "
+        "no false-alarm projects",
+    ),
+    "Slack app (Bolt, Socket Mode) sends the note": (
+        P,
+        "slack_app/render.py renders the note (eval/results/slack_preview.json, "
+        "sent_to_slack false); no Bolt, nothing sent",
+    ),
+    "Show me why button": (
+        P,
+        "slack_app/show_why.py and api /api/notes/{quarter}/why, from saved results; not in Slack",
+    ),
+    "Simulate a fix button": (
+        P,
+        "api /api/notes/{quarter}/simulate reads eval/results/xz_hardening.json; "
+        "not run live, not in Slack",
+    ),
+    "It's fine button and learning result in thread": (
+        P,
+        "api dismiss writes a local JSONL file; no OwnerDecision, no learned exception",
+    ),
+    "Web inbox fallback": (
+        P,
+        "api/app.py, ui/src/Inbox.tsx: note, why, simulate, dismiss; no thread questions",
+    ),
+    "Inbox screen": (P, "ui/src/Inbox.tsx over api/app.py; no thread"),
+    "Blog post (§20)": (N, "docs/blog_outline.md is an outline only; the post is not written"),
+    "Submission form and track mapping": (
+        N,
+        "docs/submission_checklist.md lists what is needed; the form is not filled",
+    ),
+}
+
+
+def _apply(rows: list) -> list:
+    out, used = [], set()
+    for ref, item, status, ev in rows:
+        for prefix, (new_status, new_ev) in UPDATES.items():
+            if item.startswith(prefix):
+                status, ev = new_status, new_ev
+                used.add(prefix)
+        out.append((ref, item, status, ev))
+    missing = set(UPDATES) - used
+    if missing:
+        raise RuntimeError(f"update matches no row: {sorted(missing)}")
+    return out
+
+
+ROWS = _apply(ROWS)
+PREVIOUS = {
+    "total_rows": 131,
+    "DONE": 20,
+    "PARTIAL": 25,
+    "NOT_STARTED": 86,
+    "score_percent": 24.8,
+    "measured_at": "8955f72 (before the four branches were merged)",
+}
+
 SCORE = {D: 1.0, P: 0.5, N: 0.0}
 
 
@@ -354,6 +442,7 @@ def build() -> dict:
         "score_percent": round(100 * score / total, 1),
         "weights": {"DONE": 1, "PARTIAL": 0.5, "NOT STARTED": 0},
         "source": "docs/HEARTHGUARD.md plus pitch deliverables; rows in eval/completion_full.py",
+        "previous": PREVIOUS,
     }
 
 

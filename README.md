@@ -6,7 +6,7 @@ Hearthguard keeps a memory of who could change an open-source project, and how t
 
 It was built to ask one question: would this memory have flagged the xz backdoor, using only public data? In this build, it does **not** detect the xz backdoor, and it does not claim to.
 
-**Status: provisional. The project is not complete.** The rules are not frozen yet. Of 131 planned rows, 20 are DONE, 25 are PARTIAL and 86 are NOT STARTED (eval/results/completion_full.md).
+**Status: provisional. The project is not complete.** The rules are not frozen yet. Of 131 planned rows, 21 are DONE, 36 are PARTIAL and 74 are NOT STARTED (eval/results/completion_full.md).
 
 ## Run the demo
 
