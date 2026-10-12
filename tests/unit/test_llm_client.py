@@ -270,3 +270,16 @@ def test_each_model_has_its_own_limits(tmp_path):
     rl.before("model-b", 1)  # a different model is not affected
     with pytest.raises(DailyLimitReached):
         rl.before("model-a", 1)
+
+
+def test_an_explicit_no_key_stays_no_key_even_when_the_environment_has_one(monkeypatch):
+    # Tests must never pick up the real key from .env: key=None means no key.
+    from core.llm.client import LLMClient
+
+    monkeypatch.setenv("GROQ_API_KEY", "gsk_from_the_environment")
+    config = {"base_url": "http://127.0.0.1:9", "rate_limit": {}}
+    assert LLMClient(config, key=None).has_key is False
+    assert LLMClient(config, key="explicit").has_key is True
+    assert LLMClient(config).has_key is True  # leaving it out reads the environment
+    monkeypatch.setenv("GROQ_API_KEY", "")
+    assert LLMClient(config).has_key is False

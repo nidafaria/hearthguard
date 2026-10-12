@@ -81,6 +81,13 @@ def load_config(path: Path = CONFIG_PATH) -> dict:
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
+class _FromEnvironment:
+    """Marks "read the key from GROQ_API_KEY", as opposed to key=None, which means no key."""
+
+
+FROM_ENVIRONMENT = _FromEnvironment()
+
+
 def api_key() -> str | None:
     load_dotenv()
     return os.environ.get(KEY_ENV, "").strip() or None
@@ -268,7 +275,7 @@ class LLMClient:
         self,
         config: dict | None = None,
         *,
-        key: str | None = None,
+        key: str | None | _FromEnvironment = FROM_ENVIRONMENT,
         base_url: str | None = None,
         cache_dir: Path | None = None,
         clock: Callable[[], float] = time.time,
@@ -277,7 +284,8 @@ class LLMClient:
         timeout_s: float = 120.0,
     ) -> None:
         self.config = config if config is not None else load_config()
-        self._key = key if key is not None else api_key()
+        # key=None means no key. Only leaving it out reads GROQ_API_KEY.
+        self._key = api_key() if isinstance(key, _FromEnvironment) else key
         self.base_url = (base_url or self.config["base_url"]).rstrip("/")
         cache = Path(cache_dir or REPO_ROOT / self.config.get("cache_dir", "data/llm_cache"))
         self.cache_dir = cache if cache.is_absolute() else REPO_ROOT / cache
