@@ -3,13 +3,14 @@
   "corpus": "data/raw/mail/xz-devel/*.html",
   "quotes": {
     "Q1": {
-      "text": "It's clear that my resources are too limited.",
-      "status": "NOT FOUND",
+      "text": "It's clear that my resources are too limited (thus the many emails waiting for replies) so something has to change in the long term.",
+      "status": "FOUND",
       "cited_file": "data/raw/mail/xz-devel/msg00563.html",
-      "file": null,
+      "file": "data/raw/mail/xz-devel/msg00563.html",
       "message_date_utc": "2022-05-19T20:41:31Z",
       "also_found_in": [],
-      "case_insensitive_match_in": []
+      "case_insensitive_match_in": [],
+      "only_in_quoted_reply": false
     },
     "Q2": {
       "text": "unpaid hobby project",
@@ -25,15 +26,14 @@
       "only_in_quoted_reply": false
     },
     "Q3": {
-      "text": "Practically a co-maintainer already.",
-      "status": "NOT FOUND",
+      "text": "practically a co-maintainer already.",
+      "status": "FOUND",
       "cited_file": "data/raw/mail/xz-devel/msg00571.html",
-      "file": null,
+      "file": "data/raw/mail/xz-devel/msg00571.html",
       "message_date_utc": "2022-06-29T20:07:07Z",
       "also_found_in": [],
-      "case_insensitive_match_in": [
-        "data/raw/mail/xz-devel/msg00571.html"
-      ]
+      "case_insensitive_match_in": [],
+      "only_in_quoted_reply": false
     }
   }
 }

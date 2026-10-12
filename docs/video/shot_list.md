@@ -4,21 +4,21 @@ Built from docs/HEARTHGUARD.md §14, cut to what the current build shows. Checke
 (eval/video_check.py). Every quote is matched word for word in data/raw/mail/xz-devel/. Every number is
 read from the file named in its Source line. Act II is synthetic and labelled on screen.
 
-**Total:** 2:02
+**Total:** 2:06
 
 Scene format: time range, act, screen, on-screen text, narration, then one Quote or Number line per
 quoted or shown value, and a Source line that names the file behind each one.
 
-## S1 · 0:00–0:06 · Act I (real)
+## S1 · 0:00–0:10 · Act I (real)
 - **Screen:** Black, then the cached public post (data/raw/mail/xz-devel)
 - **On screen:** xz-devel mailing list · May 2022
 - **Narration:** (silence)
-- **Quote:** Q1 · msg00563.html — "It's clear that my resources are too limited."
+- **Quote:** Q1 · msg00563.html — "It's clear that my resources are too limited (thus the many emails waiting for replies) so something has to change in the long term."
 - **Number:** DATE_Q1 = May 2022
 - **Label:** none
 - **Source:** data/raw/mail/xz-devel/msg00563.html; eval/results/video_quotes.json
 
-## S2 · 0:06–0:14 · Act I (real)
+## S2 · 0:10–0:18 · Act I (real)
 - **Screen:** Same kind of public post, the words "unpaid hobby project" highlighted
 - **On screen:** xz-devel mailing list · June 2022
 - **Narration:** The project was an unpaid hobby project. The maintainer wrote that their own resources were too limited.
@@ -27,16 +27,16 @@ quoted or shown value, and a Source line that names the file behind each one.
 - **Label:** none
 - **Source:** data/raw/mail/xz-devel/msg00567.html; eval/results/video_quotes.json
 
-## S3 · 0:14–0:20 · Act I (real)
+## S3 · 0:18–0:24 · Act I (real)
 - **Screen:** Public post from late June, the quoted words highlighted
 - **On screen:** xz-devel mailing list · 29 June 2022
 - **Narration:** In late June 2022, the maintainer wrote that a helper who worked off the list was practically a co-maintainer already.
-- **Quote:** Q3 · msg00571.html — "Practically a co-maintainer already."
+- **Quote:** Q3 · msg00571.html — "practically a co-maintainer already."
 - **Number:** DATE_Q3 = 29 June 2022
 - **Label:** none
 - **Source:** data/raw/mail/xz-devel/msg00571.html; eval/results/video_quotes.json
 
-## S4 · 0:20–0:28 · Act I (real)
+## S4 · 0:24–0:32 · Act I (real)
 - **Screen:** Saved ingest result: the node counts for the public xz git history
 - **On screen:** xz git history (public) · 4,569 actions · 68 actors
 - **Narration:** The public git history of xz has 4,569 recorded actions. They come from 68 author identities. The names are hashed.
@@ -45,21 +45,21 @@ quoted or shown value, and a Source line that names the file behind each one.
 - **Label:** none
 - **Source:** eval/results/xz_ingest.json
 
-## S5 · 0:28–0:36 · Act I (real)
+## S5 · 0:32–0:40 · Act I (real)
 - **Screen:** Title card
 - **On screen:** HEARTHGUARD · Some attacks are too slow for anything that forgets.
 - **Narration:** Hearthguard reads a project's history. It remembers what normal looks like.
 - **Label:** none
 - **Source:** docs/HEARTHGUARD.md §7 (the moves and the remembered normal)
 
-## S6 · 0:36–0:46 · Act I (real)
+## S6 · 0:40–0:50 · Act I (real)
 - **Screen:** Card listing the four moves the detectors check
 - **On screen:** Pressure · Vouch · Rush · Bypass
 - **Narration:** It checks for four moves: pressure, vouch, rush and bypass. Each one is a fixed rule. No AI model decides them.
 - **Label:** none
 - **Source:** docs/HEARTHGUARD.md §7; docs/HEARTHGUARD.md §8.4 (the model is never in the decision path)
 
-## S7 · 0:46–1:02 · Act I (real)
+## S7 · 0:50–1:06 · Act I (real)
 - **Screen:** Replay table from saved results (no network, no key)
 - **On screen:** Reader: 94 of 240 messages · 4 too long to read · every quarter HOLD
 - **Narration:** A reader model has worked through 94 of the 240 messages in scope. Four were too long to read. Replaying the history, every quarter is held. Some checks had too little data to decide.
@@ -69,21 +69,21 @@ quoted or shown value, and a Source line that names the file behind each one.
 - **Label:** none
 - **Source:** eval/results/reader_full_progress.json; eval/results/reader_full_run.json; eval/results/decision_status.json
 
-## S8 · 1:02–1:10 · Act II (synthetic)
+## S8 · 1:06–1:14 · Act II (synthetic)
 - **Screen:** Card for the synthetic case
 - **On screen:** SYNTHETIC demo case · tallowdate · fictional project, fictional people
 - **Narration:** This is a made-up project called tallowdate. Every person in it is invented.
 - **Label:** SYNTHETIC
 - **Source:** data/synthetic/tallowdate.json (its label field)
 
-## S9 · 1:10–1:20 · Act II (synthetic)
+## S9 · 1:14–1:24 · Act II (synthetic)
 - **Screen:** Saved demo-script beat for this case (not a live Slack message)
 - **On screen:** SYNTHETIC · saved demo beat · Takeover cost: NOT COMPUTED
 - **Narration:** The demo for this case says the takeover cost is not computed. It does not guess a number.
 - **Label:** SYNTHETIC
 - **Source:** eval/results/tallowdate_demo_script.json; eval/results/tallowdate_detector_status.json
 
-## S10 · 1:20–1:32 · Act II (synthetic)
+## S10 · 1:24–1:36 · Act II (synthetic)
 - **Screen:** Saved demo-script beat: the three account-created events
 - **On screen:** SYNTHETIC · accounts created 2026-02-10 · 2026-02-11 · 2026-02-12 · other projects: NOT COMPUTED
 - **Narration:** Three new accounts were created within one week. Whether they touched other projects is not computed yet.
@@ -93,7 +93,7 @@ quoted or shown value, and a Source line that names the file behind each one.
 - **Label:** SYNTHETIC
 - **Source:** eval/results/tallowdate_demo_script.json
 
-## S11 · 1:32–1:42 · Act II (synthetic)
+## S11 · 1:36–1:46 · Act II (synthetic)
 - **Screen:** Saved fact for the synthetic case
 - **On screen:** SYNTHETIC · reviews by the reviewer in this case: 140
 - **Narration:** In this case, one reviewer has 140 reviews on record.
@@ -101,7 +101,7 @@ quoted or shown value, and a Source line that names the file behind each one.
 - **Label:** SYNTHETIC
 - **Source:** eval/results/tallowdate_load.json
 
-## S12 · 1:42–1:52 · Build check (real)
+## S12 · 1:46–1:56 · Build check (real)
 - **Screen:** Saved result of the full test suite
 - **On screen:** Full test suite · 467 passed, no failures
 - **Narration:** The build's test suite has 467 passing tests and no failures.
@@ -109,7 +109,7 @@ quoted or shown value, and a Source line that names the file behind each one.
 - **Label:** none
 - **Source:** eval/results/final_tests.json
 
-## S13 · 1:52–2:02 · Close
+## S13 · 1:56–2:06 · Close
 - **Screen:** Closing card
 - **On screen:** HEARTHGUARD · shows what it can check, says NOT COMPUTED where it cannot
 - **Narration:** Hearthguard shows what it can check. Where it cannot check, it says not computed.

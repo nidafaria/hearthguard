@@ -391,13 +391,12 @@ def self_test() -> int:
             failed += not ok
             print(f"{'PASS' if ok else 'FAIL'}  {name} ({len(result['failures'])} problems)")
 
-    # The real package: it must fail only on the quotes that are not word for word in the mail.
+    # The real package must pass every check.
     real = run(VIDEO_DIR / "shot_list.md", write=False)
-    only_quotes = bool(real["failures"]) and all("NOT FOUND" in f for f in real["failures"])
-    passed += only_quotes
-    failed += not only_quotes
-    print(f"{'PASS' if only_quotes else 'FAIL'}  real package fails only on NOT FOUND quotes "
-          f"({len(real['failures'])} problems)")
+    clean = not real["failures"]
+    passed += clean
+    failed += not clean
+    print(f"{'PASS' if clean else 'FAIL'}  real package passes every check ({len(real['failures'])} problems)")
     print(f"self-test: {passed} passed, {failed} failed")
     return 0 if failed == 0 else 1
 
