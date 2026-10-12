@@ -1,4 +1,4 @@
-.PHONY: reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: hardening-fixture reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -89,6 +89,10 @@ decision-xz:
 # Replay from saved results only: make replay CASE=xz. Writes eval/results/xz_replay.json and .md.
 replay:
 	uv run python -m eval.replay_$(or $(CASE),xz)
+
+# Hardening simulator on fixture graphs -> eval/results/hardening_fixture.json (needs FalkorDB up).
+hardening-fixture:
+	uv run python -m core.hardening.simulate
 
 # The demo: the same replay table, from saved results only. No network, no key, no FalkorDB.
 demo:
