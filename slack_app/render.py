@@ -12,6 +12,7 @@ checked is shown as unknown, and a HOLD is shown as held.
 import json
 from pathlib import Path
 
+from slack_app.rules import ends_with_question, find_accusations
 from slack_app.show_why import RESULTS, render_show_why
 
 DECISION = RESULTS / "decision_status.json"
@@ -87,7 +88,18 @@ def render_note(row: dict) -> str:
     lines.append(QUESTION[decision])
     lines.append("This is not a judgement about anyone.")
     lines.append(BUTTONS)
-    return "\n".join(lines)
+    note = "\n".join(lines)
+    _check_wording(row["quarter"], note)
+    return note
+
+
+def _check_wording(quarter: str, text: str) -> None:
+    """A note is a question with no accusation. Refuse to render one that is not."""
+    found = find_accusations(text)
+    if found:
+        raise ValueError(f"{quarter}: accusing wording {found!r}; notes must be questions")
+    if not ends_with_question(text):
+        raise ValueError(f"{quarter}: note has no question line")
 
 
 def build_preview(decision_doc: dict, results: Path = RESULTS) -> dict:
