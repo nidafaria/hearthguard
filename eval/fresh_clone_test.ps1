@@ -77,10 +77,11 @@ $noNetCode = Invoke-Step -Name "03_demo_no_network" -WorkDir $Dest -CommandLine 
 # Step 2 continued: the other no-key, no-database README commands.
 $null = Invoke-Step -Name "02_lint" -WorkDir $Dest -CommandLine "powershell -NoProfile -ExecutionPolicy Bypass -File .\make.ps1 lint"
 $null = Invoke-Step -Name "02_replay_xz" -WorkDir $Dest -CommandLine "powershell -NoProfile -ExecutionPolicy Bypass -File .\make.ps1 replay xz"
+# Unit tests run before decision-xz, which rewrites a tracked file (see docs/fresh_clone_report.md).
+$null = Invoke-Step -Name "02_unit_tests_no_services" -WorkDir $Dest -CommandLine "uv run pytest tests/unit tests/injection -q -p no:cacheprovider"
 $null = Invoke-Step -Name "02_decision_xz" -WorkDir $Dest -CommandLine "powershell -NoProfile -ExecutionPolicy Bypass -File .\make.ps1 decision-xz"
 $null = Invoke-Step -Name "02_ui_install" -WorkDir (Join-Path $Dest "ui") -CommandLine "npm install --no-audit --no-fund"
 $null = Invoke-Step -Name "02_ui_build" -WorkDir (Join-Path $Dest "ui") -CommandLine "npm run build"
-$null = Invoke-Step -Name "02_unit_tests_no_services" -WorkDir $Dest -CommandLine "uv run pytest tests/unit tests/injection -q -p no:cacheprovider"
 
 if ($WithTests) {
     $null = Invoke-Step -Name "02_test_full" -WorkDir $Dest -CommandLine "powershell -NoProfile -ExecutionPolicy Bypass -File .\make.ps1 test"
