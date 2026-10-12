@@ -1,0 +1,1290 @@
+{
+  "synthetic": true,
+  "case": "tallowdate",
+  "org": "tallowdate",
+  "graph": "org_tallowdate",
+  "source": {
+    "url": "data/synthetic/tallowdate.json (generated, not fetched)",
+    "generator": "redteam/tallowdate.py"
+  },
+  "time_unit": "Unix epoch seconds, UTC. T is 23:59:59 UTC on the quarter-end date.",
+  "notes": [
+    "SYNTHETIC case. Every number comes from the generated events, not from any project.",
+    "The story events are in 2026, after the last quarter-end in this table (2025-Q4). Quarters from 2023-Q1 to 2025-Q4 hold only the generated background reviews, so the story is not inside any of these windows.",
+    "Merged pull requests are recorded as commits (Action kind 'commit'). This is a mapping choice for the synthetic case, not a claim about real commit history."
+  ],
+  "results": [
+    {
+      "quarter": "2023-Q1",
+      "T": 1680307199,
+      "T_iso": "2023-03-31T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1680307199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1680307199,
+            "window": 63072000
+          },
+          "query_ms": 24.673399999301182,
+          "server_ms": 0.081637
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1680307199,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1680307199,
+            "window": 7776000
+          },
+          "query_ms": 1.6133999997691717,
+          "server_ms": 0.136924
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1680307199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1680307199,
+            "window": 63072000
+          },
+          "query_ms": 1.2748999979521614,
+          "server_ms": 0.033416
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1680307199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1680307199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1680307199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2023-Q2",
+      "T": 1688169599,
+      "T_iso": "2023-06-30T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1688169599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1688169599,
+            "window": 63072000
+          },
+          "query_ms": 1.2514000009105075,
+          "server_ms": 0.089003
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1688169599,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1688169599,
+            "window": 7776000
+          },
+          "query_ms": 1.1933999994653277,
+          "server_ms": 0.109751
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1688169599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1688169599,
+            "window": 63072000
+          },
+          "query_ms": 1.162699998531025,
+          "server_ms": 0.064073
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1688169599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1688169599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1688169599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2023-Q3",
+      "T": 1696118399,
+      "T_iso": "2023-09-30T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1696118399,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1696118399,
+            "window": 63072000
+          },
+          "query_ms": 1.7860999978438485,
+          "server_ms": 0.08524
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1696118399,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1696118399,
+            "window": 7776000
+          },
+          "query_ms": 1.1555000019143336,
+          "server_ms": 0.088299
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1696118399,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1696118399,
+            "window": 63072000
+          },
+          "query_ms": 1.0729999994509853,
+          "server_ms": 0.06808
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1696118399,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1696118399,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1696118399,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2023-Q4",
+      "T": 1704067199,
+      "T_iso": "2023-12-31T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1704067199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1704067199,
+            "window": 63072000
+          },
+          "query_ms": 1.2389000003167894,
+          "server_ms": 0.108293
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1704067199,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1704067199,
+            "window": 7776000
+          },
+          "query_ms": 1.2373999998089857,
+          "server_ms": 0.113912
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1704067199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1704067199,
+            "window": 63072000
+          },
+          "query_ms": 1.4095000005909242,
+          "server_ms": 0.078756
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1704067199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1704067199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1704067199,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2024-Q1",
+      "T": 1711929599,
+      "T_iso": "2024-03-31T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1711929599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1711929599,
+            "window": 63072000
+          },
+          "query_ms": 1.9819999979517888,
+          "server_ms": 0.11777
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1711929599,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1711929599,
+            "window": 7776000
+          },
+          "query_ms": 1.1789000018325169,
+          "server_ms": 0.08832
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1711929599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1711929599,
+            "window": 63072000
+          },
+          "query_ms": 0.9473999998590443,
+          "server_ms": 0.079829
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1711929599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1711929599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1711929599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2024-Q2",
+      "T": 1719791999,
+      "T_iso": "2024-06-30T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1719791999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1719791999,
+            "window": 63072000
+          },
+          "query_ms": 1.3469999976223335,
+          "server_ms": 0.099359
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1719791999,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1719791999,
+            "window": 7776000
+          },
+          "query_ms": 1.1225999987800606,
+          "server_ms": 0.082348
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1719791999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1719791999,
+            "window": 63072000
+          },
+          "query_ms": 1.0452999995322898,
+          "server_ms": 0.073058
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1719791999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1719791999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1719791999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2024-Q3",
+      "T": 1727740799,
+      "T_iso": "2024-09-30T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1727740799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1727740799,
+            "window": 63072000
+          },
+          "query_ms": 1.320399998803623,
+          "server_ms": 0.09885
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1727740799,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1727740799,
+            "window": 7776000
+          },
+          "query_ms": 1.2208999978611246,
+          "server_ms": 0.083438
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1727740799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1727740799,
+            "window": 63072000
+          },
+          "query_ms": 1.189499998872634,
+          "server_ms": 0.076832
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1727740799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1727740799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1727740799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2024-Q4",
+      "T": 1735689599,
+      "T_iso": "2024-12-31T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1735689599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1735689599,
+            "window": 63072000
+          },
+          "query_ms": 1.3668999999936204,
+          "server_ms": 0.124174
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1735689599,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1735689599,
+            "window": 7776000
+          },
+          "query_ms": 1.1874999981955625,
+          "server_ms": 0.088664
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1735689599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1735689599,
+            "window": 63072000
+          },
+          "query_ms": 1.125899998442037,
+          "server_ms": 0.113471
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1735689599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1735689599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1735689599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2025-Q1",
+      "T": 1743465599,
+      "T_iso": "2025-03-31T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1743465599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1743465599,
+            "window": 63072000
+          },
+          "query_ms": 1.1661999997159,
+          "server_ms": 0.113519
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1743465599,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1743465599,
+            "window": 7776000
+          },
+          "query_ms": 1.0439000034239143,
+          "server_ms": 0.077543
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1743465599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1743465599,
+            "window": 63072000
+          },
+          "query_ms": 1.1766000025090761,
+          "server_ms": 0.082018
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1743465599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1743465599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1743465599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2025-Q2",
+      "T": 1751327999,
+      "T_iso": "2025-06-30T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1751327999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1751327999,
+            "window": 63072000
+          },
+          "query_ms": 1.1257999976805877,
+          "server_ms": 0.10109
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1751327999,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1751327999,
+            "window": 7776000
+          },
+          "query_ms": 1.2075000013282988,
+          "server_ms": 0.08534
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1751327999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1751327999,
+            "window": 63072000
+          },
+          "query_ms": 1.3811999997415114,
+          "server_ms": 0.107327
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1751327999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1751327999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1751327999,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2025-Q3",
+      "T": 1759276799,
+      "T_iso": "2025-09-30T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1759276799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1759276799,
+            "window": 63072000
+          },
+          "query_ms": 1.5949000007822178,
+          "server_ms": 0.141971
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1759276799,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1759276799,
+            "window": 7776000
+          },
+          "query_ms": 1.123800000641495,
+          "server_ms": 0.090971
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1759276799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1759276799,
+            "window": 63072000
+          },
+          "query_ms": 1.1126999997941311,
+          "server_ms": 0.096525
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1759276799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1759276799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1759276799,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    },
+    {
+      "quarter": "2025-Q4",
+      "T": 1767225599,
+      "T_iso": "2025-12-31T23:59:59Z",
+      "metrics": [
+        {
+          "metric": "cadence_days",
+          "scope": "commit",
+          "window": "730d",
+          "T": 1767225599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "days",
+          "n": 0,
+          "reason": "fewer than 2 commits in the window, so there is no gap to take a median of",
+          "query": "MATCH (c:Action {kind: 'commit'}) WHERE c.at <= $T AND c.at > $T - $window WITH c.at AS at ORDER BY at WITH collect(at) AS ts WITH [i IN range(1, size(ts) - 1) | ts[i] - ts[i - 1]] AS gaps UNWIND gaps AS g RETURN percentileCont(g, 0.5) AS median_gap_s, count(g) AS n LIMIT 1",
+          "params": {
+            "T": 1767225599,
+            "window": 63072000
+          },
+          "query_ms": 1.319099999818718,
+          "server_ms": 0.112185
+        },
+        {
+          "metric": "active_keepers",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1767225599,
+          "status": "COMPUTED",
+          "value": 0,
+          "unit": "actors",
+          "n": 0,
+          "reason": null,
+          "query": "MATCH (a:Actor)-[d:DID]->(c:Action {kind: 'commit'}) WHERE d.at <= $T AND d.at > $T - $window RETURN count(DISTINCT a) AS n LIMIT 1",
+          "params": {
+            "T": 1767225599,
+            "window": 7776000
+          },
+          "query_ms": 1.0544999968260527,
+          "server_ms": 0.084135
+        },
+        {
+          "metric": "usual_path",
+          "scope": "release",
+          "window": "730d",
+          "T": 1767225599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": "channel",
+          "n": null,
+          "reason": "no releases in the window",
+          "query": "MATCH (r:Action {kind: 'release'})-[:VIA]->(p:Path) WHERE r.at <= $T AND r.at > $T - $window RETURN p.channel AS channel, count(r) AS n ORDER BY n DESC, channel LIMIT 10",
+          "params": {
+            "T": 1767225599,
+            "window": 63072000
+          },
+          "query_ms": 1.9591000018408522,
+          "server_ms": 0.289029
+        },
+        {
+          "metric": "keeper_activity_median_90d",
+          "scope": "commit",
+          "window": "90d",
+          "T": 1767225599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "depends on the open Pressure keeper-activity condition (spec §7.6, FREEZE draft); not computed until that freeze item is decided",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "grant_days",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1767225599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "git records no grants, so no grant event is evidenced yet (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        },
+        {
+          "metric": "trusted_actor_set",
+          "scope": "privilege",
+          "window": "all",
+          "T": 1767225599,
+          "status": "NOT COMPUTED",
+          "value": null,
+          "unit": null,
+          "n": null,
+          "reason": "defined from grants, and git records no grants (eval/results/xz_grants_unknown.json)",
+          "query": null,
+          "params": {},
+          "query_ms": null,
+          "server_ms": null
+        }
+      ]
+    }
+  ]
+}
