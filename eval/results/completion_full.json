@@ -1,10 +1,10 @@
 {
   "total_rows": 131,
-  "DONE": 21,
-  "PARTIAL": 36,
-  "NOT_STARTED": 74,
-  "score_points": 39.0,
-  "score_percent": 29.8,
+  "DONE": 23,
+  "PARTIAL": 40,
+  "NOT_STARTED": 68,
+  "score_points": 43.0,
+  "score_percent": 32.8,
   "weights": {
     "DONE": 1,
     "PARTIAL": 0.5,
@@ -17,6 +17,6 @@
     "PARTIAL": 25,
     "NOT_STARTED": 86,
     "score_percent": 24.8,
-    "measured_at": "8955f72 (before the four branches were merged)"
+    "measured_at": "00b09ea (after agent/synthetic, hardening, slack, writeup)"
   }
 }

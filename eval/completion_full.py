@@ -400,28 +400,69 @@ UPDATES = {
 }
 
 
-def _apply(rows: list) -> list:
+def _apply_updates(rows: list, updates: dict) -> list:
     out, used = [], set()
     for ref, item, status, ev in rows:
-        for prefix, (new_status, new_ev) in UPDATES.items():
+        for prefix, (new_status, new_ev) in updates.items():
             if item.startswith(prefix):
                 status, ev = new_status, new_ev
                 used.add(prefix)
         out.append((ref, item, status, ev))
-    missing = set(UPDATES) - used
+    missing = set(updates) - used
     if missing:
         raise RuntimeError(f"update matches no row: {sorted(missing)}")
     return out
 
 
-ROWS = _apply(ROWS)
+ROWS = _apply_updates(ROWS, UPDATES)
+# Second re-assessment, on main after merging agent/ecosystem, agent/video, agent/fresh-clone and
+# agent/blog. Applied after the first layer. Only merged work counts; row order is unchanged.
+UPDATES_2 = {
+    "Ecosystem records ingested for the six public places": (
+        D,
+        "packs/oss/ecosystem/fetch.py; eval/results/ecosystem_sources.json: oss-fuzz, LKML, "
+        "Debian, Launchpad all 200 with a body; xz git, GitHub and xz-devel already cached",
+    ),
+    "ecosystem_<id> graph": (
+        P,
+        "packs/oss/ecosystem/graph.py; eval/results/ecosystem_load.json: ecosystem_xz, 43 "
+        "events, second load identical; no Foundation, HOSTED_BY or Campaign",
+    ),
+    "Visibility gaps (UNREACHABLE / UNNOTICED)": (
+        D,
+        "packs/oss/ecosystem/gaps.py runs the §7.5 query as written; "
+        "eval/results/ecosystem_gaps.json: 4 decisions computed, 22 gap rows (a lower bound); "
+        "tests/integration/test_ecosystem_xz.py",
+    ),
+    "Visibility gaps on xz": (
+        P,
+        "`make ecosystem-xz` computes them (eval/ecosystem_xz.py); the `gaps CASE=xz` target "
+        "is still a placeholder",
+    ),
+    "Who-saw-what memory": (
+        P,
+        "WATCHES and ACTIVE_IN in ecosystem_xz; no PARTICIPATES_IN in org graphs",
+    ),
+    "Blog post (§20)": (
+        P,
+        "docs/blog/post.md written (1,519 words) with eval/blog_check.py; not published, "
+        "not linked from the README",
+    ),
+    "Demo video, 3 minutes": (
+        N,
+        "docs/video/shot_list.md and narration.md are a script; eval/video_check.py checks "
+        "numbers; no video exists",
+    ),
+}
+ROWS = _apply_updates(ROWS, UPDATES_2)
+
 PREVIOUS = {
     "total_rows": 131,
     "DONE": 20,
     "PARTIAL": 25,
     "NOT_STARTED": 86,
     "score_percent": 24.8,
-    "measured_at": "8955f72 (before the four branches were merged)",
+    "measured_at": "00b09ea (after agent/synthetic, hardening, slack, writeup)",
 }
 
 SCORE = {D: 1.0, P: 0.5, N: 0.0}

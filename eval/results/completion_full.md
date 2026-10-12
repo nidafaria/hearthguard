@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 21, PARTIAL 36, NOT STARTED 74. Score 29.8% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 23, PARTIAL 40, NOT STARTED 68. Score 32.8% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -19,7 +19,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 11 | §2.2 | Takeover cost on real xz over time | NOT STARTED | eval/results/xz_takeover_status.json: NOT COMPUTED (no grant data) |
 | 12 | §2.2/7.4 | Guardians (maxFlow min-cut) on hand-built graphs | DONE | core/takeover/guardians.py; ef68035 |
 | 13 | §2.2 | Outsider edge rule (spec TRUSTS vs built) settled | PARTIAL | docs/decisions/0001 PROPOSED |
-| 14 | §2.3/3.1 | Ecosystem records ingested for the six public places (oss-fuzz, LKML, Debian, Launchpad) | NOT STARTED | only xz git, GitHub and xz-devel are cached |
+| 14 | §2.3/3.1 | Ecosystem records ingested for the six public places (oss-fuzz, LKML, Debian, Launchpad) | DONE | packs/oss/ecosystem/fetch.py; eval/results/ecosystem_sources.json: oss-fuzz, LKML, Debian, Launchpad all 200 with a body; xz git, GitHub and xz-devel already cached |
 | 15 | §3.1 | Incident data for event-stream and axios ingested | NOT STARTED | none in data/raw/ |
 | 16 | §3.5 | `tallowdate` synthetic case generated | DONE | redteam/tallowdate.py (seeded), data/synthetic/tallowdate.json, redteam/load_tallowdate.py; tests/integration/test_tallowdate_*.py |
 | 17 | §4.2 | Core free of domain code; OSS pack and finance pack separated | PARTIAL | packs/oss exists; packs/finance empty |
@@ -45,7 +45,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 37 | §6.1 | org graph: CONTRADICTS / SUPERSEDES / QUALIFIES written | NOT STARTED | conflict policy computes, no edges written |
 | 38 | §6.1 | org graph: Finding, Gap, Objection, Request, Note, Draft, OwnerDecision, BACKUP | NOT STARTED | none |
 | 39 | §6.1 | org graph: Hardening, Task, AgentStep | NOT STARTED | none |
-| 40 | §6.2 | ecosystem_<id> graph | NOT STARTED | none |
+| 40 | §6.2 | ecosystem_<id> graph | PARTIAL | packs/oss/ecosystem/graph.py; eval/results/ecosystem_load.json: ecosystem_xz, 43 events, second load identical; no Foundation, HOSTED_BY or Campaign |
 | 41 | §6.3 | redteam_<run> and harden_<run> graphs | PARTIAL | harden_<run> by GRAPH.COPY in core/hardening/simulate.py; no redteam_<run> |
 | 42 | §6.4 | census_<date> graph | NOT STARTED | none |
 | 43 | §6.5 | playbook graph | NOT STARTED | core/playbook is empty |
@@ -59,7 +59,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 51 | §7.1 | Detectors give a computed result on real xz | NOT STARTED | eval/results/xz_quarterly_status.json: all NOT COMPUTED / NOT_FIRED on partial reads |
 | 52 | §7.2 | Conflict policy | DONE | core/policy/conflict.py; 2e9054f |
 | 53 | §7.3 | Decision policy (frozen decide()) | DONE | core/policy/decision.py; 6d3f62d, 2e9054f |
-| 54 | §7.5 | Visibility gaps (UNREACHABLE / UNNOTICED) | NOT STARTED | core/gaps is empty |
+| 54 | §7.5 | Visibility gaps (UNREACHABLE / UNNOTICED) | DONE | packs/oss/ecosystem/gaps.py runs the §7.5 query as written; eval/results/ecosystem_gaps.json: 4 decisions computed, 22 gap rows (a lower bound); tests/integration/test_ecosystem_xz.py |
 | 55 | §7.6 | Trust path query (SPpaths from a young actor) | NOT STARTED | none |
 | 56 | §7.6 | `why` query (finding to quote and link) | NOT STARTED | no Finding nodes |
 | 57 | §7.6 | Read-path guard (RO_QUERY, timeout, write block, LIMIT cap) | DONE | core/graph/ro_guard.py; 2483a41 |
@@ -79,7 +79,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 71 | §9 | Episodic memory, every query as of T | DONE | core/graph/as_of.py |
 | 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | claims and spans written; no contradiction links |
 | 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (eval/results/xz_normal.json) |
-| 74 | §9 | Who-saw-what memory | NOT STARTED | none |
+| 74 | §9 | Who-saw-what memory | PARTIAL | WATCHES and ACTIVE_IN in ecosystem_xz; no PARTICIPATES_IN in org graphs |
 | 75 | §9 | Owner memory | NOT STARTED | none |
 | 76 | §9 | Working memory (AgentStep, task board) | NOT STARTED | none |
 | 77 | §10.1 | Freeze protocol: dated spec published with hash; `make verify-frozen` | PARTIAL | docs/FREEZE.md is a DRAFT, hash in FREEZE.sha256; target not built; Reader frozen b6e3b1c |
@@ -92,7 +92,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 84 | §10.2 | event-stream and axios replays | NOT STARTED | none |
 | 85 | §10.2 | Hardening on xz and 10 false-alarm projects (`make harden`) | PARTIAL | core/hardening/xz.py, eval/results/xz_hardening.json: all NOT COMPUTED on xz; no false-alarm projects |
 | 86 | §10.2 | Ownership accuracy on about 30 projects (`make verify-ownership`) | NOT STARTED | none |
-| 87 | §10.2 | Visibility gaps on xz (`make gaps CASE=xz`) | NOT STARTED | none |
+| 87 | §10.2 | Visibility gaps on xz (`make gaps CASE=xz`) | PARTIAL | `make ecosystem-xz` computes them (eval/ecosystem_xz.py); the `gaps CASE=xz` target is still a placeholder |
 | 88 | §10.2 | Takeover Cost Census (`make census N=100`) | NOT STARTED | none |
 | 89 | §10.2 | False-alarm study, about 30 projects, one demo decoy | NOT STARTED | none |
 | 90 | §10.2 | Reader eval: about 100 hand-labelled spans (`make eval-reader`) | PARTIAL | 20-message spot check, 60-message test set and scorer built; no human labels yet |
@@ -134,6 +134,6 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 126 | §15 Could | Non-English pressure detection | NOT STARTED | none |
 | 127 | §15 Must | Three real-maintainer reactions, with consent | NOT STARTED | none |
 | 128 | Pitch | README, final (claim, commands, model, queries, measured, limits, AI use) | PARTIAL | README.md 59c5e87; no video link, tracks or full command list |
-| 129 | Pitch | Demo video, 3 minutes (§14) | NOT STARTED | none |
-| 130 | Pitch | Blog post (§20) | NOT STARTED | docs/blog_outline.md is an outline only; the post is not written |
+| 129 | Pitch | Demo video, 3 minutes (§14) | NOT STARTED | docs/video/shot_list.md and narration.md are a script; eval/video_check.py checks numbers; no video exists |
+| 130 | Pitch | Blog post (§20) | PARTIAL | docs/blog/post.md written (1,519 words) with eval/blog_check.py; not published, not linked from the README |
 | 131 | Pitch | Submission form and track mapping (§19) | NOT STARTED | docs/submission_checklist.md lists what is needed; the form is not filled |
