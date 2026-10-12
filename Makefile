@@ -1,4 +1,4 @@
-.PHONY: reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: slack-preview reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -85,6 +85,10 @@ quarterly-xz:
 # The decision policy on the saved statuses. Reads files only.
 decision-xz:
 	uv run python -m eval.xz_decision_status
+
+# The Slack note and "Show me why" text for each quarter, from saved results only. Nothing is sent.
+slack-preview:
+	uv run python -m slack_app.render
 
 # Replay from saved results only: make replay CASE=xz. Writes eval/results/xz_replay.json and .md.
 replay:
