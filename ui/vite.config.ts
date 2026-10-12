@@ -27,4 +27,4 @@ function results(): Plugin {
   };
 }
 
-export default defineConfig({ plugins: [react(), results()], server: { port: 5173 } });
+export default defineConfig({ plugins: [react(), results()], server: { port: 5173, proxy: { "/api": "http://127.0.0.1:8765" } } });

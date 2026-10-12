@@ -8,3 +8,5 @@ eval/results/*.tmp
 .ruff_cache/
 data/llm_cache/
 data/derived/
+data/inbox/
+ui/dist/

@@ -1,4 +1,4 @@
-.PHONY: harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -85,6 +85,14 @@ quarterly-xz:
 # The decision policy on the saved statuses. Reads files only.
 decision-xz:
 	uv run python -m eval.xz_decision_status
+
+# The local inbox, not connected to Slack. Builds the UI, then serves it at http://127.0.0.1:8765/#/inbox
+inbox:
+	cd ui && npm install --no-audit --no-fund && npm run build && cd .. && uv run python -m api.serve
+
+# The Slack note and "Show me why" text for each quarter, from saved results only. Nothing is sent.
+slack-preview:
+	uv run python -m slack_app.render
 
 # Replay from saved results only: make replay CASE=xz. Writes eval/results/xz_replay.json and .md.
 replay:
