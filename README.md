@@ -10,6 +10,14 @@ It was built to ask one question: would this memory have flagged the xz backdoor
 
 ## Run the demo
 
+**First step for a fresh clone.** The full test suite and every live command need three things, none of which is in the repo:
+
+1. A database: FalkorDB, started with `make up` (Windows: `.\make.ps1 up`), with Docker running.
+2. A `.env` file in the repo root with `HEARTHGUARD_HASH_SALT=<any long random text>`. It is git-ignored; `.env.example` lists the names. Hashing refuses to run without it.
+3. The database up while the tests run.
+
+The tests that need one of these skip with a reason, or fail with a `redis` or `MissingSaltError` message, until they are in place. The demo below needs none of them.
+
 The demo needs no API key, no network and no database. It prints a table built from saved result files. Two runs printed identical bytes (eval/results/build_report.md).
 
 Windows (no `make` needed). Needs `uv` on the PATH (https://docs.astral.sh/uv/):
