@@ -1,0 +1,624 @@
+{
+  "synthetic": true,
+  "case": "tallowdate",
+  "generated_at_utc": "2026-10-12T13:18:01Z",
+  "policy": "decide() (frozen, spec 7.3) through decide_with_unknowns() (PROPOSED, docs/decisions/0002-decision-unknowns.md)",
+  "inputs": [
+    "tallowdate_detector_status.json"
+  ],
+  "provisional": true,
+  "quarters": [
+    {
+      "quarter": "2023-Q1",
+      "T": 1680307199,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2023-Q1",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2023-Q1",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2023-Q2",
+      "T": 1688169599,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2023-Q2",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2023-Q2",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2023-Q3",
+      "T": 1696118399,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2023-Q3",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2023-Q3",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2023-Q4",
+      "T": 1704067199,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2023-Q4",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2023-Q4",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2024-Q1",
+      "T": 1711929599,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2024-Q1",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2024-Q1",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2024-Q2",
+      "T": 1719791999,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2024-Q2",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2024-Q2",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2024-Q3",
+      "T": 1727740799,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2024-Q3",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2024-Q3",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2024-Q4",
+      "T": 1735689599,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2024-Q4",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2024-Q4",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2025-Q1",
+      "T": 1743465599,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2025-Q1",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2025-Q1",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2025-Q2",
+      "T": 1751327999,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2025-Q2",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2025-Q2",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2025-Q3",
+      "T": 1759276799,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2025-Q3",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2025-Q3",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    },
+    {
+      "quarter": "2025-Q4",
+      "T": 1767225599,
+      "moves": {
+        "PRESSURE": "NOT_COMPUTED",
+        "VOUCH": "NOT_COMPUTED",
+        "RUSH": "NOT_COMPUTED",
+        "BYPASS": "NOT_COMPUTED"
+      },
+      "lone_keeper": "NOT_COMPUTED",
+      "decision": "HOLD",
+      "hold_reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+      "detail": {
+        "reason": "move unknown: PRESSURE, VOUCH, RUSH, BYPASS",
+        "breakdown": {
+          "moves": {
+            "PRESSURE": "NOT_COMPUTED",
+            "VOUCH": "NOT_COMPUTED",
+            "RUSH": "NOT_COMPUTED",
+            "BYPASS": "NOT_COMPUTED"
+          },
+          "lone_keeper": false,
+          "takeover_cost": "NOT_COMPUTED",
+          "guardians": "NOT_COMPUTED",
+          "quarter": "2025-Q4",
+          "rule": "unknown_input (PROPOSED 0002)",
+          "fired": [],
+          "risk": 1.0,
+          "risk_x_moves": 0.0,
+          "unknown_moves": [
+            "PRESSURE",
+            "VOUCH",
+            "RUSH",
+            "BYPASS"
+          ],
+          "lone_keeper_unknown": true,
+          "frozen_result": "NO_ACTION"
+        }
+      },
+      "inputs_from": {
+        "file": "tallowdate_detector_status.json",
+        "quarter": "2025-Q4",
+        "checks": [
+          "pressure",
+          "vouch",
+          "rush",
+          "bypass",
+          "lone_keeper"
+        ]
+      }
+    }
+  ]
+}

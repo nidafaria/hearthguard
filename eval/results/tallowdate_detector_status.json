@@ -1,0 +1,977 @@
+{
+  "synthetic": true,
+  "case": "tallowdate",
+  "org": "tallowdate",
+  "privilege": "release",
+  "generated_at_utc": "2026-10-12T13:18:00Z",
+  "provisional": true,
+  "note": "Synthetic case, not a finding. The generated events record no grant, so Rush, Lone keeper, takeover cost and guardians have nothing to read. A status other than NOT COMPUTED would be recorded here as it is, and no branch in the policy handles it.",
+  "function_hashes": {
+    "rush": {
+      "file": "core/detectors/rush.py",
+      "function": "rush",
+      "sha256": "0f69a8e38bd57e44f9d98c42914405a40ad6084d7b5e63b80085d6f8da7d38f1",
+      "xz_reference_sha256": "0f69a8e38bd57e44f9d98c42914405a40ad6084d7b5e63b80085d6f8da7d38f1",
+      "xz_reference_commit": "a1d703c6d60198ade3363ee9d79e7caa694abd2e",
+      "match": true
+    },
+    "bypass": {
+      "file": "core/detectors/bypass.py",
+      "function": "bypass",
+      "sha256": "18263092e978ec2239797e7f61affcf0d44eac8ec5090cd4f829d2d729c96943",
+      "xz_reference_sha256": "18263092e978ec2239797e7f61affcf0d44eac8ec5090cd4f829d2d729c96943",
+      "xz_reference_commit": "a1d703c6d60198ade3363ee9d79e7caa694abd2e",
+      "match": true
+    },
+    "lone_keeper": {
+      "file": "core/detectors/lone_keeper.py",
+      "function": "lone_keeper",
+      "sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
+      "xz_reference_sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
+      "xz_reference_commit": "a1d703c6d60198ade3363ee9d79e7caa694abd2e",
+      "match": true
+    },
+    "takeover_cost": {
+      "file": "core/takeover/cost.py",
+      "function": "takeover_cost",
+      "sha256": "89093a0632f10ca71cdf039f1ed0f98602b65fbe74490eb0e9344e9d5b70c876",
+      "xz_reference_sha256": "89093a0632f10ca71cdf039f1ed0f98602b65fbe74490eb0e9344e9d5b70c876",
+      "xz_reference_commit": "a1d703c6d60198ade3363ee9d79e7caa694abd2e",
+      "match": true
+    },
+    "guardians": {
+      "file": "core/takeover/guardians.py",
+      "function": "guardians",
+      "sha256": "ed0a6ccccccff9659166d1920915fe8903915cb42ce16e416a05f493fd51802b",
+      "xz_reference_sha256": "ed0a6ccccccff9659166d1920915fe8903915cb42ce16e416a05f493fd51802b",
+      "xz_reference_commit": "a1d703c6d60198ade3363ee9d79e7caa694abd2e",
+      "match": true
+    }
+  },
+  "quarters": [
+    {
+      "quarter": "2023-Q1",
+      "T": 1680307199,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.5044000028865412,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.3017999990552198,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 1.5194999978120904,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.5194999978120904,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2023-Q2",
+      "T": 1688169599,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.573699999426026,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.836600000387989,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 1.8397999992885161,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.8397999992885161,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2023-Q3",
+      "T": 1696118399,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.357500001176959,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.2781000004906673,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 2.2408000004361384,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.2408000004361384,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2023-Q4",
+      "T": 1704067199,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.2507999999797903,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.2488000029406976,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 1.2806999984604772,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.2806999984604772,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q1",
+      "T": 1711929599,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.4237000032153446,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.922200000990415,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 1.8138999985239934,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.8138999985239934,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q2",
+      "T": 1719791999,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.5219000015349593,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 3.897399998095352,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 2.1985000021231826,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.1985000021231826,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q3",
+      "T": 1727740799,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.6508999979123473,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.0240999983798247,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 2.3742000012134667,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.3742000012134667,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q4",
+      "T": 1735689599,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.333699998416705,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.7308999995293561,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 2.1190000006754417,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.1190000006754417,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q1",
+      "T": 1743465599,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.6810999986773822,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.5004999986558687,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 1.5468000019609462,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.5468000019609462,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q2",
+      "T": 1751327999,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.7007999995257705,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.883600001950981,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 1.7450000013923272,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.7450000013923272,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q3",
+      "T": 1759276799,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.5045999971334822,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.523400002042763,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 2.190799998061266,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 2.190799998061266,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q4",
+      "T": 1767225599,
+      "latest_release_at_T": null,
+      "checks": {
+        "takeover_cost": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.7721000003803056,
+              "rows": 0
+            }
+          ]
+        },
+        "guardians": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": null,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.8227000000479165,
+              "rows": 0
+            }
+          ]
+        },
+        "lone_keeper": {
+          "status": "NOT_COMPUTED",
+          "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_tallowdate",
+          "query_ms": 1.5650999994250014,
+          "queries": [
+            {
+              "name": "privilege_exists",
+              "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+              "params": {
+                "kind": "release"
+              },
+              "ms": 1.5650999994250014,
+              "rows": 0
+            }
+          ]
+        },
+        "rush": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "bypass": {
+          "status": "NOT COMPUTED",
+          "reason": "no release action at or before this quarter-end",
+          "query_ms": null,
+          "queries": []
+        },
+        "pressure": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        },
+        "vouch": {
+          "status": "NOT COMPUTED",
+          "reason": "reader not run on synthetic case in this step",
+          "queries": []
+        }
+      }
+    }
+  ]
+}

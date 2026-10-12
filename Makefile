@@ -1,4 +1,4 @@
-.PHONY: reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -93,6 +93,14 @@ replay:
 # The demo: the same replay table, from saved results only. No network, no key, no FalkorDB.
 demo:
 	uv run python -m eval.demo
+
+# The whole tallowdate pipeline, steps 1-5, in order. Needs FalkorDB and .env. Prints PASS/FAIL per step.
+tallowdate-run:
+	uv run python -m redteam.run_tallowdate
+
+# The fictional tallowdate history (synthetic, labelled). Writes data/synthetic/tallowdate.json. Generate only.
+synthetic-tallowdate:
+	uv run python -m redteam.tallowdate
 
 # The read-only page over eval/results/*.json. Needs no key and no FalkorDB.
 ui:
