@@ -1,4 +1,4 @@
-.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -57,6 +57,17 @@ llm-test:
 # The Reader on 20 fixed xz-devel messages (live Groq, cached). Writes eval/results/reader_*.json.
 reader-spotcheck:
 	uv run python -m eval.reader_spotcheck
+
+# Reader test set: check the freeze, pick the messages by the fixed rule, write the labelling sheet.
+# A year with fewer than 15 messages needs an explicit choice: READER_SHORTFALL=keep or top-up.
+reader-testset:
+	uv run python -m eval.reader_freeze
+	uv run python -m eval.reader_testset
+
+# Score the frozen Reader against the human labels (runs the Reader once if it has not been run).
+# Refuses, and lists the rows, if any label is missing.
+reader-score:
+	uv run python -m eval.reader_score
 
 # Placeholders for later steps. Each one fails until it is built.
 demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:

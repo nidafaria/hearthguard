@@ -92,8 +92,9 @@ def now_utc() -> str:
     return datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
-def labels_exist(path: Path = LABELSHEET_PATH) -> bool:
+def labels_exist(path: Path | None = None) -> bool:
     """True if a person has filled in any label cell on the sheet."""
+    path = path or LABELSHEET_PATH
     if not path.exists():
         return False
     with path.open(encoding="utf-8-sig", newline="") as f:
