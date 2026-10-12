@@ -140,6 +140,31 @@ for _sha in XZ_COMMITS:
     )
 
 
+def _redact_json(value, salt: bytes):
+    """Redact inside decoded JSON strings, so a `\n` escape can never be eaten by the match."""
+    if isinstance(value, str):
+        out, n = redact(value.encode("utf-8"), salt)
+        return out.decode("utf-8"), n
+    if isinstance(value, list):
+        pairs = [_redact_json(v, salt) for v in value]
+        return [p[0] for p in pairs], sum(p[1] for p in pairs)
+    if isinstance(value, dict):
+        pairs = {k: _redact_json(v, salt) for k, v in value.items()}
+        return {k: p[0] for k, p in pairs.items()}, sum(p[1] for p in pairs.values())
+    return value, 0
+
+
+def redact_body(body: bytes, name: str, salt: bytes) -> tuple[bytes, int]:
+    """Redact a whole response. JSON is redacted value by value, anything else as text."""
+    if name.endswith(".json"):
+        try:
+            obj, n = _redact_json(json.loads(body), salt)
+            return (json.dumps(obj, ensure_ascii=False, indent=1) + "\n").encode("utf-8"), n
+        except ValueError:
+            pass
+    return redact(body, salt)
+
+
 def redact(body: bytes, salt: bytes) -> tuple[bytes, int]:
     """Replace each email with a hash token. Returns the new body and how many were replaced."""
     count = 0
@@ -173,7 +198,7 @@ def fetch_one(client: httpx.Client, url: str, name: str, salt: bytes) -> dict:
         except httpx.TransportError as e:
             err = type(e).__name__
         time.sleep(2**attempt)
-    redacted, n = redact(raw, salt)
+    redacted, n = redact_body(raw, name, salt)
     meta = {
         "url": url,
         "fetched_at_utc": utc_now_iso(),
