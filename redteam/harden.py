@@ -164,6 +164,7 @@ def main(argv: list[str] | None = None) -> int:
         "counts_before": real_before,
         "counts_after": real_after,
         "unchanged": real_before == real_after,
+        "baseline_check": run.baseline_check(a.case, real_before),
     }
     RESULTS.mkdir(parents=True, exist_ok=True)
     path = RESULTS / f"hardening_redteam_{a.case}.json"
