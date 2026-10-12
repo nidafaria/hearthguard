@@ -21,7 +21,9 @@ from tests.fixtures.takeover_cases import CASES, PRIV, Case
 
 STEP_ADD_KEEPER = "add_second_keeper"
 STEP_TWO_APPROVALS = "require_two_approvals"
-STEPS = (STEP_ADD_KEEPER, STEP_TWO_APPROVALS)
+STEPS = (STEP_ADD_KEEPER, STEP_TWO_APPROVALS)  # the steps the fixture file uses
+STEP_PROVENANCE = "require_provenance_ci"  # spec 8.5 row 2: Normal(usual_path) tightened
+MENU = (STEP_ADD_KEEPER, STEP_PROVENANCE, STEP_TWO_APPROVALS)  # the OSS menu, spec 8.5
 
 NEW_KEEPER = "KEEPER2"  # placeholder id for the added keeper (fixture data only)
 NEW_KEEPER_APPROVALS = 1  # the new keeper can release on one approval (the plain step)
@@ -45,29 +47,49 @@ def counts(client: FalkorClient, graph: str) -> dict:
     return {"nodes": n.result_set[0][0], "edges": e.result_set[0][0]}
 
 
-def apply_step(client: FalkorClient, graph: str, step: str, T: int) -> None:
-    """Apply one menu step to `graph` (the hardening copy)."""
+def _stats(res) -> dict:
+    return {
+        "nodes_created": res.nodes_created,
+        "relationships_created": res.relationships_created,
+        "properties_set": res.properties_set,
+    }
+
+
+def apply_step(client: FalkorClient, graph: str, step: str, T: int) -> dict:
+    """Apply one menu step to `graph` (the hardening copy). Returns what the query changed."""
     if step == STEP_ADD_KEEPER:
-        client.query(
-            graph,
-            "MATCH (p:Privilege {kind: $k}) "
-            "MERGE (a:Actor {hid: $hid}) ON CREATE SET a.kind = 'human' "
-            "MERGE (a)-[e:CAN_GRANT]->(p) "
-            "SET e.approvals_required = $ar, e.at = $at",
-            {"k": PRIV, "hid": NEW_KEEPER, "ar": NEW_KEEPER_APPROVALS, "at": T},
+        return _stats(
+            client.query(
+                graph,
+                "MATCH (p:Privilege {kind: $k}) "
+                "MERGE (a:Actor {hid: $hid}) ON CREATE SET a.kind = 'human' "
+                "MERGE (a)-[e:CAN_GRANT]->(p) "
+                "SET e.approvals_required = $ar, e.at = $at",
+                {"k": PRIV, "hid": NEW_KEEPER, "ar": NEW_KEEPER_APPROVALS, "at": T},
+            )
         )
-    elif step == STEP_TWO_APPROVALS:
+    if step == STEP_PROVENANCE:
+        # Release paths must show CI and provenance. Takeover cost and guardians do not read
+        # Normal nodes, so this step is measured by them only as "no change".
+        return _stats(
+            client.query(
+                graph,
+                "MATCH (n:Normal {metric: 'usual_path'}) SET n.provenance_required = true",
+            )
+        )
+    if step == STEP_TWO_APPROVALS:
         # Every grant route needs at least two approvals. Edges already at 2 or more are kept.
-        client.query(
-            graph,
-            "MATCH (:Actor)-[e:CAN_GRANT]->(:Privilege {kind: $k}) "
-            "SET e.approvals_required = CASE "
-            "WHEN coalesce(e.approvals_required, e.approvals, 1) >= 2 "
-            "THEN coalesce(e.approvals_required, e.approvals) ELSE 2 END",
-            {"k": PRIV},
+        return _stats(
+            client.query(
+                graph,
+                "MATCH (:Actor)-[e:CAN_GRANT]->(:Privilege {kind: $k}) "
+                "SET e.approvals_required = CASE "
+                "WHEN coalesce(e.approvals_required, e.approvals, 1) >= 2 "
+                "THEN coalesce(e.approvals_required, e.approvals) ELSE 2 END",
+                {"k": PRIV},
+            )
         )
-    else:
-        raise ValueError(f"unknown step {step!r}; menu is {STEPS}")
+    raise ValueError(f"unknown step {step!r}; menu is {MENU}")
 
 
 def measure(client: FalkorClient, org: str, T: int) -> dict:
