@@ -1,4 +1,4 @@
-.PHONY: up down test lint smoke-algos schema-test demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -22,6 +22,14 @@ smoke-algos:
 # Schema, as-of helper, read-only guard and hashing: real FalkorDB, plus pure unit checks.
 schema-test:
 	uv run pytest tests/integration/test_schema.py tests/integration/test_as_of.py tests/integration/test_ro_guard.py tests/unit -v
+
+# Ingest the public xz git history into org_xz (loads twice and checks the counts match).
+ingest-xz:
+	uv run python -m packs.oss.ingest_xz --twice
+
+# Remembered-normal metrics for xz at each quarter-end -> eval/results/xz_normal.json
+normal-xz:
+	uv run python -m eval.xz_normal
 
 # Placeholders for later steps. Each one fails until it is built.
 demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:

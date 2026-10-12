@@ -1,0 +1,53 @@
+{
+  "source_url": "https://git.tukaani.org/xz.git",
+  "head_sha": "3b1efb04d17c3a9ef7f473d73af13f1531428ffe",
+  "fetched_at_utc": "2026-10-12T08:12:21Z",
+  "time_unit": "Unix epoch seconds, UTC",
+  "parsed": {
+    "commits": 4509,
+    "distinct_author_hids": 68,
+    "merge_commits": 7,
+    "annotated_tags": 60,
+    "lightweight_tags": [
+      "v4.999.3alpha",
+      "v4.999.5alpha",
+      "v4.999.7beta"
+    ]
+  },
+  "signature_states": {
+    "unsigned": 5,
+    "no_public_key": 55
+  },
+  "verified_note": "Path.verified is true only for a signature that checks out. The check ran on a throw-away copy with an empty keyring, so present signatures report no_public_key and verified=false.",
+  "counts_after_run_1": {
+    "nodes": {
+      "Action": 4569,
+      "Actor": 68,
+      "Normal": 30,
+      "Org": 1,
+      "Path": 1
+    },
+    "edges": {
+      "DID": 4569,
+      "OF": 30,
+      "VIA": 60
+    }
+  },
+  "counts_after_run_2": {
+    "nodes": {
+      "Action": 4569,
+      "Actor": 68,
+      "Normal": 30,
+      "Org": 1,
+      "Path": 1
+    },
+    "edges": {
+      "DID": 4569,
+      "OF": 30,
+      "VIA": 60
+    }
+  },
+  "idempotent": true,
+  "at_sign_hits": [],
+  "note": "This is the public git history only. The xz backdoor was in release tarballs, not in the git history, so nothing here shows the backdoor."
+}

@@ -1,0 +1,31 @@
+{
+  "source": "git history only (packs/oss/git_ingest.py)",
+  "summary": "Git records who authored commits and who made tags. It has no record of who was given which rights, by whom, or when. No Privilege node and no GRANTED or CAN_GRANT edge was written. Grant edges come later from maintainer history.",
+  "git_cannot_tell_us": [
+    {
+      "question": "Who holds merge, release, signing and publishing rights, and since when?",
+      "why_git_cannot_say": "Push and release rights are server and project settings, not commit data.",
+      "possible_later_source": "Maintainer announcements and project documentation."
+    },
+    {
+      "question": "Who approved or granted a right to whom?",
+      "why_git_cannot_say": "A commit has an author and a committer, not an approver or a grantor.",
+      "possible_later_source": "Mailing-list and tracker records of the handover."
+    },
+    {
+      "question": "Did an author have commit access, or was the patch applied by someone else?",
+      "why_git_cannot_say": "Author and committer can differ. This ingest keeps the author only.",
+      "possible_later_source": "The committer field, plus the grant history above."
+    },
+    {
+      "question": "Do release tag signatures check out?",
+      "why_git_cannot_say": "Checking a signature needs the signer's public key, which git history does not hold.",
+      "possible_later_source": "Public keys published by the project, checked on a throw-away keyring."
+    },
+    {
+      "question": "Which channel did a release really use (CI, provenance, tarball builder)?",
+      "why_git_cannot_say": "Release tarballs are built outside git. The backdoor was in release tarballs, not in the git history.",
+      "possible_later_source": "Release artifacts and their published checksums."
+    }
+  ]
+}
