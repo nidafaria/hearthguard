@@ -8,6 +8,11 @@
   "gap_rows": 22,
   "unreachable_rows": 21,
   "unnoticed_rows": 1,
+  "label_confidence_counts": {
+    "high": 1,
+    "close-call": 1,
+    "absence-of-evidence": 20
+  },
   "decisions": [
     {
       "decision": "oss-fuzz-build-change-pr10667",
@@ -25,9 +30,9 @@
           "evidenced_before_decision": true
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:14:02Z",
-      "query_wall_ms": 2.4,
-      "query_server_ms": 0.447126,
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 3.3,
+      "query_server_ms": 0.50049,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
@@ -44,7 +49,8 @@
           "identity_link": "same identity",
           "role_first_evidenced_in_place": "2023-03-20T15:06:14Z",
           "seconds_between_role_evidence_and_signal": 1243,
-          "close_call": true
+          "close_call": true,
+          "label_confidence": "close-call"
         },
         {
           "gap": "UNNOTICED",
@@ -59,7 +65,8 @@
           "identity_link": "same identity",
           "role_first_evidenced_in_place": "2023-03-20T15:06:14Z",
           "seconds_between_role_evidence_and_signal": -892,
-          "close_call": false
+          "close_call": false,
+          "label_confidence": "high"
         }
       ],
       "signals_checked": 4,
@@ -83,9 +90,9 @@
           "evidenced_before_decision": false
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:14:02Z",
-      "query_wall_ms": 1.9,
-      "query_server_ms": 0.354842,
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 4.3,
+      "query_server_ms": 0.464232,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
@@ -100,7 +107,8 @@
           "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
           "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -113,7 +121,8 @@
           "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
           "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -126,7 +135,8 @@
           "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
           "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -139,7 +149,8 @@
           "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
           "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -152,7 +163,8 @@
           "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
           "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -165,7 +177,8 @@
           "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
           "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -178,7 +191,8 @@
           "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
           "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         }
       ],
       "signals_checked": 7,
@@ -202,9 +216,9 @@
           "evidenced_before_decision": false
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:14:02Z",
-      "query_wall_ms": 2.2,
-      "query_server_ms": 0.563662,
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 2.8,
+      "query_server_ms": 0.391208,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
@@ -219,7 +233,8 @@
           "decision": "debian-upgrade-request-bug1067708",
           "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -232,7 +247,8 @@
           "decision": "debian-upgrade-request-bug1067708",
           "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -245,7 +261,8 @@
           "decision": "debian-upgrade-request-bug1067708",
           "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -258,7 +275,8 @@
           "decision": "debian-upgrade-request-bug1067708",
           "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -271,7 +289,8 @@
           "decision": "debian-upgrade-request-bug1067708",
           "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
           "identity_link": "same identity",
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         }
       ],
       "signals_checked": 5,
@@ -295,9 +314,9 @@
           "evidenced_before_decision": false
         }
       ],
-      "query_run_at_utc": "2026-10-12T14:14:02Z",
-      "query_wall_ms": 2.0,
-      "query_server_ms": 0.492651,
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 3.0,
+      "query_server_ms": 0.505589,
       "status": "COMPUTED",
       "reason": null,
       "gaps": [
@@ -315,7 +334,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -331,7 +351,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -347,7 +368,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -363,7 +385,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -379,7 +402,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -395,7 +419,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -411,7 +436,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         },
         {
           "gap": "UNREACHABLE",
@@ -427,7 +453,8 @@
             "evidence": "persona_name",
             "strength": 0.5
           },
-          "role_first_evidenced_in_place": null
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
         }
       ],
       "signals_checked": 8,

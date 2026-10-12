@@ -136,6 +136,7 @@ def run_decision(client: FalkorClient, graph: str, d: dict, events_by_id: dict) 
             row["seconds_between_role_evidence_and_signal"] = lag
             # The role is first seen in this place within a day after the signal: a close call.
             row["close_call"] = gap == "UNREACHABLE" and 0 < lag <= 86400
+        row["label_confidence"] = label_confidence(gap, first_seen, _iso_epoch(ev["at"]))
         gaps.append(row)
     out.update(
         status="COMPUTED",
@@ -147,6 +148,17 @@ def run_decision(client: FalkorClient, graph: str, d: dict, events_by_id: dict) 
         unnoticed=sum(1 for g in gaps if g["gap"] == "UNNOTICED"),
     )
     return out
+
+
+def label_confidence(gap: str, role_first_seen: int | None, signal_at: int) -> str:
+    """high: the role is recorded in the signal's place before the signal (the signal is always a
+    recorded event). close-call: UNREACHABLE, but the role is first recorded there within a day
+    after the signal. absence-of-evidence: every other UNREACHABLE row."""
+    if role_first_seen is not None and role_first_seen < signal_at:
+        return "high"
+    if role_first_seen is not None and 0 < role_first_seen - signal_at <= 86400:
+        return "close-call"
+    return "absence-of-evidence"
 
 
 def _iso_epoch(iso: str) -> int:
@@ -180,5 +192,9 @@ def run_all(
         "gap_rows": sum(len(r["gaps"]) for r in results),
         "unreachable_rows": sum(r.get("unreachable", 0) for r in results),
         "unnoticed_rows": sum(r.get("unnoticed", 0) for r in results),
+        "label_confidence_counts": {
+            c: sum(1 for r in results for g in r["gaps"] if g["label_confidence"] == c)
+            for c in ("high", "close-call", "absence-of-evidence")
+        },
         "decisions": results,
     }
