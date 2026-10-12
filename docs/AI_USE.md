@@ -31,3 +31,4 @@ Day 2: Claude Code searched xz git history and the GitHub cache for grant record
 Day 2: Claude Code ran the synthetic tallowdate case through the loader, normal metrics, detector and takeover checks, decision policy and demo script; every value not in a saved result reads NOT COMPUTED, and nothing was tuned to the answer.
 Oct 12: Claude Code (Haiku 5.5, agent writeup) drafted README.md, docs/submission_checklist.md and docs/blog_outline.md from the three result files, and checked every number against its source file with a script (82 numbers, none without a source).
 Oct 12: Claude Code (Haiku 5.5) wrote docs/judge_guide.md, checked each README make command against the Makefile and make.ps1, and removed the 16 README command names that are placeholders or not in the Makefile.
+Oct 12: Claude Code (Haiku 5.5, agent video) wrote eval/video_check.py and docs/video/, recorded eval/results/video_quotes.json and video_numbers.json.

@@ -1,0 +1,183 @@
+{
+  "rule": "every number on screen or in narration must have status COMPUTED and a source file",
+  "numbers": [
+    {
+      "id": "TAKEOVER_COST_XZ",
+      "label": "Takeover cost, xz (requested: 1)",
+      "source_file": "eval/results/xz_takeover_status.json",
+      "source_field": "takeover_cost.value",
+      "value": null,
+      "display": null,
+      "status": "NOT COMPUTED",
+      "used_in_scenes": [],
+      "reason": "eval/results/xz_takeover_status.json field takeover_cost.status is NOT COMPUTED"
+    },
+    {
+      "id": "SIX_PUBLIC_PLACES",
+      "label": "Public places with traces (requested: 6)",
+      "source_file": null,
+      "source_field": null,
+      "value": null,
+      "display": null,
+      "status": "NOT COMPUTED",
+      "used_in_scenes": [],
+      "reason": "No saved result. eval/results/completion_full.md lists the ecosystem records as NOT STARTED."
+    },
+    {
+      "id": "ACTIONS",
+      "label": "Actions in the xz git graph",
+      "source_file": "eval/results/xz_ingest.json",
+      "source_field": "counts_after_run_1.nodes.Action",
+      "value": 4569,
+      "display": "4,569",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S4"
+      ]
+    },
+    {
+      "id": "ACTORS",
+      "label": "Actors in the xz git graph",
+      "source_file": "eval/results/xz_ingest.json",
+      "source_field": "counts_after_run_1.nodes.Actor",
+      "value": 68,
+      "display": "68",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S4"
+      ]
+    },
+    {
+      "id": "TESTS_PASSED",
+      "label": "Tests passed, latest make.ps1 test run",
+      "source_file": "eval/results/final_tests.json",
+      "source_field": "passed",
+      "value": 467,
+      "display": "467",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S12"
+      ]
+    },
+    {
+      "id": "READER_DONE",
+      "label": "Reader messages done",
+      "source_file": "eval/results/reader_full_progress.json",
+      "source_field": "done",
+      "value": 94,
+      "display": "94",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S7"
+      ]
+    },
+    {
+      "id": "READER_TOTAL",
+      "label": "Reader messages in scope",
+      "source_file": "eval/results/reader_full_progress.json",
+      "source_field": "total",
+      "value": 240,
+      "display": "240",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S7"
+      ]
+    },
+    {
+      "id": "READER_TOO_LONG",
+      "label": "Reader messages too long to read",
+      "source_file": "eval/results/reader_full_run.json",
+      "source_field": "totals.messages_not_read_too_long",
+      "value": 4,
+      "display": "4",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S7"
+      ]
+    },
+    {
+      "id": "ACCOUNT_A",
+      "label": "Synthetic account A created",
+      "source_file": "eval/results/tallowdate_demo_script.json",
+      "source_field": "beats.1.reads.created_a.value",
+      "value": "2026-02-10",
+      "display": "2026-02-10",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S10"
+      ]
+    },
+    {
+      "id": "ACCOUNT_B",
+      "label": "Synthetic account B created",
+      "source_file": "eval/results/tallowdate_demo_script.json",
+      "source_field": "beats.1.reads.created_b.value",
+      "value": "2026-02-11",
+      "display": "2026-02-11",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S10"
+      ]
+    },
+    {
+      "id": "ACCOUNT_C",
+      "label": "Synthetic account C created",
+      "source_file": "eval/results/tallowdate_demo_script.json",
+      "source_field": "beats.1.reads.created_c.value",
+      "value": "2026-02-12",
+      "display": "2026-02-12",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S10"
+      ]
+    },
+    {
+      "id": "TOMAS_REVIEWS",
+      "label": "Synthetic reviewer's reviews",
+      "source_file": "eval/results/tallowdate_load.json",
+      "source_field": "facts.tomas_review_count.value",
+      "value": 140,
+      "display": "140",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S11"
+      ]
+    },
+    {
+      "id": "DATE_Q1",
+      "label": "Message date, quote Q1",
+      "source_file": "eval/results/video_quotes.json",
+      "source_field": "quotes.Q1.message_date_utc",
+      "value": "2022-05-19T20:41:31Z",
+      "display": "May 2022",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S1"
+      ]
+    },
+    {
+      "id": "DATE_Q2",
+      "label": "Message date, quote Q2",
+      "source_file": "eval/results/video_quotes.json",
+      "source_field": "quotes.Q2.message_date_utc",
+      "value": "2022-06-08T10:28:08Z",
+      "display": "June 2022",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S2"
+      ]
+    },
+    {
+      "id": "DATE_Q3",
+      "label": "Message date, quote Q3",
+      "source_file": "eval/results/video_quotes.json",
+      "source_field": "quotes.Q3.message_date_utc",
+      "value": "2022-06-29T20:07:07Z",
+      "display": "29 June 2022",
+      "status": "COMPUTED",
+      "used_in_scenes": [
+        "S3"
+      ]
+    }
+  ]
+}
