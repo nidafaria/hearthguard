@@ -9,3 +9,4 @@ eval/results/*.tmp
 data/llm_cache/
 data/derived/
 data/inbox/
+ui/dist/
