@@ -69,10 +69,10 @@ def _salt_is_set() -> bool:
     return True
 
 
-# .env is git-ignored, so a clean clone has no salt. These tests need it, and say so when it is absent.
+# .env is git-ignored, so a clean clone has no salt. These tests need it; they skip without it.
 needs_salt = pytest.mark.skipif(
     not _salt_is_set(),
-    reason="HEARTHGUARD_HASH_SALT is not set (.env is git-ignored): add it to run the hashing tests",
+    reason="HEARTHGUARD_HASH_SALT is not set (.env is git-ignored): add it to run hashing tests",
 )
 
 
