@@ -1,0 +1,77 @@
+{
+  "generated_at_utc": "2026-10-12T09:19:24Z",
+  "note": "Describes the raw cache only. Counts and dates, no names, emails, subjects or URLs. Nothing has been added to the graph. Not a finding.",
+  "github": {
+    "repo": "tukaani-project/xz",
+    "complete": false,
+    "requests_still_missing_at_least": 382,
+    "token_configured_now": false,
+    "sources": {
+      "pull_requests": {
+        "responses": 2,
+        "items": 143,
+        "earliest": "2022-12-14T17:06:22Z",
+        "latest": "2026-10-04T16:36:18Z",
+        "fetched_first_utc": "2026-10-12T09:12:32Z",
+        "fetched_last_utc": "2026-10-12T09:12:33Z",
+        "responses_with_token": 0
+      },
+      "reviews": {
+        "responses": 16,
+        "items": 28,
+        "earliest": "2022-12-15T14:17:47Z",
+        "latest": "2023-01-11T14:11:55Z",
+        "fetched_first_utc": "2026-10-12T09:12:36Z",
+        "fetched_last_utc": "2026-10-12T09:12:58Z",
+        "responses_with_token": 0
+      },
+      "review_comments": {
+        "responses": 16,
+        "items": 28,
+        "earliest": "2022-12-15T14:17:47Z",
+        "latest": "2023-01-11T14:11:54Z",
+        "fetched_first_utc": "2026-10-12T09:12:36Z",
+        "fetched_last_utc": "2026-10-12T09:12:59Z",
+        "responses_with_token": 0
+      },
+      "issue_comments": {
+        "responses": 15,
+        "items": 2,
+        "earliest": "2022-12-20T14:08:52Z",
+        "latest": "2024-07-05T15:20:28Z",
+        "fetched_first_utc": "2026-10-12T09:12:37Z",
+        "fetched_last_utc": "2026-10-12T09:12:58Z",
+        "responses_with_token": 0
+      },
+      "file_history": {
+        "responses": 4,
+        "items": 0,
+        "earliest": null,
+        "latest": null,
+        "fetched_first_utc": "2026-10-12T09:12:33Z",
+        "fetched_last_utc": "2026-10-12T09:12:35Z",
+        "responses_with_token": 0
+      }
+    }
+  },
+  "mailing_list": {
+    "list": "xz-devel",
+    "window": [
+      "2021-01-01",
+      "2024-12-31"
+    ],
+    "also_explicitly": [
+      "msg00512",
+      "msg00571"
+    ],
+    "messages_in_scope": 300,
+    "earliest": "2021-01-05T22:50:01Z",
+    "latest": "2024-10-01T18:00:05Z",
+    "messages_cached_total": 323,
+    "newest_message_number": 708,
+    "message_numbers_not_found_below_newest": 0,
+    "fetched_first_utc": "2026-10-12T09:12:31Z",
+    "fetched_last_utc": "2026-10-12T09:18:54Z",
+    "author_identifiers": "hashed; the archive shows a display name only, so names are hashed"
+  }
+}

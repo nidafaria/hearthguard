@@ -1,4 +1,4 @@
-.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -38,6 +38,17 @@ takeover-xz:
 # Rush, Bypass and Lone keeper on org_xz: expected NOT_COMPUTED (no grant data, thin release path).
 detectors-xz:
 	uv run python -m eval.xz_detector_status
+
+# Public xz data cache (data/raw, git-ignored). Nothing here touches the graph.
+cache-mail-xz:
+	uv run python -m packs.oss.cache_xz_raw mail
+
+# Slow without GITHUB_TOKEN in .env (60 requests an hour). Safe to stop and rerun: it skips what is cached.
+cache-github-xz:
+	uv run python -m packs.oss.cache_xz_raw github
+
+cache-inventory-xz:
+	uv run python -m packs.oss.cache_xz_raw inventory
 
 # Placeholders for later steps. Each one fails until it is built.
 demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:

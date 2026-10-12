@@ -17,3 +17,6 @@ Day 2: Claude Code wrote the hand-derived detector fixtures, the tests, and the 
 Day 2: Claude Code wrote the decision and conflict policy fixtures with hand-derived results and committed them before any implementation.
 Day 2: Claude Code implemented the frozen decision policy line for line, the conflict policy, and the separate PROPOSED unknown-input layer, with unit tests including an oracle run of the spec code.
 Day 2: Claude Code fixed Bypass so a shared Path node gives NOT_COMPUTED, found and worked around a FalkorDB 6.0.2 crash on aggregates with NULL columns, and recorded the xz status diff.
+Day 2: Claude Code built a resumable, rate-limit-aware fetch-and-cache layer with a sidecar (URL and fetch time) for every response, tested against a local HTTP server.
+Day 2: Claude Code cached 300 xz-devel messages (2021 to 2024 plus msg00512 to msg00571) with hashed authors, and started the GitHub pull request, review, comment and file-history cache (partial: no token, rate limited).
+Day 2: Claude Code wrote the raw-cache inventory (counts and dates only) and recorded the findings, including that the archive shows no author email and that MAINTAINERS and CODEOWNERS have no GitHub history.
