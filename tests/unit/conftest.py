@@ -1,5 +1,6 @@
 """A small real HTTP server on localhost for the cache tests. No mocks: requests really travel."""
 
+import json
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -13,6 +14,7 @@ class Site:
     def __init__(self) -> None:
         self.routes: dict = {}
         self.hits: list[tuple[str, str | None]] = []  # (path, Authorization header)
+        self.posts: list = []  # JSON bodies of POST requests
         self.base = ""
 
     def url(self, path: str) -> str:
@@ -27,7 +29,7 @@ def site():
     site = Site()
 
     class Handler(BaseHTTPRequestHandler):
-        def do_GET(self):
+        def _serve(self):
             site.hits.append((self.path, self.headers.get("Authorization")))
             route = site.routes.get(self.path)
             if callable(route):
@@ -39,6 +41,14 @@ def site():
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+
+        def do_GET(self):
+            self._serve()
+
+        def do_POST(self):
+            raw = self.rfile.read(int(self.headers.get("Content-Length", 0)))
+            site.posts.append(json.loads(raw) if raw else None)  # the request bodies, in order
+            self._serve()
 
         def log_message(self, *args):
             pass

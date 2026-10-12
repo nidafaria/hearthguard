@@ -1,1 +1,25 @@
-# placeholder: LLM provider config (OpenAI-compatible client). Filled in Day 1, step 7.
+# LLM configuration (docs/HEARTHGUARD.md section 8.4). The LLM is used only by the Reader, the
+# Investigator's first plan for a new task type, the Skeptic's benign-explanation search and the
+# Liaison's wording. Never for a decision. The API key comes from GROQ_API_KEY in .env.
+provider: groq
+base_url: https://api.groq.com/openai/v1
+planning_model: openai/gpt-oss-120b
+extraction_model: openai/gpt-oss-20b
+
+# Placeholder only. Nothing reads this yet and no local model is set up.
+fallback:
+  provider: ollama
+  note: local, not configured yet
+
+# Limits apply to each model separately. The client sleeps before exceeding them.
+# The first two are the ones requested. The last two are on the same Groq rate-limit page
+# (console.groq.com/docs/rate-limits, checked 2026-10-12): that table is labelled the Developer
+# plan and does not cover the free plan, so these are DOCUMENTED values, not yet confirmed for this
+# account. The live call records the account's own limits from the response headers.
+rate_limit:
+  tokens_per_minute: 8000
+  requests_per_day: 1000
+  requests_per_minute: 30
+  tokens_per_day: 200000
+
+cache_dir: data/llm_cache

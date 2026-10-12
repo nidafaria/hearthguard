@@ -30,6 +30,8 @@ dev = [
 testpaths = ["tests"]
 pythonpath = ["."]
 asyncio_mode = "auto"
+# -rs lists why each test was skipped, so a skipped live test explains itself.
+addopts = "-rs"
 
 [tool.ruff]
 line-length = 100
