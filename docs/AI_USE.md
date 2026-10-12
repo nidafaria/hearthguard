@@ -20,3 +20,5 @@ Day 2: Claude Code fixed Bypass so a shared Path node gives NOT_COMPUTED, found 
 Day 2: Claude Code built a resumable, rate-limit-aware fetch-and-cache layer with a sidecar (URL and fetch time) for every response, tested against a local HTTP server.
 Day 2: Claude Code cached 300 xz-devel messages (2021 to 2024 plus msg00512 to msg00571) with hashed authors, and started the GitHub pull request, review, comment and file-history cache (partial: no token, rate limited).
 Day 2: Claude Code wrote the raw-cache inventory (counts and dates only) and recorded the findings, including that the archive shows no author email and that MAINTAINERS and CODEOWNERS have no GitHub history.
+Day 2: Claude Code finished the GitHub cache with the token (383 requests, 436 responses, complete) and confirmed the token appears in no file or log.
+Day 2: Claude Code noticed the hash salt changed and recorded that the existing org_xz graph no longer matches it.

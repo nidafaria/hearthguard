@@ -1,11 +1,11 @@
 {
-  "generated_at_utc": "2026-10-12T09:19:24Z",
+  "generated_at_utc": "2026-10-12T09:38:41Z",
   "note": "Describes the raw cache only. Counts and dates, no names, emails, subjects or URLs. Nothing has been added to the graph. Not a finding.",
   "github": {
     "repo": "tukaani-project/xz",
-    "complete": false,
-    "requests_still_missing_at_least": 382,
-    "token_configured_now": false,
+    "complete": true,
+    "requests_still_missing_at_least": 0,
+    "token_configured_now": true,
     "sources": {
       "pull_requests": {
         "responses": 2,
@@ -17,31 +17,31 @@
         "responses_with_token": 0
       },
       "reviews": {
-        "responses": 16,
-        "items": 28,
+        "responses": 143,
+        "items": 244,
         "earliest": "2022-12-15T14:17:47Z",
-        "latest": "2023-01-11T14:11:55Z",
+        "latest": "2026-08-17T11:28:09Z",
         "fetched_first_utc": "2026-10-12T09:12:36Z",
-        "fetched_last_utc": "2026-10-12T09:12:58Z",
-        "responses_with_token": 0
+        "fetched_last_utc": "2026-10-12T09:37:48Z",
+        "responses_with_token": 127
       },
       "review_comments": {
-        "responses": 16,
-        "items": 28,
+        "responses": 144,
+        "items": 268,
         "earliest": "2022-12-15T14:17:47Z",
-        "latest": "2023-01-11T14:11:54Z",
+        "latest": "2026-08-17T11:28:09Z",
         "fetched_first_utc": "2026-10-12T09:12:36Z",
-        "fetched_last_utc": "2026-10-12T09:12:59Z",
-        "responses_with_token": 0
+        "fetched_last_utc": "2026-10-12T09:37:48Z",
+        "responses_with_token": 128
       },
       "issue_comments": {
-        "responses": 15,
-        "items": 2,
+        "responses": 143,
+        "items": 470,
         "earliest": "2022-12-20T14:08:52Z",
-        "latest": "2024-07-05T15:20:28Z",
+        "latest": "2026-10-02T07:19:45Z",
         "fetched_first_utc": "2026-10-12T09:12:37Z",
-        "fetched_last_utc": "2026-10-12T09:12:58Z",
-        "responses_with_token": 0
+        "fetched_last_utc": "2026-10-12T09:37:49Z",
+        "responses_with_token": 128
       },
       "file_history": {
         "responses": 4,
