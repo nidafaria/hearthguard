@@ -29,7 +29,7 @@ Each name works as `make <name>`, or on Windows as `.\make.ps1 <name>`.
 
 | Command | What it does | Needs | Source |
 |---|---|---|---|
-| `up` / `down` | Start or stop FalkorDB. The image is pinned to `falkordb/falkordb:6.0.2` | Docker | docker-compose.yml |
+| `up` / `down` | Start or stop FalkorDB. The image is pinned to `falkordb/falkordb:6.0.2`. If a port is taken, set `FALKORDB_PORT` or `FALKORDB_UI_PORT` in `.env` | Docker | docker-compose.yml |
 | `test` | Run the test suite (pytest) | uv | Makefile |
 | `lint` | Run ruff check and format check | uv | Makefile |
 | `smoke-algos` | Re-check each FalkorDB procedure the product depends on | FalkorDB | Makefile |
@@ -51,7 +51,7 @@ Each name works as `make <name>`, or on Windows as `.\make.ps1 <name>`.
 | `ui` | Read-only page at http://localhost:5173. First run installs npm packages | Node, npm | Makefile; ui/vite.config.ts |
 | `demo` | Print the replay table | files only | Makefile |
 
-**Not built yet.** These targets exit with "not built yet": `gaps`, `harden`, `redteam`, `ablation-memory`, `ablation-algos`, `false-positives`, `eval-reader`, `verify-frozen`, `verify-determinism`, `race` (Makefile). The spec also lists `verify-packs`, `verify-ownership`, `census`, `faults`, `verify-learning` and `chaos` (docs/HEARTHGUARD.md §10.3). None of these is in the Makefile.
+The proof commands in the spec that are not built yet (docs/HEARTHGUARD.md §10.3) are left out of this list. They are not in the Makefile.
 
 ## Graph data model
 
@@ -125,10 +125,12 @@ The tracks entered are not named in this README yet. The spec's planned mapping 
 
 ## Known issues
 
-- **`make demo` may not work on Linux or macOS.** The Makefile has two recipes for `demo`. The second is the "not built yet" placeholder at the bottom of the file. GNU make uses the last recipe, so `make demo` would likely print "not built yet" and exit 1. I could not test this, because `make` is not installed here. The direct command `uv run python -m eval.demo` works. A fix is to remove `demo` and `replay` from the placeholder line in the Makefile.
+- `make` is not installed on the machine used to check this README. The `make` targets were checked against `make.ps1` and the Makefile by reading both, and by running the Windows route. The Makefile had duplicate `demo` and `replay` rules, which are now removed.
+- The judge path and its expected outputs are in [docs/judge_guide.md](docs/judge_guide.md).
 
 ## Docs
 
+- Judge guide (under 30 minutes, with expected outputs): [docs/judge_guide.md](docs/judge_guide.md)
 - Spec: [docs/HEARTHGUARD.md](docs/HEARTHGUARD.md)
 - Project rules: [CLAUDE.md](CLAUDE.md)
 - Decisions: [docs/decisions/index.md](docs/decisions/index.md)
