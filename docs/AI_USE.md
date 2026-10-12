@@ -22,3 +22,4 @@ Day 2: Claude Code cached 300 xz-devel messages (2021 to 2024 plus msg00512 to m
 Day 2: Claude Code wrote the raw-cache inventory (counts and dates only) and recorded the findings, including that the archive shows no author email and that MAINTAINERS and CODEOWNERS have no GitHub history.
 Day 2: Claude Code finished the GitHub cache with the token (383 requests, 436 responses, complete) and confirmed the token appears in no file or log.
 Day 2: Claude Code noticed the hash salt changed and recorded that the existing org_xz graph no longer matches it.
+Day 2: Claude Code dropped org_xz and rebuilt it with the rotated salt (ingest, normal, takeover and detector status), confirming 68 actors and that every graph id matches the current salt.

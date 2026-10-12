@@ -23,13 +23,11 @@
     "nodes": {
       "Action": 4569,
       "Actor": 68,
-      "Normal": 30,
       "Org": 1,
       "Path": 1
     },
     "edges": {
       "DID": 4569,
-      "OF": 30,
       "VIA": 60
     }
   },
@@ -37,13 +35,11 @@
     "nodes": {
       "Action": 4569,
       "Actor": 68,
-      "Normal": 30,
       "Org": 1,
       "Path": 1
     },
     "edges": {
       "DID": 4569,
-      "OF": 30,
       "VIA": 60
     }
   },

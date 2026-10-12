@@ -35,8 +35,8 @@
             "T": 1640995199,
             "window": 63072000
           },
-          "query_ms": 20.069600000169885,
-          "server_ms": 0.332646
+          "query_ms": 34.87430000132008,
+          "server_ms": 0.571317
         },
         {
           "metric": "active_keepers",
@@ -53,8 +53,8 @@
             "T": 1640995199,
             "window": 7776000
           },
-          "query_ms": 307.2516000001997,
-          "server_ms": 305.53243
+          "query_ms": 418.70080000080634,
+          "server_ms": 416.269018
         },
         {
           "metric": "usual_path",
@@ -71,8 +71,8 @@
             "T": 1640995199,
             "window": 63072000
           },
-          "query_ms": 1.9998999996460043,
-          "server_ms": 0.36958
+          "query_ms": 2.608400000099209,
+          "server_ms": 0.405662
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -141,8 +141,8 @@
             "T": 1648771199,
             "window": 63072000
           },
-          "query_ms": 1.504400000158057,
-          "server_ms": 0.235962
+          "query_ms": 2.2213000011106487,
+          "server_ms": 0.364488
         },
         {
           "metric": "active_keepers",
@@ -159,8 +159,8 @@
             "T": 1648771199,
             "window": 7776000
           },
-          "query_ms": 309.0828000003967,
-          "server_ms": 307.834808
+          "query_ms": 399.81470000020636,
+          "server_ms": 397.9755
         },
         {
           "metric": "usual_path",
@@ -177,8 +177,8 @@
             "T": 1648771199,
             "window": 63072000
           },
-          "query_ms": 1.645900000767142,
-          "server_ms": 0.308934
+          "query_ms": 1.9763000000239117,
+          "server_ms": 0.300184
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -247,8 +247,8 @@
             "T": 1656633599,
             "window": 63072000
           },
-          "query_ms": 1.3664999996763072,
-          "server_ms": 0.368354
+          "query_ms": 1.699200000075507,
+          "server_ms": 0.34383
         },
         {
           "metric": "active_keepers",
@@ -265,8 +265,8 @@
             "T": 1656633599,
             "window": 7776000
           },
-          "query_ms": 309.17180000051303,
-          "server_ms": 306.459139
+          "query_ms": 380.33939999877475,
+          "server_ms": 378.99321
         },
         {
           "metric": "usual_path",
@@ -283,8 +283,8 @@
             "T": 1656633599,
             "window": 63072000
           },
-          "query_ms": 1.8694000000323285,
-          "server_ms": 0.284588
+          "query_ms": 1.8487000015738886,
+          "server_ms": 0.316577
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -353,8 +353,8 @@
             "T": 1664582399,
             "window": 63072000
           },
-          "query_ms": 1.7583000008016825,
-          "server_ms": 0.33397
+          "query_ms": 1.774100001057377,
+          "server_ms": 0.477856
         },
         {
           "metric": "active_keepers",
@@ -371,8 +371,8 @@
             "T": 1664582399,
             "window": 7776000
           },
-          "query_ms": 317.2424000003957,
-          "server_ms": 315.784887
+          "query_ms": 393.1205000008049,
+          "server_ms": 391.677986
         },
         {
           "metric": "usual_path",
@@ -389,8 +389,8 @@
             "T": 1664582399,
             "window": 63072000
           },
-          "query_ms": 1.7786000007617986,
-          "server_ms": 0.273027
+          "query_ms": 1.7915000007633353,
+          "server_ms": 0.327986
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -459,8 +459,8 @@
             "T": 1672531199,
             "window": 63072000
           },
-          "query_ms": 1.6838000001371256,
-          "server_ms": 0.500472
+          "query_ms": 1.8875999994634185,
+          "server_ms": 0.583874
         },
         {
           "metric": "active_keepers",
@@ -477,8 +477,8 @@
             "T": 1672531199,
             "window": 7776000
           },
-          "query_ms": 347.5659999994605,
-          "server_ms": 346.302964
+          "query_ms": 417.10910000074364,
+          "server_ms": 415.620734
         },
         {
           "metric": "usual_path",
@@ -495,8 +495,8 @@
             "T": 1672531199,
             "window": 63072000
           },
-          "query_ms": 1.673099999607075,
-          "server_ms": 0.339612
+          "query_ms": 2.1022999990236713,
+          "server_ms": 0.450378
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -565,8 +565,8 @@
             "T": 1680307199,
             "window": 63072000
           },
-          "query_ms": 1.6827999997985899,
-          "server_ms": 0.682145
+          "query_ms": 3.0222000004869187,
+          "server_ms": 0.93952
         },
         {
           "metric": "active_keepers",
@@ -583,8 +583,8 @@
             "T": 1680307199,
             "window": 7776000
           },
-          "query_ms": 381.962299999941,
-          "server_ms": 380.036801
+          "query_ms": 511.1510000006092,
+          "server_ms": 508.883913
         },
         {
           "metric": "usual_path",
@@ -601,8 +601,8 @@
             "T": 1680307199,
             "window": 63072000
           },
-          "query_ms": 2.3344999999608262,
-          "server_ms": 0.554774
+          "query_ms": 2.6376999994681682,
+          "server_ms": 0.618179
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -671,8 +671,8 @@
             "T": 1688169599,
             "window": 63072000
           },
-          "query_ms": 1.9451999996817904,
-          "server_ms": 0.825897
+          "query_ms": 3.0733000003237976,
+          "server_ms": 1.120757
         },
         {
           "metric": "active_keepers",
@@ -689,8 +689,8 @@
             "T": 1688169599,
             "window": 7776000
           },
-          "query_ms": 333.648799999537,
-          "server_ms": 332.202328
+          "query_ms": 420.16229999899224,
+          "server_ms": 418.263808
         },
         {
           "metric": "usual_path",
@@ -707,8 +707,8 @@
             "T": 1688169599,
             "window": 63072000
           },
-          "query_ms": 2.3351999998340034,
-          "server_ms": 0.633567
+          "query_ms": 2.3946999990585027,
+          "server_ms": 0.556848
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -777,8 +777,8 @@
             "T": 1696118399,
             "window": 63072000
           },
-          "query_ms": 2.6361000000179047,
-          "server_ms": 1.037518
+          "query_ms": 2.8631999994104262,
+          "server_ms": 1.119816
         },
         {
           "metric": "active_keepers",
@@ -795,8 +795,8 @@
             "T": 1696118399,
             "window": 7776000
           },
-          "query_ms": 348.59789999973145,
-          "server_ms": 347.205258
+          "query_ms": 418.6109000002034,
+          "server_ms": 416.750394
         },
         {
           "metric": "usual_path",
@@ -813,8 +813,8 @@
             "T": 1696118399,
             "window": 63072000
           },
-          "query_ms": 1.6177999996216386,
-          "server_ms": 0.426168
+          "query_ms": 2.868200001103105,
+          "server_ms": 0.745517
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -883,8 +883,8 @@
             "T": 1704067199,
             "window": 63072000
           },
-          "query_ms": 2.142999999705353,
-          "server_ms": 1.149769
+          "query_ms": 3.6397999992914265,
+          "server_ms": 1.331065
         },
         {
           "metric": "active_keepers",
@@ -901,8 +901,8 @@
             "T": 1704067199,
             "window": 7776000
           },
-          "query_ms": 311.5963999998712,
-          "server_ms": 310.011993
+          "query_ms": 477.99990000021353,
+          "server_ms": 475.750622
         },
         {
           "metric": "usual_path",
@@ -919,8 +919,8 @@
             "T": 1704067199,
             "window": 63072000
           },
-          "query_ms": 1.6856000002007931,
-          "server_ms": 0.403344
+          "query_ms": 2.548200000092038,
+          "server_ms": 0.592104
         },
         {
           "metric": "keeper_activity_median_90d",
@@ -989,8 +989,8 @@
             "T": 1711929599,
             "window": 63072000
           },
-          "query_ms": 2.5144000001091626,
-          "server_ms": 1.238013
+          "query_ms": 3.55189999936556,
+          "server_ms": 1.746269
         },
         {
           "metric": "active_keepers",
@@ -1007,8 +1007,8 @@
             "T": 1711929599,
             "window": 7776000
           },
-          "query_ms": 327.35380000031,
-          "server_ms": 325.779294
+          "query_ms": 518.160400000852,
+          "server_ms": 516.178465
         },
         {
           "metric": "usual_path",
@@ -1025,8 +1025,8 @@
             "T": 1711929599,
             "window": 63072000
           },
-          "query_ms": 1.7840000000433065,
-          "server_ms": 0.466842
+          "query_ms": 3.0179999994288664,
+          "server_ms": 0.652952
         },
         {
           "metric": "keeper_activity_median_90d",
