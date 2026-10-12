@@ -1,0 +1,466 @@
+{
+  "graph": "ecosystem_xz",
+  "method": "docs/HEARTHGUARD.md \u00a77.5, query text unchanged; gap labels come from the query",
+  "reading_the_labels": "UNREACHABLE: no loaded record shows the deciding role acting in the signal's place before the signal. This is absence of evidence, not proof the role was not watching. UNNOTICED: the role is evidenced in the place before the signal, and the decision does not reference the signal. A decision references the signals of its own record and of records its request text cites; nothing else.",
+  "scope": "Signals come from the cached records only. xz-devel is a place in the graph but has no signals here. xz-git has only the commits that carry the identity behind the Debian request. Gaps are therefore a lower bound.",
+  "decisions_computed": 4,
+  "decisions_not_computed": 0,
+  "gap_rows": 22,
+  "unreachable_rows": 21,
+  "unnoticed_rows": 1,
+  "label_confidence_counts": {
+    "high": 1,
+    "close-call": 1,
+    "absence-of-evidence": 20
+  },
+  "decisions": [
+    {
+      "decision": "oss-fuzz-build-change-pr10667",
+      "decision_kind": "merge_build_change",
+      "decision_at": "2023-07-07T14:01:16Z",
+      "place": "oss-fuzz",
+      "deciding_role": "oss-fuzz reviewer",
+      "decision_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/10667",
+      "query": "MATCH (d:Decision {ref:$decision})-[:MADE_IN]->(dp:Place)<-[:WATCHES]-(r:Role)\nMATCH (d)-[:CONCERNS]->(i:Identity)-[:SAME_AS*0..2]-(j:Identity)\nMATCH (j)-[:EMITTED]->(s:Signal)-[:RECORDED_IN]->(sp:Place)\nWHERE s.at < d.at\nOPTIONAL MATCH (r)-[w:WATCHES]->(sp) WHERE w.since < s.at\nOPTIONAL MATCH (d)-[ref:REFERENCES]->(s)\nRETURN s.kind, s.ref, sp.ref AS seen_in,\n       CASE WHEN w IS NULL THEN 'UNREACHABLE'\n            WHEN ref IS NULL THEN 'UNNOTICED' END AS gap\nLIMIT 1000",
+      "role_data": [
+        {
+          "role": "oss-fuzz reviewer",
+          "watches_since": "2023-03-20T15:06:14Z",
+          "evidence_event": "gh_ossfuzz_pr_9960_comments:pr_comment:oss-fuzz#9960/comment/1476403128",
+          "evidenced_before_decision": true
+        }
+      ],
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 3.3,
+      "query_server_ms": 0.50049,
+      "status": "COMPUTED",
+      "reason": null,
+      "gaps": [
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_ossfuzz_pr_9960:pr_opened:oss-fuzz#9960",
+          "signal_kind": "pr_opened",
+          "signal_at": "2023-03-20T14:45:31Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/9960",
+          "decision": "oss-fuzz-build-change-pr10667",
+          "decision_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/10667",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": "2023-03-20T15:06:14Z",
+          "seconds_between_role_evidence_and_signal": 1243,
+          "close_call": true,
+          "label_confidence": "close-call"
+        },
+        {
+          "gap": "UNNOTICED",
+          "signal": "oss_fuzz_6403e933:commit:oss-fuzz/commit/6403e933",
+          "signal_kind": "commit",
+          "signal_at": "2023-03-20T15:21:06Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://github.com/google/oss-fuzz/commit/6403e933.patch",
+          "decision": "oss-fuzz-build-change-pr10667",
+          "decision_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/10667",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": "2023-03-20T15:06:14Z",
+          "seconds_between_role_evidence_and_signal": -892,
+          "close_call": false,
+          "label_confidence": "high"
+        }
+      ],
+      "signals_checked": 4,
+      "covered_watched_and_referenced": 2,
+      "unreachable": 1,
+      "unnoticed": 1
+    },
+    {
+      "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+      "decision_kind": "add_maintainer_entry",
+      "decision_at": "2024-03-20T18:38:34Z",
+      "place": "lkml",
+      "deciding_role": "Linux kernel reviewer",
+      "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+      "query": "MATCH (d:Decision {ref:$decision})-[:MADE_IN]->(dp:Place)<-[:WATCHES]-(r:Role)\nMATCH (d)-[:CONCERNS]->(i:Identity)-[:SAME_AS*0..2]-(j:Identity)\nMATCH (j)-[:EMITTED]->(s:Signal)-[:RECORDED_IN]->(sp:Place)\nWHERE s.at < d.at\nOPTIONAL MATCH (r)-[w:WATCHES]->(sp) WHERE w.since < s.at\nOPTIONAL MATCH (d)-[ref:REFERENCES]->(s)\nRETURN s.kind, s.ref, sp.ref AS seen_in,\n       CASE WHEN w IS NULL THEN 'UNREACHABLE'\n            WHEN ref IS NULL THEN 'UNNOTICED' END AS gap\nLIMIT 1000",
+      "role_data": [
+        {
+          "role": "Linux kernel reviewer",
+          "watches_since": "2024-03-29T19:32:07Z",
+          "evidence_event": "lkml_2024_3_29_1289:reply:lkml/2024/3/29/1289",
+          "evidenced_before_decision": false
+        }
+      ],
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 4.3,
+      "query_server_ms": 0.464232,
+      "status": "COMPUTED",
+      "reason": null,
+      "gaps": [
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_ossfuzz_pr_9960:pr_opened:oss-fuzz#9960",
+          "signal_kind": "pr_opened",
+          "signal_at": "2023-03-20T14:45:31Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/9960",
+          "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+          "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "oss_fuzz_6403e933:commit:oss-fuzz/commit/6403e933",
+          "signal_kind": "commit",
+          "signal_at": "2023-03-20T15:21:06Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://github.com/google/oss-fuzz/commit/6403e933.patch",
+          "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+          "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_ossfuzz_pr_10667:pr_opened:oss-fuzz#10667",
+          "signal_kind": "pr_opened",
+          "signal_at": "2023-07-07T13:49:31Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/10667",
+          "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+          "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "oss_fuzz_d2e42b2e:commit:oss-fuzz/commit/d2e42b2e",
+          "signal_kind": "commit",
+          "signal_at": "2023-07-07T14:01:15Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://github.com/google/oss-fuzz/commit/d2e42b2e.patch",
+          "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+          "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_233885a4:commit_applied:xz/commit/233885a4#applied",
+          "signal_kind": "commit_applied",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "committer",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/233885a437f8b55a5c8442984ebc0aaa579e92de",
+          "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+          "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_93e6fb08:commit_applied:xz/commit/93e6fb08#applied",
+          "signal_kind": "commit_applied",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "committer",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/93e6fb08b22c7c13be2dd1e7274fe78413436254",
+          "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+          "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_f1cd9d71:commit_applied:xz/commit/f1cd9d71#applied",
+          "signal_kind": "commit_applied",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "committer",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/f1cd9d7194f005cd66ec03c6635ceae75f90ef17",
+          "decision": "kernel-maintainer-entry-lkml-2024-3-20-1008",
+          "decision_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        }
+      ],
+      "signals_checked": 7,
+      "covered_watched_and_referenced": 0,
+      "unreachable": 7,
+      "unnoticed": 0
+    },
+    {
+      "decision": "debian-upgrade-request-bug1067708",
+      "decision_kind": "accept_upgrade",
+      "decision_at": "2024-03-25T20:28:05Z",
+      "place": "debian-bts",
+      "deciding_role": "Debian package maintainer",
+      "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
+      "query": "MATCH (d:Decision {ref:$decision})-[:MADE_IN]->(dp:Place)<-[:WATCHES]-(r:Role)\nMATCH (d)-[:CONCERNS]->(i:Identity)-[:SAME_AS*0..2]-(j:Identity)\nMATCH (j)-[:EMITTED]->(s:Signal)-[:RECORDED_IN]->(sp:Place)\nWHERE s.at < d.at\nOPTIONAL MATCH (r)-[w:WATCHES]->(sp) WHERE w.since < s.at\nOPTIONAL MATCH (d)-[ref:REFERENCES]->(s)\nRETURN s.kind, s.ref, sp.ref AS seen_in,\n       CASE WHEN w IS NULL THEN 'UNREACHABLE'\n            WHEN ref IS NULL THEN 'UNNOTICED' END AS gap\nLIMIT 1000",
+      "role_data": [
+        {
+          "role": "Debian package maintainer",
+          "watches_since": "2024-03-27T08:43:02Z",
+          "evidence_event": "debian_bug_1067708:reply:debian-bug-1067708/msg32",
+          "evidenced_before_decision": false
+        }
+      ],
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 2.8,
+      "query_server_ms": 0.391208,
+      "status": "COMPUTED",
+      "reason": null,
+      "gaps": [
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_23b5c36f:commit:xz/commit/23b5c36f",
+          "signal_kind": "commit",
+          "signal_at": "2023-06-27T12:33:15Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/23b5c36fb71904bfbe16bb20f976da38dadf6c3b",
+          "decision": "debian-upgrade-request-bug1067708",
+          "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_b72d2120:commit:xz/commit/b72d2120",
+          "signal_kind": "commit",
+          "signal_at": "2023-06-27T12:33:15Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/b72d21202402a603db6d512fb9271cfa83249639",
+          "decision": "debian-upgrade-request-bug1067708",
+          "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_233885a4:commit:xz/commit/233885a4",
+          "signal_kind": "commit",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/233885a437f8b55a5c8442984ebc0aaa579e92de",
+          "decision": "debian-upgrade-request-bug1067708",
+          "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_93e6fb08:commit:xz/commit/93e6fb08",
+          "signal_kind": "commit",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/93e6fb08b22c7c13be2dd1e7274fe78413436254",
+          "decision": "debian-upgrade-request-bug1067708",
+          "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_f1cd9d71:commit:xz/commit/f1cd9d71",
+          "signal_kind": "commit",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/f1cd9d7194f005cd66ec03c6635ceae75f90ef17",
+          "decision": "debian-upgrade-request-bug1067708",
+          "decision_source_url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708",
+          "identity_link": "same identity",
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        }
+      ],
+      "signals_checked": 5,
+      "covered_watched_and_referenced": 0,
+      "unreachable": 5,
+      "unnoticed": 0
+    },
+    {
+      "decision": "launchpad-upgrade-request-bug2059417",
+      "decision_kind": "accept_upgrade",
+      "decision_at": "2024-03-28T12:45:42Z",
+      "place": "launchpad",
+      "deciding_role": "Ubuntu developer",
+      "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+      "query": "MATCH (d:Decision {ref:$decision})-[:MADE_IN]->(dp:Place)<-[:WATCHES]-(r:Role)\nMATCH (d)-[:CONCERNS]->(i:Identity)-[:SAME_AS*0..2]-(j:Identity)\nMATCH (j)-[:EMITTED]->(s:Signal)-[:RECORDED_IN]->(sp:Place)\nWHERE s.at < d.at\nOPTIONAL MATCH (r)-[w:WATCHES]->(sp) WHERE w.since < s.at\nOPTIONAL MATCH (d)-[ref:REFERENCES]->(s)\nRETURN s.kind, s.ref, sp.ref AS seen_in,\n       CASE WHEN w IS NULL THEN 'UNREACHABLE'\n            WHEN ref IS NULL THEN 'UNNOTICED' END AS gap\nLIMIT 1000",
+      "role_data": [
+        {
+          "role": "Ubuntu developer",
+          "watches_since": "2024-03-29T03:53:23Z",
+          "evidence_event": "lp_api_messages:reply:launchpad-bug-2059417/msg2",
+          "evidenced_before_decision": false
+        }
+      ],
+      "query_run_at_utc": "2026-10-12T14:16:38Z",
+      "query_wall_ms": 3.0,
+      "query_server_ms": 0.505589,
+      "status": "COMPUTED",
+      "reason": null,
+      "gaps": [
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_ossfuzz_pr_9960:pr_opened:oss-fuzz#9960",
+          "signal_kind": "pr_opened",
+          "signal_at": "2023-03-20T14:45:31Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/9960",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "oss_fuzz_6403e933:commit:oss-fuzz/commit/6403e933",
+          "signal_kind": "commit",
+          "signal_at": "2023-03-20T15:21:06Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://github.com/google/oss-fuzz/commit/6403e933.patch",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_ossfuzz_pr_10667:pr_opened:oss-fuzz#10667",
+          "signal_kind": "pr_opened",
+          "signal_at": "2023-07-07T13:49:31Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://api.github.com/repos/google/oss-fuzz/pulls/10667",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "oss_fuzz_d2e42b2e:commit:oss-fuzz/commit/d2e42b2e",
+          "signal_kind": "commit",
+          "signal_at": "2023-07-07T14:01:15Z",
+          "signal_place": "oss-fuzz",
+          "signal_actor_role": "contributor",
+          "signal_source_url": "https://github.com/google/oss-fuzz/commit/d2e42b2e.patch",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_233885a4:commit_applied:xz/commit/233885a4#applied",
+          "signal_kind": "commit_applied",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "committer",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/233885a437f8b55a5c8442984ebc0aaa579e92de",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_93e6fb08:commit_applied:xz/commit/93e6fb08#applied",
+          "signal_kind": "commit_applied",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "committer",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/93e6fb08b22c7c13be2dd1e7274fe78413436254",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "gh_xz_commit_f1cd9d71:commit_applied:xz/commit/f1cd9d71#applied",
+          "signal_kind": "commit_applied",
+          "signal_at": "2023-10-13T12:54:05Z",
+          "signal_place": "xz-git",
+          "signal_actor_role": "committer",
+          "signal_source_url": "https://api.github.com/repos/tukaani-project/xz/commits/f1cd9d7194f005cd66ec03c6635ceae75f90ef17",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        },
+        {
+          "gap": "UNREACHABLE",
+          "signal": "lkml_2024_3_20_1008:reviewed_by_tag:lkml/2024/3/20/1008#reviewed-by",
+          "signal_kind": "reviewed_by_tag",
+          "signal_at": "2024-03-20T18:38:34Z",
+          "signal_place": "lkml",
+          "signal_actor_role": "named reviewer",
+          "signal_source_url": "https://lkml.org/lkml/2024/3/20/1008",
+          "decision": "launchpad-upgrade-request-bug2059417",
+          "decision_source_url": "https://api.launchpad.net/1.0/bugs/2059417/messages",
+          "identity_link": {
+            "evidence": "persona_name",
+            "strength": 0.5
+          },
+          "role_first_evidenced_in_place": null,
+          "label_confidence": "absence-of-evidence"
+        }
+      ],
+      "signals_checked": 8,
+      "covered_watched_and_referenced": 0,
+      "unreachable": 8,
+      "unnoticed": 0
+    }
+  ]
+}

@@ -22,29 +22,29 @@ sources:
     status: UNVERIFIED
 
   - id: oss_fuzz_commit_6403e933
-    url: "TBD, VERIFY Day 1"
+    url: "https://github.com/google/oss-fuzz/commit/6403e933.patch"
     expect: "2023-03-20: bug reports re-routed to Jia Tan."
-    status: UNVERIFIED
+    status: FETCHED 2026-10-12 HTTP 200 (eval/results/ecosystem_sources.json)
 
   - id: oss_fuzz_commit_d2e42b2e
-    url: "TBD, VERIFY Day 1"
+    url: "https://github.com/google/oss-fuzz/commit/d2e42b2e.patch"
     expect: "2023-07-07: ifunc disabled in xz's oss-fuzz build."
-    status: UNVERIFIED
+    status: FETCHED 2026-10-12 HTTP 200 (eval/results/ecosystem_sources.json)
 
   - id: lkml_2024_3_20_1008
-    url: "TBD, VERIFY Day 1"
+    url: "https://lkml.org/lkml/2024/3/20/1008"
     expect: "2024-03-20: kernel patch listing Jia Tan as an xz maintainer."
-    status: UNVERIFIED
+    status: FETCHED 2026-10-12 HTTP 200 (eval/results/ecosystem_sources.json)
 
   - id: debian_bug_1067708
-    url: "TBD, VERIFY Day 1"
+    url: "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067708"
     expect: "2024-03-25: Hans Jansen asks Debian to update to 5.6.1."
-    status: UNVERIFIED
+    status: FETCHED 2026-10-12 HTTP 200 (eval/results/ecosystem_sources.json)
 
   - id: ubuntu_launchpad_bug_2059417
-    url: "TBD, VERIFY Day 1"
+    url: "https://bugs.launchpad.net/ubuntu/+source/xz-utils/+bug/2059417"
     expect: "2024-03-28: Jia Tan asks Ubuntu to pick up 5.6.1."
-    status: UNVERIFIED
+    status: FETCHED 2026-10-12 HTTP 200 (eval/results/ecosystem_sources.json)
 
   - id: oss_security_2024_03_29_4
     url: "TBD, VERIFY Day 1"
