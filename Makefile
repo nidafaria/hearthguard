@@ -1,4 +1,4 @@
-.PHONY: video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: blog-check video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -14,6 +14,10 @@ test:
 lint:
 	uv run ruff check .
 	uv run ruff format --check .
+
+# Checks docs/blog/post.md: sourced numbers, banned words, word count, synthetic mentions. Exit 1 on failure.
+blog-check:
+	uv run python eval/blog_check.py
 
 # Re-checks every FalkorDB procedure the product depends on, on the pinned image (exit 1 on any failure).
 smoke-algos:
