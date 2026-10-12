@@ -35,9 +35,11 @@ def _part(m: dict, kind: str) -> dict:
     }
 
 
-def harden_org(client: FalkorClient, org: str, step: str, T: int) -> dict:
+def harden_org(
+    client: FalkorClient, org: str, step: str, T: int, run: str | None = None
+) -> dict:
     """One step on a copy of org_<org> at T. Before and after are measured, never filled in."""
-    run = uuid.uuid4().hex[:10]
+    run = run or uuid.uuid4().hex[:10]  # a caller may pass its own run id (tests do)
     org_after = f"hza{run}"
     source, harden, evaluated = f"org_{org}", f"harden_{run}", f"org_{org_after}"
     try:

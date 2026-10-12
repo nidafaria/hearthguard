@@ -72,7 +72,8 @@
     "HTTP status codes are not exposed by the browser tools; each control's success is shown by the page's own reply. No status number is recorded.",
     "Only the xz case (public record) was clicked. The synthetic tallowdate case was not clicked in the browser.",
     "Control 'Remind me in a week' was clicked once; its second-tap behaviour is covered by tests/integration/test_inbox_loop.py.",
-    "The page at /#/inbox/2021-Q4 also still shows the earlier Simulate and Dismiss controls from Inbox.tsx; they call the older /api/notes endpoints. Two dismiss paths exist on one screen."
+    "The page at /#/inbox/2021-Q4 also still shows the earlier Simulate and Dismiss controls from Inbox.tsx; they call the older /api/notes endpoints. Two dismiss paths exist on one screen.",
+    "This check was run before the older Simulate and Dismiss controls were removed from ui/src/Inbox.tsx. The Thread controls it clicked are unchanged, but the page itself has not been re-clicked since."
   ],
   "screenshots": [
     "eval/results/inbox_screens/xz_2021-Q4_all_controls.png"

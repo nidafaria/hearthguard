@@ -1,5 +1,7 @@
 """Hardening simulator on fixture graphs. Real FalkorDB, no mocks (docs/HEARTHGUARD.md 8.5)."""
 
+import uuid
+
 import pytest
 
 from core.graph.client import FalkorClient
@@ -44,9 +46,15 @@ def test_two_approvals_never_lowers_cost(client, fixture):
 
 
 def test_no_graphs_left_behind(client):
-    sim.simulate(FIXTURES[0], sim.STEP_ADD_KEEPER, client)
-    left = [n for n in graph_names(client) if n.startswith(("harden_", "org_hf"))]
-    assert left == []
+    # A run id unique to this test: only the graphs named with it are checked and dropped.
+    run = f"tstfx{uuid.uuid4().hex[:8]}"
+    mine = (f"org_hf{run}", f"org_hfa{run}", f"harden_{run}")
+    try:
+        sim.simulate(FIXTURES[0], sim.STEP_ADD_KEEPER, client, run=run)
+        assert not set(mine) & graph_names(client)
+    finally:
+        for g in mine:
+            client.drop(g)
 
 
 def test_unknown_step_and_fixture(client):

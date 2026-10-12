@@ -19,6 +19,4 @@ current state.
 - Block A's browser check used the local app on port 8766. A separate server was already bound to
   port 8765 from another checkout; I did not stop it.
 - `make inbox` (port 8765) will serve the old build until that other process stops.
-- The inbox screen still shows two dismiss paths and two Simulate buttons: the older `/api/notes`
-  controls from ui/src/Inbox.tsx and the new Thread controls. The brief limited the change to a
-  one-line mount, so the duplicate was left in place.
+- The older Simulate and Dismiss controls were removed from ui/src/Inbox.tsx after the browser check. The Thread controls remain.

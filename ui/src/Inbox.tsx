@@ -1,18 +1,16 @@
 // The local inbox: a list of notes, the note itself, and its "Show me why" page. Reads /api only.
 // Not connected to Slack. Nothing is sent. Every screen shows its data label.
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Thread } from "./Thread";
 
 const LABEL = "Public record: xz project git history (org_xz). Synthetic data: none on this screen.";
 
 type NoteItem = { quarter: string; decision: string; headline: string; dismissed: boolean };
 type NotesList = { label: string; provisional: boolean; notes: NoteItem[] };
-type Dismissal = { quarter: string; decision: string; reason: string; at_utc: string };
-type NoteDetail = { label: string; quarter: string; decision: string; note: string; dismissal: Dismissal | null };
+type NoteDetail = { label: string; quarter: string; decision: string; note: string };
 type Query = { name: string; query: string; rows: number; ms: number };
 type Fact = { fact: string; status: string; reason: string; file: string; queries: Query[] };
 type Why = { label: string; quarter: string; decision: string; rule: string; facts: Fact[]; text: string };
-type Simulate = { available: boolean; reason: string; source: string; result: unknown };
 
 type Route = { name: "list" } | { name: "note"; quarter: string } | { name: "why"; quarter: string };
 
@@ -122,85 +120,11 @@ function ListScreen() {
   );
 }
 
-function SimulatePanel({ quarter }: { quarter: string }) {
-  const [sim, setSim] = useState<Simulate | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  async function run() {
-    setError(null);
-    try {
-      setSim(await getJson<Simulate>(`/api/notes/${quarter}/simulate`));
-    } catch (e) {
-      setError((e as Error).message);
-    }
-  }
-  return (
-    <div>
-      <button type="button" onClick={run}>
-        Simulate a fix
-      </button>
-      {error && <p className="NOT_COMPUTED tag">{error}</p>}
-      {sim && !sim.available && (
-        <p>
-          <span className="tag NOT_COMPUTED">NOT COMPUTED</span> {sim.reason}
-        </p>
-      )}
-      {sim && sim.available && (
-        <>
-          <p className="sub">{sim.reason}</p>
-          <pre>{JSON.stringify(sim.result, null, 2)}</pre>
-        </>
-      )}
-    </div>
-  );
-}
-
-function DismissForm({ quarter, onDone }: { quarter: string; onDone: (d: Dismissal) => void }) {
-  const [reason, setReason] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  async function submit(e: FormEvent) {
-    e.preventDefault();
-    if (busy) return;
-    setBusy(true);
-    setError(null);
-    try {
-      const r = await getJson<{ dismissal: Dismissal }>(`/api/notes/${quarter}/dismiss`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reason }),
-      });
-      onDone(r.dismissal);
-    } catch (err) {
-      setError((err as Error).message || "The reason must be 3 to 500 characters.");
-    } finally {
-      setBusy(false);
-    }
-  }
-  return (
-    <form onSubmit={submit}>
-      <label>
-        Reason (saved to a local file only)
-        <br />
-        <textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={3} cols={60} maxLength={500} />
-      </label>
-      <br />
-      <button type="submit" disabled={busy}>
-        Dismiss with reason
-      </button>
-      {error && <p className="NOT_COMPUTED tag">{error}</p>}
-    </form>
-  );
-}
-
 function NoteScreen({ quarter }: { quarter: string }) {
   const { data, error } = useLoad<NoteDetail>(`/api/notes/${quarter}`);
-  const [dismissal, setDismissal] = useState<Dismissal | null>(null);
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
-    if (data) {
-      setDismissal(data.dismissal);
-      setLoaded(true);
-    }
+    if (data) setLoaded(true);
   }, [data]);
   return (
     <Frame title={`Note: ${quarter}`}>
@@ -221,20 +145,6 @@ function NoteScreen({ quarter }: { quarter: string }) {
                 Show me why
               </a>
             </p>
-          </section>
-          <section>
-            <h2>Simulate a fix</h2>
-            <SimulatePanel quarter={quarter} />
-          </section>
-          <section>
-            <h2>Dismiss with reason</h2>
-            {dismissal ? (
-              <p>
-                Dismissed {dismissal.at_utc}: {dismissal.reason}
-              </p>
-            ) : (
-              <DismissForm quarter={quarter} onDone={setDismissal} />
-            )}
           </section>
           <Thread caseId="xz" quarter={quarter} />
         </>

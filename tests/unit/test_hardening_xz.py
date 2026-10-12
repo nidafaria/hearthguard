@@ -1,6 +1,7 @@
 """Hardening on a real FalkorDB copy of org_xz, and on a grant-bearing org. No mocks."""
 
 import json
+import uuid
 from pathlib import Path
 
 import pytest
@@ -60,8 +61,15 @@ def test_provenance_step_changes_the_copy_not_org_xz(client, xz_ready):
 
 
 def test_no_graphs_left_behind(client, xz_ready):
-    xz.harden_org(client, "xz", sim.STEP_ADD_KEEPER, T)
-    assert [n for n in names(client) if n.startswith(("harden_", "org_hza"))] == []
+    # A run id unique to this test: only the graphs named with it are checked and dropped.
+    run = f"tstxz{uuid.uuid4().hex[:8]}"
+    mine = (f"harden_{run}", f"org_hza{run}")
+    try:
+        xz.harden_org(client, "xz", sim.STEP_ADD_KEEPER, T, run=run)
+        assert not set(mine) & names(client)
+    finally:
+        for g in mine:
+            client.drop(g)
 
 
 def test_same_path_computes_on_a_grant_bearing_org(client):

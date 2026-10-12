@@ -104,12 +104,17 @@ def measure(client: FalkorClient, org: str, T: int) -> dict:
     }
 
 
-def simulate(fixture_name: str, step: str, client: FalkorClient | None = None) -> dict:
+def simulate(
+    fixture_name: str,
+    step: str,
+    client: FalkorClient | None = None,
+    run: str | None = None,
+) -> dict:
     client = client or FalkorClient()
     case = _case(fixture_name)
     if step not in STEPS:
         raise ValueError(f"unknown step {step!r}; menu is {STEPS}")
-    run = uuid.uuid4().hex[:10]
+    run = run or uuid.uuid4().hex[:10]  # a caller may pass its own run id (tests do)
     org = f"hf{run}"  # original graph: org_<org>
     org_after = f"hfa{run}"  # measurement copy of the hardened graph: org_<org_after>
     original, harden, evaluated = f"org_{org}", f"harden_{run}", f"org_{org_after}"
