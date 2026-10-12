@@ -1,0 +1,41 @@
+{
+  "org": "xz",
+  "privilege": "release",
+  "T": 1711929599,
+  "T_iso": "2024-03-31T23:59:59Z",
+  "provisional": true,
+  "rule": "0001-outsider-edges (PROPOSED)",
+  "takeover_cost": {
+    "status": "NOT COMPUTED",
+    "value": null,
+    "reason": "no CAN_GRANT or Privilege data in org_xz (git history has no grant record)",
+    "queries": [
+      {
+        "name": "privilege_exists",
+        "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+        "params": {
+          "kind": "release"
+        },
+        "ms": 42.523399999481626,
+        "rows": 0
+      }
+    ]
+  },
+  "guardians": {
+    "status": "NOT COMPUTED",
+    "value": null,
+    "reason": "no CAN_GRANT or Privilege data in org_xz (git history has no grant record)",
+    "queries": [
+      {
+        "name": "privilege_exists",
+        "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+        "params": {
+          "kind": "release"
+        },
+        "ms": 2.4101999997583334,
+        "rows": 0
+      }
+    ]
+  },
+  "note": "Not a finding. The xz git ingest has no Privilege nodes and no grant edges, so takeover cost and guardians cannot be computed on real xz data yet. The algorithms are proven on hand-built graphs in tests/fixtures/takeover_cases.py."
+}

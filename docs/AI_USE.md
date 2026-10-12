@@ -8,3 +8,6 @@ Day 1: Claude Code checked both public xz git sources, cached a bare mirror in d
 Day 1: Claude Code wrote the git parser (hashed authors, public persona only), the org_xz graph mapping, and an idempotent ingest that writes no grant edges.
 Day 1: Claude Code wrote the as-of normal metrics (cadence, active keepers, release channel) and the quarter-end export to eval/results/xz_normal.json.
 Day 1: Claude Code wrote the integration tests for idempotent ingest, no emails in the graph, and as-of correctness, including an independent Python recomputation of every metric.
+Day 1: Claude Code wrote the PROPOSED OUTSIDER-edge decision record (status PROPOSED) and listed the cadence and active-keepers decisions as OPEN.
+Day 1: Claude Code wrote takeover cost (SPpaths on a scratch graph) and guardians (the exact spec projection and maxFlow), both provisional.
+Day 1: Claude Code wrote the hand-built fixtures with hand-derived answers, the tests, and the xz NOT COMPUTED status file.

@@ -1,4 +1,4 @@
-.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -30,6 +30,10 @@ ingest-xz:
 # Remembered-normal metrics for xz at each quarter-end -> eval/results/xz_normal.json
 normal-xz:
 	uv run python -m eval.xz_normal
+
+# Takeover cost and guardians on org_xz: expected NOT COMPUTED (git has no grant record).
+takeover-xz:
+	uv run python -m eval.xz_takeover_status
 
 # Placeholders for later steps. Each one fails until it is built.
 demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:

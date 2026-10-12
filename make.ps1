@@ -1,7 +1,7 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "help")]
     [string]$Target = "help"
 )
 
@@ -45,7 +45,11 @@ switch ($Target) {
         uv run python -m eval.xz_normal
         exit $LASTEXITCODE
     }
+    "takeover-xz" {
+        uv run python -m eval.xz_takeover_status
+        exit $LASTEXITCODE
+    }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz>"
     }
 }
