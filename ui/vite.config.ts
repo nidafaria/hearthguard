@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
@@ -27,4 +28,6 @@ function results(): Plugin {
   };
 }
 
-export default defineConfig({ plugins: [react(), results()], server: { port: 5173, proxy: { "/api": "http://127.0.0.1:8765" } } });
+export default defineConfig({ plugins: [react(), results()], server: { port: 5173, proxy: { "/api": process.env.HEARTHGUARD_API ?? "http://127.0.0.1:8765" } },
+  test: { environment: "jsdom", include: ["src/**/*.test.{ts,tsx}"] },
+});

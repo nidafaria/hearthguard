@@ -25,3 +25,7 @@ def xz_org() -> str:
         sigs = git_ingest.verify_tags(mirror, annotated)
         xz_graph.load(client, commits, tags, sigs, graph="org_xz")
     return "xz"
+
+
+# The local GitHub stub for the connect tests (the same `site` fixture the unit tests use).
+from tests.unit.conftest import site  # noqa: E402,F401

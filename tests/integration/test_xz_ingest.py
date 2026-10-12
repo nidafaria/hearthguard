@@ -21,8 +21,10 @@ def client() -> FalkorClient:
 
 @pytest.fixture(scope="module")
 def parsed():
-    git_ingest.ensure_mirror()
+    # data/raw is git-ignored: a clean clone has no xz mirror. Skip rather than clone it in a test.
     mirror = git_ingest.RAW_DIR / "xz.git"
+    if not mirror.exists():
+        pytest.skip("data/raw/xz.git is absent (git-ignored): run `make ingest-xz` to create it")
     tags = git_ingest.read_tags(mirror)
     commits = git_ingest.read_commits(mirror, {t["target_sha"] for t in tags})
     names = [t["name"] for t in tags if t["kind"] == "annotated"]

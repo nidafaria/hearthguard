@@ -30,8 +30,13 @@ def client() -> FalkorClient:
 
 @pytest.fixture(scope="module")
 def parsed():
-    if not (fetch.RAW_DIR / "debian_bug_1067708.html").is_file():
-        fetch.run()
+    # data/raw is git-ignored: a clean clone has none. Skip, do not fetch from inside a test.
+    # The tracked ecosystem_sources.json names every cached file the parser reads.
+    names = json.loads((RESULTS / "ecosystem_sources.json").read_text(encoding="utf-8"))
+    cached = [Path(s["cache_file"]).name for s in names["sources"] + names.get("supplementary_sources", [])]
+    gone = [n for n in cached if not (fetch.RAW_DIR / n).is_file()]
+    if gone:
+        pytest.skip(f"data/raw/ecosystem is absent (git-ignored, {len(gone)} files): run `make ecosystem-xz`")
     events, _ = parse.all_events()
     return events, parse.build_registry(events)
 

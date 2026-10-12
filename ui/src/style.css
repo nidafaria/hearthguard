@@ -42,3 +42,21 @@ a.button, button { display: inline-block; padding: 6px 12px; border: 1px solid v
 button:disabled { opacity: 0.6; cursor: default; }
 pre { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px; overflow-x: auto; font-size: 12px; white-space: pre-wrap; }
 textarea { font: inherit; max-width: 100%; }
+
+/* Block B screens: pack header, status tags, checklist, legend */
+.pack { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+header nav { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+header nav a { color: var(--fg); text-decoration: none; padding: 4px 8px; border-radius: 4px; border: 1px solid transparent; }
+header nav a.current { border-color: var(--line); background: var(--panel); }
+.tag.synthetic { color: var(--warn); border: 1px solid var(--warn); border-radius: 4px; padding: 0 5px; font-size: 11px; }
+.tag.public { color: var(--ok); border: 1px solid var(--ok); border-radius: 4px; padding: 0 5px; font-size: 11px; }
+.DONE, .COMPUTED { color: var(--ok); }
+.FAILED, .REFUSED, .NOT_FOUND, .UNREACHABLE, .UNNOTICED { color: var(--bad); }
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.checklist li.done .tick.ok { color: var(--ok); }
+.tick { display: inline-block; width: 1em; color: var(--na); }
+.legend { list-style: none; padding: 0; font-size: 13px; }
+.legend li { padding: 2px 0; }
+.gauge-number { font-size: 32px; font-weight: 600; margin: 4px 0; }
+svg { max-width: 100%; height: auto; }

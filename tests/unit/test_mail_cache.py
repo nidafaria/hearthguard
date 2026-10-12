@@ -6,7 +6,7 @@ from email.utils import format_datetime
 
 import pytest
 
-from core.graph.hashing import identifier_hash
+from core.graph.hashing import MissingSaltError, identifier_hash, load_salt
 from packs.oss import mail_cache as mc
 from packs.oss.raw_cache import Fetcher
 from tests.unit.conftest import Clock
@@ -61,6 +61,22 @@ def test_an_address_in_the_body_is_not_taken_as_the_author():
 
 
 # ------------------------------------------------------------------ hashing
+def _salt_is_set() -> bool:
+    try:
+        load_salt()
+    except MissingSaltError:
+        return False
+    return True
+
+
+# .env is git-ignored, so a clean clone has no salt. These tests need it, and say so when it is absent.
+needs_salt = pytest.mark.skipif(
+    not _salt_is_set(),
+    reason="HEARTHGUARD_HASH_SALT is not set (.env is git-ignored): add it to run the hashing tests",
+)
+
+
+@needs_salt
 def test_an_email_is_hashed_when_the_header_shows_one():
     html = page(1, datetime(2022, 1, 1, tzinfo=UTC), email="Pat@Example.org").decode()
     parsed = mc.parse_message(html)
@@ -68,6 +84,7 @@ def test_an_email_is_hashed_when_the_header_shows_one():
     assert basis == "email" and h == identifier_hash("pat@example.org")
 
 
+@needs_salt
 def test_a_display_name_is_hashed_when_there_is_no_email_and_in_its_own_namespace():
     h, basis = mc.author_hash(None, "Pat Example")
     assert basis == "display_name" and len(h) == 64
