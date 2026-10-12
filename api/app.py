@@ -15,6 +15,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from api.inbox_actions import build_router
 from slack_app.render import DECISION, render_note
 from slack_app.show_why import RESULTS, facts_for, render_show_why
 
@@ -35,6 +36,7 @@ def create_app(
     static_dir: Path | None = None,
 ) -> FastAPI:
     app = FastAPI(title="Hearthguard inbox (local)")
+    app.include_router(build_router(results, inbox_file))
     decision_file = results / DECISION.name
     hardening_file = results / HARDENING_NAME
 
