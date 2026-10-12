@@ -1,4 +1,4 @@
-.PHONY: inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: video-check inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -117,6 +117,11 @@ tallowdate-run:
 # The fictional tallowdate history (synthetic, labelled). Writes data/synthetic/tallowdate.json. Generate only.
 synthetic-tallowdate:
 	uv run python -m redteam.tallowdate
+
+# The demo video package: every quote matched word for word in the cached mail, every number read from
+# eval/results/*.json, timing, Act II labels and narration. Exit 1 on any failure. Writes eval/results/video_*.json.
+video-check:
+	uv run python -m eval.video_check
 
 # The read-only page over eval/results/*.json. Needs no key and no FalkorDB.
 ui:
