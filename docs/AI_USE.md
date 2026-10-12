@@ -32,3 +32,4 @@ Day 2: Claude Code ran the synthetic tallowdate case through the loader, normal 
 Oct 12: Claude Code (Haiku 5.5, agent writeup) drafted README.md, docs/submission_checklist.md and docs/blog_outline.md from the three result files, and checked every number against its source file with a script (82 numbers, none without a source).
 Oct 12: Claude Code (Haiku 5.5) wrote docs/judge_guide.md, checked each README make command against the Makefile and make.ps1, and removed the 16 README command names that are placeholders or not in the Makefile.
 Oct 12: Claude Code (Haiku 5.5, agent video) wrote eval/video_check.py and docs/video/, recorded eval/results/video_quotes.json and video_numbers.json.
+Oct 12: Claude Code (Haiku 5.5, block B) added make gaps CASE=xz (eval/gaps_report.py), extended make demo with gaps, hardening and tallowdate summaries from saved files, and generated docs/queries.md from the query constants with a test that it matches the code.

@@ -132,10 +132,14 @@ ui:
 	cd ui && npm install && npm run dev
 
 # Placeholders for later steps. Each one fails until it is built.
-gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
+harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
 	@echo "$@: not built yet"
 	@exit 1
 
 # Fetch the public xz ecosystem records, load ecosystem_xz twice, compute visibility gaps (no model calls).
 ecosystem-xz:
 	uv run python -m eval.ecosystem_xz
+
+# Visibility gaps from the saved ecosystem_xz output: make gaps CASE=xz. Reads files only.
+gaps:
+	uv run python -m eval.gaps_report $(or $(CASE),xz)
