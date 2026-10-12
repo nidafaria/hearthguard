@@ -22,8 +22,8 @@ from core.graph.as_of import run_as_of
 from core.graph.client import FalkorClient
 from core.takeover import cost, guardians
 from eval import xz_detector_status as base
-from redteam.tallowdate_normal import QUARTER_ENDS, end_of_day_utc
 from redteam.load_tallowdate import ORG_ID
+from redteam.tallowdate_normal import QUARTER_ENDS, end_of_day_utc
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "eval" / "results" / "tallowdate_detector_status.json"
@@ -52,9 +52,7 @@ def _function_source(text: str, name: str) -> str:
 
 
 def _git(*args: str) -> str:
-    out = subprocess.run(
-        ["git", *args], cwd=ROOT, capture_output=True, text=True, check=True
-    )
+    out = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, check=True)
     return out.stdout.strip()
 
 

@@ -65,8 +65,7 @@ MERGE (p:Path {channel: $channel, verified: $verified, approvers: $approvers, sy
 MERGE (c)-[v:VIA]->(p)
   SET v.synthetic = true"""
 Q_FACT_REVIEWS = (
-    "MATCH (a:Actor {hid: $hid})-[:DID]->(r:Action {kind: 'review'}) "
-    "RETURN count(r) AS n"
+    "MATCH (a:Actor {hid: $hid})-[:DID]->(r:Action {kind: 'review'}) RETURN count(r) AS n"
 )
 
 

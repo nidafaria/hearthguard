@@ -80,7 +80,9 @@ def main() -> int:
         print(f"{DETECTORS.name} does not exist yet; run redteam.tallowdate_detectors first")
         return 1
     doc = build()
-    OUT.write_text(json.dumps(doc, indent=2, default=list, ensure_ascii=False) + "\n", encoding="utf-8")
+    OUT.write_text(
+        json.dumps(doc, indent=2, default=list, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     print(f"wrote {OUT}")
     for r in doc["quarters"]:
         print(r["quarter"], r["decision"], r["detail"].get("reason", ""))
