@@ -99,6 +99,6 @@ ui:
 	cd ui && npm install && npm run dev
 
 # Placeholders for later steps. Each one fails until it is built.
-replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
+gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
 	@echo "$@: not built yet"
 	@exit 1
