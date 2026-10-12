@@ -26,8 +26,12 @@ def test_load_is_idempotent():
     saved = json.loads(LOAD_JSON.read_text(encoding="utf-8"))["counts_after_run_1"]
     loader_nodes = {"Action", "Actor", "Org", "Path"}
     loader_edges = {"DID", "VIA"}
-    assert {k: v for k, v in first["nodes"].items() if k in loader_nodes} == saved["nodes"]
-    assert {k: v for k, v in first["edges"].items() if k in loader_edges} == saved["edges"]
+    assert {k: v for k, v in first["nodes"].items() if k in loader_nodes} == {
+        k: v for k, v in saved["nodes"].items() if k in loader_nodes
+    }
+    assert {k: v for k, v in first["edges"].items() if k in loader_edges} == {
+        k: v for k, v in saved["edges"].items() if k in loader_edges
+    }
 
 
 def test_every_node_and_edge_is_synthetic():
