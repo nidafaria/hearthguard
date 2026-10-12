@@ -12,12 +12,14 @@ It was built to ask one question: would this memory have flagged the xz backdoor
 
 The demo needs no API key, no network and no database. It prints a table built from saved result files. Two runs printed identical bytes (eval/results/build_report.md).
 
-Windows (no `make` needed):
+Windows (no `make` needed). Needs `uv` on the PATH (https://docs.astral.sh/uv/):
 
 ```powershell
 uv sync
-.\make.ps1 demo
+powershell -ExecutionPolicy Bypass -File .\make.ps1 demo
 ```
+
+The `-ExecutionPolicy Bypass` form works on a default Windows install. A plain `.\make.ps1 demo` fails there with "running scripts is disabled on this system", because Windows defaults to the Restricted policy. The plain form works once `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` has been run.
 
 Linux or macOS with GNU make: `make demo`. I could not run this here, because `make` is not installed on this machine. See "Known issues".
 
@@ -30,7 +32,7 @@ Each name works as `make <name>`, or on Windows as `.\make.ps1 <name>`.
 | Command | What it does | Needs | Source |
 |---|---|---|---|
 | `up` / `down` | Start or stop FalkorDB. The image is pinned to `falkordb/falkordb:6.0.2`. If a port is taken, set `FALKORDB_PORT` or `FALKORDB_UI_PORT` in `.env` | Docker | docker-compose.yml |
-| `test` | Run the test suite (pytest) | uv | Makefile |
+| `test` | Run the test suite (pytest). Without FalkorDB (`up`) and a `.env` with `HEARTHGUARD_HASH_SALT`, the graph and hashing tests fail; the demo does not need them | uv; FalkorDB and `.env` for the full suite | Makefile |
 | `lint` | Run ruff check and format check | uv | Makefile |
 | `smoke-algos` | Re-check each FalkorDB procedure the product depends on | FalkorDB | Makefile |
 | `schema-test` | Schema, as-of helper, read-only guard and hashing tests | FalkorDB | Makefile |
