@@ -1,0 +1,220 @@
+# Public sources for Hearthguard (pre-event notes, Oct 12, 2026).
+# Source of list: docs/HEARTHGUARD.md §23 and §3.
+# status: UNVERIFIED for every entry. Verify each URL on Day 1 and cache every fetch
+# to data/raw/ with its URL and fetch time.
+# url "TBD, VERIFY Day 1" means the spec gives no URL for this item.
+
+sources:
+  # --- xz (CVE-2024-3094) primary and ecosystem records ---
+  - id: xz_timeline_russ_cox
+    url: "https://research.swtch.com/xz-timeline"
+    expect: "Public timeline of the xz attack. Index only: use it to find primary records, not as a primary source (§23)."
+    status: UNVERIFIED
+
+  - id: xz_devel_archive
+    url: "TBD, VERIFY Day 1"
+    expect: "xz-devel mailing list messages msg00512 to msg00571 (2021-2022). Includes msg00563 (2022-05-19, 'resources are too limited'), the 2021-10-29 first patch and the 2022-06-29 'practically a co-maintainer already' message."
+    status: UNVERIFIED
+
+  - id: xz_git_history
+    url: "TBD, VERIFY Day 1"
+    expect: "Commits and releases. 2022: commit then release rights. 2023-03 onward: release tags. 2024-02-23: hidden payload merged. 2024-02-24: tag 5.6.0. 2024-03-09: tag 5.6.1. Payload in test files and a modified release tarball."
+    status: UNVERIFIED
+
+  - id: oss_fuzz_commit_6403e933
+    url: "TBD, VERIFY Day 1"
+    expect: "2023-03-20: bug reports re-routed to Jia Tan."
+    status: UNVERIFIED
+
+  - id: oss_fuzz_commit_d2e42b2e
+    url: "TBD, VERIFY Day 1"
+    expect: "2023-07-07: ifunc disabled in xz's oss-fuzz build."
+    status: UNVERIFIED
+
+  - id: lkml_2024_3_20_1008
+    url: "TBD, VERIFY Day 1"
+    expect: "2024-03-20: kernel patch listing Jia Tan as an xz maintainer."
+    status: UNVERIFIED
+
+  - id: debian_bug_1067708
+    url: "TBD, VERIFY Day 1"
+    expect: "2024-03-25: Hans Jansen asks Debian to update to 5.6.1."
+    status: UNVERIFIED
+
+  - id: ubuntu_launchpad_bug_2059417
+    url: "TBD, VERIFY Day 1"
+    expect: "2024-03-28: Jia Tan asks Ubuntu to pick up 5.6.1."
+    status: UNVERIFIED
+
+  - id: oss_security_2024_03_29_4
+    url: "TBD, VERIFY Day 1"
+    expect: "2024-03-29: discovery report. SSH logins noticed as about 500 ms slower."
+    status: UNVERIFIED
+
+  # --- Context on xz social engineering ---
+  - id: openssf_openjs_alert_blog
+    url: "https://openjsf.org/blog/openssf-openjs-alert-social-engineering-takeovers"
+    expect: "2024-04-15 alert. Warning signs of social-engineering takeovers. States the attacks are 'difficult to detect or protect against programmatically'."
+    status: UNVERIFIED
+
+  - id: openssf_openjs_alert_linux_foundation
+    url: "https://linuxfoundation.org/blog/openssf-openjs-alert-for-social-engineering-takeovers-of-open-source-projects"
+    expect: "Same alert, Linux Foundation copy. Compare wording with the OpenJS copy."
+    status: UNVERIFIED
+
+  - id: securelist_xz_part2
+    url: "https://securelist.com/xz-backdoor-story-part-2-social-engineering/112476/"
+    expect: "Social-engineering side of the xz attack (secondary source)."
+    status: UNVERIFIED
+
+  - id: the_record_takeover_stopped
+    url: "https://therecord.media/researchers-stop-credible-takeover-xz-utils"
+    expect: "Report on a takeover attempt that was stopped (secondary source)."
+    status: UNVERIFIED
+
+  - id: infosecurity_xz_takeover
+    url: "https://www.infosecurity-magazine.com/news/open-source-xz-utilslike-takeover/"
+    expect: "Report on an xz-like takeover (secondary source)."
+    status: UNVERIFIED
+
+  # --- event-stream (2018) ---
+  - id: event_stream_issue_and_history
+    url: "TBD, VERIFY Day 1"
+    expect: "2018: maintainer hands the npm package to a new volunteer. flatmap-stream dependency added with malicious code aimed at a crypto wallet."
+    status: UNVERIFIED
+
+  # --- axios (March 31, 2026) ---
+  - id: axios_advisory_endor_labs
+    url: "https://www.endorlabs.com/learn/npm-axios-compromise"
+    expect: "axios@1.14.1 and axios@0.30.4 published by hand through the npm CLI, skipping GitHub Actions. Secondary source. Spec says cite primary advisories; primary not yet identified."
+    status: UNVERIFIED
+
+  - id: axios_advisory_datadog
+    url: "https://securitylabs.datadoghq.com/articles/axios-npm-supply-chain-compromise"
+    expect: "axios compromise write-up (secondary source). Check timing and download counts; sources disagree (§3.1)."
+    status: UNVERIFIED
+
+  - id: axios_advisory_trend_micro
+    url: "https://trendmicro.com/en_us/research/26/c/axios-npm-package-compromised.html"
+    expect: "axios compromise write-up (secondary source)."
+    status: UNVERIFIED
+
+  - id: axios_npm_metadata
+    url: "TBD, VERIFY Day 1"
+    expect: "npm registry metadata for axios: maintainer account change, publisher of each version, publish path. Expected: 1.14.1 and 0.30.4 published by hand."
+    status: UNVERIFIED
+
+  # --- npm and GitHub data ---
+  - id: npm_provenance_metadata
+    url: "TBD, VERIFY Day 1"
+    expect: "dist.attestations field on npm versions (provenance). Only community documentation so far (§23). Verify field names against the registry."
+    status: UNVERIFIED
+
+  - id: github_rest_api
+    url: "TBD, VERIFY Day 1"
+    expect: "Repos, commits, PRs, reviews, CODEOWNERS and MAINTAINERS files for OSS ingest. Token gives 5,000 requests per hour (§18). Cache every fetch."
+    status: UNVERIFIED
+
+  - id: gh_archive
+    url: "https://gharchive.org/"
+    expect: "Public GitHub event archive (listed in §23). Use not yet assigned to a detector."
+    status: UNVERIFIED
+
+  # --- Research and maintainer-survey context ---
+  - id: arxiv_2508_13453_beneath_the_mask
+    url: "https://arxiv.org/abs/2508.13453"
+    expect: "2025 paper on malicious personas in open-source contribution data. States no tooling exists for this. Prior work cited by Hearthguard (§3.4)."
+    status: UNVERIFIED
+
+  - id: csa_research_note_dprk_2026
+    url: "https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/04/CSA_research_note_dprk-oss-maintainer-social-engineering_20260404-csa-styled.pdf"
+    expect: "Unofficial, AI-assisted note on DPRK-linked targeting of maintainers (Apr 2026). Context only, not a primary source (§3.1)."
+    status: UNVERIFIED
+
+  - id: tidelift_2024_survey_sdtimes
+    url: "https://sdtimes.com/open-source/the-state-of-open-source-maintainers/"
+    expect: "Coverage of Tidelift 2024 maintainer survey. Spec figures to check: about 60% unpaid; about 60% quit or considered quitting; about half feel underappreciated."
+    status: UNVERIFIED
+
+  - id: tidelift_2024_survey_helpnetsecurity
+    url: "https://www.helpnetsecurity.com/2024/09/23/open-source-maintainers-security/"
+    expect: "Coverage of Tidelift 2024 maintainer survey. Check the same figures as above."
+    status: UNVERIFIED
+
+  - id: tidelift_2024_survey_sonarsource
+    url: "https://www.sonarsource.com/resources/library/open-source-maintainers/"
+    expect: "Coverage of Tidelift 2024 maintainer survey. Check the same figures as above."
+    status: UNVERIFIED
+
+  # --- Finance pack (BEC) ---
+  - id: fbi_ic3_2025_primary
+    url: "https://www.ic3.gov"
+    expect: "Primary FBI IC3 2025 report. Spec says verify BEC figures here before citing (about $3.05 billion, about 24,800 complaints)."
+    status: UNVERIFIED
+
+  - id: fbi_ic3_2025_mcdonald_hopkins
+    url: "https://www.mcdonaldhopkins.com/insights/news/the-sobering-truth-of-the-fbis-2025-internet-crime-complaint-center-report"
+    expect: "Secondary analysis of IC3 2025 (BEC figures). Not for citing without the primary check."
+    status: UNVERIFIED
+
+  - id: fbi_ic3_2025_insurance_business
+    url: "https://www.insurancebusinessmag.com/us/news/cyber/business-email-fraud-drives-bulk-of-us-cybercrime-losses-analysis-590687.aspx"
+    expect: "Secondary analysis of IC3 2025 (BEC figures). Not for citing without the primary check."
+    status: UNVERIFIED
+
+  - id: fbi_ic3_2025_the_record
+    url: "https://therecord.media/cyber-fraud-surges-to-17-billion-fbi-ic3"
+    expect: "Secondary coverage of IC3 2025. Not for citing without the primary check."
+    status: UNVERIFIED
+
+  # --- Event, past winners, FalkorDB ---
+  - id: wemakedevs_falkordb_event
+    url: "https://www.wemakedevs.org/hackathons/falkordb"
+    expect: "Event overview. Also /rules, /schedule and /resources pages (§23). Rules define R2 to R13."
+    status: UNVERIFIED
+
+  - id: wemakedevs_past_winner_cognee
+    url: "https://archive.wemakedevs.org/hackathons/cognee/projects"
+    expect: "Past winners list (Cognee). Used for judging-pattern notes only."
+    status: UNVERIFIED
+
+  - id: wemakedevs_past_winner_trueforge
+    url: "https://www.wemakedevs.org/hackathons/trueforge/projects"
+    expect: "Past winners list (TrueForge). Used for judging-pattern notes only."
+    status: UNVERIFIED
+
+  - id: falkordb_judges_recap_standouts
+    url: "https://www.falkordb.com/blog/memory-meets-motion-the-falkordb-standouts/"
+    expect: "FalkorDB judges' recap. Lists what judges praised (§1)."
+    status: UNVERIFIED
+
+  - id: falkordb_judges_recap_hack_for_humanity
+    url: "https://www.falkordb.com/blog/how-builders-at-hack-for-humanity-used-falkordb-to-solve-real-community-problems/"
+    expect: "FalkorDB recap of community builds. Used for judging-pattern notes only."
+    status: UNVERIFIED
+
+  - id: falkordb_6_0_announcement
+    url: "https://www.falkordb.com/blog/announcing-falkordb-6-0/"
+    expect: "FalkorDB 6.0 release notes. Check the procedure list in §5.1 against it."
+    status: UNVERIFIED
+
+  - id: falkordb_docs
+    url: "https://docs.falkordb.com/"
+    expect: "Algorithms, indexing, constraints and GRAPH.COPY docs. Check signatures for algo.maxFlow, algo.SPpaths and the others on Day 1 (§5.1)."
+    status: UNVERIFIED
+
+  - id: falkordb_cch_issue_2948
+    url: "https://github.com/FalkorDB/FalkorDB/issues/2948"
+    expect: "States CCH is not yet in the Rust engine. CCH and A* must not be used (§5.1)."
+    status: UNVERIFIED
+
+  # --- Census and false-alarm lists (not yet sourced) ---
+  - id: census_package_list
+    url: "TBD, VERIFY Day 1"
+    expect: "Public npm packages ranked by weekly downloads, with linked GitHub repo. Name and URL not yet chosen. Census is NOT FROZEN until filled (FREEZE.md §7)."
+    status: UNVERIFIED
+
+  - id: false_alarm_repo_list
+    url: "TBD, VERIFY Day 1"
+    expect: "About 30 public repos that added a maintainer or CODEOWNERS entry, 2021-2025. Written here with the fetch date before any detector runs (FREEZE.md §6)."
+    status: UNVERIFIED

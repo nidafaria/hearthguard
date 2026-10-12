@@ -1,0 +1,8 @@
+.env
+data/raw/
+__pycache__/
+.venv/
+node_modules/
+eval/results/*.tmp
+.pytest_cache/
+.ruff_cache/

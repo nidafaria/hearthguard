@@ -1,0 +1,13 @@
+services:
+  falkordb:
+    # Pinned to the newest 6.0.x tag on Docker Hub (see docs/VERIFIED.md). Never use :latest.
+    image: falkordb/falkordb:6.0.2
+    ports:
+      - "${FALKORDB_PORT:-6379}:6379"   # client protocol; host port overridable in .env
+      - "3000:3000"   # browser UI (debugging only)
+    volumes:
+      - falkordb_data:/var/lib/falkordb/data   # persistence: the image's data dir (CONFIG GET dir)
+    restart: unless-stopped
+
+volumes:
+  falkordb_data:

@@ -1,0 +1,40 @@
+[project]
+name = "hearthguard"
+version = "0.0.1"
+description = "Hearthguard: a trust memory for organisations (Graph Hacks 2026, FalkorDB)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "falkordb>=1.7.1",
+    "fastapi>=0.143.0",
+    "httpx>=0.28.1",
+    "mcp>=2.3.0",
+    "pydantic>=2.14.1",
+    "python-dotenv>=1.2.4",
+    "pyyaml>=6.0.3",
+    "uvicorn>=0.54.0",
+]
+
+[tool.uv]
+# Hearthguard is an application, not a library: nothing is installed as a package.
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.17.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# docs/ holds the spec and frozen notes. Their Markdown code snippets are not reformatted.
+extend-exclude = ["docs", "data/raw", "eval/results"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
