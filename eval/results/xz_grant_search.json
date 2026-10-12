@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-12T12:16:49Z",
+  "generated_at_utc": "2026-10-12T12:16:57Z",
   "sources": [
     {
       "source": "git history, all refs",
@@ -23,7 +23,7 @@
     },
     {
       "source": "git history, all refs, any path ever added/deleted/renamed",
-      "query": "git log --all --diff-filter=ADR --name-only --format= (file names matching maintain|owners)",
+      "query": "git log --all --diff-filter=ADR --name-only (file names matching maintain|owners)",
       "records": 0
     },
     {

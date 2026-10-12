@@ -39,7 +39,7 @@ def build() -> dict:
         sources.append(
             {"source": "git history, all refs", "query": q, "records": len(git(*q.split()[1:]))}
         )
-    q = "git log --all --diff-filter=ADR --name-only --format= (file names matching maintain|owners)"
+    q = "git log --all --diff-filter=ADR --name-only (file names matching maintain|owners)"
     names = {
         n
         for n in git("log", "--all", "--diff-filter=ADR", "--name-only", "--format=")
@@ -76,8 +76,8 @@ def build() -> dict:
         "sources": sources,
         "grant_records_found": 0,
         "found_by": "none of the sources above is a grant record; see note",
-        "note": "Commit-message matches are listed by hash. The only one (co-maintainer) was read: it "
-        "is a THANKS sorting-order change, not a grant. "
+        "note": "Commit-message matches are listed by hash. The only one (co-maintainer) was "
+        "read: it is a THANKS sorting-order change, not a grant. "
         "'Update maintainer and author info' style commits edit file headers; they do not "
         "record who was given rights. No Privilege or GRANTED edge was added.",
         "status": "NOT COMPUTED",
