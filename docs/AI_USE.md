@@ -11,3 +11,6 @@ Day 1: Claude Code wrote the integration tests for idempotent ingest, no emails 
 Day 1: Claude Code wrote the PROPOSED OUTSIDER-edge decision record (status PROPOSED) and listed the cadence and active-keepers decisions as OPEN.
 Day 1: Claude Code wrote takeover cost (SPpaths on a scratch graph) and guardians (the exact spec projection and maxFlow), both provisional.
 Day 1: Claude Code wrote the hand-built fixtures with hand-derived answers, the tests, and the xz NOT COMPUTED status file.
+Day 2: Claude Code wrote the Rush detector (leave-one-out 10th percentile, 180-day fallback, never defaults a missing timestamp) with the formula in the code comment.
+Day 2: Claude Code wrote the Bypass detector (per-property remembered normal; absent or tied values are NOT_COMPUTED, never a match) and the Lone keeper multiplier flag on top of guardians.
+Day 2: Claude Code wrote the hand-derived detector fixtures, the tests, and the xz NOT_COMPUTED status file with no values.

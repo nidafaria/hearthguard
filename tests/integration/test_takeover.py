@@ -15,7 +15,7 @@ from core.takeover import cost
 from core.takeover import guardians as gmod
 from core.takeover import scratch as sc
 from eval import xz_takeover_status
-from packs.oss import git_ingest, xz_graph
+from packs.oss import xz_graph
 from tests.fixtures.takeover_cases import CASE_E_AFTER, CASES, PRIV, Case, T
 
 REPO = Path(__file__).resolve().parents[2]
@@ -192,23 +192,6 @@ def test_missing_org_graph_is_not_computed_with_its_own_reason(client):
     assert (c.status, g.status) == (cost.NOT_COMPUTED, gmod.NOT_COMPUTED)
     assert "does not exist" in c.reason and "does not exist" in g.reason
     assert "org_tk_nope" not in graph_names(client)  # a read did not create it
-
-
-@pytest.fixture(scope="module")
-def xz_org(client):
-    """org_xz as `make ingest-xz` builds it. Loaded here only if it is not already there."""
-    present = "org_xz" in graph_names(client)
-    if present:
-        counts = xz_graph.graph_counts(client, "org_xz")
-        present = counts["nodes"].get("Action", 0) > 0
-    if not present:
-        git_ingest.ensure_mirror()
-        mirror = git_ingest.RAW_DIR / "xz.git"
-        tags = git_ingest.read_tags(mirror)
-        commits = git_ingest.read_commits(mirror, {t["target_sha"] for t in tags})
-        names = [t["name"] for t in tags if t["kind"] == "annotated"]
-        xz_graph.load(client, commits, tags, git_ingest.verify_tags(mirror, names), graph="org_xz")
-    return "xz"
 
 
 def test_real_xz_is_not_computed_and_writes_no_finding(client, xz_org):

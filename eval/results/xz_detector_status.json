@@ -1,0 +1,79 @@
+{
+  "org": "xz",
+  "privilege": "release",
+  "T": 1711929599,
+  "T_iso": "2024-03-31T23:59:59Z",
+  "action_ref": "v5.6.1",
+  "action_selection": "the most recent release at or before T, and its tagger for Rush",
+  "provisional": true,
+  "detectors": {
+    "rush": {
+      "status": "NOT_COMPUTED",
+      "reason": "no Privilege of kind 'release' in org_xz, so no grant data (git history has no grant record)",
+      "queries": [
+        {
+          "name": "privilege_exists",
+          "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+          "params": {
+            "kind": "release"
+          },
+          "ms": 1.965000001291628,
+          "rows": 0
+        }
+      ]
+    },
+    "bypass": {
+      "status": "NOT_COMPUTED",
+      "reason": "properties that could not be compared: ci, provenance, key_hid, publisher_in_set, artifact_matches_tag (git records only channel and verified on a release path)",
+      "queries": [
+        {
+          "name": "org_pack",
+          "query": "MATCH (o:Org) RETURN o.pack AS pack LIMIT 2",
+          "params": {},
+          "ms": 1.8454000000929227,
+          "rows": 1
+        },
+        {
+          "name": "action_path",
+          "query": "MATCH (a:Action {ref: $ref})-[:VIA]->(p:Path) WHERE a.at <= $T RETURN a.kind AS kind, a.at AS at, p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag LIMIT 10",
+          "params": {
+            "ref": "v5.6.1",
+            "T": 1711929599
+          },
+          "ms": 2.7491000000736676,
+          "rows": 1
+        },
+        {
+          "name": "history_paths",
+          "query": "MATCH (a:Action {kind: $kind})-[:VIA]->(p:Path) WHERE a.at <= $T AND a.at <= $at AND a.at > $at - $window AND a.ref <> $ref RETURN p.channel AS channel, p.verified AS verified, p.ci AS ci, p.provenance AS provenance, p.key_hid AS key_hid, p.publisher_in_set AS publisher_in_set, p.artifact_matches_tag AS artifact_matches_tag ORDER BY a.at, a.ref SKIP $skip LIMIT 1000",
+          "params": {
+            "kind": "release",
+            "at": 1709972160,
+            "window": 63072000,
+            "ref": "v5.6.1",
+            "skip": 0,
+            "T": 1711929599
+          },
+          "ms": 4.434799999216921,
+          "rows": 21
+        }
+      ]
+    },
+    "lone_keeper": {
+      "status": "NOT_COMPUTED",
+      "reason": "guardians not computed: no CAN_GRANT or Privilege data in org_xz (git history has no grant record)",
+      "queries": [
+        {
+          "name": "privilege_exists",
+          "query": "MATCH (p:Privilege {kind: $kind}) RETURN count(p) AS n LIMIT 1",
+          "params": {
+            "kind": "release"
+          },
+          "ms": 1.583899998877314,
+          "rows": 0
+        }
+      ]
+    }
+  },
+  "note": "Not a finding. Real xz has no grant data and one shared release path, so none of the three detectors can be computed. The detectors are proven on hand-built graphs in tests/fixtures/detector_cases.py. Lone keeper depends on the PROPOSED takeover rule (docs/decisions/0001-outsider-edges.md)."
+}

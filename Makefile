@@ -1,4 +1,4 @@
-.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -34,6 +34,10 @@ normal-xz:
 # Takeover cost and guardians on org_xz: expected NOT COMPUTED (git has no grant record).
 takeover-xz:
 	uv run python -m eval.xz_takeover_status
+
+# Rush, Bypass and Lone keeper on org_xz: expected NOT_COMPUTED (no grant data, thin release path).
+detectors-xz:
+	uv run python -m eval.xz_detector_status
 
 # Placeholders for later steps. Each one fails until it is built.
 demo replay gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
