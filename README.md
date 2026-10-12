@@ -121,7 +121,7 @@ Act II, the `tallowdate` case, is synthetic. It is not built yet, and no output 
 
 ## Tracks
 
-The tracks entered are not named in this README yet. The spec's planned mapping is in docs/HEARTHGUARD.md §19. It has not been submitted.
+Track entered: Track 02 — Agent Memory and Coordination (the name on the event page, https://www.wemakedevs.org/hackathons/falkordb). The submission form has not been filled in yet.
 
 ## Known issues
 
