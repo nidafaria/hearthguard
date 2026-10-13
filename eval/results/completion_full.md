@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 23, PARTIAL 40, NOT STARTED 68. Score 32.8% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 27, PARTIAL 37, NOT STARTED 67. Score 34.7% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -46,7 +46,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 38 | §6.1 | org graph: Finding, Gap, Objection, Request, Note, Draft, OwnerDecision, BACKUP | NOT STARTED | none |
 | 39 | §6.1 | org graph: Hardening, Task, AgentStep | NOT STARTED | none |
 | 40 | §6.2 | ecosystem_<id> graph | PARTIAL | packs/oss/ecosystem/graph.py; eval/results/ecosystem_load.json: ecosystem_xz, 43 events, second load identical; no Foundation, HOSTED_BY or Campaign |
-| 41 | §6.3 | redteam_<run> and harden_<run> graphs | PARTIAL | harden_<run> by GRAPH.COPY in core/hardening/simulate.py; no redteam_<run> |
+| 41 | §6.3 | redteam_<run> and harden_<run> graphs | DONE | redteam/run.py and redteam/harden.py GRAPH.COPY org_tallowdate and org_xz to redteam_<run> and harden_<run>, plant into the copy only; tests/integration/test_redteam.py; eval/results/redteam_tallowdate.json, redteam_xz.json (real graph counts before and after) |
 | 42 | §6.4 | census_<date> graph | NOT STARTED | none |
 | 43 | §6.5 | playbook graph | NOT STARTED | core/playbook is empty |
 | 44 | §6.6 | Unique constraints and range indexes | DONE | core/graph/schema.py; 2483a41 |
@@ -69,13 +69,13 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 61 | §8.1 | Investigator | NOT STARTED | core/agents is empty |
 | 62 | §8.1 | Skeptic | NOT STARTED | none |
 | 63 | §8.1 | Liaison | NOT STARTED | none |
-| 64 | §8.1 | Red Team generator | PARTIAL | redteam/tallowdate.py: one seeded synthetic campaign with planted flags; no parameterised generator, no N or SEED |
+| 64 | §8.1 | Red Team generator | DONE | redteam/generate.py (N, SEED, patience, moves, privilege; same seed same bytes); tests/unit/test_redteam_generate.py; tests/integration/test_redteam.py; eval/results/redteam_tallowdate.json |
 | 65 | §8.2 | Task board with leases, stale-result rejection, requests | NOT STARTED | core/board is empty |
 | 66 | §8.3 | Learned exceptions with safety rules and regression gate | NOT STARTED | core/learning is empty |
 | 67 | §8.4 | LLM client: models config, rate limiter, retries, cache | DONE | core/llm/client.py; 22ea2cd, 018aab7 |
 | 68 | §8.4 | Compiled plans | NOT STARTED | none |
 | 69 | §8.4 | Guardrails: circuit breaker, bounded HOLD, re-plan limits | NOT STARTED | none |
-| 70 | §8.5 | Hardening simulator (up to three steps, measured) | PARTIAL | core/hardening/simulate.py, eval/results/hardening_fixture.json: cost and guardians before and after on fixtures; caught and lead time not run |
+| 70 | §8.5 | Hardening simulator (up to three steps, measured) | DONE | redteam/harden.py: three menu steps, same campaigns, frozen detectors, caught and lead time before/after; eval/results/hardening_redteam_tallowdate.json, hardening_redteam_xz.json; tests/integration/test_redteam.py |
 | 71 | §9 | Episodic memory, every query as of T | DONE | core/graph/as_of.py |
 | 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | claims and spans written; no contradiction links |
 | 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (eval/results/xz_normal.json) |
@@ -90,13 +90,13 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 82 | §10.2 | Algorithm ablation (`make ablation-algos`) | NOT STARTED | none |
 | 83 | §10.2 | xz replay (`make replay CASE=xz`) | PARTIAL | eval/replay_xz.py; 59c5e87: runs, but no detector fires and 146 messages unread |
 | 84 | §10.2 | event-stream and axios replays | NOT STARTED | none |
-| 85 | §10.2 | Hardening on xz and 10 false-alarm projects (`make harden`) | PARTIAL | core/hardening/xz.py, eval/results/xz_hardening.json: all NOT COMPUTED on xz; no false-alarm projects |
+| 85 | §10.2 | Hardening on xz and 10 false-alarm projects (`make harden`) | PARTIAL | xz half done: `make harden CASE=xz` writes eval/results/hardening_redteam_xz.json (planted campaigns, copy of org_xz). The 10 false-alarm projects are not in the repo and are not invented, so no run is made against them |
 | 86 | §10.2 | Ownership accuracy on about 30 projects (`make verify-ownership`) | NOT STARTED | none |
 | 87 | §10.2 | Visibility gaps on xz (`make gaps CASE=xz`) | PARTIAL | `make ecosystem-xz` computes them (eval/ecosystem_xz.py); the `gaps CASE=xz` target is still a placeholder |
 | 88 | §10.2 | Takeover Cost Census (`make census N=100`) | NOT STARTED | none |
 | 89 | §10.2 | False-alarm study, about 30 projects, one demo decoy | NOT STARTED | none |
 | 90 | §10.2 | Reader eval: about 100 hand-labelled spans (`make eval-reader`) | PARTIAL | 20-message spot check, 60-message test set and scorer built; no human labels yet |
-| 91 | §10.3 | `make redteam N=200 SEED=...` | NOT STARTED | none |
+| 91 | §10.3 | `make redteam N=200 SEED=...` | DONE | Makefile and make.ps1 target redteam (N, SEED, CASE); eval/results/redteam_tallowdate.json (seed 7, N 200), eval/results/redteam_xz.json |
 | 92 | §10.3 | `make smoke-algos` | DONE | tests/integration/test_smoke_algos.py; a5711b5 |
 | 93 | §10.3 | `make demo` with no key | PARTIAL | eval/demo.py; prints the replay table only |
 | 94 | §11.1 | Finance pack case (Northbridge, Kestrel), scripted | NOT STARTED | none |

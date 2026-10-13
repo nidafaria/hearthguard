@@ -1,8 +1,7 @@
 # ruff: noqa: E501 (evidence strings are long by design)
 """Block C re-marks (Red Team, hardening on copies). Read by eval/completion_full.py.
 
-Each entry: row item prefix -> (status, evidence). Reasons for every row that stays open are in
-eval/results/blockers_c.md. Evidence files are measured on a campaign planted into a COPY: the
+Each entry: row item prefix -> (status, evidence). Evidence files are measured on a campaign planted into a COPY: the
 xz results are labelled "campaign planted into a copy of public xz history; not a finding about
 xz" and the tallowdate results "SYNTHETIC".
 """
@@ -31,7 +30,7 @@ UPDATES = {
         P,
         "xz half done: `make harden CASE=xz` writes eval/results/hardening_redteam_xz.json "
         "(planted campaigns, copy of org_xz). The 10 false-alarm projects are not in the repo and "
-        "are not invented; blockers_c.md",
+        "are not invented, so no run is made against them",
     ),
     "`make redteam N=200 SEED=...`": (
         D,

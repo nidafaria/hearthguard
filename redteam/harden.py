@@ -52,8 +52,8 @@ DEFINITIONS = {
 }
 
 
-def _label(case: str) -> str:
-    return run.case_label(case)
+def _label(case: str, real_counts: dict | None) -> str:
+    return run.case_label(case, real_counts)
 
 
 def _lead_median(outcomes: list[score.Outcome]) -> float | None:
@@ -88,6 +88,7 @@ def _scored(client: FalkorClient, template: str, camps: list[gen.Campaign], e0: 
 
 def run_hardening(case: str, n: int, seed: int, client: FalkorClient | None = None) -> dict:
     client = client or FalkorClient()
+    real_counts = counts(client, f"org_{case}")
     camps = gen.generate(n, seed, case)
     base_run = run.new_run_id()
     info = run.make_template(client, case, base_run)
@@ -131,7 +132,7 @@ def run_hardening(case: str, n: int, seed: int, client: FalkorClient | None = No
         client.drop(template)
     return {
         "case": case,
-        "label": _label(case),
+        "label": _label(case, real_counts),
         "n": n,
         "seed": seed,
         "generated_at_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),

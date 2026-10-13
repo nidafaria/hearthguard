@@ -58,9 +58,16 @@ def baseline_check(case: str, found: dict) -> dict:
     return {"saved_baseline": saved, "found": got, "matches_saved_baseline": got == saved}
 
 
-def case_label(case: str) -> str:
+def case_label(case: str, real_counts: dict | None = None) -> str:
     if case == "xz":
-        return "campaign planted into a copy of public xz history; not a finding about xz"
+        if real_counts is None:
+            raise ValueError("the xz label needs the counts measured on org_xz")
+        saved = SAVED_BASELINES["xz"]
+        return (
+            "campaign planted into a copy of public xz history; not a finding about xz; "
+            f"run on an isolated rebuild of org_xz, {real_counts['nodes']} / "
+            f"{real_counts['edges']}; saved baseline {saved['nodes']} / {saved['edges']}"
+        )
     return "SYNTHETIC: campaign planted into a copy of the fictional tallowdate history"
 
 
@@ -154,7 +161,7 @@ def run_redteam(case: str, n: int, seed: int, client: FalkorClient | None = None
     after = counts(client, info["base"])
     return {
         "case": case,
-        "label": case_label(case),
+        "label": case_label(case, info["real_counts_before"]),
         "n": n,
         "seed": seed,
         "generated_at_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
