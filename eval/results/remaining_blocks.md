@@ -95,6 +95,16 @@ Effort figures are estimates in working hours. They are larger than CLAUDE.md's 
 - eval/completion_full.py and eval/results/completion_full.json and .md: regenerated on main after each merge.
 - docs/HEARTHGUARD.md, docs/FREEZE.md, docs/FREEZE.sha256: not edited by any block.
 
+## Merge order
+
+1. Block E
+2. Block F
+3. Block H
+4. Block I
+5. Block G (last)
+
+Rows 4 and 6 (block G) must be re-checked after G merges.
+
 ## Dependencies (all inside one block; none cross blocks)
 - 80 needs 66 and 43; 104 needs 66; 120 needs 43 and 66 (block E).
 - 79 needs 65; 81 needs 69; 39 and 76 share the task board (block F).
