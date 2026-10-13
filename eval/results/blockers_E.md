@@ -21,7 +21,7 @@ Rows left PARTIAL or NOT STARTED, and why. Each names the command that shows it 
 - Built: `eval/verify_learning.py` and `eval/chaos.py`. Both run. Seeds 1, 2, 3, 4, 5, 7 and 42 gave: Shadow for bots (zero planted lost), Rejected for vendor contact change (22 lost) and company handover (18 lost).
 - Missing:
   - The `make verify-learning` and `make chaos` targets are not in the Makefile (the lead wires them).
-  - Seeds 1-4 all draw the bots pattern, so they give the same exception id. The brief says "a different seed yields a different exception". The template holds no org data, so two seeds with the same pattern cannot differ in the template. This contradicts the brief as written.
+  - OPEN GAP, not fixed: seeds that draw the same pattern (seeds 1-4 all draw bots) give the same exception id. The brief says a different seed gives a different exception. The template holds only fixed building blocks and no org data, so two seeds with the same pattern cannot differ in the template. Making them differ would mean inventing variation, which I did not do. The spec owner must decide what 'different exception' means.
 - Shows it: `uv run python -m eval.chaos --seed 1` and `--seed 5`.
 - Unblock: the spec owner decides whether "different exception" means a different pattern.
 
