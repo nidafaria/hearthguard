@@ -34,6 +34,11 @@ FACT_CLAIMS = {
 FACT_ORDER = (*MOVES, "LONE_KEEPER")
 _MSG = re.compile(r"^msg(\d+)$")
 
+# Copied from packs/oss/mail_cache.py (BASE and msg_name). They must match it. core never imports
+# packs; tests/unit/test_why_archive_link.py checks that both build the same link.
+ARCHIVE_BASE = "https://www.mail-archive.com/xz-devel@tukaani.org/"
+ARCHIVE_NAME = "msg{n:05d}.html"
+
 
 def source_link(source_type: str | None, ref: str | None, url: str | None) -> str | None:
     """The stored URL, or for a cached mailing-list message the archive URL of that message."""
@@ -42,9 +47,7 @@ def source_link(source_type: str | None, ref: str | None, url: str | None) -> st
     if source_type == "mail" and ref:
         m = _MSG.match(ref)
         if m:
-            from packs.oss.mail_cache import msg_url
-
-            return msg_url(int(m.group(1)))
+            return ARCHIVE_BASE + ARCHIVE_NAME.format(n=int(m.group(1)))
     return None
 
 
