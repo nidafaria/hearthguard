@@ -41,3 +41,9 @@ extend-exclude = ["docs", "data/raw", "eval/results"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
+
+# eval/completion_full.py loads eval/completion_updates/* after its UPDATES_2 block. That import
+# block is the exact text the completion-update procedure requires, so it sits mid-file (E402),
+# is not sorted by isort (I001) and has one line over 100 characters (E501). Ignored for this file only.
+[tool.ruff.lint.per-file-ignores]
+"eval/completion_full.py" = ["E402", "I001", "E501"]

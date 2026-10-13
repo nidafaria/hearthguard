@@ -1,0 +1,250 @@
+{
+  "synthetic": true,
+  "case": "tallowdate",
+  "label": "SYNTHETIC: fictional project, fictional people",
+  "privilege": "release",
+  "generated_at_utc": "2026-10-12T15:17:49Z",
+  "note": "NO PATH and NOT COMPUTED are results. The case records no grant, so a path to the release privilege is not expected.",
+  "quarters": [
+    {
+      "quarter": "2023-Q1",
+      "T": 1680307199,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2023-Q2",
+      "T": 1688169599,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2023-Q3",
+      "T": 1696118399,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2023-Q4",
+      "T": 1704067199,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q1",
+      "T": 1711929599,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q2",
+      "T": 1719791999,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q3",
+      "T": 1727740799,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2024-Q4",
+      "T": 1735689599,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q1",
+      "T": 1743465599,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q2",
+      "T": 1751327999,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q3",
+      "T": 1759276799,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    },
+    {
+      "quarter": "2025-Q4",
+      "T": 1767225599,
+      "actors": {
+        "Rowan (planted)": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        },
+        "Tomás": {
+          "status": "NOT COMPUTED",
+          "reason": "no CAN_GRANT or Privilege data in org_tallowdate",
+          "weight": null,
+          "edges_read": {},
+          "query_ms": null
+        }
+      }
+    }
+  ]
+}

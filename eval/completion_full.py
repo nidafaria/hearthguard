@@ -458,6 +458,10 @@ ROWS = _apply_updates(ROWS, UPDATES_2)
 import importlib
 import pkgutil
 
+
+from eval import completion_updates as _cu
+
+
 from eval import completion_updates as _cu
 
 for _m in sorted(pkgutil.iter_modules(_cu.__path__), key=lambda m: m.name):

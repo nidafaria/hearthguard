@@ -32,7 +32,13 @@ Day 2: Claude Code ran the synthetic tallowdate case through the loader, normal 
 Oct 12: Claude Code (Haiku 5.5, agent writeup) drafted README.md, docs/submission_checklist.md and docs/blog_outline.md from the three result files, and checked every number against its source file with a script (82 numbers, none without a source).
 Oct 12: Claude Code (Haiku 5.5) wrote docs/judge_guide.md, checked each README make command against the Makefile and make.ps1, and removed the 16 README command names that are placeholders or not in the Makefile.
 Oct 12: Claude Code (Haiku 5.5, agent video) wrote eval/video_check.py and docs/video/, recorded eval/results/video_quotes.json and video_numbers.json.
+<<<<<<< HEAD
 Oct 12: Claude Code (Haiku 5.5, block A) built the web-inbox note loop: core/agents/ (liaison, investigator, why, routing, digest, simulate_fix, inbox_graph) and api/inbox_actions.py, with tests in tests/unit/test_inbox_rules.py and tests/integration/test_inbox_loop.py and test_why_quote_link.py.
 Oct 12: Claude Code (Haiku 5.5, block A) wrote ui/src/Thread.tsx and mounted it in ui/src/Inbox.tsx; clicked every inbox control in BrowserOS neo against the local app and recorded eval/results/inbox_browser_check.json and eval/results/inbox_screens/.
 Oct 12: Claude Code (Haiku 5.5, block A) wrote docs/decisions/0008-inbox-no-llm.md (status OPEN): thread questions use a tool router, no LLM, because the Groq allowance is used up.
 Oct 12: Claude Code (Sonnet 5.5, block A) added the session real-graph guard (tests/real_graph_guard.py, tests/conftest.py) and re-took the inbox browser evidence on commit f0025bb in BrowserOS neo.
+=======
+Oct 12: Claude Code (Haiku 5.5, block d) added the action boundary (spec 4.4) with a static scan for outbound writes, the OSS pack definition (privileges, normal path, claim vocabulary) with a test that core imports nothing from packs, and the trust-path query (spec 7.6) with hand-worked tests on real FalkorDB.
+Oct 12: Claude Code (Haiku 5.5, block d) added who-saw-what edges and already_acknowledged(), the source-record to grant-edge mapping (documented sources only, xz stays empty), and conflict links that call the frozen conflict policy unchanged.
+Oct 12: Claude Code (Haiku 5.5, block d) ran the trust path on the tallowdate case (all NOT COMPUTED: no grant record), re-marked rows 20 and 28 DONE and rows 34, 37, 55, 72, 74 PARTIAL with their evidence, and wrote eval/results/blockers_d.md for the learning, playbook, Watcher, SHARES, Place, vector index and Foundation rows.
+>>>>>>> main

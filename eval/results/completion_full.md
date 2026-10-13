@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 31, PARTIAL 43, NOT STARTED 57. Score 40.1% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 33, PARTIAL 43, NOT STARTED 55. Score 41.6% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -25,7 +25,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 17 | §4.2 | Core free of domain code; OSS pack and finance pack separated | PARTIAL | packs/oss exists; packs/finance empty |
 | 18 | §4.2 | `make verify-packs` (finance runs with OSS pack removed) | NOT STARTED | target not built |
 | 19 | §4.2 | OSS pack: parsers for GitHub, npm, mailing lists, bug trackers | PARTIAL | git, GitHub and mail parsers (f5d741a, 09c776c); npm and trackers none |
-| 20 | §4.2 | OSS pack: privileges, normal path, claim vocabulary | PARTIAL | claim vocabulary and normal path yes; no Privilege/grant data |
+| 20 | §4.2 | OSS pack: privileges, normal path, claim vocabulary | DONE | packs/oss/pack.py (privilege kinds, sensitive flags, normal path, claim vocabulary); tests/unit/test_pack_oss.py (incl. test_core_imports_nothing_from_packs) |
 | 21 | §4.2 | Finance pack (parsers, mapping, vocabulary, normal path) | NOT STARTED | packs/finance empty |
 | 22 | §4.3 | Maintainer private note | PARTIAL | web inbox only: core/agents/liaison.py, api/inbox_actions.py; no Slack DM; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py; blockers_a.md |
 | 23 | §4.3 | Downstream packager question via MCP or web | NOT STARTED | no MCP, no web app |
@@ -33,16 +33,16 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 25 | §4.3 | Controller note with Mark callback done (finance) | NOT STARTED | none |
 | 26 | §4.3 | Coding agent `check_trust` before a merge | NOT STARTED | no MCP server |
 | 27 | §4.3 | Judge connects own GitHub repo, sees cost in about a minute | NOT STARTED | none |
-| 28 | §4.4 | Action boundary levels 0-2 enforced; never-list enforced | PARTIAL | read-only graph guard (2483a41); no sender exists |
+| 28 | §4.4 | Action boundary levels 0-2 enforced; never-list enforced | DONE | core/policy/boundary.py (levels enum, one check(), Never list); tests/unit/test_boundary.py (each Never item refused for every recipient; a static scan finds no outbound write outside the allowed modules). No send path exists yet, so the scan is the enforcement. |
 | 29 | §4.5 | Ethics by design: hashed ids, private only, aggregate census, situations not people | PARTIAL | hashing and read-only guard done; notes and census not built |
 | 30 | §5.1 | FalkorDB capabilities verified and recorded | DONE | docs/VERIFIED.md; a5711b5 |
 | 31 | §5.2 | One graph per organisation; GRAPH.COPY works | DONE | org_xz; core/graph/client.py copy; a5711b5 |
 | 32 | §6.1 | org graph: Org, Actor, Action, DID, Path, VIA, Normal, OF | DONE | packs/oss/xz_graph.py; 09c776c |
 | 33 | §6.1 | org graph: Source, Span, Claim, FROM, ASSERTED | DONE | core/claims/graph_write.py; 086a5e2 |
-| 34 | §6.1 | org graph: Privilege, GRANTED, CAN_GRANT, APPROVED | PARTIAL | used by detectors on fixtures; none on real xz |
+| 34 | §6.1 | org graph: Privilege, GRANTED, CAN_GRANT, APPROVED | PARTIAL | packs/oss/grants.py (documented records -> Privilege, GRANTED, CAN_GRANT, APPROVED); tests/unit/test_grants_mapping.py, tests/integration/test_grants_write.py. No documented grant records exist for xz, so its results stay NOT COMPUTED. |
 | 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | NOT STARTED | not written anywhere |
 | 36 | §6.1 | org graph: SHARES edges built | NOT STARTED | no builder; decision 0004 |
-| 37 | §6.1 | org graph: CONTRADICTS / SUPERSEDES / QUALIFIES written | NOT STARTED | conflict policy computes, no edges written |
+| 37 | §6.1 | org graph: CONTRADICTS / SUPERSEDES / QUALIFIES written | PARTIAL | core/claims/conflicts.py writes CONTRADICTS / SUPERSEDES / QUALIFIES via the unchanged core/policy/conflict.py; tests/integration/test_conflict_links.py. Pairs are supplied by the caller; no detector finds contradicting pairs yet. |
 | 38 | §6.1 | org graph: Finding, Gap, Objection, Request, Note, Draft, OwnerDecision, BACKUP | PARTIAL | core/agents/inbox_graph.py writes Finding, Note, Draft, OwnerDecision, BACKUP, Gap (xz from eval/results/ecosystem_gaps.json), Hardening; Objection and Request writers exist but no Skeptic source and no test; blockers_a.md |
 | 39 | §6.1 | org graph: Hardening, Task, AgentStep | NOT STARTED | none |
 | 40 | §6.2 | ecosystem_<id> graph | PARTIAL | packs/oss/ecosystem/graph.py; eval/results/ecosystem_load.json: ecosystem_xz, 43 events, second load identical; no Foundation, HOSTED_BY or Campaign |
@@ -60,7 +60,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 52 | §7.2 | Conflict policy | DONE | core/policy/conflict.py; 2e9054f |
 | 53 | §7.3 | Decision policy (frozen decide()) | DONE | core/policy/decision.py; 6d3f62d, 2e9054f |
 | 54 | §7.5 | Visibility gaps (UNREACHABLE / UNNOTICED) | DONE | packs/oss/ecosystem/gaps.py runs the §7.5 query as written; eval/results/ecosystem_gaps.json: 4 decisions computed, 22 gap rows (a lower bound); tests/integration/test_ecosystem_xz.py |
-| 55 | §7.6 | Trust path query (SPpaths from a young actor) | NOT STARTED | none |
+| 55 | §7.6 | Trust path query (SPpaths from a young actor) | PARTIAL | core/takeover/trust_path.py (SPpaths, tested in tests/integration/test_trust_path.py); eval/results/trust_path_tallowdate.json: NOT COMPUTED for every quarter, because the tallowdate case records no grant. |
 | 56 | §7.6 | `why` query (finding to quote and link) | DONE | core/agents/why.py run_why (spec 7.6 Cypher through core/graph/ro_guard.py, timeout); tests: tests/integration/test_why_quote_link.py, tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 57 | §7.6 | Read-path guard (RO_QUERY, timeout, write block, LIMIT cap) | DONE | core/graph/ro_guard.py; 2483a41 |
 | 58 | §7 | As-of-T helper; no future leakage | DONE | core/graph/as_of.py; tests/integration/test_as_of.py |
@@ -77,9 +77,9 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 69 | §8.4 | Guardrails: circuit breaker, bounded HOLD, re-plan limits | NOT STARTED | none |
 | 70 | §8.5 | Hardening simulator (up to three steps, measured) | PARTIAL | core/hardening/simulate.py, eval/results/hardening_fixture.json: cost and guardians before and after on fixtures; caught and lead time not run |
 | 71 | §9 | Episodic memory, every query as of T | DONE | core/graph/as_of.py |
-| 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | claims and spans written; no contradiction links |
+| 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | core/claims/conflicts.py (contradictions resolved by policy and linked); tests/integration/test_conflict_links.py. Pair detection is still missing. |
 | 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (eval/results/xz_normal.json) |
-| 74 | §9 | Who-saw-what memory | PARTIAL | WATCHES and ACTIVE_IN in ecosystem_xz; no PARTICIPATES_IN in org graphs |
+| 74 | §9 | Who-saw-what memory | PARTIAL | core/memory/who_saw.py (PARTICIPATES_IN, WATCHES {since}, already_acknowledged); tests/integration/test_who_saw.py. Not yet filled from the cached mail and git data. |
 | 75 | §9 | Owner memory | PARTIAL | OwnerDecision written once per finding (core/agents/inbox_graph.py record_dismissal); the 'same situation does not return without new evidence' rule is not built; tests: tests/integration/test_inbox_loop.py |
 | 76 | §9 | Working memory (AgentStep, task board) | NOT STARTED | none |
 | 77 | §10.1 | Freeze protocol: dated spec published with hash; `make verify-frozen` | PARTIAL | docs/FREEZE.md is a DRAFT, hash in FREEZE.sha256; target not built; Reader frozen b6e3b1c |
