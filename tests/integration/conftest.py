@@ -1,15 +1,11 @@
 """Fixtures shared by the integration tests."""
 
-<<<<<<< HEAD
-=======
 import uuid
 
->>>>>>> main
 import pytest
 
 from core.graph.client import FalkorClient
 from packs.oss import git_ingest, xz_graph
-<<<<<<< HEAD
 from tests.integration.scratch_graphs import (
     FIXTURE,
     REAL_GRAPHS,
@@ -19,8 +15,6 @@ from tests.integration.scratch_graphs import (
     new_org_id,
     owned,
 )
-=======
->>>>>>> main
 
 
 @pytest.fixture(scope="session")
@@ -44,7 +38,6 @@ def xz_org() -> str:
     return "xz"
 
 
-<<<<<<< HEAD
 @pytest.fixture
 def scratch_orgs():
     """Two fresh scratch orgs (xz and tallowdate shapes), each loaded with b_two_keepers.
@@ -74,7 +67,8 @@ def real_graphs_untouched():
     after = {g: fingerprint(client, g) for g in REAL_GRAPHS}
     changed = changed_real_graphs(before, after)
     assert not changed, f"a test wrote to a real graph: {changed}"
-=======
+
+
 @pytest.fixture(scope="module")
 def client() -> FalkorClient:
     return FalkorClient()
@@ -88,4 +82,3 @@ def org_graph(client):
     client.query(g, "MERGE (:Org {id: $id, name: $id, pack: 'oss'})", {"id": org})
     yield org
     client.drop(g)
->>>>>>> main
