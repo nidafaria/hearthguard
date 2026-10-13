@@ -33,6 +33,13 @@ WATCHES_CYPHER = (
     "MERGE (ro)-[w:WATCHES]->(p) "
     "SET w.since = CASE WHEN w.since IS NULL OR r.since < w.since THEN r.since ELSE w.since END"
 )
+PLACE_CYPHER = "UNWIND $rows AS r MERGE (p:Place {ref: r.ref}) SET p.kind = r.kind"
+RECORDED_IN_CYPHER = (
+    "UNWIND $rows AS r "
+    "MATCH (x:Action {ref: r.ref}) "
+    "MATCH (p:Place {ref: r.place}) "
+    "MERGE (x)-[:RECORDED_IN]->(p)"
+)
 ACK_CYPHER = (
     "MATCH (d:OwnerDecision)-[:ABOUT]->(f:Finding {id: $id}) "
     "WHERE d.at <= $now "
@@ -50,6 +57,35 @@ def write_watches(client: FalkorClient, graph: str, rows: list[dict]) -> None:
     """rows: {role, place, since}. Idempotent: the earliest since wins."""
     if rows:
         client.query(graph, WATCHES_CYPHER, {"rows": rows}, timeout_ms=WRITE_TIMEOUT_MS)
+
+
+def participation_rows(events: list[dict]) -> list[dict]:
+    """Fold events {hid, place, at} into one PARTICIPATES_IN row per (actor, place).
+
+    since is the earliest event time and last_at the latest. Domain-free: a pack's parser decides
+    which records count as events and which place each one happened in.
+    """
+    folded: dict[tuple[str, str], list[int]] = {}
+    for e in events:
+        key = (e["hid"], e["place"])
+        lo_hi = folded.setdefault(key, [e["at"], e["at"]])
+        lo_hi[0], lo_hi[1] = min(lo_hi[0], e["at"]), max(lo_hi[1], e["at"])
+    return [
+        {"hid": hid, "place": place, "since": lo, "last_at": hi}
+        for (hid, place), (lo, hi) in sorted(folded.items())
+    ]
+
+
+def write_places(client: FalkorClient, graph: str, rows: list[dict]) -> None:
+    """rows: {ref, kind}. Idempotent (MERGE on Place.ref)."""
+    if rows:
+        client.query(graph, PLACE_CYPHER, {"rows": rows}, timeout_ms=WRITE_TIMEOUT_MS)
+
+
+def write_recorded_in(client: FalkorClient, graph: str, rows: list[dict]) -> None:
+    """rows: {ref, place}: Action `ref` was recorded in Place `place`. Both must already exist."""
+    if rows:
+        client.query(graph, RECORDED_IN_CYPHER, {"rows": rows}, timeout_ms=WRITE_TIMEOUT_MS)
 
 
 def already_acknowledged(client: FalkorClient, graph: str, finding_id: str, now: int) -> bool:

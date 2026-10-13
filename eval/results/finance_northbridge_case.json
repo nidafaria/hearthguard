@@ -1,0 +1,218 @@
+{
+  "at_case": {
+    "guardians": 1,
+    "guardians_status": "COMPUTED",
+    "takeover_cost": 1,
+    "takeover_cost_status": "COMPUTED"
+  },
+  "before_leave": {
+    "guardians": 2,
+    "guardians_status": "COMPUTED",
+    "takeover_cost": 2,
+    "takeover_cost_status": "COMPUTED"
+  },
+  "case": "northbridge",
+  "controls": {
+    "bypass_on_a_normal_bank_change": {
+      "detector": "bypass",
+      "evidence": {
+        "action_kind": "bank_change",
+        "action_path_shared": false,
+        "differing": [],
+        "distinct_path_nodes": 8,
+        "history_actions": 7,
+        "not_computed_properties": [],
+        "pack": "finance",
+        "properties": {
+          "approvers": {
+            "action": 2,
+            "normal": 2,
+            "of": 7,
+            "status": "MATCHES",
+            "support": 7
+          },
+          "callback": {
+            "action": true,
+            "normal": true,
+            "of": 7,
+            "status": "MATCHES",
+            "support": 7
+          },
+          "channel": {
+            "action": "portal",
+            "normal": "portal",
+            "of": 7,
+            "status": "MATCHES",
+            "support": 7
+          }
+        },
+        "window_days": 730
+      },
+      "flag": null,
+      "reason": "all 3 properties match the remembered normal",
+      "status": "NOT_FIRED"
+    },
+    "rush_on_a_normal_contact": {
+      "detector": "rush",
+      "evidence": {
+        "days": 150.0,
+        "fallback_days": 180,
+        "grant_id_hash": "3c59c7cd21350a3791db34c812471d5b34b8d53b6a51ce91e1d3e14b91d0ce34",
+        "history_days": [
+          42.041666666666664,
+          165.0,
+          180.0,
+          190.0,
+          200.0,
+          210.0
+        ],
+        "min_history_grants": 5,
+        "n_history": 6,
+        "percentile": 0.1,
+        "rule": "org_p10",
+        "threshold_days": 103.52083333333334
+      },
+      "flag": null,
+      "reason": "150.00 days from first action to grant is not below the threshold of 103.52 days (org_p10)",
+      "status": "NOT_FIRED"
+    }
+  },
+  "hardening": {
+    "after": {
+      "guardians": 1,
+      "guardians_status": "COMPUTED",
+      "takeover_cost": 2,
+      "takeover_cost_status": "COMPUTED"
+    },
+    "before": {
+      "guardians": 1,
+      "guardians_status": "COMPUTED",
+      "takeover_cost": 1,
+      "takeover_cost_status": "COMPUTED"
+    },
+    "step": "require_two_approvals"
+  },
+  "horizons": {
+    "before_leave": 1757289599,
+    "case": 1758153599
+  },
+  "loaded_at_case": {
+    "actions": 84,
+    "actors": 14,
+    "can_grant": 1,
+    "grants": 7,
+    "participates_in": 22,
+    "recorded_in": 84,
+    "records_visible": 93
+  },
+  "loaded_before_leave": {
+    "actions": 79,
+    "actors": 14,
+    "can_grant": 2,
+    "grants": 6,
+    "participates_in": 21,
+    "recorded_in": 79,
+    "records_visible": 86
+  },
+  "moves": {
+    "bypass": {
+      "detector": "bypass",
+      "evidence": {
+        "action_kind": "bank_change",
+        "action_path_shared": false,
+        "differing": [
+          "channel",
+          "callback",
+          "approvers"
+        ],
+        "distinct_path_nodes": 9,
+        "history_actions": 8,
+        "not_computed_properties": [],
+        "pack": "finance",
+        "properties": {
+          "approvers": {
+            "action": 1,
+            "normal": 2,
+            "of": 8,
+            "status": "DIFFERS",
+            "support": 8
+          },
+          "callback": {
+            "action": false,
+            "normal": true,
+            "of": 8,
+            "status": "DIFFERS",
+            "support": 8
+          },
+          "channel": {
+            "action": "email",
+            "normal": "portal",
+            "of": 8,
+            "status": "DIFFERS",
+            "support": 8
+          }
+        },
+        "window_days": 730
+      },
+      "flag": null,
+      "reason": "differs from the remembered normal on: channel, callback, approvers",
+      "status": "FIRED"
+    },
+    "lone_keeper": {
+      "detector": "lone_keeper",
+      "evidence": {
+        "active_keepers": 0,
+        "active_keepers_definition": "distinct commit authors in the trailing 90 days (OPEN, 0001)",
+        "active_keepers_is_1": false,
+        "guardians": 1,
+        "guardians_is_1": true,
+        "rule": "0001-outsider-edges (PROPOSED)"
+      },
+      "flag": true,
+      "reason": "multiplier flag set: guardians == 1",
+      "status": "FLAG_SET"
+    },
+    "pressure": {
+      "reason": "reader not run on the finance case (claims need the LLM)",
+      "status": "NOT COMPUTED"
+    },
+    "rush": {
+      "detector": "rush",
+      "evidence": {
+        "days": 42.041666666666664,
+        "fallback_days": 180,
+        "grant_id_hash": "aa84094e5204dcf0010fdf201b281f97f22c3e79d7da4182c55ac5693af04d67",
+        "history_days": [
+          150.0,
+          165.0,
+          180.0,
+          190.0,
+          200.0,
+          210.0
+        ],
+        "min_history_grants": 5,
+        "n_history": 6,
+        "percentile": 0.1,
+        "rule": "org_p10",
+        "threshold_days": 157.5
+      },
+      "flag": null,
+      "reason": "42.04 days from first action to grant is below the threshold of 157.50 days (org_p10)",
+      "status": "FIRED"
+    },
+    "vouch": {
+      "reason": "reader not run on the finance case (claims need the LLM)",
+      "status": "NOT COMPUTED"
+    }
+  },
+  "not_computed": [
+    "pressure and vouch (the Reader is an LLM and has not been run on this case)",
+    "the Liaison note (an LLM step)"
+  ],
+  "org_graph_edge_count_after_hardening": 223,
+  "org_graph_edge_count_before_hardening": 223,
+  "pack": "finance",
+  "rule": "docs/decisions/0001-outsider-edges.md (PROPOSED, provisional)",
+  "spec": "docs/HEARTHGUARD.md \u00a711.1",
+  "synthetic": true
+}

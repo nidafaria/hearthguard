@@ -1,0 +1,13 @@
+{
+  "fulltext_index": true,
+  "vector_index": true,
+  "vector_dimension": 384,
+  "nearest_to_axis0": [
+    "s0"
+  ],
+  "fulltext_weather": [
+    "s1"
+  ],
+  "embeddings_from_a_language_model": false,
+  "note": "hand-made unit vectors; the pinned sentence-transformers model is not installed, so no real Span is embedded"
+}

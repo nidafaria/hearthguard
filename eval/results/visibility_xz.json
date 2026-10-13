@@ -1,0 +1,21 @@
+{
+  "graph": "org_xz_visibility",
+  "mail_messages_read": 323,
+  "git": "skipped: HEARTHGUARD_HASH_SALT is not set; add it to .env (git-ignored)",
+  "git_commits_read": 0,
+  "counts_after_first_run": {
+    "places": 1,
+    "participates_in": 28,
+    "recorded_in": 323,
+    "actors": 28,
+    "actions": 323
+  },
+  "counts_after_second_run": {
+    "places": 1,
+    "participates_in": 28,
+    "recorded_in": 323,
+    "actors": 28,
+    "actions": 323
+  },
+  "idempotent": true
+}

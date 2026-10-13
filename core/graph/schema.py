@@ -41,6 +41,30 @@ RANGE_REL_INDEXES: tuple[tuple[str, str], ...] = (
     ("PARTICIPATES_IN", "since"),
 )
 
+# §6.6: full-text index on Span.text, and a vector index on Span embeddings for "find similar
+# pressure messages". The DDL forms are the ones verified on 6.0.2 (docs/VERIFIED.md). The vector
+# dimension is that of the pinned local model (sentence-transformers all-MiniLM-L6-v2, 384).
+SPAN_VECTOR_PROPERTY = "embedding"
+SPAN_VECTOR_DIMENSION = 384
+SPAN_VECTOR_SIMILARITY = "cosine"
+FULLTEXT_DDL = "CREATE FULLTEXT INDEX FOR (n:Span) ON (n.text)"
+VECTOR_DDL = (
+    f"CREATE VECTOR INDEX FOR (n:Span) ON (n.{SPAN_VECTOR_PROPERTY}) "
+    f"OPTIONS {{dimension: {SPAN_VECTOR_DIMENSION}, "
+    f"similarityFunction: '{SPAN_VECTOR_SIMILARITY}'}}"
+)
+
+
+def indexes_of_type(client: FalkorClient, graph: str, kind: str) -> set[tuple[str, str]]:
+    """(label, property) pairs that have an index of type `kind` (RANGE, FULLTEXT or VECTOR)."""
+    r = client.query(graph, "CALL db.indexes() YIELD label, properties, types RETURN label, types")
+    return {
+        (label, prop)
+        for label, types in r.result_set
+        for prop, kinds in types.items()
+        if kind in kinds
+    }
+
 
 def range_indexes(client: FalkorClient, graph: str) -> set[tuple[str, str]]:
     """(label or relationship type, property) pairs that have a RANGE index."""
@@ -111,3 +135,7 @@ def apply_schema(client: FalkorClient, graph: str) -> None:
         _range_node_index(client, graph, label, prop, present)
     for rel, prop in RANGE_REL_INDEXES:
         _range_rel_index(client, graph, rel, prop, present)
+    if ("Span", "text") not in indexes_of_type(client, graph, "FULLTEXT"):
+        client.query(graph, FULLTEXT_DDL)
+    if ("Span", SPAN_VECTOR_PROPERTY) not in indexes_of_type(client, graph, "VECTOR"):
+        client.query(graph, VECTOR_DDL)

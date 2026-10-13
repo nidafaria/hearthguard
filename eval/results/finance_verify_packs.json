@@ -1,0 +1,27 @@
+{
+  "spec": "docs/HEARTHGUARD.md \u00a74.2",
+  "passed": true,
+  "checks": {
+    "static": {
+      "core_imports_of_packs": [],
+      "finance_imports_of_packs_oss": [],
+      "ok": true
+    },
+    "removal": {
+      "ok": true,
+      "returncode": 0,
+      "stderr_tail": [],
+      "oss_pack_present_in_tree": false
+    },
+    "same_result": {
+      "ok": true
+    },
+    "moves_without_oss": {
+      "bypass": "FIRED",
+      "lone_keeper": "FLAG_SET",
+      "pressure": "NOT COMPUTED",
+      "rush": "FIRED",
+      "vouch": "NOT COMPUTED"
+    }
+  }
+}
