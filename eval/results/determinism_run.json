@@ -1,0 +1,71 @@
+{
+  "orderings": 5,
+  "tasks_per_ordering": 14,
+  "seeds": [
+    11,
+    23,
+    37,
+    41,
+    59
+  ],
+  "workers_per_ordering": [
+    2,
+    3,
+    4,
+    2,
+    3
+  ],
+  "distinct_claim_orders": 5,
+  "findings_identical_across_orderings": true,
+  "statuses_per_ordering": [
+    {
+      "DONE": 14
+    },
+    {
+      "DONE": 14
+    },
+    {
+      "DONE": 14
+    },
+    {
+      "DONE": 14
+    },
+    {
+      "DONE": 14
+    }
+  ],
+  "findings": {
+    "a_single_chain:takeover_cost": "{\"cost\":1,\"path\":[\"OUTSIDER\",\"A\",\"PRIV:release\"],\"reason\":null,\"status\":\"COMPUTED\"}",
+    "a_single_chain:guardians": "{\"guardians\":1,\"reason\":null,\"status\":\"COMPUTED\"}",
+    "b_two_keepers:takeover_cost": "{\"cost\":1,\"path\":[\"OUTSIDER\",\"A\",\"PRIV:release\"],\"reason\":null,\"status\":\"COMPUTED\"}",
+    "b_two_keepers:guardians": "{\"guardians\":2,\"reason\":null,\"status\":\"COMPUTED\"}",
+    "c_two_approvals:takeover_cost": "{\"cost\":2,\"path\":[\"OUTSIDER\",\"A\",\"PRIV:release\"],\"reason\":null,\"status\":\"COMPUTED\"}",
+    "c_two_approvals:guardians": "{\"guardians\":1,\"reason\":null,\"status\":\"COMPUTED\"}",
+    "d_no_path:takeover_cost": "{\"cost\":null,\"path\":[],\"reason\":\"no path\",\"status\":\"NO PATH\"}",
+    "d_no_path:guardians": "{\"guardians\":0,\"reason\":\"no route from OUTSIDER\",\"status\":\"COMPUTED\"}",
+    "e_grant_after_T:takeover_cost": "{\"cost\":null,\"path\":[],\"reason\":\"no path\",\"status\":\"NO PATH\"}",
+    "e_grant_after_T:guardians": "{\"guardians\":0,\"reason\":\"no route from OUTSIDER\",\"status\":\"COMPUTED\"}",
+    "f_granted_holder:takeover_cost": "{\"cost\":1,\"path\":[\"OUTSIDER\",\"A\",\"PRIV:release\"],\"reason\":null,\"status\":\"COMPUTED\"}",
+    "f_granted_holder:guardians": "{\"guardians\":0,\"reason\":\"no route from OUTSIDER\",\"status\":\"COMPUTED\"}",
+    "e_grant_at_T_plus_1:takeover_cost": "{\"cost\":null,\"path\":[],\"reason\":\"no path\",\"status\":\"NO PATH\"}",
+    "e_grant_at_T_plus_1:guardians": "{\"guardians\":0,\"reason\":\"no route from OUTSIDER\",\"status\":\"COMPUTED\"}"
+  },
+  "findings_match_fixture_answers": {
+    "a_single_chain:takeover_cost": true,
+    "a_single_chain:guardians": true,
+    "b_two_keepers:takeover_cost": true,
+    "b_two_keepers:guardians": true,
+    "c_two_approvals:takeover_cost": true,
+    "c_two_approvals:guardians": true,
+    "d_no_path:takeover_cost": true,
+    "d_no_path:guardians": true,
+    "e_grant_after_T:takeover_cost": true,
+    "e_grant_after_T:guardians": true,
+    "f_granted_holder:takeover_cost": true,
+    "f_granted_holder:guardians": true,
+    "e_grant_at_T_plus_1:takeover_cost": true,
+    "e_grant_at_T_plus_1:guardians": true
+  },
+  "synthetic": true,
+  "passed": true
+}

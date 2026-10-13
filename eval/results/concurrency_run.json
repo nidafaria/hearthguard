@@ -1,0 +1,20 @@
+{
+  "orgs": 4,
+  "graphs_on_board": 12,
+  "workers": 4,
+  "tasks": 144,
+  "tasks_done": 144,
+  "statuses": {
+    "DONE": 144
+  },
+  "seconds": 5.696,
+  "throughput_tasks_per_s": 25.28,
+  "read_latency_ms": {
+    "samples": 642,
+    "p50": 4.881,
+    "p95": 11.807
+  },
+  "note": "local FalkorDB container, this machine, this run only",
+  "synthetic": true,
+  "passed": true
+}

@@ -1,0 +1,252 @@
+{
+  "failure_types_in_code": [
+    "GRAPH_UNAVAILABLE",
+    "LAYOUT_MISMATCH",
+    "LLM_INVALID_JSON",
+    "LLM_LIMIT_REACHED",
+    "LLM_OFFLINE",
+    "QUERY_TIMEOUT",
+    "TOOL_ERROR",
+    "TOOL_INPUT_INVALID",
+    "TOOL_OUTPUT_INVALID"
+  ],
+  "failure_types_injected": [
+    "GRAPH_UNAVAILABLE",
+    "LAYOUT_MISMATCH",
+    "LLM_INVALID_JSON",
+    "LLM_LIMIT_REACHED",
+    "LLM_OFFLINE",
+    "QUERY_TIMEOUT",
+    "TOOL_ERROR",
+    "TOOL_INPUT_INVALID",
+    "TOOL_OUTPUT_INVALID"
+  ],
+  "all_types_injected": true,
+  "failures": [
+    {
+      "failure_type": "LAYOUT_MISMATCH",
+      "how": "real: layout check on a label the graph lacks",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "NOT_REPLANNABLE",
+        "classified_as": "LAYOUT_MISMATCH",
+        "replans": 0,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "TOOL_INPUT_INVALID",
+      "how": "real: takeover_cost refused T=None",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "NOT_REPLANNABLE",
+        "classified_as": "TOOL_INPUT_INVALID",
+        "replans": 0,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "TOOL_OUTPUT_INVALID",
+      "how": "injected: plan returns a result that breaks its schema",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "REPLAN_LIMIT",
+        "classified_as": "TOOL_OUTPUT_INVALID",
+        "replans": 2,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "QUERY_TIMEOUT",
+      "how": "real: 1 ms timeout on a long query",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "REPLAN_LIMIT",
+        "classified_as": "QUERY_TIMEOUT",
+        "replans": 2,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "GRAPH_UNAVAILABLE",
+      "how": "real: connection to a closed port",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "NOT_REPLANNABLE",
+        "classified_as": "GRAPH_UNAVAILABLE",
+        "replans": 0,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "LLM_OFFLINE",
+      "how": "real: LLMClient with no key",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "NOT_REPLANNABLE",
+        "classified_as": "LLM_OFFLINE",
+        "replans": 0,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "LLM_LIMIT_REACHED",
+      "how": "injected: DailyLimitReached",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "NOT_REPLANNABLE",
+        "classified_as": "LLM_LIMIT_REACHED",
+        "replans": 0,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "LLM_INVALID_JSON",
+      "how": "injected: InvalidJSON",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "REPLAN_LIMIT",
+        "classified_as": "LLM_INVALID_JSON",
+        "replans": 2,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    },
+    {
+      "failure_type": "TOOL_ERROR",
+      "how": "injected: unnamed tool error",
+      "outcome": {
+        "status": "HOLD",
+        "hold_reason": "REPLAN_LIMIT",
+        "classified_as": "TOOL_ERROR",
+        "replans": 2,
+        "hold_ms": 86400000
+      },
+      "checks": {
+        "held": true,
+        "named_as_injected": true,
+        "bounded": true,
+        "replans_within_limit": true,
+        "no_llm_on_abort": true,
+        "structural_ok": true
+      },
+      "passed": true
+    }
+  ],
+  "circuit_breaker": {
+    "hold_reasons": [
+      "NOT_REPLANNABLE",
+      "NOT_REPLANNABLE",
+      "NOT_REPLANNABLE",
+      "CIRCUIT_OPEN"
+    ],
+    "plan_runs": 3,
+    "breaker_open": true,
+    "statuses": {
+      "HELD": 4
+    },
+    "llm_calls_made_by_aborted_tasks": 0,
+    "structural_ok": true,
+    "passed": true
+  },
+  "mixed_board_llm_offline": {
+    "counts": {
+      "done": 2,
+      "held": 3,
+      "stale": 0
+    },
+    "statuses": {
+      "llm0": "HELD",
+      "llm1": "HELD",
+      "llm2": "HELD",
+      "cost": "DONE",
+      "guard": "DONE"
+    },
+    "structural_results": {
+      "cost": 1,
+      "guardians": 2
+    },
+    "llm_calls_that_reached_a_model": 0,
+    "passed": true
+  },
+  "limits": {
+    "max_replans": 2,
+    "breaker_threshold": 3,
+    "hold_ms": 86400000,
+    "plan_time_limit_ms": 60000,
+    "note": "hold_ms and plan_time_limit_ms are policy settings, not measurements"
+  },
+  "synthetic": true,
+  "passed": true
+}

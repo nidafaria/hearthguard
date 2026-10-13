@@ -1,0 +1,1 @@
+- Block F (Claude, Sonnet 5.5): wrote the task board, requests, hardening writer, AgentStep log, guardrails, the determinism/race/concurrency/faults evals and their tests; run against a real FalkorDB; no LLM called.

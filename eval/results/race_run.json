@@ -1,0 +1,28 @@
+{
+  "workers": 8,
+  "tasks": 200,
+  "findings": 40,
+  "claims": {
+    "claimed_total": 200,
+    "duplicate_claims": 0,
+    "statuses": {
+      "DONE": 200
+    },
+    "errors": []
+  },
+  "notes": {
+    "notes_in_graph": 40,
+    "distinct_note_ids": 40,
+    "sends_reported_true": 40,
+    "expected": 40,
+    "errors": []
+  },
+  "agent_steps": {
+    "expected": 80,
+    "seqs_unique_and_contiguous": true,
+    "errors": []
+  },
+  "seconds": 8.34,
+  "synthetic": true,
+  "passed": true
+}
