@@ -1,0 +1,237 @@
+BLOCK H: Finance pack and visibility graph
+Model: Sonnet
+Branch: agent/block-H
+Worktree: C:\Users\farze\newhackathon-block-H
+FalkorDB port: 6385   Container: block_h_falkordb   Volume: block_h
+
+Read this whole prompt before starting. It is self-contained; you have no memory of other sessions.
+
+1. WORKTREE FROM MAIN
+Run from C:\Users\farze\newhackathon (main, must be clean):
+  git -C C:\Users\farze\newhackathon worktree add -b agent/block-H C:\Users\farze\newhackathon-block-H main
+Then do all work inside C:\Users\farze\newhackathon-block-H. Do not edit main directly.
+
+2. YOUR ROWS (copied from eval/results/completion_full.md on main)
+Only these rows are yours:
+| 17 | §4.2 | Core free of domain code; OSS pack and finance pack separated | PARTIAL | packs/oss exists; packs/finance empty |
+| 18 | §4.2 | `make verify-packs` (finance runs with OSS pack removed) | NOT STARTED | target not built |
+| 21 | §4.2 | Finance pack (parsers, mapping, vocabulary, normal path) | NOT STARTED | packs/finance empty |
+| 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | NOT STARTED | not written anywhere |
+| 45 | §6.6 | Vector index on Span and full-text index on Span.text | NOT STARTED | schema.py has neither |
+| 74 | §9 | Who-saw-what memory | PARTIAL | core/memory/who_saw.py (PARTICIPATES_IN, WATCHES {since}, already_acknowledged); tests/integration/test_who_saw.py. Not yet filled from the cached mail and git data. |
+| 94 | §11.1 | Finance pack case (Northbridge, Kestrel), scripted | NOT STARTED | none |
+| 98 | §12.1 | pack-finance MCP server | NOT STARTED | none |
+
+3. BLOCKERS ALREADY RECORDED FOR THESE ROWS (from eval/results/blockers_*.md on main)
+Row 35:
+  [blockers_d.md] | 35 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | Not started. Needs a population step that reads the cached mail and git into Place, PARTICIPATES_IN {since, last_at} and RECORDED_IN. The writer for PARTICIPATES_IN exists (core/memory/who_saw.py) but nothing calls it on real data. | No command run |
+Row 45:
+  [blockers_d.md] | 45 | Vector index on Span and full-text index on Span.text | Not started. The vector index needs a pinned local sentence-transformers model, which must be downloaded (its name and hash recorded). Not attempted in this session. The full-text DDL form is already verified in docs/VERIFIED.md (`CREATE FULLTEXT INDEX FOR (n:Span) ON (n.text)`). | No command run |
+Row 74:
+  [blockers_d.md] | 74 | Who-saw-what memory | The PARTICIPATES_IN and WATCHES writers and `already_acknowledged()` are built and tested (`core/memory/who_saw.py`, `tests/integration/test_who_saw.py`). Nothing writes them from the cached mail and git data, so the org graphs hold no PARTICIPATES_IN edges. | `core/memory/who_saw.py` has no caller that reads `packs/oss` data; `eval/completion_full.py` row 74 evidence: WATCHES and ACTIVE_IN exist only in `ecosystem_xz`, and no PARTICIPATES_IN exists in any org graph. |
+
+4. SPEC SECTIONS THESE ROWS CITE (copied from docs/HEARTHGUARD.md on main)
+### 4.2 Platform: one core, domain packs
+
+```
+                    HEARTHGUARD CORE (domain-general, no OSS or finance code)
+   • Trust graph: actors, roles/privileges, grants, actions, paths, approvals
+   • Visibility graph: places, who participates where and since when, what was recorded where
+   • Claim graph: sources → spans → typed claims (pressure, vouch, request, capacity)
+   • Remembered normal: per-organisation baselines (grant speed, action paths, cadence)
+   • Four-move detectors + Lone keeper · Takeover cost & Guardians · visibility gaps
+   • Conflict policy · evidence checklists · decision policy · learned exceptions (safety-tested)
+   • Hardening simulator (GRAPH.COPY + red-team replay)
+   • Agents: Watcher, Reader, Investigator, Skeptic, Liaison, Red Team · task board · MCP server
+                                │  MCP (tools discovered at runtime)
+              ┌─────────────────┴──────────────────┐
+     OSS pack (flagship)                     Finance pack (second domain)
+     • Sources: GitHub, npm, mailing lists,  • Sources: synthetic email, chat, vendor portal, ERP log
+       public bug trackers
+     • Privileges: merge, release, sign,     • Privileges: vendor-master edit, payment approval,
+       npm_publish                             bank-detail change
+     • Normal path: CI + provenance +        • Normal path: vendor portal + callback verification +
+       known publishers                        two-person approval
+     • Real cases: xz, event-stream, axios   • Synthetic case: a slow vendor-payment takeover
+```
+
+**Each pack provides exactly four things:** (1) source parsers, (2) a mapping from its records to core concepts (actor, place, privilege, grant, action, path), (3) its claim vocabulary for the Reader, (4) its "normal path" definition. **Remove the OSS pack and the finance company still runs.** That is tested (`make verify-packs`).
+
+-----
+
+### 6.1 `org_<id>` (one per connected organisation: an OSS project or a company)
+
+```
+(:Org {id, name, pack: 'oss'|'finance', connected_by, connected_at})
+
+(:Actor {hid, handle_public?, kind: 'human'|'bot', created_at, first_seen_in_org})   // hid = hashed id
+(:Actor)-[:DID {at}]->(:Action {kind, at, ref})                              // commit, review, email, payment, ...
+(:Actor)-[:GRANTED {at, by_hid, evidence_ref}]->(:Privilege {kind, sensitive: bool})
+                                                                              // OSS: merge|release|sign|npm_publish
+                                                                              // Finance: vendor_edit|payment_approve|bank_change
+(:Action)-[:VIA]->(:Path {channel, verified: bool, ci?: bool, provenance?: bool, key_hid?, approvers?: int})
+
+// Who can approve what (input to Takeover cost and Guardians)
+(:Actor)-[:CAN_GRANT {approvals_required}]->(:Privilege)
+(:Actor)-[:APPROVED {at}]->(:Action)
+
+// Places and visibility (who could see what, and since when)
+(:Place {kind: 'list'|'repo'|'tracker'|'ci'|'chat'|'portal', ref})
+(:Actor)-[:PARTICIPATES_IN {since, last_at}]->(:Place)
+(:Action|:Claim)-[:RECORDED_IN]->(:Place)
+
+// Text understanding (written by Reader)
+(:Source {type, ref, url})-[:HAS]->(:Span {text, offset, at})
+(:Claim {id, kind: 'PRESSURE'|'VOUCH'|'REQUESTS_PRIVILEGE'|'URGENCY'|'CAPACITY_STATEMENT'|'CHANGE_REQUEST'|'HANDOVER_ANNOUNCEMENT',
+         target_hid?, confidence, modality: 'stated'|'reported'|'questioned', at})-[:FROM]->(:Span)
+(:Actor)-[:ASSERTED]->(:Claim)
+(:Claim)-[:CONTRADICTS|SUPERSEDES|QUALIFIES]->(:Claim)
+
+// Remembered normal (procedural/semantic memory; written by Watcher)
+(:Normal {metric, value, window, computed_at})-[:OF]->(:Org)
+   // metrics: keeper_activity_median_90d, grant_days (distribution per privilege),
+   //          usual_path (per action kind), cadence_days, active_keepers, trusted_actor_set
+
+// Shared signals between actors (for Vouch clusters)
+(:Actor)-[:SHARES {signal: 'creation_window'|'domain_hash'|'only_interacts_with_target'|'same_thread_burst'|'lookalike_name', strength}]->(:Actor)
+
+// Memory of the person in charge (written by Liaison)
+(:OwnerDecision {text, at, authority: 'owner', scope})-[:ABOUT]->(:Actor|:Finding)
+
+// Findings, objections, notes, learning, agent work
+(:Finding {id, moves: [...], takeover_cost, guardians, score, status: 'open'|'held'|'dismissed'|'sent', at})-[:SUPPORTED_BY]->(:Claim|:Normal|:Action|:Privilege|:Gap)
+(:Gap {kind: 'UNREACHABLE'|'UNNOTICED', decision_ref, signal_ref, place_ref})
+(:Objection {by: 'skeptic', reason, open})-[:ON]->(:Finding)
+(:Request {from, to, question, status})-[:FOR]->(:Objection)
+(:Note {id, sent_at, opened_at?, ack_at?, snoozed_until?, routed_to_hid})-[:FOR]->(:Finding)
+(:Draft {kind: 'boundary_reply'|'invite_keeper', text, sent_by_owner: bool, at})-[:FOR]->(:Note)
+(:Org)-[:BACKUP {named_by_owner_at}]->(:Actor)                // the only person a note may be re-routed to
+(:Hardening {step, cost_before, cost_after, guardians_before, guardians_after, caught_before, caught_after, lead_before, lead_after, run_ref})-[:FOR]->(:Org)
+(:Task {id, kind, status, priority, created_at, claimed_by?, lease_until?, input_version})
+(:AgentStep {agent, tool, reason, ms, result_ref, llm_calls, at})
+```
+
+**OSS pack mapping:** commits/PRs/issues/reviews/emails/bug reports → `Action`; maintainer rights → `Privilege`; release → `Action{kind:'release'}` with its `Path` (CI, provenance, signing key, publisher); mailing list, repo, tracker → `Place`.
+**Finance pack mapping:** vendor emails/chats/portal events/ERP entries → `Action`; vendor-master and payment rights → `Privilege`; bank-detail change → `Action{kind:'bank_change'}` with its `Path` (portal vs email, callback verified, number of approvers); inbox, chat channel, portal → `Place`.
+
+-----
+
+### 6.6 Constraints and indexes (VERIFY DAY 1 syntax)
+- Unique: `Actor.hid`, `Action.ref`, `Claim.id`, `Finding.id`, `Note.id`, `Task.id`, `Place.ref`
+- Range indexes on every `at` timestamp and `PARTICIPATES_IN.since`
+- Vector index on `Span` embeddings (local sentence-transformers model) for "find similar pressure messages"
+- Full-text index on `Span.text`
+
+---
+
+-----
+
+## 9. Memory (Track 02 mapping)
+
+| Memory type | In Hearthguard |
+|---|---|
+| **Episodic** | Every action, claim, grant, approval, and release/payment, timestamped, for the organisation's whole life. Every query is "as of T". |
+| **Semantic** | Claims from text linked to source spans, with contradictions kept and resolved by policy; cross-place identities in the ecosystem graph. |
+| **Procedural** | The **remembered normal** — how this org grants trust and through which paths it acts — plus learned exceptions and compiled plans in the playbook. |
+| **Who-saw-what** | `PARTICIPATES_IN` / `WATCHES {since}` edges: what each role could see, where, and from when. Used for visibility gaps and so the Liaison never re-sends what the owner already acknowledged. |
+| **Owner memory** | The person in charge's decisions and reasons, remembered across sessions with the highest authority. |
+| **Working** | `AgentStep` logs and the task board — shared state that survives restarts. |
+
+**Isolation:** one graph per organisation; one ecosystem graph per foundation or case; red-team and hardening copies never touch real graphs; the census graph holds structure only; the playbook holds no org data. **Erasure:** drop the org graph. Each agent's write access is enforced by the API, not by its prompt.
+
+---
+
+-----
+
+### 11.1 The finance pack (synthetic, small by design)
+
+**Northbridge Components** (synthetic, labelled on screen), a mid-size manufacturer.
+
+| Date | Event | Move |
+|---|---|---|
+| Aug 4 | A new contact, "Daniel," appears for long-standing supplier Kestrel Metals, cc'd by a look-alike domain. | — |
+| Aug 11–Sep 2 | Three short, friendly emails build rapport with the AP clerk; two "colleagues" vouch for Daniel. | Vouch |
+| Sep 8 | The controller, who approves vendor changes, posts "on leave until Sep 22" in chat. | Lone keeper (guardians drop to 1) |
+| Sep 15 | Daniel is added as a Kestrel contact with change-request rights (normal for this company: ~6 months). | Rush |
+| Sep 16–17 | "Urgent — pay today or the line stops." | Pressure |
+| Sep 17 | New bank details arrive by email, not the vendor portal; no callback is logged; one approver instead of two. | Bypass |
+
+Hearthguard sends the covering finance lead one private note: *"This bank-detail change came by email, not the portal, two days after a contact who joined six weeks ago gained change rights, while the controller is on leave — right now one approval is enough to change where Kestrel gets paid. Would you like to call back on the number on file before approving?"* The hardening simulator shows restoring two-person approval raises the takeover cost from 1 to 2.
+
+Same core, same agents, same detectors, same policy as the OSS pack — the only differences are the pack's parsers, vocabulary, and path definition. Kept to one scripted case so it fits in a short segment of the video and does not grow the scope.
+
+-----
+
+### 12.1 MCP servers (Track 01: tool selection through MCP)
+
+| Server | Tools |
+|---|---|
+| **hearthguard-core** | `check_trust(org, actor, action)`, `takeover_cost(org, privilege)`, `guardians(org, privilege)`, `org_normal(org)`, `trust_path(org, actor, privilege)`, `visibility_gaps(decision)`, `simulate_hardening(org, step)`, `why(finding_id)`, `claims_for(actor, window)` |
+| **pack-oss** | `release_path(org, version)`, `grant_history(org)`, `ecosystem_overlap(ecosystem)`, `upstream_context(package, version)` |
+| **pack-finance** | `vendor_change_path(org, vendor, change)`, `approval_history(org, vendor)` |
+| **FalkorDB MCP** (official) | Read-only exploration |
+
+The Investigator discovers tools at runtime; the same agent code works for both packs. All tools are read-only except the Liaison's send path, which requires an approval token. **External demo:** Claude Code (or any MCP client) calls `check_trust` before merging a PR from a three-week-old account and `upstream_context` before accepting a dependency upgrade.
+
+5. FILES YOU OWN (only these; create new files as needed)
+  - packs/finance/** (new files)
+  - mcp_servers/pack-finance/** (new)
+  - eval/verify_packs.py (new)
+  - eval/northbridge_case.py (new)
+  - data/synthetic/northbridge*.json (new)
+  - core/memory/who_saw.py
+  - eval/populate_visibility.py (new)
+  - core/graph/schema.py
+  - eval/vector_index.py (new)
+  - tests/unit/test_finance_*.py (new)
+  - tests/integration/test_finance_*.py (new)
+  - tests/integration/test_visibility_*.py (new)
+  - tests/integration/test_vector_index.py (new)
+  - docs/VERIFIED.md (append only)
+  - eval/results/finance_*.json, visibility_*.json, vector_index_*.json (new)
+
+6. FILES YOU MUST NOT TOUCH
+  Makefile, make.ps1, docs/AI_USE.md, eval/completion_full.py, eval/results/completion_full.json, eval/results/completion_full.md, docs/HEARTHGUARD.md, docs/FREEZE.md, docs/FREEZE.sha256, the conftest.py files, and any file another block owns.
+  Do not edit any existing test's expectation. Do not delete a test. Do not change docs/HEARTHGUARD.md
+  or the frozen detector definitions (spec section 7; decisions 0001 to 0005 are the team's).
+
+7. FALKORDB RULE
+Start your own instance. Do not use port 6379 (cascade), 6380 (shared main), 6381 (block C, stopped) or any other block's port:
+  docker run -d --name block_h_falkordb -p 127.0.0.1:6385:6379 -v block_h:/var/lib/falkordb/data falkordb/falkordb:6.0.2
+In every shell in your worktree, set FALKORDB_PORT=6385 before any command (the worktree's .env says 6380; the env var wins).
+Never print a key, token or salt. Stop the container when you finish: docker stop block_h_falkordb.
+
+8. HOW TO WORK
+- Tests first for policies, detectors, guards, the task board, safety rules and the learning gate (CLAUDE.md).
+- Every module needs a named owner who can explain it; record design decisions in docs/decisions/ only where you own the file.
+- Public, synthetic or our own data only; hash identifiers on ingest; every synthetic entity carries synthetic: true.
+- LLM use: the LLM allowance may be used up. If a step needs an LLM call, leave that step, record it as blocked, and do not fake the output.
+- Results go to eval/results/ as JSON or MD. No invented numbers.
+
+9. FINISH CONDITION
+A row is re-marked DONE only when BOTH hold on the final commit: (a) its evidence file exists in your worktree, and (b) its test passes.
+Record re-marks in eval/completion_updates/block_H.py (a new file you own) with:
+  UPDATES = {"<item text, copied from the Item column, as a prefix>": ("DONE" or "PARTIAL", "evidence text"), ...}
+eval/completion_full.py loads every module in eval/completion_updates/ and applies UPDATES by prefix. It raises if a prefix matches no row, so copy the item text exactly. Do not edit eval/completion_full.py.
+A row that is not finished keeps its current status.
+
+10. BLOCKER RULE
+If a row cannot be finished in your owned files, leave its status and write to eval/results/blockers_H.md: the row number, what is missing, the command that shows it, and the file or decision that would unblock it. Do not work around a blocker by editing another block's files.
+
+11. STOP RULE
+If a test fails and you cannot fix it inside your owned files, stop and print the failing test names. Do not skip or disable tests. If finishing a row would need the frozen spec changed, stop on that row and report it.
+
+12. VERIFY COMMANDS (in your worktree, with FALKORDB_PORT=6385 set)
+  powershell -File make.ps1 test          -> zero failures required
+  uv run python -m eval.completion_full   -> reads your completion_updates module
+Make targets are wired by the lead on main after the merge. Until then run your modules directly, for example: uv run python -m <your module>.
+
+13. COMMIT, NO PUSH
+Commit on agent/block-H with the message "feat: block H finance pack and visibility graph" and this trailer:
+  Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>
+Do NOT stage eval/results/completion_full.json or .md; main regenerates them after the merge.
+Put your docs/AI_USE.md line in eval/results/ai_use_H.md (a file you own); the lead appends it to docs/AI_USE.md.
+Do not push. There is no remote.
+
+14. MERGE RULE
+Merge only into a clean main. In C:\Users\farze\newhackathon run git status (must be clean), then git merge agent/block-H. If it conflicts, stop and print the file names only. Do not guess at a conflict. After a clean merge, rerun powershell -File make.ps1 test and uv run python -m eval.completion_full on main, and report the pass, fail and xfail counts and the completion last line.

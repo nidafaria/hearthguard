@@ -1,0 +1,208 @@
+BLOCK F: Task board and resilience
+Model: Sonnet
+Branch: agent/block-F
+Worktree: C:\Users\farze\newhackathon-block-F
+FalkorDB port: 6383   Container: block_f_falkordb   Volume: block_f
+
+Read this whole prompt before starting. It is self-contained; you have no memory of other sessions.
+
+1. WORKTREE FROM MAIN
+Run from C:\Users\farze\newhackathon (main, must be clean):
+  git -C C:\Users\farze\newhackathon worktree add -b agent/block-F C:\Users\farze\newhackathon-block-F main
+Then do all work inside C:\Users\farze\newhackathon-block-F. Do not edit main directly.
+
+2. YOUR ROWS (copied from eval/results/completion_full.md on main)
+Only these rows are yours:
+| 39 | §6.1 | org graph: Hardening, Task, AgentStep | NOT STARTED | none |
+| 65 | §8.2 | Task board with leases, stale-result rejection, requests | NOT STARTED | core/board is empty |
+| 69 | §8.4 | Guardrails: circuit breaker, bounded HOLD, re-plan limits | NOT STARTED | none |
+| 76 | §9 | Working memory (AgentStep, task board) | NOT STARTED | none |
+| 79 | §10.2 | Determinism, race and concurrency tests | NOT STARTED | tests/determinism, tests/race empty |
+| 81 | §10.2 | Resilience (`make faults`) | NOT STARTED | tests/faults is empty |
+
+3. BLOCKERS ALREADY RECORDED FOR THESE ROWS (from eval/results/blockers_*.md on main)
+(none recorded)
+
+4. SPEC SECTIONS THESE ROWS CITE (copied from docs/HEARTHGUARD.md on main)
+### 6.1 `org_<id>` (one per connected organisation: an OSS project or a company)
+
+```
+(:Org {id, name, pack: 'oss'|'finance', connected_by, connected_at})
+
+(:Actor {hid, handle_public?, kind: 'human'|'bot', created_at, first_seen_in_org})   // hid = hashed id
+(:Actor)-[:DID {at}]->(:Action {kind, at, ref})                              // commit, review, email, payment, ...
+(:Actor)-[:GRANTED {at, by_hid, evidence_ref}]->(:Privilege {kind, sensitive: bool})
+                                                                              // OSS: merge|release|sign|npm_publish
+                                                                              // Finance: vendor_edit|payment_approve|bank_change
+(:Action)-[:VIA]->(:Path {channel, verified: bool, ci?: bool, provenance?: bool, key_hid?, approvers?: int})
+
+// Who can approve what (input to Takeover cost and Guardians)
+(:Actor)-[:CAN_GRANT {approvals_required}]->(:Privilege)
+(:Actor)-[:APPROVED {at}]->(:Action)
+
+// Places and visibility (who could see what, and since when)
+(:Place {kind: 'list'|'repo'|'tracker'|'ci'|'chat'|'portal', ref})
+(:Actor)-[:PARTICIPATES_IN {since, last_at}]->(:Place)
+(:Action|:Claim)-[:RECORDED_IN]->(:Place)
+
+// Text understanding (written by Reader)
+(:Source {type, ref, url})-[:HAS]->(:Span {text, offset, at})
+(:Claim {id, kind: 'PRESSURE'|'VOUCH'|'REQUESTS_PRIVILEGE'|'URGENCY'|'CAPACITY_STATEMENT'|'CHANGE_REQUEST'|'HANDOVER_ANNOUNCEMENT',
+         target_hid?, confidence, modality: 'stated'|'reported'|'questioned', at})-[:FROM]->(:Span)
+(:Actor)-[:ASSERTED]->(:Claim)
+(:Claim)-[:CONTRADICTS|SUPERSEDES|QUALIFIES]->(:Claim)
+
+// Remembered normal (procedural/semantic memory; written by Watcher)
+(:Normal {metric, value, window, computed_at})-[:OF]->(:Org)
+   // metrics: keeper_activity_median_90d, grant_days (distribution per privilege),
+   //          usual_path (per action kind), cadence_days, active_keepers, trusted_actor_set
+
+// Shared signals between actors (for Vouch clusters)
+(:Actor)-[:SHARES {signal: 'creation_window'|'domain_hash'|'only_interacts_with_target'|'same_thread_burst'|'lookalike_name', strength}]->(:Actor)
+
+// Memory of the person in charge (written by Liaison)
+(:OwnerDecision {text, at, authority: 'owner', scope})-[:ABOUT]->(:Actor|:Finding)
+
+// Findings, objections, notes, learning, agent work
+(:Finding {id, moves: [...], takeover_cost, guardians, score, status: 'open'|'held'|'dismissed'|'sent', at})-[:SUPPORTED_BY]->(:Claim|:Normal|:Action|:Privilege|:Gap)
+(:Gap {kind: 'UNREACHABLE'|'UNNOTICED', decision_ref, signal_ref, place_ref})
+(:Objection {by: 'skeptic', reason, open})-[:ON]->(:Finding)
+(:Request {from, to, question, status})-[:FOR]->(:Objection)
+(:Note {id, sent_at, opened_at?, ack_at?, snoozed_until?, routed_to_hid})-[:FOR]->(:Finding)
+(:Draft {kind: 'boundary_reply'|'invite_keeper', text, sent_by_owner: bool, at})-[:FOR]->(:Note)
+(:Org)-[:BACKUP {named_by_owner_at}]->(:Actor)                // the only person a note may be re-routed to
+(:Hardening {step, cost_before, cost_after, guardians_before, guardians_after, caught_before, caught_after, lead_before, lead_after, run_ref})-[:FOR]->(:Org)
+(:Task {id, kind, status, priority, created_at, claimed_by?, lease_until?, input_version})
+(:AgentStep {agent, tool, reason, ms, result_ref, llm_calls, at})
+```
+
+**OSS pack mapping:** commits/PRs/issues/reviews/emails/bug reports → `Action`; maintainer rights → `Privilege`; release → `Action{kind:'release'}` with its `Path` (CI, provenance, signing key, publisher); mailing list, repo, tracker → `Place`.
+**Finance pack mapping:** vendor emails/chats/portal events/ERP entries → `Action`; vendor-master and payment rights → `Privilege`; bank-detail change → `Action{kind:'bank_change'}` with its `Path` (portal vs email, callback verified, number of approvers); inbox, chat channel, portal → `Place`.
+
+-----
+
+### 8.2 Task board and coordination
+
+```cypher
+MATCH (t:Task) WHERE t.status = 'OPEN' OR (t.status = 'CLAIMED' AND t.lease_until < $now)
+WITH t ORDER BY t.priority DESC, t.created_at ASC LIMIT 1
+SET t.status = 'CLAIMED', t.claimed_by = $agent, t.lease_until = $now + 30000
+RETURN t.id
+```
+
+- Leased claims; expired leases reopen automatically.
+- Unique action keys (`MERGE` + unique constraint): no note is ever sent twice.
+- Stale results are rejected: each task records the org graph's `input_version`; if the graph changed after a result was computed, the task is requeued.
+- Objections and requests between agents: the Skeptic's objection ("is there an in-repo handover announcement?") becomes a `Request` the Investigator must answer before the finding returns to the board.
+- Every step is logged as an `AgentStep` (tool, reason, ms, LLM calls), so any agent can resume another's work after a crash or restart.
+- Handoffs Watcher → Reader → Investigator → Skeptic → Policy → Liaison all happen through graph state, not prompt-stuffing.
+- **Whole-ecosystem run:** all connected orgs, red-team copies and census packages are interleaved on one board. **The order differs every run; the findings are identical** (`make verify-determinism`).
+
+-----
+
+### 8.4 The AI layer: the LLM plans and reads, tested tools compute, a fixed policy decides
+
+- **Where an LLM is used:** the Reader (claims from text), the Investigator's *first* plan for a new task type, the Skeptic's benign-explanation search, and the Liaison's wording and follow-up answers. **Nowhere else.** Detectors, takeover cost, gaps, policy, learning gate and hardening are deterministic.
+- **Compiled plans:** the first plan that completes an evidence checklist is saved to the playbook; every later task of that type runs it as batched Cypher **without calling the LLM**. LLM calls per task are logged in `AgentStep` and reported (`make live` prints them).
+- **Guardrails:** graph layout checked before a plan runs; fixed tool input/output schemas so failures fall into named types; ≤ 2 re-plans per task with a time limit; circuit breaker (3 failures of the same type suspend the plan and send its tasks to human review); the abort path never calls the LLM. `make faults` injects every failure type, including "LLM offline," and checks each ends in a bounded HOLD while structural detectors keep running.
+- **Models (config only, `config/models.yaml`):** any OpenAI-compatible endpoint. Default: a free-tier hosted open model for planning/reading, a local model (Ollama) as fallback, local sentence-transformers for embeddings. Rate limiter, retries on 429, and an input-keyed response cache that also powers `make demo`. **VERIFY DAY 1** the free-tier limits on the account actually used, and measure real token counts — no estimates in the README.
+
+-----
+
+## 9. Memory (Track 02 mapping)
+
+| Memory type | In Hearthguard |
+|---|---|
+| **Episodic** | Every action, claim, grant, approval, and release/payment, timestamped, for the organisation's whole life. Every query is "as of T". |
+| **Semantic** | Claims from text linked to source spans, with contradictions kept and resolved by policy; cross-place identities in the ecosystem graph. |
+| **Procedural** | The **remembered normal** — how this org grants trust and through which paths it acts — plus learned exceptions and compiled plans in the playbook. |
+| **Who-saw-what** | `PARTICIPATES_IN` / `WATCHES {since}` edges: what each role could see, where, and from when. Used for visibility gaps and so the Liaison never re-sends what the owner already acknowledged. |
+| **Owner memory** | The person in charge's decisions and reasons, remembered across sessions with the highest authority. |
+| **Working** | `AgentStep` logs and the task board — shared state that survives restarts. |
+
+**Isolation:** one graph per organisation; one ecosystem graph per foundation or case; red-team and hardening copies never touch real graphs; the census graph holds structure only; the playbook holds no org data. **Erasure:** drop the org graph. Each agent's write access is enforced by the API, not by its prompt.
+
+---
+
+-----
+
+### 10.2 Proof per track
+
+| Track | The claim | The proof | Command |
+|---|---|---|---|
+| **02 — Memory** | "Too slow for anything that forgets" | **Memory ablation:** the same detectors with a forgetful memory (only the last 30 / 90 days, no remembered normal, no visibility memory) vs. full memory, across the red-team patience curve. Detection rate and lead time for each. | `make ablation-memory` |
+| **02 — Coordination** | Agents coordinate correctly under load | Identical findings under 5 task orderings; zero duplicate notes in the race test; throughput and p50/p95 read latency while N orgs, red-team and hardening copies run in parallel | `make verify-determinism` · `make race` · `make concurrency` |
+| **02 — Learning** | Learning can't make it blind | Learned exceptions across chaos seeds: count per end state, **zero planted campaigns lost** | `make verify-learning` · `make chaos SEED=<any>` |
+| **02 — Resilience** | It degrades safely | Every failure type, including LLM offline, ends in a bounded HOLD; structural moves keep firing | `make faults` |
+| **01 — Acting on connected data** | The graph algorithms change outcomes | **Algorithm ablation:** turn off WCC/labelPropagation (Vouch), SPpaths (takeover cost, trust path), and maxFlow (guardians) one at a time; report the change in detection and false-alarm rates | `make ablation-algos` |
+| **01 — Real cases** | It works on reality, not just plants | Replays of xz (late 2021 → Mar 2024), event-stream (2018), axios (Mar 2026, Bypass only): fired or not, first-fire date, lead time, moves, takeover cost over time | `make replay CASE=xz` |
+| **01 — Fixes are real** | Hardening steps measurably raise the cost of attack | Hardening simulator on xz-as-of-2022 and on 10 false-alarm-study projects: cost, guardians, caught, lead time — before vs. after each step | `make harden CASE=xz` |
+| **03 — Company brain** | It knows who holds what and who could see what | (a) **Ownership accuracy:** inferred keepers vs. each project's public `MAINTAINERS` / `CODEOWNERS` on ~30 projects. (b) **Visibility gaps on xz:** computed gaps for each downstream decision (oss-fuzz build change, kernel maintainer entry, Debian and Ubuntu upgrade requests), each linked to the public record | `make verify-ownership` · `make gaps CASE=xz` |
+| **03 — At ecosystem scale** | New evidence, measured by us | **Takeover Cost Census** (§11.2): aggregate distribution of takeover cost, guardians and release-path consistency across N public packages | `make census N=100` |
+| **Platform** | One core, two domains | The finance case runs with the OSS pack removed; same agents, same detectors, same policy | `make verify-packs` |
+| **Precision** | It doesn't cry wolf | False-alarm study: ~30 real projects that legitimately added maintainers (2021–2025) + clean red-team copies; notes per org-year and which moves caused them; one hero **decoy** in the demo | `make false-positives` |
+| **Text understanding** | The Reader reads correctly | ~100 hand-labelled spans; precision and recall per claim type | `make eval-reader` |
+
+**Honesty rules:** three real attacks are too few to claim precision — say so. Publish the patience curve and the ablations even if they are unflattering; if a component ties the baseline, say it tied (the Lethe rule). Never put an unmeasured number in the video.
+
+5. FILES YOU OWN (only these; create new files as needed)
+  - core/board/** (new files)
+  - core/agents/guardrails.py (new)
+  - core/agents/agent_step.py (new)
+  - tests/determinism/** (new files)
+  - tests/race/** (new files)
+  - tests/faults/** (new files)
+  - tests/unit/test_board_*.py (new)
+  - tests/integration/test_board_*.py (new)
+  - tests/unit/test_guardrails_*.py (new)
+  - eval/verify_determinism.py (new)
+  - eval/race.py (new)
+  - eval/concurrency.py (new)
+  - eval/faults.py (new)
+  - eval/results/determinism_*.json, race_*.json, concurrency_*.json, faults_*.json (new)
+
+6. FILES YOU MUST NOT TOUCH
+  Makefile, make.ps1, docs/AI_USE.md, eval/completion_full.py, eval/results/completion_full.json, eval/results/completion_full.md, docs/HEARTHGUARD.md, docs/FREEZE.md, docs/FREEZE.sha256, the conftest.py files, and any file another block owns.
+  Do not edit any existing test's expectation. Do not delete a test. Do not change docs/HEARTHGUARD.md
+  or the frozen detector definitions (spec section 7; decisions 0001 to 0005 are the team's).
+
+7. FALKORDB RULE
+Start your own instance. Do not use port 6379 (cascade), 6380 (shared main), 6381 (block C, stopped) or any other block's port:
+  docker run -d --name block_f_falkordb -p 127.0.0.1:6383:6379 -v block_f:/var/lib/falkordb/data falkordb/falkordb:6.0.2
+In every shell in your worktree, set FALKORDB_PORT=6383 before any command (the worktree's .env says 6380; the env var wins).
+Never print a key, token or salt. Stop the container when you finish: docker stop block_f_falkordb.
+
+8. HOW TO WORK
+- Tests first for policies, detectors, guards, the task board, safety rules and the learning gate (CLAUDE.md).
+- Every module needs a named owner who can explain it; record design decisions in docs/decisions/ only where you own the file.
+- Public, synthetic or our own data only; hash identifiers on ingest; every synthetic entity carries synthetic: true.
+- LLM use: the LLM allowance may be used up. If a step needs an LLM call, leave that step, record it as blocked, and do not fake the output.
+- Results go to eval/results/ as JSON or MD. No invented numbers.
+
+9. FINISH CONDITION
+A row is re-marked DONE only when BOTH hold on the final commit: (a) its evidence file exists in your worktree, and (b) its test passes.
+Record re-marks in eval/completion_updates/block_F.py (a new file you own) with:
+  UPDATES = {"<item text, copied from the Item column, as a prefix>": ("DONE" or "PARTIAL", "evidence text"), ...}
+eval/completion_full.py loads every module in eval/completion_updates/ and applies UPDATES by prefix. It raises if a prefix matches no row, so copy the item text exactly. Do not edit eval/completion_full.py.
+A row that is not finished keeps its current status.
+
+10. BLOCKER RULE
+If a row cannot be finished in your owned files, leave its status and write to eval/results/blockers_F.md: the row number, what is missing, the command that shows it, and the file or decision that would unblock it. Do not work around a blocker by editing another block's files.
+
+11. STOP RULE
+If a test fails and you cannot fix it inside your owned files, stop and print the failing test names. Do not skip or disable tests. If finishing a row would need the frozen spec changed, stop on that row and report it.
+
+12. VERIFY COMMANDS (in your worktree, with FALKORDB_PORT=6383 set)
+  powershell -File make.ps1 test          -> zero failures required
+  uv run python -m eval.completion_full   -> reads your completion_updates module
+Make targets are wired by the lead on main after the merge. Until then run your modules directly, for example: uv run python -m <your module>.
+
+13. COMMIT, NO PUSH
+Commit on agent/block-F with the message "feat: block F task board and resilience" and this trailer:
+  Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>
+Do NOT stage eval/results/completion_full.json or .md; main regenerates them after the merge.
+Put your docs/AI_USE.md line in eval/results/ai_use_F.md (a file you own); the lead appends it to docs/AI_USE.md.
+Do not push. There is no remote.
+
+14. MERGE RULE
+Merge only into a clean main. In C:\Users\farze\newhackathon run git status (must be clean), then git merge agent/block-F. If it conflicts, stop and print the file names only. Do not guess at a conflict. After a clean merge, rerun powershell -File make.ps1 test and uv run python -m eval.completion_full on main, and report the pass, fail and xfail counts and the completion last line.

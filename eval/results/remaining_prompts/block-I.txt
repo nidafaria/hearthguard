@@ -1,0 +1,140 @@
+BLOCK I: Evaluation and MCP servers
+Model: Haiku
+Branch: agent/block-I
+Worktree: C:\Users\farze\newhackathon-block-I
+FalkorDB port: 6386   Container: block_i_falkordb   Volume: block_i
+
+Read this whole prompt before starting. It is self-contained; you have no memory of other sessions.
+
+1. WORKTREE FROM MAIN
+Run from C:\Users\farze\newhackathon (main, must be clean):
+  git -C C:\Users\farze\newhackathon worktree add -b agent/block-I C:\Users\farze\newhackathon-block-I main
+Then do all work inside C:\Users\farze\newhackathon-block-I. Do not edit main directly.
+
+2. YOUR ROWS (copied from eval/results/completion_full.md on main)
+Only these rows are yours:
+| 78 | §10.2 | Memory ablation (`make ablation-memory`) | NOT STARTED | target not built |
+| 82 | §10.2 | Algorithm ablation (`make ablation-algos`) | NOT STARTED | none |
+| 96 | §12.1 | hearthguard-core MCP server (9 tools) | NOT STARTED | mcp_servers/ is empty |
+| 97 | §12.1 | pack-oss MCP server | NOT STARTED | none |
+| 117 | §13.7 | Patience curve | PARTIAL | ui/src/Patience.tsx shows NOT COMPUTED and names the blocker; eval/results/blockers_b.md. Needs eval/results/ablation_memory.json from block C (absent on this branch) |
+
+3. BLOCKERS ALREADY RECORDED FOR THESE ROWS (from eval/results/blockers_*.md on main)
+Row 117:
+  [blockers_b.md] ## Row 117: Patience curve (spec 13.7)
+  [blockers_b.md] - Status: stays PARTIAL.
+  [blockers_b.md] - Reason: the chart reads `eval/results/ablation_memory.json`, which block C writes (detection rate and lead time against attacker patience, full versus forgetful memory). That file is not on this branch, so the panel shows NOT COMPUTED and names the blocker. No curve is drawn from any other data.
+  [blockers_b.md] - Command that would produce the input: `make ablation-memory` (still a placeholder in the Makefile, so it exits 1 with "ablation-memory: not built yet").
+  [blockers_b.md] - Unblock: merge block C's `ablation_memory.json` onto main, then the screen will still need a chart over its schema (`ui/src/Patience.tsx` currently reports presence only).
+
+4. SPEC SECTIONS THESE ROWS CITE (copied from docs/HEARTHGUARD.md on main)
+### 10.2 Proof per track
+
+| Track | The claim | The proof | Command |
+|---|---|---|---|
+| **02 — Memory** | "Too slow for anything that forgets" | **Memory ablation:** the same detectors with a forgetful memory (only the last 30 / 90 days, no remembered normal, no visibility memory) vs. full memory, across the red-team patience curve. Detection rate and lead time for each. | `make ablation-memory` |
+| **02 — Coordination** | Agents coordinate correctly under load | Identical findings under 5 task orderings; zero duplicate notes in the race test; throughput and p50/p95 read latency while N orgs, red-team and hardening copies run in parallel | `make verify-determinism` · `make race` · `make concurrency` |
+| **02 — Learning** | Learning can't make it blind | Learned exceptions across chaos seeds: count per end state, **zero planted campaigns lost** | `make verify-learning` · `make chaos SEED=<any>` |
+| **02 — Resilience** | It degrades safely | Every failure type, including LLM offline, ends in a bounded HOLD; structural moves keep firing | `make faults` |
+| **01 — Acting on connected data** | The graph algorithms change outcomes | **Algorithm ablation:** turn off WCC/labelPropagation (Vouch), SPpaths (takeover cost, trust path), and maxFlow (guardians) one at a time; report the change in detection and false-alarm rates | `make ablation-algos` |
+| **01 — Real cases** | It works on reality, not just plants | Replays of xz (late 2021 → Mar 2024), event-stream (2018), axios (Mar 2026, Bypass only): fired or not, first-fire date, lead time, moves, takeover cost over time | `make replay CASE=xz` |
+| **01 — Fixes are real** | Hardening steps measurably raise the cost of attack | Hardening simulator on xz-as-of-2022 and on 10 false-alarm-study projects: cost, guardians, caught, lead time — before vs. after each step | `make harden CASE=xz` |
+| **03 — Company brain** | It knows who holds what and who could see what | (a) **Ownership accuracy:** inferred keepers vs. each project's public `MAINTAINERS` / `CODEOWNERS` on ~30 projects. (b) **Visibility gaps on xz:** computed gaps for each downstream decision (oss-fuzz build change, kernel maintainer entry, Debian and Ubuntu upgrade requests), each linked to the public record | `make verify-ownership` · `make gaps CASE=xz` |
+| **03 — At ecosystem scale** | New evidence, measured by us | **Takeover Cost Census** (§11.2): aggregate distribution of takeover cost, guardians and release-path consistency across N public packages | `make census N=100` |
+| **Platform** | One core, two domains | The finance case runs with the OSS pack removed; same agents, same detectors, same policy | `make verify-packs` |
+| **Precision** | It doesn't cry wolf | False-alarm study: ~30 real projects that legitimately added maintainers (2021–2025) + clean red-team copies; notes per org-year and which moves caused them; one hero **decoy** in the demo | `make false-positives` |
+| **Text understanding** | The Reader reads correctly | ~100 hand-labelled spans; precision and recall per claim type | `make eval-reader` |
+
+**Honesty rules:** three real attacks are too few to claim precision — say so. Publish the patience curve and the ablations even if they are unflattering; if a component ties the baseline, say it tied (the Lethe rule). Never put an unmeasured number in the video.
+
+-----
+
+### 12.1 MCP servers (Track 01: tool selection through MCP)
+
+| Server | Tools |
+|---|---|
+| **hearthguard-core** | `check_trust(org, actor, action)`, `takeover_cost(org, privilege)`, `guardians(org, privilege)`, `org_normal(org)`, `trust_path(org, actor, privilege)`, `visibility_gaps(decision)`, `simulate_hardening(org, step)`, `why(finding_id)`, `claims_for(actor, window)` |
+| **pack-oss** | `release_path(org, version)`, `grant_history(org)`, `ecosystem_overlap(ecosystem)`, `upstream_context(package, version)` |
+| **pack-finance** | `vendor_change_path(org, vendor, change)`, `approval_history(org, vendor)` |
+| **FalkorDB MCP** (official) | Read-only exploration |
+
+The Investigator discovers tools at runtime; the same agent code works for both packs. All tools are read-only except the Liaison's send path, which requires an approval token. **External demo:** Claude Code (or any MCP client) calls `check_trust` before merging a PR from a three-week-old account and `upstream_context` before accepting a dependency upgrade.
+
+-----
+
+(list item 13.7 is inside this section)
+## 13. UI screens
+
+1. **Replay timeline** — years of history; claims, grants, actions; move markers (Pressure, Vouch, Rush, Bypass); takeover cost as a line over time; a "note sent" marker on the measured date.
+2. **Who saw what** — one row per place (xz-devel, repo, oss-fuzz, LKML, Debian, Launchpad), time across the page, a dot per signal, a line at each downstream decision, computed gaps highlighted. Roles, not names.
+3. **Takeover cost gauge** — the number, the guardians, and the path that achieves it, drawn on the trust map.
+4. **Trust map** (Cytoscape) — actors, vouches, privilege grants; clusters shaded; trust path highlighted.
+5. **Evidence card** — the four moves plus Lone keeper as a checklist turning green as tools return; quotes with links; Skeptic objections and requests; the Cypher that ran and its time.
+6. **Hardening simulator** — up to three steps, each with before/after cost, guardians, caught, lead time.
+7. **Patience curve** — detection rate and lead time against attacker patience, **full memory vs. forgetful memory** on the same chart.
+8. **Connect your repo** — read-only connection (GitHub sign-in; fallback: a token in the CLI), live memory-build progress, the project's normal, takeover cost, the best hardening step.
+9. **Census** — aggregate distributions only.
+10. **Playbook** — learned exceptions in their four states with regression results; compiled plans with LLM calls saved.
+11. **Inbox** — the same note, buttons and thread as Slack (the fallback when Slack is down, and the view for judges without Slack).
+12. **Two endings** — the xz timeline (alone, takeover cost 1 throughout) beside the `tallowdate` timeline (takeover cost 1 → 2 on Apr 10), on the same time axis.
+
+Header shows the active pack (OSS / Finance). Planted and synthetic data are labelled on every screen where they appear.
+
+---
+
+5. FILES YOU OWN (only these; create new files as needed)
+  - eval/ablation_memory.py (new)
+  - eval/ablation_algos.py (new)
+  - eval/results/ablation_memory.json, ablation_algos.json (new)
+  - ui/src/Patience.tsx
+  - mcp_servers/hearthguard-core/** (new)
+  - mcp_servers/pack-oss/** (new)
+  - tests/unit/test_mcp_*.py (new)
+  - tests/integration/test_ablation_*.py (new)
+  - tests/integration/test_mcp_*.py (new)
+
+6. FILES YOU MUST NOT TOUCH
+  Makefile, make.ps1, docs/AI_USE.md, eval/completion_full.py, eval/results/completion_full.json, eval/results/completion_full.md, docs/HEARTHGUARD.md, docs/FREEZE.md, docs/FREEZE.sha256, the conftest.py files, and any file another block owns.
+  Do not edit any existing test's expectation. Do not delete a test. Do not change docs/HEARTHGUARD.md
+  or the frozen detector definitions (spec section 7; decisions 0001 to 0005 are the team's).
+
+7. FALKORDB RULE
+Start your own instance. Do not use port 6379 (cascade), 6380 (shared main), 6381 (block C, stopped) or any other block's port:
+  docker run -d --name block_i_falkordb -p 127.0.0.1:6386:6379 -v block_i:/var/lib/falkordb/data falkordb/falkordb:6.0.2
+In every shell in your worktree, set FALKORDB_PORT=6386 before any command (the worktree's .env says 6380; the env var wins).
+Never print a key, token or salt. Stop the container when you finish: docker stop block_i_falkordb.
+
+8. HOW TO WORK
+- Tests first for policies, detectors, guards, the task board, safety rules and the learning gate (CLAUDE.md).
+- Every module needs a named owner who can explain it; record design decisions in docs/decisions/ only where you own the file.
+- Public, synthetic or our own data only; hash identifiers on ingest; every synthetic entity carries synthetic: true.
+- LLM use: the LLM allowance may be used up. If a step needs an LLM call, leave that step, record it as blocked, and do not fake the output.
+- Results go to eval/results/ as JSON or MD. No invented numbers.
+
+9. FINISH CONDITION
+A row is re-marked DONE only when BOTH hold on the final commit: (a) its evidence file exists in your worktree, and (b) its test passes.
+Record re-marks in eval/completion_updates/block_I.py (a new file you own) with:
+  UPDATES = {"<item text, copied from the Item column, as a prefix>": ("DONE" or "PARTIAL", "evidence text"), ...}
+eval/completion_full.py loads every module in eval/completion_updates/ and applies UPDATES by prefix. It raises if a prefix matches no row, so copy the item text exactly. Do not edit eval/completion_full.py.
+A row that is not finished keeps its current status.
+
+10. BLOCKER RULE
+If a row cannot be finished in your owned files, leave its status and write to eval/results/blockers_I.md: the row number, what is missing, the command that shows it, and the file or decision that would unblock it. Do not work around a blocker by editing another block's files.
+
+11. STOP RULE
+If a test fails and you cannot fix it inside your owned files, stop and print the failing test names. Do not skip or disable tests. If finishing a row would need the frozen spec changed, stop on that row and report it.
+
+12. VERIFY COMMANDS (in your worktree, with FALKORDB_PORT=6386 set)
+  powershell -File make.ps1 test          -> zero failures required
+  uv run python -m eval.completion_full   -> reads your completion_updates module
+Make targets are wired by the lead on main after the merge. Until then run your modules directly, for example: uv run python -m <your module>.
+
+13. COMMIT, NO PUSH
+Commit on agent/block-I with the message "feat: block I evaluation and mcp servers" and this trailer:
+  Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>
+Do NOT stage eval/results/completion_full.json or .md; main regenerates them after the merge.
+Put your docs/AI_USE.md line in eval/results/ai_use_I.md (a file you own); the lead appends it to docs/AI_USE.md.
+Do not push. There is no remote.
+
+14. MERGE RULE
+Merge only into a clean main. In C:\Users\farze\newhackathon run git status (must be clean), then git merge agent/block-I. If it conflicts, stop and print the file names only. Do not guess at a conflict. After a clean merge, rerun powershell -File make.ps1 test and uv run python -m eval.completion_full on main, and report the pass, fail and xfail counts and the completion last line.

@@ -1,0 +1,214 @@
+BLOCK G: Ingest, ecosystem and docs
+Model: Sonnet
+Branch: agent/block-G
+Worktree: C:\Users\farze\newhackathon-block-G
+FalkorDB port: 6384   Container: block_g_falkordb   Volume: block_g
+
+Read this whole prompt before starting. It is self-contained; you have no memory of other sessions.
+
+1. WORKTREE FROM MAIN
+Run from C:\Users\farze\newhackathon (main, must be clean):
+  git -C C:\Users\farze\newhackathon worktree add -b agent/block-G C:\Users\farze\newhackathon-block-G main
+Then do all work inside C:\Users\farze\newhackathon-block-G. Do not edit main directly.
+
+2. YOUR ROWS (copied from eval/results/completion_full.md on main)
+Only these rows are yours:
+| 4 | §1 R10 | README with setup and graph data model | PARTIAL | README.md (59c5e87): setup and model, no final judge path |
+| 6 | §1 R10 | Live deployment or complete local setup | PARTIAL | README.md setup runs what exists |
+| 15 | §3.1 | Incident data for event-stream and axios ingested | NOT STARTED | none in data/raw/ |
+| 19 | §4.2 | OSS pack: parsers for GitHub, npm, mailing lists, bug trackers | PARTIAL | git, GitHub and mail parsers (f5d741a, 09c776c); npm and trackers none |
+| 40 | §6.2 | ecosystem_<id> graph | PARTIAL | packs/oss/ecosystem/graph.py; eval/results/ecosystem_load.json: ecosystem_xz, 43 events, second load identical; no Foundation, HOSTED_BY or Campaign |
+| 84 | §10.2 | event-stream and axios replays | NOT STARTED | none |
+| 128 | Pitch | README, final (claim, commands, model, queries, measured, limits, AI use) | PARTIAL | README.md 59c5e87; no video link, tracks or full command list |
+
+3. BLOCKERS ALREADY RECORDED FOR THESE ROWS (from eval/results/blockers_*.md on main)
+Row 4:
+  [blockers_b.md] ## Row 4: README with setup and graph data model
+  [blockers_b.md] - Status: stays PARTIAL.
+  [blockers_b.md] - Done here: the README lists the new commands (gaps, demo sections, connect), links docs/queries.md, and the query list is generated from code.
+  [blockers_b.md] - Still open: the judge path needs the full suite to run from a clean clone, and that needs FalkorDB, which a judge may not have running (see row 6).
+Row 6:
+  [blockers_b.md] ## Row 6: Live deployment or complete local setup
+  [blockers_b.md] - Status: stays PARTIAL.
+  [blockers_b.md] - Command that fails in a clean clone (no `.env`, no `data/raw/`, no FalkorDB): `powershell -ExecutionPolicy Bypass -File eval\fresh_clone_test.ps1 -WithTests`. The full `make test` step reports `redis.exceptions.AuthenticationError` and `ConnectionError` from the FalkorDB-backed tests. Those need a running FalkorDB, which the README states.
+  [blockers_b.md] - Command that fails in lint in a clean clone: `uv run ruff check .`. The failing files are eval/video_check.py, eval/blog_check.py and eval/completion_full.py (its loader hook is the text the brief specified, with E402 and I001 on it). eval/video_check.py and eval/blog_check.py belong to other blocks.
+  [blockers_b.md] - Git-ignored data no longer breaks tests: the ecosystem and xz ingest modules, and the salt-dependent unit tests, skip with a reason. See docs/fresh_clone_report.md, run 3.
+Row 40:
+  [blockers_d.md] | 40 | ecosystem_<id> graph: Foundation, HOSTED_BY, Campaign, TOUCHES | Partial. `HOSTED_BY` needs a public source that names the foundation hosting xz. None is in the cache, so writing an edge would invent one (against the number and data rules). Campaign and TOUCHES are not written yet. | No command run |
+
+4. SPEC SECTIONS THESE ROWS CITE (copied from docs/HEARTHGUARD.md on main)
+## 1. Hackathon constraints (non-negotiable)
+
+Source: the official event pages (overview, rules, schedule, resources), read Oct 11, 2026.
+
+| Rule | What it means for Hearthguard |
+|---|---|
+| **R2/R3 — FalkorDB must be load-bearing.** "If the product still works once FalkorDB is taken out, the graph is decoration." | Every detector, memory read, trust path, takeover cost, visibility gap, and hardening replay runs on FalkorDB. No secondary datastore holds core logic. |
+| **R6 — Only public, synthetic, or our own data.** No private, login-protected, paywalled, personal, or restricted information. | OSS pack: public GitHub / npm / mailing-list / public bug-tracker data only, identifiers hashed on ingest; only already-public, adjudicated attacker personas (e.g. `JiaT75`) appear by name; uninvolved people appear by role only. Finance pack: fully synthetic company, labelled as such. |
+| **R10 — Required submission contents.** | Public repo · README with setup + graph data model · the Cypher queries / algorithms the product depends on · demo video · live deployment or complete local setup · tracks named. |
+| **R11 — AI coding assistants are allowed but must be disclosed.** | README includes an "AI assistance" section. |
+| **R12/R13 — The team must understand and explain everything.** | Every module has a named owner who can explain it. Design decisions are recorded here and in short decision notes. |
+| **R5 — Name every track entered.** | Track 02 listed first. |
+| **Deadline** | Submit by Oct 18 ~6:00 PM IST (6-hour buffer). |
+
+**Judging criteria are not published for this event.** Past WeMakeDevs events used: Potential Impact · Creativity · Technical Excellence · Best Use of Sponsor · User Experience · Presentation Quality. Design for all six.
+
+**What FalkorDB's own judges praised in their 2026 hackathon recaps:** queries "a flat table or a vector search simply cannot express"; real public data; showing the exact Cypher in the UI; eval sets that pass; read-only query guards; pinned images; idempotent `MERGE`; a deterministic (non-LLM) final authority; precedent written back to the graph; "no path found" treated as a real result.
+
+**What past WeMakeDevs grand winners had in common** (Cognee "Lethe", TrueForge "OnCall", "CapyGuard"): one sharp contrarian thesis; a benchmark against the obvious baseline, published even where it tied; a measured receipt instead of a claim; the human keeps the final decision; structural (not prompt-only) safety boundaries.
+
+---
+
+-----
+
+### 3.1 The incidents
+
+**xz Utils — CVE-2024-3094 (CVSS 10.0).**
+- A persona, "Jia Tan" (GitHub `JiaT75`), sent a first patch to xz-devel on 2021-10-29 and made genuine, competent contributions for more than two years.
+- In parallel, apparent sock-puppet accounts ("Jigar Kumar", "Dennis Ens") pressured the project's solo maintainer on xz-devel (Apr–Jun 2022) about slow releases and pushed for a new maintainer. On 2022-06-29 the maintainer wrote that Jia Tan was "practically a co-maintainer already."
+- Jia Tan tagged releases from 2023-03 onward, re-routed oss-fuzz reports to themself (2023-03-20), disabled ifunc in the oss-fuzz build (2023-07-07), merged the hidden payload (2024-02-23) and tagged 5.6.0 (2024-02-24) and 5.6.1 (2024-03-09). The payload hid in test files and a modified release tarball, outside normal source review.
+- "Hans Jansen" contributed the ifunc code (2023-06-22) and later asked Debian to update to 5.6.1 (2024-03-25, bug 1067708). Jia Tan asked Ubuntu to do the same (2024-03-28, Launchpad 2059417).
+- Discovered on 2024-03-28/29 by an engineer who noticed SSH logins had become slow (~500 ms). It was caught by luck, not by tooling.
+
+**OpenSSF / OpenJS alert — April 15, 2024.**
+- The OpenJS Foundation received a series of suspicious emails "bearing different names and overlapping GitHub-associated emails," urging maintainer changes on a popular JavaScript project to fix unspecified "critical vulnerabilities," from people with little prior involvement.
+- OpenJS saw similar activity on **two other** popular JavaScript projects it does not host.
+- Published warning signs: friendly-but-aggressive, persistent pursuit by relatively unknown members; requests for maintainer status from new or unknown people; endorsements from other unknown members who may be using false identities.
+- They stated these attacks are "difficult to detect or protect against programmatically."
+
+**event-stream — 2018.** The original maintainer handed the npm package to a new volunteer, who added a dependency (`flatmap-stream`) carrying malicious code aimed at a specific cryptocurrency wallet. Handover, then poison.
+
+**axios — March 31, 2026.** The lead maintainer's npm account was taken over (its email changed to an attacker-controlled address). Malicious versions `axios@1.14.1` and `axios@0.30.4` were published manually through the npm CLI, **bypassing the project's normal GitHub Actions release path**, and added a dependency that installed a remote-access trojan. Live for roughly three hours. (Sources disagree on exact timing and download counts; cite the primary advisories.)
+
+**Ongoing campaign.** A 2026 Cloud Security Alliance research note (self-described as unofficial and AI-assisted) describes a multi-year DPRK-linked pivot to targeting open-source maintainers, citing axios as its clearest case. Use as context, not as a primary source.
+
+-----
+
+### 4.2 Platform: one core, domain packs
+
+```
+                    HEARTHGUARD CORE (domain-general, no OSS or finance code)
+   • Trust graph: actors, roles/privileges, grants, actions, paths, approvals
+   • Visibility graph: places, who participates where and since when, what was recorded where
+   • Claim graph: sources → spans → typed claims (pressure, vouch, request, capacity)
+   • Remembered normal: per-organisation baselines (grant speed, action paths, cadence)
+   • Four-move detectors + Lone keeper · Takeover cost & Guardians · visibility gaps
+   • Conflict policy · evidence checklists · decision policy · learned exceptions (safety-tested)
+   • Hardening simulator (GRAPH.COPY + red-team replay)
+   • Agents: Watcher, Reader, Investigator, Skeptic, Liaison, Red Team · task board · MCP server
+                                │  MCP (tools discovered at runtime)
+              ┌─────────────────┴──────────────────┐
+     OSS pack (flagship)                     Finance pack (second domain)
+     • Sources: GitHub, npm, mailing lists,  • Sources: synthetic email, chat, vendor portal, ERP log
+       public bug trackers
+     • Privileges: merge, release, sign,     • Privileges: vendor-master edit, payment approval,
+       npm_publish                             bank-detail change
+     • Normal path: CI + provenance +        • Normal path: vendor portal + callback verification +
+       known publishers                        two-person approval
+     • Real cases: xz, event-stream, axios   • Synthetic case: a slow vendor-payment takeover
+```
+
+**Each pack provides exactly four things:** (1) source parsers, (2) a mapping from its records to core concepts (actor, place, privilege, grant, action, path), (3) its claim vocabulary for the Reader, (4) its "normal path" definition. **Remove the OSS pack and the finance company still runs.** That is tested (`make verify-packs`).
+
+-----
+
+### 6.2 `ecosystem_<id>` (OSS: a foundation, or one case such as xz)
+```
+(:Org)-[:HOSTED_BY]->(:Foundation)
+(:Place {kind, ref, org_ref?})                                   // xz-devel, xz repo, oss-fuzz, LKML, Debian BTS, Launchpad
+(:Identity {hid, persona_public?})-[:ACTIVE_IN {first_at, last_at, actions}]->(:Place)
+(:Identity)-[:SAME_AS {evidence: 'handle'|'email_hash'|'signing_key', strength}]->(:Identity)
+(:Role {name})-[:WATCHES {since}]->(:Place)                      // "Debian package maintainer" — roles, never names
+(:Signal {kind, at, ref})-[:RECORDED_IN]->(:Place)
+(:Decision {kind, at, ref})-[:MADE_IN]->(:Place)                 // accept upgrade, merge build change, add maintainer
+(:Campaign {id, moves, status})-[:TOUCHES]->(:Org)
+```
+
+-----
+
+### 10.2 Proof per track
+
+| Track | The claim | The proof | Command |
+|---|---|---|---|
+| **02 — Memory** | "Too slow for anything that forgets" | **Memory ablation:** the same detectors with a forgetful memory (only the last 30 / 90 days, no remembered normal, no visibility memory) vs. full memory, across the red-team patience curve. Detection rate and lead time for each. | `make ablation-memory` |
+| **02 — Coordination** | Agents coordinate correctly under load | Identical findings under 5 task orderings; zero duplicate notes in the race test; throughput and p50/p95 read latency while N orgs, red-team and hardening copies run in parallel | `make verify-determinism` · `make race` · `make concurrency` |
+| **02 — Learning** | Learning can't make it blind | Learned exceptions across chaos seeds: count per end state, **zero planted campaigns lost** | `make verify-learning` · `make chaos SEED=<any>` |
+| **02 — Resilience** | It degrades safely | Every failure type, including LLM offline, ends in a bounded HOLD; structural moves keep firing | `make faults` |
+| **01 — Acting on connected data** | The graph algorithms change outcomes | **Algorithm ablation:** turn off WCC/labelPropagation (Vouch), SPpaths (takeover cost, trust path), and maxFlow (guardians) one at a time; report the change in detection and false-alarm rates | `make ablation-algos` |
+| **01 — Real cases** | It works on reality, not just plants | Replays of xz (late 2021 → Mar 2024), event-stream (2018), axios (Mar 2026, Bypass only): fired or not, first-fire date, lead time, moves, takeover cost over time | `make replay CASE=xz` |
+| **01 — Fixes are real** | Hardening steps measurably raise the cost of attack | Hardening simulator on xz-as-of-2022 and on 10 false-alarm-study projects: cost, guardians, caught, lead time — before vs. after each step | `make harden CASE=xz` |
+| **03 — Company brain** | It knows who holds what and who could see what | (a) **Ownership accuracy:** inferred keepers vs. each project's public `MAINTAINERS` / `CODEOWNERS` on ~30 projects. (b) **Visibility gaps on xz:** computed gaps for each downstream decision (oss-fuzz build change, kernel maintainer entry, Debian and Ubuntu upgrade requests), each linked to the public record | `make verify-ownership` · `make gaps CASE=xz` |
+| **03 — At ecosystem scale** | New evidence, measured by us | **Takeover Cost Census** (§11.2): aggregate distribution of takeover cost, guardians and release-path consistency across N public packages | `make census N=100` |
+| **Platform** | One core, two domains | The finance case runs with the OSS pack removed; same agents, same detectors, same policy | `make verify-packs` |
+| **Precision** | It doesn't cry wolf | False-alarm study: ~30 real projects that legitimately added maintainers (2021–2025) + clean red-team copies; notes per org-year and which moves caused them; one hero **decoy** in the demo | `make false-positives` |
+| **Text understanding** | The Reader reads correctly | ~100 hand-labelled spans; precision and recall per claim type | `make eval-reader` |
+
+**Honesty rules:** three real attacks are too few to claim precision — say so. Publish the patience curve and the ablations even if they are unflattering; if a component ties the baseline, say it tied (the Lethe rule). Never put an unmeasured number in the video.
+
+-----
+
+### 10.3 Commands judges can run (top of README)
+
+`make demo` (no API key) · `make verify-frozen` · `make replay CASE=xz` · `make gaps CASE=xz` · `make harden CASE=xz` · `make census N=100` · `make redteam N=200 SEED=<any>` · `make ablation-memory` · `make ablation-algos` · `make verify-learning` · `make chaos SEED=<any>` · `make faults` · `make verify-packs` · `make verify-ownership` · `make false-positives` · `make verify-determinism` · `make race` · `make smoke-algos`
+
+---
+
+5. FILES YOU OWN (only these; create new files as needed)
+  - packs/oss/** (all of it)
+  - eval/ecosystem*.py
+  - eval/incidents_*.py (new)
+  - eval/replay_event_stream.py (new)
+  - eval/replay_axios.py (new)
+  - eval/video_check.py and eval/blog_check.py (lint fixes only)
+  - README.md
+  - tests/integration/test_ecosystem_xz.py
+  - tests/integration/test_incidents_*.py (new)
+  - tests/unit/test_oss_parsers_*.py (new)
+  - eval/results/incidents_*.json, replay_event_stream.json, replay_axios.json (new)
+  - eval/results/ecosystem_*.json (only the files this block regenerates)
+
+6. FILES YOU MUST NOT TOUCH
+  Makefile, make.ps1, docs/AI_USE.md, eval/completion_full.py, eval/results/completion_full.json, eval/results/completion_full.md, docs/HEARTHGUARD.md, docs/FREEZE.md, docs/FREEZE.sha256, the conftest.py files, and any file another block owns.
+  Do not edit any existing test's expectation. Do not delete a test. Do not change docs/HEARTHGUARD.md
+  or the frozen detector definitions (spec section 7; decisions 0001 to 0005 are the team's).
+
+7. FALKORDB RULE
+Start your own instance. Do not use port 6379 (cascade), 6380 (shared main), 6381 (block C, stopped) or any other block's port:
+  docker run -d --name block_g_falkordb -p 127.0.0.1:6384:6379 -v block_g:/var/lib/falkordb/data falkordb/falkordb:6.0.2
+In every shell in your worktree, set FALKORDB_PORT=6384 before any command (the worktree's .env says 6380; the env var wins).
+Never print a key, token or salt. Stop the container when you finish: docker stop block_g_falkordb.
+
+8. HOW TO WORK
+- Tests first for policies, detectors, guards, the task board, safety rules and the learning gate (CLAUDE.md).
+- Every module needs a named owner who can explain it; record design decisions in docs/decisions/ only where you own the file.
+- Public, synthetic or our own data only; hash identifiers on ingest; every synthetic entity carries synthetic: true.
+- LLM use: the LLM allowance may be used up. If a step needs an LLM call, leave that step, record it as blocked, and do not fake the output.
+- Results go to eval/results/ as JSON or MD. No invented numbers.
+
+9. FINISH CONDITION
+A row is re-marked DONE only when BOTH hold on the final commit: (a) its evidence file exists in your worktree, and (b) its test passes.
+Record re-marks in eval/completion_updates/block_G.py (a new file you own) with:
+  UPDATES = {"<item text, copied from the Item column, as a prefix>": ("DONE" or "PARTIAL", "evidence text"), ...}
+eval/completion_full.py loads every module in eval/completion_updates/ and applies UPDATES by prefix. It raises if a prefix matches no row, so copy the item text exactly. Do not edit eval/completion_full.py.
+A row that is not finished keeps its current status.
+
+10. BLOCKER RULE
+If a row cannot be finished in your owned files, leave its status and write to eval/results/blockers_G.md: the row number, what is missing, the command that shows it, and the file or decision that would unblock it. Do not work around a blocker by editing another block's files.
+
+11. STOP RULE
+If a test fails and you cannot fix it inside your owned files, stop and print the failing test names. Do not skip or disable tests. If finishing a row would need the frozen spec changed, stop on that row and report it.
+
+12. VERIFY COMMANDS (in your worktree, with FALKORDB_PORT=6384 set)
+  powershell -File make.ps1 test          -> zero failures required
+  uv run python -m eval.completion_full   -> reads your completion_updates module
+Make targets are wired by the lead on main after the merge. Until then run your modules directly, for example: uv run python -m <your module>.
+
+13. COMMIT, NO PUSH
+Commit on agent/block-G with the message "feat: block G ingest, ecosystem and docs" and this trailer:
+  Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>
+Do NOT stage eval/results/completion_full.json or .md; main regenerates them after the merge.
+Put your docs/AI_USE.md line in eval/results/ai_use_G.md (a file you own); the lead appends it to docs/AI_USE.md.
+Do not push. There is no remote.
+
+14. MERGE RULE
+Merge only into a clean main. In C:\Users\farze\newhackathon run git status (must be clean), then git merge agent/block-G. If it conflicts, stop and print the file names only. Do not guess at a conflict. After a clean merge, rerun powershell -File make.ps1 test and uv run python -m eval.completion_full on main, and report the pass, fail and xfail counts and the completion last line.
