@@ -1,0 +1,119 @@
+{
+  "repo": "octocat/Hello-World",
+  "how": "start_job(repo), then get_job() polled until done: the UI connect path, without the browser",
+  "cold_start": {
+    "raw_cache_before": "present",
+    "graph_dropped": "org_octocat_hello_world"
+  },
+  "started_at_utc": "2026-10-12T15:10:21Z",
+  "finished_at_utc": "2026-10-12T15:10:24Z",
+  "wall_clock_s": 3.045,
+  "pipeline_wall_clock_s": 2.965,
+  "job_state": "done",
+  "status": "DONE",
+  "reason": null,
+  "requests": {
+    "network": 3,
+    "from_cache": 0
+  },
+  "counts": {
+    "commits_read": 3,
+    "commits_loaded": 3,
+    "commits_without_identity": 0,
+    "releases_loaded": 0,
+    "actors": 3
+  },
+  "metrics": {
+    "cadence_days": {
+      "status": "COMPUTED",
+      "value": 202.5835763888889,
+      "unit": "days",
+      "n": 2,
+      "reason": null
+    },
+    "active_keepers": {
+      "status": "COMPUTED",
+      "value": 1,
+      "unit": "actors",
+      "n": 1,
+      "reason": null
+    },
+    "usual_path": {
+      "status": "NOT COMPUTED",
+      "value": null,
+      "unit": "channel",
+      "n": null,
+      "reason": "no releases in the window"
+    }
+  },
+  "takeover_cost": {
+    "org": "octocat_hello_world",
+    "privilege": "release",
+    "T": 1331075210,
+    "status": "NOT COMPUTED",
+    "cost": null,
+    "reason": "no CAN_GRANT or Privilege data in org_octocat_hello_world",
+    "query_ms": null,
+    "provisional": true,
+    "rule": "0001-outsider-edges (PROPOSED)"
+  },
+  "guardians": {
+    "org": "octocat_hello_world",
+    "privilege": "release",
+    "T": 1331075210,
+    "status": "NOT COMPUTED",
+    "guardians": null,
+    "reason": "no CAN_GRANT or Privilege data in org_octocat_hello_world",
+    "query_ms": null,
+    "provisional": true,
+    "rule": "0001-outsider-edges (PROPOSED)"
+  },
+  "best_hardening_step": {
+    "status": "NOT COMPUTED",
+    "value": null,
+    "reason": "takeover cost is NOT COMPUTED, so no hardening step can be measured: a public commit and release history records no privilege grant, so takeover cost has no CAN_GRANT or Privilege data to read"
+  },
+  "steps": [
+    {
+      "name": "read repository",
+      "status": "done",
+      "detail": "octocat/Hello-World"
+    },
+    {
+      "name": "read commit history",
+      "status": "done",
+      "detail": "3 commits"
+    },
+    {
+      "name": "read releases",
+      "status": "done",
+      "detail": "0 releases"
+    },
+    {
+      "name": "load org graph",
+      "status": "done",
+      "detail": "3 commits, 0 releases"
+    },
+    {
+      "name": "normal metrics",
+      "status": "done",
+      "detail": null
+    },
+    {
+      "name": "takeover cost",
+      "status": "done",
+      "detail": "NOT COMPUTED"
+    },
+    {
+      "name": "guardians",
+      "status": "done",
+      "detail": "NOT COMPUTED"
+    },
+    {
+      "name": "hardening step",
+      "status": "done",
+      "detail": "NOT COMPUTED"
+    }
+  ],
+  "label": "Public record: GitHub read-only GET requests. Identifiers hashed on ingest."
+}

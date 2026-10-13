@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { ConnectRepo } from "./ConnectRepo";
+import { Gauge, type CostCell } from "./Gauge";
+import { Hardening, type FixtureHardening, type XzHardening } from "./Hardening";
+import { NotComputed, NOT_COMPUTED, Status, SyntheticTag, useResult } from "./data";
+import { EvidenceCard, type Check, type Query, type Quote } from "./EvidenceCard";
+import { Packager } from "./Packager";
+import { Patience, ABLATION_FILE } from "./Patience";
+import { Timeline, type TimelineQuarter } from "./Timeline";
+import { TrustMap, type TrustMapDoc } from "./TrustMap";
+import { TwoEndings, type LaneQuarter } from "./TwoEndings";
+import { WhoSaw, type EventsDoc, type GapsDoc } from "./WhoSaw";
 
-type Cell = {
-  status: string;
-  reason?: string | null;
-  source?: string;
-  value?: number | null;
-  unit?: string | null;
-};
-type Query = { name: string; query: string; params: Record<string, unknown>; ms: number; rows: number };
-type Check = {
-  status: string;
-  reason: string;
-  query_ms?: number | null;
-  queries?: Query[];
-  evidence?: Record<string, unknown>;
-};
+// The results page: every number here is read from eval/results/*.json. Nothing is computed in the
+// browser. The pack header is on every screen; synthetic data is labelled where it appears.
+
+type Cell = { status: string; reason?: string | null; source?: string; value?: number | null; unit?: string | null };
 type ReplayRow = {
   quarter: string;
   T_iso: string;
@@ -27,42 +27,38 @@ type Replay = {
   what: string;
   sources: string[];
   quarters: ReplayRow[];
-  reader_coverage: {
-    read_so_far: number;
-    to_read: number;
-    complete: boolean;
-    excluded_human_labelled_test_set: number;
-  };
+  reader_coverage: { read_so_far: number; to_read: number; complete: boolean; excluded_human_labelled_test_set: number };
 };
 type PvRow = { quarter: string; pressure: Check; vouch: Check };
-type QsRow = { quarter: string; checks: Record<string, Check> };
+type QsRow = { quarter: string; checks: Record<string, Check & { value?: number | null }> };
+type TallowDetector = { quarters: Array<{ quarter: string; checks: Record<string, CostCell> }> };
+type TallowDecision = { quarters: Array<{ quarter: string; decision: string; hold_reason?: string | null }> };
+type VideoQuotes = { quotes: Record<string, Quote> };
 
-type Loaded<T> = { state: "loading" } | { state: "missing"; file: string } | { state: "ok"; data: T };
+const SCREENS = ["#/connect", "#/packager"];
 
-function useResult<T>(file: string): Loaded<T> {
-  const [v, setV] = useState<Loaded<T>>({ state: "loading" });
-  useEffect(() => {
-    fetch(`/results/${file}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("missing"))))
-      .then((data) => setV({ state: "ok", data }))
-      .catch(() => setV({ state: "missing", file }));
-  }, [file]);
-  return v;
-}
-
-const norm = (s: string) => (s === "NOT_COMPUTED" || s === "NOT COMPUTED" ? "NOT COMPUTED" : s);
-const cls = (s: string) => norm(s).replace(" ", "_");
-
-function NotComputed({ file }: { file: string }) {
+function Header({ hash }: { hash: string }) {
+  const nav: Array<[string, string]> = [
+    ["#/", "Results"],
+    ["#/connect", "Connect your repo"],
+    ["#/packager", "Packager question"],
+    ["#/inbox", "Inbox (local)"],
+  ];
+  const current = (href: string) => (href === "#/" ? !SCREENS.some((s) => hash.startsWith(s)) : hash.startsWith(href));
   return (
-    <p className="NOT_COMPUTED tag">
-      NOT COMPUTED: {file} not found. Build it first (see README, Commands).
-    </p>
+    <header>
+      <div className="pack">
+        Pack: <b>OSS</b> (xz, public record). Finance pack: not built. Read-only; nothing is sent.
+      </div>
+      <nav>
+        {nav.map(([href, label]) => (
+          <a key={href} href={href} className={current(href) ? "current" : ""}>
+            {label}
+          </a>
+        ))}
+      </nav>
+    </header>
   );
-}
-
-function Status({ s }: { s: string }) {
-  return <span className={`tag ${cls(s)}`}>{norm(s)}</span>;
 }
 
 const COLS: Array<[string, string]> = [
@@ -83,8 +79,8 @@ function ReplayTable({ replay, sel, onSel }: { replay: Replay; sel: string; onSe
       {!cov.complete && (
         <div className="banner">
           Reader coverage is incomplete: {cov.read_so_far} of {cov.to_read} messages read.{" "}
-          {cov.excluded_human_labelled_test_set} messages are held back for the human-labelled test set. A
-          NOT_FIRED here is a result on the messages read only.
+          {cov.excluded_human_labelled_test_set} messages are held back for the human-labelled test set. A NOT_FIRED
+          here is a result on the messages read only.
         </div>
       )}
       <div className="scroll">
@@ -106,22 +102,12 @@ function ReplayTable({ replay, sel, onSel }: { replay: Replay; sel: string; onSe
               <tr key={r.quarter} className={r.quarter === sel ? "sel" : ""} onClick={() => onSel(r.quarter)}>
                 <td>{r.quarter}</td>
                 <td>
-                  {r.normal.cadence_days?.value == null ? (
-                    <Status s="NOT COMPUTED" />
-                  ) : (
-                    r.normal.cadence_days.value.toFixed(4)
-                  )}
+                  {r.normal.cadence_days?.value == null ? <Status s={NOT_COMPUTED} /> : r.normal.cadence_days.value.toFixed(4)}
                 </td>
-                <td>
-                  {r.normal.active_keepers?.value == null ? (
-                    <Status s="NOT COMPUTED" />
-                  ) : (
-                    r.normal.active_keepers.value
-                  )}
-                </td>
+                <td>{r.normal.active_keepers?.value == null ? <Status s={NOT_COMPUTED} /> : r.normal.active_keepers.value}</td>
                 {COLS.map(([k]) => (
                   <td key={k}>
-                    <Status s={r.checks[k]?.status ?? "NOT COMPUTED"} />
+                    <Status s={r.checks[k]?.status ?? NOT_COMPUTED} />
                   </td>
                 ))}
                 <td>{r.reader_unread_in_pressure_window}</td>
@@ -147,7 +133,7 @@ function QueryBox({ q }: { q: Query }) {
       </button>
       <span className="muted">
         {" "}
-        {q.ms.toFixed(1)} ms, {q.rows} rows
+        {q.ms != null ? `${q.ms.toFixed(1)} ms` : "time not saved"}, {q.rows ?? "?"} rows
       </span>
       {open && (
         <pre>
@@ -165,7 +151,7 @@ function CheckCard({ name, c }: { name: string; c: Check | undefined }) {
       <div className="card">
         <b>{name}</b>
         <p>
-          <Status s="NOT COMPUTED" /> no data for this quarter
+          <Status s={NOT_COMPUTED} /> no data for this quarter
         </p>
       </div>
     );
@@ -175,10 +161,7 @@ function CheckCard({ name, c }: { name: string; c: Check | undefined }) {
     <div className="card">
       <b>{name}</b> <Status s={c.status} />
       <p>{c.reason}</p>
-      {c.query_ms != null && <p className="muted">Total query time {c.query_ms.toFixed(1)} ms</p>}
-      {c.evidence && Object.keys(c.evidence).length > 0 && (
-        <pre>{JSON.stringify(c.evidence, null, 1).replace(/\n\s*/g, " ")}</pre>
-      )}
+      {c.query_ms != null && <p className="muted">Total query time {Number(c.query_ms).toFixed(1)} ms</p>}
       {queries.map((q, i) => (
         <QueryBox key={i} q={q} />
       ))}
@@ -187,27 +170,63 @@ function CheckCard({ name, c }: { name: string; c: Check | undefined }) {
   );
 }
 
-export default function App() {
+function ResultsPage() {
   const replay = useResult<Replay>("xz_replay.json");
   const pv = useResult<{ quarters: PvRow[] }>("pressure_vouch_status.json");
   const qs = useResult<{ quarters: QsRow[] }>("xz_quarterly_status.json");
   const grant = useResult<{ status: string; reason: string; sources: unknown[] }>("xz_grant_search.json");
+  const takeover = useResult<{ takeover_cost: CostCell; guardians: CostCell }>("xz_takeover_status.json");
+  const tallowDetector = useResult<TallowDetector>("tallowdate_detector_status.json");
+  const tallowDecision = useResult<TallowDecision>("tallowdate_decision.json");
+  const trust = useResult<TrustMapDoc>("trust_map_tallowdate.json");
+  const hardening = useResult<XzHardening>("xz_hardening.json");
+  const fixture = useResult<FixtureHardening>("hardening_fixture.json");
+  const ablation = useResult<unknown>(ABLATION_FILE);
+  const gaps = useResult<GapsDoc>("ecosystem_gaps.json");
+  const events = useResult<EventsDoc>("ecosystem_events.json");
+  const quotes = useResult<VideoQuotes>("video_quotes.json");
   const [sel, setSel] = useState("2024-Q1");
 
   const pvRow = pv.state === "ok" ? pv.data.quarters.find((q) => q.quarter === sel) : undefined;
   const qsRow = qs.state === "ok" ? qs.data.quarters.find((q) => q.quarter === sel) : undefined;
   const row = replay.state === "ok" ? replay.data.quarters.find((r) => r.quarter === sel) : undefined;
 
+  const timeline: TimelineQuarter[] | null =
+    replay.state === "ok"
+      ? replay.data.quarters.map((r) => ({
+          quarter: r.quarter,
+          moves: Object.fromEntries(Object.entries(r.checks).map(([k, c]) => [k, c.status])),
+          takeover_cost: r.checks.takeover_cost?.value ?? null,
+          decision: r.decision.type,
+        }))
+      : null;
+
+  const lanesXz: LaneQuarter[] | undefined =
+    replay.state === "ok"
+      ? replay.data.quarters.map((r) => ({
+          quarter: r.quarter,
+          decision: r.decision.type,
+          takeover_cost: r.checks.takeover_cost?.value ?? null,
+        }))
+      : undefined;
+  const lanesTallow: LaneQuarter[] | undefined =
+    tallowDecision.state === "ok"
+      ? tallowDecision.data.quarters.map((q) => ({ quarter: q.quarter, decision: q.decision }))
+      : undefined;
+
+  const tallowLast =
+    tallowDetector.state === "ok" ? tallowDetector.data.quarters[tallowDetector.data.quarters.length - 1] : undefined;
+
+  // Quotes are shown only from the saved file; a missing file leaves the card's quote section NOT COMPUTED.
+  const quoteList: Quote[] | undefined = quotes.state === "ok" ? Object.values(quotes.data.quotes) : undefined;
+
   return (
     <main>
       <h1>Hearthguard: xz replay</h1>
-      <p className="sub">
-        Read-only view of eval/results/*.json. Provisional. Nothing here is a finding about a person.
-      </p>
+      <p className="sub">Read-only view of eval/results/*.json. Provisional. Nothing here is a finding about a person.</p>
       <div className="banner">
-        Data on this page: the public xz git history and the public xz-devel mailing list, hashed on
-        ingest. No synthetic or fixture data is shown on this page. Hand-built fixtures exist only in the
-        tests.
+        Data on this page: the public xz git history and the public xz-devel mailing list, hashed on ingest. The
+        tallowdate panels are labelled SYNTHETIC. Hand-built fixtures appear only where labelled.
       </div>
 
       {replay.state === "loading" && <p>Loading…</p>}
@@ -217,6 +236,15 @@ export default function App() {
         </section>
       )}
       {replay.state === "ok" && <ReplayTable replay={replay.data} sel={sel} onSel={setSel} />}
+
+      {timeline && (
+        <Timeline
+          quarters={timeline}
+          source="xz_replay.json (moves and takeover cost per quarter-end)"
+          counts={null}
+          noteSent={null}
+        />
+      )}
 
       <section>
         <h2>Detail for {sel}</h2>
@@ -237,6 +265,21 @@ export default function App() {
       </section>
 
       <section>
+        <EvidenceCard
+          quarter={sel}
+          checks={{
+            pressure: pvRow?.pressure,
+            vouch: pvRow?.vouch,
+            rush: qsRow?.checks.rush,
+            bypass: qsRow?.checks.bypass,
+            lone_keeper: qsRow?.checks.lone_keeper,
+          }}
+          quotes={quoteList}
+          quotesSource={quotes.state === "ok" ? "video_quotes.json (matched text and dates)" : undefined}
+        />
+      </section>
+
+      <section>
         <h2>Who was given commit or release rights</h2>
         {grant.state === "missing" && <NotComputed file={grant.file} />}
         {grant.state === "ok" && (
@@ -245,6 +288,88 @@ export default function App() {
           </p>
         )}
       </section>
+
+      {takeover.state === "missing" ? (
+        <section>
+          <NotComputed file={takeover.file} />
+        </section>
+      ) : (
+        <Gauge
+          cost={takeover.state === "ok" ? takeover.data.takeover_cost : undefined}
+          guardians={takeover.state === "ok" ? takeover.data.guardians : undefined}
+          path={null}
+          source="xz_takeover_status.json (org xz; the public history has no grant record)"
+        />
+      )}
+      <Gauge
+        cost={tallowLast?.checks.takeover_cost}
+        guardians={tallowLast?.checks.guardians}
+        path={null}
+        synthetic
+        source={`tallowdate_detector_status.json, latest quarter ${tallowLast?.quarter ?? "(file missing)"}`}
+      />
+
+      <TwoEndings xz={lanesXz} tallowdate={lanesTallow} />
+
+      {gaps.state === "ok" && events.state === "ok" ? (
+        <WhoSaw gaps={gaps.data} events={events.data} />
+      ) : (
+        <section aria-label="Who saw what">
+          <h2>Who saw what</h2>
+          <NotComputed file={gaps.state === "missing" ? gaps.file : events.state === "missing" ? events.file : "ecosystem files"} />
+        </section>
+      )}
+
+      {trust.state === "ok" ? (
+        <TrustMap doc={trust.data} />
+      ) : (
+        <section aria-label="Trust map">
+          <h2>
+            Trust map <SyntheticTag />
+          </h2>
+          <NotComputed file="trust_map_tallowdate.json" what="run eval.trust_map_export" />
+        </section>
+      )}
+
+      <Hardening
+        xz={hardening.state === "ok" ? hardening.data : undefined}
+        fixture={fixture.state === "ok" ? fixture.data : undefined}
+      />
+
+      <Patience present={ablation.state === "ok"} />
     </main>
+  );
+}
+
+function PackagerPage() {
+  const gaps = useResult<GapsDoc>("ecosystem_gaps.json");
+  return (
+    <>
+      <Header hash="#/packager" />
+      <main>
+        <Packager gaps={gaps.state === "ok" ? gaps.data : undefined} file="ecosystem_gaps.json" />
+      </main>
+    </>
+  );
+}
+
+export default function App() {
+  const hash = window.location.hash || "#/";
+  if (hash.startsWith("#/connect")) {
+    return (
+      <>
+        <Header hash="#/connect" />
+        <main>
+          <ConnectRepo />
+        </main>
+      </>
+    );
+  }
+  if (hash.startsWith("#/packager")) return <PackagerPage />;
+  return (
+    <>
+      <Header hash={hash} />
+      <ResultsPage />
+    </>
   );
 }

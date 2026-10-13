@@ -1,0 +1,145 @@
+{
+  "tool": "BrowserOS neo (browseros-neo): navigate by hash, read DOM text with evaluate, full-page or viewport screenshot",
+  "url": "http://127.0.0.1:5173/ (Vite dev server, results served from eval/results, API on 8767)",
+  "not_clicked": [
+    "#/inbox (block A owns it; not part of this run)",
+    "Packager page for the Debian decision (in the dropdown, not selected)",
+    "the Vite-served page at other quarters (only 2024-Q1 detail was read)"
+  ],
+  "note": "Read from the DOM and screenshots of the local app. Every 'visible' value is copied from the page text, not typed in. The other agent's tab on port 8766 was not used or changed.",
+  "checks": [
+    {
+      "panel": "Replay table (xz)",
+      "screen": "#/",
+      "quarter": "2024-Q1",
+      "visible": "Takeover cost, Guardians columns show NOT COMPUTED; Pressure and Vouch show NOT_FIRED; Decision HOLD",
+      "file": "xz_replay.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Replay timeline (111)",
+      "screen": "#/",
+      "quarter": "all 10 quarter-ends 2021-Q4..2024-Q1",
+      "visible": "Takeover cost: NOT COMPUTED in every quarter of this file, so no line is drawn; Note sent: NOT COMPUTED; Claims, grants, actions: NOT COMPUTED",
+      "file": "xz_replay.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Evidence card (115)",
+      "screen": "#/",
+      "quarter": "2024-Q1",
+      "visible": "Checklist 4 of 5 computed (Pressure, Vouch, Rush, Bypass tick; Lone keeper open); query read_claims 2.9 ms, 0 rows; quotes: NOT COMPUTED, no saved quote dated in 2024-Q1; Skeptic: NOT COMPUTED",
+      "file": "pressure_vouch_status.json, xz_quarterly_status.json, video_quotes.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Takeover cost gauge, xz (113)",
+      "screen": "#/",
+      "quarter": "org xz, T 2024-03-31",
+      "visible": "NOT COMPUTED, no number to show; reason: no CAN_GRANT or Privilege data in org_xz; Guardians NOT COMPUTED; path NOT COMPUTED",
+      "file": "xz_takeover_status.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Takeover cost gauge, tallowdate (113)",
+      "screen": "#/",
+      "quarter": "2025-Q4 (latest in file)",
+      "visible": "SYNTHETIC tag; NOT COMPUTED in both cost and guardians; reason: no CAN_GRANT or Privilege data in org_tallowdate",
+      "file": "tallowdate_detector_status.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "synthetic_label_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Two endings (122)",
+      "screen": "#/",
+      "quarter": "2021-Q4..2025-Q4 shared axis",
+      "visible": "Two lanes; tallowdate lane labelled SYNTHETIC; takeover cost NOT COMPUTED in both lanes; quarters outside a lane's file read 'no quarter in this file'",
+      "file": "xz_replay.json, tallowdate_decision.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "synthetic_label_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Who saw what (112)",
+      "screen": "#/",
+      "quarter": "4 decisions; 22 gap rows",
+      "visible": "Rows debian-bts, launchpad, lkml, oss-fuzz, xz-git; 22 gap row(s) across 4 decisions; roles listed (oss-fuzz reviewer, Linux kernel reviewer, Debian package maintainer, Ubuntu developer); no persona or handle text found",
+      "file": "ecosystem_gaps.json, ecosystem_events.json",
+      "not_computed_expected": false,
+      "not_computed_seen": false,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Trust map (114)",
+      "screen": "#/",
+      "quarter": "tallowdate graph",
+      "visible": "Cytoscape graph of hashed actor ids and one release; SYNTHETIC tag; NOT COMPUTED: no trust path in the saved file",
+      "file": "trust_map_tallowdate.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "synthetic_label_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Hardening simulator (116)",
+      "screen": "#/",
+      "quarter": "2024-Q1 (latest in xz file)",
+      "visible": "Three xz steps with Applied yes/no; costs and guardians NOT COMPUTED; Caught and Lead time NOT COMPUTED; fixture rows listed (1 → 1, 1 → 2 and so on)",
+      "file": "xz_hardening.json, hardening_fixture.json",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Patience curve (117)",
+      "screen": "#/",
+      "quarter": "n/a",
+      "visible": "NOT COMPUTED: ablation_memory.json is not on this branch; blocker named",
+      "file": "ablation_memory.json (absent)",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "screenshot": "ui_screens_b/results_page_full.png"
+    },
+    {
+      "panel": "Connect your repo (118)",
+      "screen": "#/connect",
+      "quarter": "octocat/Hello-World, run from cache",
+      "visible": "Steps 1-8 DONE; org_octocat_hello_world DONE; commits 3, actors 3; cadence 202.58 days; active keepers 1; usual release path NOT COMPUTED (no releases); takeover cost, guardians and best hardening step NOT COMPUTED with reason; measured wall clock 0.197 s (cache run, 0 network requests)",
+      "file": "API response (live job) on the GitHub read",
+      "not_computed_expected": true,
+      "not_computed_seen": true,
+      "screenshot": "ui_screens_b/connect_run.png"
+    },
+    {
+      "panel": "Packager question (23)",
+      "screen": "#/packager",
+      "quarter": "decision oss-fuzz-build-change-pr10667 (first in list)",
+      "visible": "Question naming oss-fuzz reviewer; UNREACHABLE a pr_opened in oss-fuzz; UNNOTICED a commit in oss-fuzz; lower-bound note. The Debian decision is in the dropdown but was not selected in this browser run.",
+      "file": "ecosystem_gaps.json",
+      "not_computed_expected": false,
+      "not_computed_seen": false,
+      "screenshot": "ui_screens_b/packager.png"
+    },
+    {
+      "panel": "Pack header (123)",
+      "screen": "all",
+      "quarter": "n/a",
+      "visible": "Pack: OSS (xz, public record). Finance pack: not built. Read-only; nothing is sent.",
+      "file": "n/a",
+      "not_computed_expected": false,
+      "not_computed_seen": false,
+      "screenshot": "ui_screens_b/packager.png"
+    }
+  ]
+}

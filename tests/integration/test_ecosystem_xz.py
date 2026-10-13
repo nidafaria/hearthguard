@@ -16,6 +16,19 @@ from packs.oss.ecosystem import graph as G
 
 TEST_GRAPH = "ecosystem_xz_test"
 RESULTS = Path(__file__).resolve().parents[2] / "eval" / "results"
+def _ecosystem_cache_missing() -> list[str]:
+    """Cached records this module reads that are not on disk. data/raw is git-ignored."""
+    names = json.loads((RESULTS / "ecosystem_sources.json").read_text(encoding="utf-8"))
+    sources = names["sources"] + names.get("supplementary_sources", [])
+    names = [Path(s["cache_file"]).name for s in sources]
+    return [n for n in names if not (fetch.RAW_DIR / n).is_file()]
+
+
+# Every test here reads data/raw/ecosystem. A clean clone has no such cache: skip, with the reason.
+pytestmark = pytest.mark.skipif(
+    bool(_ecosystem_cache_missing()),
+    reason="data/raw/ecosystem is absent (git-ignored): run `make ecosystem-xz` to create it",
+)
 # Deliberately loose: anything shaped like local@host, even without a dot in the host.
 EMAIL = re.compile(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+")
 
@@ -30,8 +43,17 @@ def client() -> FalkorClient:
 
 @pytest.fixture(scope="module")
 def parsed():
-    if not (fetch.RAW_DIR / "debian_bug_1067708.html").is_file():
-        fetch.run()
+    # data/raw is git-ignored: a clean clone has none. Skip, do not fetch from inside a test.
+    # The tracked ecosystem_sources.json names every cached file the parser reads.
+    names = json.loads((RESULTS / "ecosystem_sources.json").read_text(encoding="utf-8"))
+    sources = names["sources"] + names.get("supplementary_sources", [])
+    cached = [Path(s["cache_file"]).name for s in sources]
+    gone = [n for n in cached if not (fetch.RAW_DIR / n).is_file()]
+    if gone:
+        pytest.skip(
+            f"data/raw/ecosystem is absent (git-ignored, {len(gone)} files): "
+            "run `make ecosystem-xz`"
+        )
     events, _ = parse.all_events()
     return events, parse.build_registry(events)
 

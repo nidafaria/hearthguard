@@ -10,6 +10,14 @@ It was built to ask one question: would this memory have flagged the xz backdoor
 
 ## Run the demo
 
+**First step for a fresh clone.** The full test suite and every live command need three things, none of which is in the repo:
+
+1. A database: FalkorDB, started with `make up` (Windows: `.\make.ps1 up`), with Docker running.
+2. A `.env` file in the repo root with `HEARTHGUARD_HASH_SALT=<any long random text>`. It is git-ignored; `.env.example` lists the names. Hashing refuses to run without it.
+3. The database up while the tests run.
+
+The tests that need one of these skip with a reason, or fail with a `redis` or `MissingSaltError` message, until they are in place. The demo below needs none of them.
+
 The demo needs no API key, no network and no database. It prints a table built from saved result files. Two runs printed identical bytes (eval/results/build_report.md).
 
 Windows (no `make` needed). Needs `uv` on the PATH (https://docs.astral.sh/uv/):
@@ -51,7 +59,10 @@ Each name works as `make <name>`, or on Windows as `.\make.ps1 <name>`.
 | `decision-xz` | The decision policy on the saved statuses | files only | Makefile |
 | `replay CASE=xz` | Rewrite `eval/results/xz_replay.json` and `.md` from saved files | files only | Makefile |
 | `ui` | Read-only page at http://localhost:5173. First run installs npm packages | Node, npm | Makefile; ui/vite.config.ts |
-| `demo` | Print the replay table | files only | Makefile |
+| `demo` | Print the xz replay table, then the visibility gaps, the hardening summary and the tallowdate summary (synthetic, labelled). Byte-identical on repeat runs | files only | Makefile; eval/demo.py |
+| `gaps CASE=xz` | Print the visibility gaps from `ecosystem_gaps.json` (roles only) and write `eval/results/gaps_xz.md` | files only; needs `ecosystem-xz` run first | Makefile; eval/gaps_report.py |
+| `queries` (`uv run python -m eval.queries_doc`) | Rewrite `docs/queries.md` from the query constants in the code. A test fails if the file is stale | files only | eval/queries_doc.py |
+| `connect your repo` | The UI screen `#/connect`: read-only GETs to a public GitHub repo, cached under `data/raw/`, one `org_<id>` graph. Needs `make inbox` (API on port 8765) and FalkorDB | network, FalkorDB | packs/oss/connect_repo.py; api/app.py |
 
 The proof commands in the spec that are not built yet (docs/HEARTHGUARD.md §10.3) are left out of this list. They are not in the Makefile.
 
@@ -64,7 +75,7 @@ As built. The full plan is in docs/HEARTHGUARD.md §6.1.
 - Edges `DID`, `VIA` and `OF`.
 - No `Privilege` or `GRANTED` edge exists, because no grant is evidenced (eval/results/build_report.md).
 
-Every query the status files ran, with its run time, is in `eval/results/pressure_vouch_status.json` and `eval/results/xz_quarterly_status.json`. The README lists only two key queries today. The full list is still PARTIAL (eval/results/completion_full.md, row 5).
+Every query the status files ran, with its run time, is in `eval/results/pressure_vouch_status.json` and `eval/results/xz_quarterly_status.json`. The full list of query constants, with the module that runs each one, is generated into [docs/queries.md](docs/queries.md). A test checks that file against the code.
 
 ## What is measured
 
@@ -133,6 +144,7 @@ Track entered: Track 02 — Agent Memory and Coordination (the name on the event
 ## Docs
 
 - Judge guide (about half an hour, not timed, with expected outputs): [docs/judge_guide.md](docs/judge_guide.md)
+- Cypher queries the product depends on, generated from the code: [docs/queries.md](docs/queries.md)
 - Spec: [docs/HEARTHGUARD.md](docs/HEARTHGUARD.md)
 - Project rules: [CLAUDE.md](CLAUDE.md)
 - Decisions: [docs/decisions/index.md](docs/decisions/index.md)

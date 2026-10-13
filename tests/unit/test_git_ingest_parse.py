@@ -6,6 +6,7 @@ from packs.oss.git_ingest import (
     hash_email,
     parse_shortstat,
 )
+from tests.unit.conftest import needs_salt
 
 
 def test_shortstat_counts_files():
@@ -17,6 +18,7 @@ def test_no_stat_line_means_zero_files():
     assert parse_shortstat("\n") == 0
 
 
+@needs_salt
 def test_email_hash_is_case_and_space_insensitive_and_hides_the_email():
     a = hash_email("Someone@Example.org ")
     assert a == hash_email("someone@example.org")

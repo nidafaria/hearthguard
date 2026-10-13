@@ -1,0 +1,70 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC: fictional project, fictional people. Hashed actor ids. Not a finding.",
+  "graph": "org_tallowdate",
+  "nodes": [
+    {
+      "id": "actor:f3e5aef25fef08ce6f9cec6eee28b240620a2c1e645e652f6fdc22b7f44e94ed",
+      "type": "actor",
+      "actions": 4,
+      "synthetic": true
+    },
+    {
+      "id": "actor:fb84b79a2ccaf6934b6da3dbef1e72401cbbaa4ee7775fb3e0aa39fb98be8eda",
+      "type": "actor",
+      "actions": 2,
+      "synthetic": true
+    },
+    {
+      "id": "actor:f066f50580c2fa6daa82ac008ba53a0bc1a0cc80d49928a223413245536bcce4",
+      "type": "actor",
+      "actions": 2,
+      "synthetic": true
+    },
+    {
+      "id": "actor:6982811222a02159e9b6099d49fc03a2752ab1ce6ab5bc4760b5c80ea0499031",
+      "type": "actor",
+      "actions": 2,
+      "synthetic": true
+    },
+    {
+      "id": "actor:5fa4c6ba823f7f30bbdae5771ed48c19bdd96dfc0edeba52da90e321da25bb55",
+      "type": "actor",
+      "actions": 3,
+      "synthetic": true
+    },
+    {
+      "id": "actor:575782077f77852766e6138100fdc1acc2ce7a9b31edae7393e996d8e9a0fe99",
+      "type": "actor",
+      "actions": 142,
+      "synthetic": true
+    },
+    {
+      "id": "release:tallowdate-0155",
+      "type": "release",
+      "synthetic": true
+    },
+    {
+      "id": "path:git:False",
+      "type": "path",
+      "synthetic": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "release:tallowdate-0155",
+      "target": "path:git:False",
+      "type": "VIA",
+      "synthetic": true
+    },
+    {
+      "source": "actor:575782077f77852766e6138100fdc1acc2ce7a9b31edae7393e996d8e9a0fe99",
+      "target": "release:tallowdate-0155",
+      "type": "DID",
+      "synthetic": true
+    }
+  ],
+  "trust_path": null,
+  "trust_path_note": "No trust path in the saved results. tallowdate_load.json records the release path (channel, verified, approver count) but no actor sequence, so none is highlighted.",
+  "hashed_ids_only": true
+}

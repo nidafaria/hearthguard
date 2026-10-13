@@ -6,6 +6,10 @@ from pathlib import Path
 from core.graph.client import FalkorClient
 from packs.oss.xz_graph import graph_counts
 from redteam.load_tallowdate import GRAPH, NAMED, SOURCE, load
+from tests.unit.conftest import needs_salt
+
+# Loading the synthetic case hashes identifiers; the salt is in .env (git-ignored). Skip without it.
+pytestmark = needs_salt
 
 ROOT = Path(__file__).resolve().parents[2]
 LOAD_JSON = ROOT / "eval" / "results" / "tallowdate_load.json"

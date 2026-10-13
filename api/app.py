@@ -16,6 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from api.inbox_actions import build_router
+from packs.oss.connect_repo import RepoRefError, get_job, parse_repo, start_job
 from slack_app.render import DECISION, render_note
 from slack_app.show_why import RESULTS, facts_for, render_show_why
 
@@ -28,6 +29,10 @@ QUARTER_RE = re.compile(r"^\d{4}-Q[1-4]$")
 
 class Dismissal(BaseModel):
     reason: str = Field(min_length=3, max_length=500)
+
+
+class ConnectBody(BaseModel):
+    repo: str = Field(min_length=3, max_length=200)
 
 
 def create_app(
@@ -161,6 +166,23 @@ def create_app(
         with inbox_file.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
         return {"label": LABEL, "already": False, "dismissal": record}
+
+    # Connect your repo (spec 13.8): read-only GETs to GitHub, one org graph. The job's progress is
+    # polled; nothing is written except the raw cache and the org graph.
+    @app.post("/api/connect")
+    def connect_start(body: ConnectBody) -> dict:
+        try:
+            parse_repo(body.repo)
+        except RepoRefError as e:
+            raise HTTPException(422, str(e)) from e
+        return {"job": start_job(body.repo)}
+
+    @app.get("/api/connect/{job_id}")
+    def connect_status(job_id: str) -> dict:
+        job = get_job(job_id)
+        if job is None:
+            raise HTTPException(404, "no such job")
+        return job
 
     if static_dir is not None and static_dir.exists():
         app.mount("/", StaticFiles(directory=static_dir, html=True), name="ui")

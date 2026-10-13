@@ -1,6 +1,7 @@
 """The Slack note and "Show me why" text, rendered from saved results. No Slack, no network."""
 
 import json
+import re
 
 import pytest
 
@@ -87,10 +88,18 @@ def test_show_why_status_matches_the_decision(rows):
                 assert fact["status"] == row["moves"][fact["fact"]]
 
 
+GENERATED = "decision_status_generated_at_utc"
+
+
 def test_preview_file_matches_a_fresh_render(decision_doc):
+    # decision-xz rewrites only the generated_at_utc stamp of decision_status.json on every run, so
+    # the stamp is compared as a timestamp and the content is compared without it.
     assert OUT.exists(), "run: make slack-preview"
     saved = json.loads(OUT.read_text(encoding="utf-8"))
-    assert saved == build_preview(decision_doc)
+    fresh = build_preview(decision_doc)
+    assert re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", saved.pop(GENERATED))
+    assert re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", fresh.pop(GENERATED))
+    assert saved == fresh
     assert saved["sent_to_slack"] is False
 
 
