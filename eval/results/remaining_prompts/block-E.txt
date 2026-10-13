@@ -12,10 +12,12 @@ Run from C:\Users\farze\newhackathon (main, must be clean):
 Then do all work inside C:\Users\farze\newhackathon-block-E. Do not edit main directly.
 
 2. YOUR ROWS (copied from eval/results/completion_full.md on main)
+Row 102 is already PARTIAL on main. Only add a saved red-team result if one exists. Do not rebuild the simulate route.
 Only these rows are yours:
 | 43 | §6.5 | playbook graph | NOT STARTED | core/playbook is empty |
 | 66 | §8.3 | Learned exceptions with safety rules and regression gate | NOT STARTED | core/learning is empty |
 | 75 | §9 | Owner memory | PARTIAL | OwnerDecision written once per finding (core/agents/inbox_graph.py record_dismissal); the 'same situation does not return without new evidence' rule is not built; tests: tests/integration/test_inbox_loop.py |
+Build only the rule that a dismissed situation does not return without new evidence. Do not rebuild the owner memory table.
 | 80 | §10.2 | Learning proof (`verify-learning`, `chaos`) | NOT STARTED | none |
 | 102 | §12.2 | Simulate a fix button | PARTIAL | live simulate on GRAPH.COPY (core/agents/simulate_fix.py, core/hardening/xz.py); caught and lead time NOT COMPUTED (no saved red-team file); tests: tests/integration/test_inbox_loop.py |
 | 104 | §12.2 | It's fine button and learning result in thread | PARTIAL | api dismiss writes a local JSONL file; no OwnerDecision, no learned exception |
@@ -228,7 +230,7 @@ Make targets are wired by the lead on main after the merge. Until then run your 
 
 13. COMMIT, NO PUSH
 Commit on agent/block-E with the message "feat: block E learning and owner memory" and this trailer:
-  Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>
+  Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
 Do NOT stage eval/results/completion_full.json or .md; main regenerates them after the merge.
 Put your docs/AI_USE.md line in eval/results/ai_use_E.md (a file you own); the lead appends it to docs/AI_USE.md.
 Do not push. There is no remote.
