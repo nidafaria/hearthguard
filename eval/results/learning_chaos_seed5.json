@@ -1,0 +1,19 @@
+{
+  "dismissal_reason": "the vendor's real contact changed; synthetic-43481 is their new contact",
+  "exception_id": "exc:ea45411ffafc4b45",
+  "gate_passed": false,
+  "pattern": "vendor_contact_change",
+  "planted_lost": 22,
+  "planted_total": 200,
+  "seed": 5,
+  "state": "Rejected",
+  "state_reason": "gate: 22 planted campaign(s) lost",
+  "synthetic": true,
+  "template": {
+    "applies_to": "move.RUSH",
+    "effect": "exclude_actor_from_move",
+    "exception": "vendor_contact_change_is_not_rush",
+    "when": "actor.hid IN org.declared_contacts"
+  },
+  "zero_planted_lost_among_kept": true
+}

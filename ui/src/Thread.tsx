@@ -14,7 +14,7 @@ type ThreadData = Head & {
   finding: { id: string; status: string };
   snooze: { state: string; until: number | null; new_moves: string[] };
   routing: { recipients: string[]; thread: string; reason: string; waiting: boolean; nothing_is_sent: boolean };
-  decisions: { text: string; at: number; authority: string }[];
+  decisions: { text: string; at: number; authority: string; exception_id?: string | null; learning_state?: string | null; learning_reason?: string | null }[];
   drafts: Draft[];
   questions: Question[];
   suggested_questions: string[];
@@ -59,6 +59,7 @@ export function Thread({ caseId, quarter, onChange }: { caseId: CaseId; quarter:
   const [reason, setReason] = useState("");
   const [question, setQuestion] = useState("");
   const [draftText, setDraftText] = useState("");
+  const [learned, setLearned] = useState<string | null>(null);
   const base = `/api/inbox/${caseId}/notes/${quarter}`;
 
   async function load() {
@@ -96,7 +97,14 @@ export function Thread({ caseId, quarter, onChange }: { caseId: CaseId; quarter:
 
   async function submitDismiss(e: FormEvent) {
     e.preventDefault();
-    await act("Dismiss with reason", () => post(`${base}/dismiss`, { reason }));
+    await act("Dismiss with reason", async () => {
+      const r = (await post(`${base}/dismiss`, { reason })) as {
+        learning?: { state?: string; result_line?: string };
+      };
+      // The learning result goes in the thread, with its proof (spec 12.2).
+      setLearned(r.learning?.result_line ? `${r.learning.state}: ${r.learning.result_line}` : null);
+      return r;
+    });
   }
   async function submitQuestion(e: FormEvent) {
     e.preventDefault();
@@ -180,6 +188,10 @@ export function Thread({ caseId, quarter, onChange }: { caseId: CaseId; quarter:
             <button type="submit" disabled={busy || reason.trim().length < 3}>Dismiss with reason</button>
           </form>
         )}
+        {data.decisions.some((d) => d.learning_state) ? (
+          <p className="sub">Learning: {data.decisions.map((d) => d.learning_state).filter(Boolean).join(" / ")}. Nothing is applied to a live decision.</p>
+        ) : null}
+        {learned ? <p>{learned}</p> : null}
       </Box>
 
       <Box title="Thread">

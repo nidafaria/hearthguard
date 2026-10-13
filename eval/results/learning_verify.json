@@ -1,0 +1,62 @@
+{
+  "gate_rule": "worst case: every firing of the proposed move is removed at every point",
+  "not_applied": "no exception changes a live decision yet (blockers_E.md, row 66)",
+  "org_scratch": true,
+  "steps": {
+    "dismissal": {
+      "case": "tallowdate (synthetic)",
+      "created": true,
+      "quarter": "2023-Q1",
+      "reason": "these are our CI bots: dependabot and renovate"
+    },
+    "end_state": {
+      "reason": "passed the gate; records what it would suppress until K = 3 agreements or owner approval",
+      "state": "Shadow"
+    },
+    "gate": {
+      "baseline_matches_saved": true,
+      "passed": true,
+      "planted_caught_after": 167,
+      "planted_caught_before": 167,
+      "planted_lost": 0,
+      "planted_points_changed": 0,
+      "planted_total": 200,
+      "real_lost": 0,
+      "real_points_changed": 0,
+      "real_total": 22,
+      "reason": "no planted campaign or real-case detection lost"
+    },
+    "holds": true,
+    "owner_memory_held_back": 0,
+    "playbook": {
+      "agreements": 1,
+      "id": "exc:50482393098c757e",
+      "state": "Shadow"
+    },
+    "proposal": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "error": null,
+          "ok": true
+        }
+      ],
+      "template": {
+        "applies_to": "move.PRESSURE",
+        "effect": "exclude_actor_from_move",
+        "exception": "bots_are_not_newcomers",
+        "when": "actor.kind == 'bot' AND actor.hid IN org.declared_bots"
+      }
+    },
+    "safety": {
+      "rules": [
+        "never narrows Bypass",
+        "suppresses at most one move",
+        "never changes takeover cost or guardians",
+        "names a concrete, checkable condition"
+      ],
+      "violations": []
+    },
+    "thread_reads_back": true
+  }
+}

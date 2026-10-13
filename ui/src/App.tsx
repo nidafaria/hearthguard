@@ -5,6 +5,7 @@ import { Hardening, type FixtureHardening, type XzHardening } from "./Hardening"
 import { NotComputed, NOT_COMPUTED, Status, SyntheticTag, useResult } from "./data";
 import { EvidenceCard, type Check, type Query, type Quote } from "./EvidenceCard";
 import { Packager } from "./Packager";
+import { Playbook } from "./Playbook";
 import { Patience, ABLATION_FILE } from "./Patience";
 import { Timeline, type TimelineQuarter } from "./Timeline";
 import { TrustMap, type TrustMapDoc } from "./TrustMap";
@@ -35,7 +36,7 @@ type TallowDetector = { quarters: Array<{ quarter: string; checks: Record<string
 type TallowDecision = { quarters: Array<{ quarter: string; decision: string; hold_reason?: string | null }> };
 type VideoQuotes = { quotes: Record<string, Quote> };
 
-const SCREENS = ["#/connect", "#/packager"];
+const SCREENS = ["#/connect", "#/packager", "#/playbook"];
 
 function Header({ hash }: { hash: string }) {
   const nav: Array<[string, string]> = [
@@ -43,6 +44,7 @@ function Header({ hash }: { hash: string }) {
     ["#/connect", "Connect your repo"],
     ["#/packager", "Packager question"],
     ["#/inbox", "Inbox (local)"],
+    ["#/playbook", "Playbook"],
   ];
   const current = (href: string) => (href === "#/" ? !SCREENS.some((s) => hash.startsWith(s)) : hash.startsWith(href));
   return (
@@ -366,6 +368,16 @@ export default function App() {
     );
   }
   if (hash.startsWith("#/packager")) return <PackagerPage />;
+  if (hash.startsWith("#/playbook")) {
+    return (
+      <>
+        <Header hash="#/playbook" />
+        <main>
+          <Playbook />
+        </main>
+      </>
+    );
+  }
   return (
     <>
       <Header hash={hash} />

@@ -1,0 +1,19 @@
+{
+  "dismissal_reason": "these are our CI bots: synthetic-49753 and renovate",
+  "exception_id": "exc:50482393098c757e",
+  "gate_passed": true,
+  "pattern": "bots",
+  "planted_lost": 0,
+  "planted_total": 200,
+  "seed": 4,
+  "state": "Shadow",
+  "state_reason": "passed the gate; records what it would suppress until K = 3 agreements or owner approval",
+  "synthetic": true,
+  "template": {
+    "applies_to": "move.PRESSURE",
+    "effect": "exclude_actor_from_move",
+    "exception": "bots_are_not_newcomers",
+    "when": "actor.kind == 'bot' AND actor.hid IN org.declared_bots"
+  },
+  "zero_planted_lost_among_kept": true
+}

@@ -21,6 +21,9 @@ from core.agents import inbox_graph as ig
 from core.agents.cases import CASES, RESULTS, Case, iso, normalize_rows, read_json
 from core.graph.client import FalkorClient
 from core.hardening import simulate as sim
+from core.learning import pipeline as learning
+from core.learning import states
+from core.playbook import store as playbook
 
 QUARTER = r"^\d{4}-Q[1-4]$"
 OWNER = "owner"
@@ -49,12 +52,28 @@ class RoutingChange(BaseModel):
     clear_backup: bool = False
 
 
+def _result_line(out: dict) -> str:
+    """The line the thread shows (spec 12.2): what was tested, and what came of it."""
+    g = out["gate"]
+    if g is None:
+        return f"{out['state']}: {out['state_reason']}"
+    if g["planted_lost"]:
+        return f"rejected: it would have hidden {g['planted_lost']} of {g['planted_total']} attacks"
+    if not g["passed"]:
+        return f"rejected: {g['reason']}"
+    return (
+        f"tested against {g['planted_total']} planted attacks, {g['planted_lost']} lost "
+        f"— {out['state'].lower()}"
+    )
+
+
 def build_router(
     results: Path = RESULTS,
     inbox_file: Path | None = None,
     client: FalkorClient | None = None,
     now: Callable[[], int] | None = None,
     cases: dict[str, Case] | None = None,
+    playbook_graph: str = playbook.GRAPH,
 ) -> APIRouter:
     client = client or FalkorClient()
     clock = now or (lambda: int(time.time()))
@@ -64,6 +83,51 @@ def build_router(
     router = APIRouter(prefix="/api/inbox")
     synced: dict[str, int] = {}
     lock = threading.Lock()
+    suite_cache: dict[str, tuple[list[dict], list[dict]]] = {}
+
+    def suite() -> tuple[list[dict], list[dict]]:
+        """The saved red-team suite and real-case rows the regression gate replays (read once)."""
+        if "suite" not in suite_cache:
+            suite_cache["suite"] = learning.load_suite(results)
+        return suite_cache["suite"]
+
+    def learn_from(case: Case, quarter: str, reason: str) -> dict:
+        """Dismissal -> proposal -> safety rules -> regression gate -> end state (spec 12.2).
+        Runs once per dismissal: a repeat tap returns what was stored, and counts no agreement."""
+        done = ig.learned_for(client, case, quarter)
+        if done is not None:
+            return {"new": False, **done, "playbook": _stored(done["exception_id"])}
+        campaigns, real_rows = suite()
+        t = clock()
+        out = learning.learn(reason, campaigns, real_rows, agreements=1)
+        stored = None
+        xid = out["exception_id"]
+        if xid is not None:
+            prior = playbook.get(client, xid, playbook_graph)
+            agreements = playbook.count_agreement(client, xid, t, playbook_graph) if prior else 1
+            approved = bool(prior and prior.get("owner_approved_at"))
+            if prior:
+                out = learning.learn(
+                    reason, campaigns, real_rows, agreements=agreements, owner_approved=approved
+                )
+            stored = playbook.record(client, out, t, playbook_graph)
+        ig.link_learned(client, case, quarter, xid, out["state"], out["state_reason"])
+        return {
+            "new": True,
+            "exception_id": xid,
+            "state": out["state"],
+            "state_reason": out["state_reason"],
+            "template": out["template"],
+            "attempts": out["attempts"],
+            "safety": out["safety"],
+            "gate": out["gate"],
+            "playbook": stored,
+            "nothing_is_applied": True,
+            "result_line": _result_line(out),
+        }
+
+    def _stored(xid: str | None) -> dict | None:
+        return playbook.get(client, xid, playbook_graph) if xid else None
 
     def case_of(case_id: str) -> Case:
         if case_id not in case_map:
@@ -268,7 +332,28 @@ def build_router(
         if len(reason) < 3:
             raise HTTPException(422, "a reason of at least 3 characters is required")
         out = liaison.dismiss(client, case, row, reason, clock(), inbox_file)
-        return {**head(case), "quarter": quarter, **out}
+        try:
+            learned = learn_from(case, quarter, out["dismissal"]["reason"])
+        except (RedisError, OSError, TimeoutError) as e:
+            raise HTTPException(503, f"the learning step could not run ({type(e).__name__})") from e
+        return {**head(case), "quarter": quarter, **out, "learning": learned}
+
+    @router.get("/playbook")
+    def show_playbook() -> dict:
+        try:
+            doc = playbook.list_exceptions(client, playbook_graph)
+        except (RedisError, OSError, TimeoutError) as e:
+            raise HTTPException(503, f"the playbook could not be read ({type(e).__name__})") from e
+        return {"synthetic": False, "data_kind": "playbook (no organisation data)", **doc}
+
+    @router.post("/playbook/{xid}/approve")
+    def approve_exception(xid: str) -> dict:
+        if not xid.startswith("exc:"):
+            raise HTTPException(404, "no such exception")
+        out = playbook.approve(client, xid, clock(), playbook_graph)
+        if out is None:
+            raise HTTPException(409, "only a Shadow exception can be approved, and only once")
+        return {"exception": out, "state": states.ADOPTED}
 
     @router.post("/{case_id}/notes/{quarter}/snooze")
     def snooze_note(case_id: str, quarter: str) -> dict:

@@ -1,0 +1,1 @@
+- Block E (learned exceptions, owner memory, playbook store, verify-learning, chaos, Playbook screen, thread learning result): built with Claude Haiku 5.5 in Claude Code. The product code calls no LLM; the filler is a fixed table (docs/decisions/0007). Not yet reviewed by a person; see the known limits in docs/decisions/0007.

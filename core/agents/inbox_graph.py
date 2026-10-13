@@ -137,7 +137,66 @@ def sync_case(
         _link_claims(client, graph, fid, row["T"], window)
         _link_normals(client, graph, fid, row["T"])
     gaps = _write_gaps(client, case, rows, results)
-    return {"findings": len(rows), "gaps": gaps}
+    remembered = _apply_owner_memory(client, case, rows)
+    return {"findings": len(rows), "gaps": gaps, "remembered": remembered}
+
+
+# ---- Owner memory: a dismissed situation does not return without new evidence (spec 9) ----------
+
+
+def situation_of(decision: str, moves: list[str]) -> str:
+    """The whole situation: the decision and every move's status, lone keeper included. The same
+    string is built from a Finding node (f.decision, f.moves) and from a saved row."""
+    return "|".join([decision, *sorted(moves)])
+
+
+def _apply_owner_memory(client: FalkorClient, case: Case, rows: list[dict]) -> int:
+    """Hold a Finding back when its situation matches an earlier owner dismissal and no evidence
+    has arrived since. New evidence (a Claim later than the dismissal, as of T) reopens it.
+    Returns how many findings are held back now."""
+    held = 0
+    for row in sorted(rows, key=lambda r: r["T"]):
+        fid = finding_id(case, row["quarter"])
+        sit = situation_of(row["decision"], _moves_list(row))
+        prior = client.query(
+            case.graph,
+            "MATCH (d:OwnerDecision {kind: 'dismiss'})-[:ABOUT]->(g:Finding) "
+            "WHERE d.situation = $sit AND g.id <> $fid AND d.at <= $T "
+            "RETURN d.key, d.at ORDER BY d.at, d.key LIMIT 1",
+            {"sit": sit, "fid": fid, "T": row["T"]},
+            timeout_ms=READ_MS,
+        )
+        if not prior.result_set:
+            continue
+        dkey, at = prior.result_set[0]
+        evidence = run_as_of(
+            client,
+            case.graph,
+            "MATCH (c:Claim) WHERE c.at > $at AND c.at <= $T AND c.kind IN $kinds "
+            "RETURN c.id LIMIT 1",
+            {"at": at, "T": row["T"], "kinds": EVIDENCE_KINDS},
+            timeout_ms=READ_MS,
+        )
+        new_evidence = bool(evidence.result_set)
+        if new_evidence:
+            client.query(
+                case.graph,
+                "MATCH (f:Finding {id: $fid}) WHERE f.remembered = true "
+                "SET f.status = 'open', f.remembered = false",
+                {"fid": fid},
+                timeout_ms=WRITE_MS,
+            )
+            continue
+        client.query(
+            case.graph,
+            "MATCH (f:Finding {id: $fid}) SET f.status = 'dismissed', f.remembered = true, "
+            "f.remembered_by = $dkey "
+            "WITH f MATCH (n:Note)-[:FOR]->(f) SET n.remembered_by = $dkey",
+            {"fid": fid, "dkey": dkey},
+            timeout_ms=WRITE_MS,
+        )
+        held += 1
+    return held
 
 
 def _link_claims(client: FalkorClient, graph: str, fid: str, T: int, window: int) -> None:
@@ -332,11 +391,21 @@ def agent_step(
 def record_dismissal(client: FalkorClient, case: Case, quarter: str, reason: str, at: int) -> bool:
     """MERGE one OwnerDecision on a unique action key. True only for the call that made it."""
     key = f"dismiss:{case.id}:{quarter}"
+    fid = finding_id(case, quarter)
+    found = client.query(
+        case.graph,
+        "MATCH (f:Finding {id: $fid}) RETURN f.decision, f.moves",
+        {"fid": fid},
+        timeout_ms=READ_MS,
+    )
+    situation = (
+        situation_of(found.result_set[0][0], found.result_set[0][1]) if found.result_set else None
+    )
     r = client.query(
         case.graph,
         """MERGE (d:OwnerDecision {key: $key})
              ON CREATE SET d.text = $text, d.at = $at, d.authority = 'owner',
-                           d.scope = 'finding', d.kind = 'dismiss'
+                           d.scope = 'finding', d.kind = 'dismiss', d.situation = $situation
            WITH d
            MATCH (f:Finding {id: $fid}), (n:Note {id: $nid})
            MERGE (d)-[:ABOUT]->(f)
@@ -345,12 +414,52 @@ def record_dismissal(client: FalkorClient, case: Case, quarter: str, reason: str
             "key": key,
             "text": reason,
             "at": at,
-            "fid": finding_id(case, quarter),
+            "situation": situation,
+            "fid": fid,
             "nid": note_id(case, quarter),
         },
         timeout_ms=WRITE_MS,
     )
     return r.nodes_created > 0
+
+
+def learned_for(client: FalkorClient, case: Case, quarter: str) -> dict | None:
+    """What the learning step recorded for this dismissal, or None if it has not run yet."""
+    r = client.query(
+        case.graph,
+        "MATCH (d:OwnerDecision {key: $key}) WHERE d.learning_state IS NOT NULL "
+        "RETURN d.exception_id, d.learning_state, d.learning_reason",
+        {"key": f"dismiss:{case.id}:{quarter}"},
+        timeout_ms=READ_MS,
+    )
+    if not r.result_set:
+        return None
+    xid, state, reason = r.result_set[0]
+    return {"exception_id": xid, "state": state, "state_reason": reason}
+
+
+def link_learned(
+    client: FalkorClient,
+    case: Case,
+    quarter: str,
+    exception_id: str | None,
+    state: str,
+    reason: str,
+) -> None:
+    """Write the learning result on the owner's dismissal. Holds the exception id only, never
+    its template: the template lives in the playbook graph."""
+    client.query(
+        case.graph,
+        "MATCH (d:OwnerDecision {key: $key}) SET d.exception_id = $xid, d.learning_state = $state, "
+        "d.learning_reason = $reason",
+        {
+            "key": f"dismiss:{case.id}:{quarter}",
+            "xid": exception_id,
+            "state": state,
+            "reason": reason,
+        },
+        timeout_ms=WRITE_MS,
+    )
 
 
 def owner_decisions(client: FalkorClient, case: Case, quarter: str) -> list[dict]:
@@ -663,6 +772,7 @@ for _name in (
     "mark",
     "agent_step",
     "record_dismissal",
+    "link_learned",
     "snooze",
     "create_draft",
     "edit_draft",
