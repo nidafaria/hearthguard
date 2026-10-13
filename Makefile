@@ -131,8 +131,21 @@ video-check:
 ui:
 	cd ui && npm install && npm run dev
 
+# Red Team: N campaigns planted into copies of the case's org graph, scored by the frozen detectors.
+# Writes eval/results/redteam_<case>.json. Example: make redteam N=200 SEED=7 CASE=tallowdate
+N ?= 200
+SEED ?= 7
+CASE ?= tallowdate
+redteam:
+	uv run python -m redteam.run --n $(N) --seed $(SEED) --case $(CASE)
+
+# Hardening on a copy of the case graph, every menu step, the same campaigns. Writes
+# eval/results/hardening_redteam_<case>.json. Example: make harden CASE=xz
+harden:
+	uv run python -m redteam.harden --n $(N) --seed $(SEED) --case $(CASE)
+
 # Placeholders for later steps. Each one fails until it is built.
-harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
+ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
 	@echo "$@: not built yet"
 	@exit 1
 
