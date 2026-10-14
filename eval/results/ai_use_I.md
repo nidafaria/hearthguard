@@ -1,0 +1,1 @@
+- Block I (Claude, Sonnet 5.5): wrote the memory and algorithm ablation scripts, the hearthguard-core and pack-oss MCP servers, the Patience curve chart, and their unit, real-FalkorDB and UI tests; no LLM was called by the product code or the tests.
