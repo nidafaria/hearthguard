@@ -1,0 +1,291 @@
+{
+  "case": "event-stream (2018)",
+  "definitions": {
+    "e0": "time of the last release before the incident",
+    "evaluation_points": "times of releases and grants after e0, up to the public report",
+    "first_fire": "first point whose decision is NOTE or WATCH",
+    "first_move_fired": "first point where any move is FIRED, whatever the decision; a decision other than NOTE or WATCH (for example HOLD) is not a note to the owner",
+    "negative_lead_time": "a negative number of days means the first fire came AFTER that event",
+    "lead_time": "first_fire to the malicious release, and to the public report; the difference of two recorded times; null when nothing fired"
+  },
+  "e0_utc": "2016-07-17T07:24:09Z",
+  "public_report_utc": "2018-11-19T13:34:56Z",
+  "malicious_release_utc": "2018-09-09T08:28:59Z",
+  "replay": {
+    "graph": "org_event_stream",
+    "points": [
+      {
+        "T": 1536125267,
+        "at_utc": "2018-09-05T05:27:47Z",
+        "moves": {
+          "PRESSURE": "NOT_FIRED",
+          "VOUCH": "NOT_FIRED",
+          "RUSH": "FIRED",
+          "BYPASS": "NOT_COMPUTED"
+        },
+        "lone_keeper": "FLAG_NOT_SET",
+        "decision": "HOLD",
+        "decision_detail": "move unknown: BYPASS",
+        "takeover_cost": {
+          "status": "COMPUTED",
+          "value": 1,
+          "reason": null
+        },
+        "guardians": {
+          "status": "COMPUTED",
+          "value": 2,
+          "reason": null
+        }
+      },
+      {
+        "T": 1536481739,
+        "at_utc": "2018-09-09T08:28:59Z",
+        "moves": {
+          "PRESSURE": "NOT_FIRED",
+          "VOUCH": "NOT_FIRED",
+          "RUSH": "FIRED",
+          "BYPASS": "NOT_COMPUTED"
+        },
+        "lone_keeper": "FLAG_NOT_SET",
+        "decision": "HOLD",
+        "decision_detail": "move unknown: BYPASS",
+        "takeover_cost": {
+          "status": "COMPUTED",
+          "value": 1,
+          "reason": null
+        },
+        "guardians": {
+          "status": "COMPUTED",
+          "value": 2,
+          "reason": null
+        }
+      },
+      {
+        "T": 1537096820,
+        "at_utc": "2018-09-16T11:20:20Z",
+        "moves": {
+          "PRESSURE": "NOT_FIRED",
+          "VOUCH": "NOT_FIRED",
+          "RUSH": "FIRED",
+          "BYPASS": "FIRED"
+        },
+        "lone_keeper": "FLAG_NOT_SET",
+        "decision": "NOTE",
+        "decision_detail": "path-bypass",
+        "takeover_cost": {
+          "status": "COMPUTED",
+          "value": 1,
+          "reason": null
+        },
+        "guardians": {
+          "status": "COMPUTED",
+          "value": 2,
+          "reason": null
+        }
+      },
+      {
+        "T": 1538204149,
+        "at_utc": "2018-09-29T06:55:49Z",
+        "moves": {
+          "PRESSURE": "NOT_FIRED",
+          "VOUCH": "NOT_FIRED",
+          "RUSH": "FIRED",
+          "BYPASS": "FIRED"
+        },
+        "lone_keeper": "FLAG_NOT_SET",
+        "decision": "NOTE",
+        "decision_detail": "path-bypass",
+        "takeover_cost": {
+          "status": "COMPUTED",
+          "value": 1,
+          "reason": null
+        },
+        "guardians": {
+          "status": "COMPUTED",
+          "value": 2,
+          "reason": null
+        }
+      }
+    ],
+    "fired": true,
+    "first_fire_utc": "2018-09-16T11:20:20Z",
+    "lead_time_days_to_malicious_release": -7.119,
+    "lead_time_days_to_public_report": 64.0935,
+    "first_move_fired_utc": "2018-09-05T05:27:47Z",
+    "first_move_fired_to_malicious_release_days": 4.1258,
+    "bypass_fired_at": [
+      "2018-09-16T11:20:20Z",
+      "2018-09-29T06:55:49Z"
+    ],
+    "sources": [
+      "data/raw/incidents/event_stream/npm_event-stream.json",
+      "data/raw/incidents/event_stream/issue_115.json",
+      "data/raw/incidents/event_stream/osv_GHSA-mh6f-8j2x-4483.json"
+    ]
+  },
+  "case_notes": [
+    "Bypass at event-stream@3.3.5 is NOT_COMPUTED: the previous release (3.3.4) is more than 730 days earlier, so the remembered normal has expired (a two-year gap).",
+    "event-stream@3.3.6, the malicious release, was removed from the registry: its time is recorded, its publisher and path are not, so Bypass cannot judge it.",
+    "The Bypass FIRED at 4.0.0 compares it with a normal of one release, 3.3.5, which was itself the new publisher's first. It fires because 4.0.0 differs from that one release on publisher_in_set, not because it differs from the original maintainer's history.",
+    "The first NOTE is therefore after the malicious release; the earlier points are HOLD (one move fired, another unknown)."
+  ],
+  "honesty": [
+    "One real incident per case is too few to claim precision (spec §10.2).",
+    "Published as measured: a result that fired late, or not at all, is shown as it was.",
+    "Rush: the registry records no grant event. A GRANTED edge is placed at the first version that lists the maintainer, which for a newcomer is also their first release, so days-to-grant is 0 by construction of the record. A Rush FIRED here is an effect of that record, not independent evidence.",
+    "Lone keeper counts commit authors in the trailing 90 days; npm data has no commits, so only the guardians half of the flag can be set."
+  ],
+  "provenance": {
+    "git_commit": "f79dad9e0c0ead5677420185def1c33a341c56fe",
+    "base_commit": "f79dad9e0c0ead5677420185def1c33a341c56fe",
+    "working_tree_dirty": false,
+    "functions": [
+      {
+        "file": "core/detectors/rush.py",
+        "function": "rush",
+        "found": true,
+        "sha256": "0f69a8e38bd57e44f9d98c42914405a40ad6084d7b5e63b80085d6f8da7d38f1",
+        "base_sha256": "0f69a8e38bd57e44f9d98c42914405a40ad6084d7b5e63b80085d6f8da7d38f1",
+        "match": true
+      },
+      {
+        "file": "core/detectors/rush.py",
+        "function": "decide",
+        "found": true,
+        "sha256": "4f1dd3ea34908839d55734e0575bb720e9fd386ec3df4ed57d362e9acaf48901",
+        "base_sha256": "4f1dd3ea34908839d55734e0575bb720e9fd386ec3df4ed57d362e9acaf48901",
+        "match": true
+      },
+      {
+        "file": "core/detectors/rush.py",
+        "function": "percentile_cont",
+        "found": true,
+        "sha256": "f51f1cee43464612befd6c77fef0ce15cc44c6f2ed5715f9d3e69b76d463c207",
+        "base_sha256": "f51f1cee43464612befd6c77fef0ce15cc44c6f2ed5715f9d3e69b76d463c207",
+        "match": true
+      },
+      {
+        "file": "core/detectors/bypass.py",
+        "function": "bypass",
+        "found": true,
+        "sha256": "18263092e978ec2239797e7f61affcf0d44eac8ec5090cd4f829d2d729c96943",
+        "base_sha256": "18263092e978ec2239797e7f61affcf0d44eac8ec5090cd4f829d2d729c96943",
+        "match": true
+      },
+      {
+        "file": "core/detectors/bypass.py",
+        "function": "judge",
+        "found": true,
+        "sha256": "765f4288b95befa8adb53eb8013e962615a5947106a73420f9ff439628b74587",
+        "base_sha256": "765f4288b95befa8adb53eb8013e962615a5947106a73420f9ff439628b74587",
+        "match": true
+      },
+      {
+        "file": "core/detectors/lone_keeper.py",
+        "function": "lone_keeper",
+        "found": true,
+        "sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
+        "base_sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
+        "match": true
+      },
+      {
+        "file": "core/detectors/pressure.py",
+        "function": "pressure",
+        "found": true,
+        "sha256": "25f0363e51b429a579c2aedc9fdc8563af1db84f08713d11ebe084dc9ded8977",
+        "base_sha256": "25f0363e51b429a579c2aedc9fdc8563af1db84f08713d11ebe084dc9ded8977",
+        "match": true
+      },
+      {
+        "file": "core/detectors/vouch.py",
+        "function": "vouch",
+        "found": true,
+        "sha256": "ca0bbcc6e25b7ed2366fe5644d67ac8c25f8db0c34e0c591d8ccfbcfd0500902",
+        "base_sha256": "ca0bbcc6e25b7ed2366fe5644d67ac8c25f8db0c34e0c591d8ccfbcfd0500902",
+        "match": true
+      },
+      {
+        "file": "core/detectors/vouch.py",
+        "function": "components",
+        "found": true,
+        "sha256": "3fc024b86a45cd0375da375e0dce0c56461cbcb982ce149a1d89e01bfde10246",
+        "base_sha256": "3fc024b86a45cd0375da375e0dce0c56461cbcb982ce149a1d89e01bfde10246",
+        "match": true
+      },
+      {
+        "file": "core/detectors/low_history.py",
+        "function": "is_low",
+        "found": true,
+        "sha256": "e7e02daf9ceadbb4bf584faefb9b771e94630c22f00f5567a3e5c7249c137d67",
+        "base_sha256": "e7e02daf9ceadbb4bf584faefb9b771e94630c22f00f5567a3e5c7249c137d67",
+        "match": true
+      },
+      {
+        "file": "core/takeover/cost.py",
+        "function": "takeover_cost",
+        "found": true,
+        "sha256": "89093a0632f10ca71cdf039f1ed0f98602b65fbe74490eb0e9344e9d5b70c876",
+        "base_sha256": "89093a0632f10ca71cdf039f1ed0f98602b65fbe74490eb0e9344e9d5b70c876",
+        "match": true
+      },
+      {
+        "file": "core/takeover/guardians.py",
+        "function": "guardians",
+        "found": true,
+        "sha256": "ed0a6ccccccff9659166d1920915fe8903915cb42ce16e416a05f493fd51802b",
+        "base_sha256": "ed0a6ccccccff9659166d1920915fe8903915cb42ce16e416a05f493fd51802b",
+        "match": true
+      },
+      {
+        "file": "core/policy/decision.py",
+        "function": "decide",
+        "found": true,
+        "sha256": "d43a71a7d0e9ddf9d56667bd3ad1463fe4f2dcded4278514fdf4d18b8b72bdf2",
+        "base_sha256": "d43a71a7d0e9ddf9d56667bd3ad1463fe4f2dcded4278514fdf4d18b8b72bdf2",
+        "match": true
+      },
+      {
+        "file": "core/policy/decision.py",
+        "function": "decide_with_unknowns",
+        "found": true,
+        "sha256": "4fa4ebc9f19c7669b25ef5317c4fc88797f71e0a9fa4a87c63cf91eb33b238a7",
+        "base_sha256": "4fa4ebc9f19c7669b25ef5317c4fc88797f71e0a9fa4a87c63cf91eb33b238a7",
+        "match": true
+      },
+      {
+        "file": "core/policy/decision.py",
+        "function": "evidence_from_moves",
+        "found": true,
+        "sha256": "cb38c82125ca0360f2737ef15a676fbaab2b2d3e74086046d3ef6aa37fccd8cf",
+        "base_sha256": "cb38c82125ca0360f2737ef15a676fbaab2b2d3e74086046d3ef6aa37fccd8cf",
+        "match": true
+      },
+      {
+        "file": "core/policy/conflict.py",
+        "function": "resolve",
+        "found": true,
+        "sha256": "df8d62d02bf38e7f912b34f0c8ade6b871dac58a1e8803148c41dc140b002160",
+        "base_sha256": "df8d62d02bf38e7f912b34f0c8ade6b871dac58a1e8803148c41dc140b002160",
+        "match": true
+      }
+    ],
+    "files": [
+      {
+        "file": "config/frozen.yaml",
+        "sha256": "2a1a1214e7954c5730f78bacf4ebaa3b720e484e70e56d7e863238882adc7ccc",
+        "match": true
+      },
+      {
+        "file": "docs/FREEZE.md",
+        "sha256": "39830e6cfbbe1280db4faef53ddc6fdbe53fc84172b55e699e5181e53130f300",
+        "match": true
+      },
+      {
+        "file": "docs/FREEZE.sha256",
+        "sha256": "24a9cd0d88020990761a385311a1fae407c8ff8924e123de687deaea3b2e86b0",
+        "match": true
+      }
+    ],
+    "frozen_unchanged": true
+  }
+}

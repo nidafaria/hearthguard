@@ -1,0 +1,87 @@
+{
+  "scope": "public records only (npm registry, OSV, GitHub issues, one security write-up labelled secondary); cached under data/raw/incidents/ (git-ignored)",
+  "sources": [
+    {
+      "case": "event_stream",
+      "name": "event_stream/npm_event-stream.json",
+      "url": "https://registry.npmjs.org/event-stream",
+      "kind": "npm_packument",
+      "status": 200,
+      "bytes": 119714,
+      "fetched_at": "2026-10-14T20:19:29Z"
+    },
+    {
+      "case": "event_stream",
+      "name": "event_stream/osv_GHSA-mh6f-8j2x-4483.json",
+      "url": "https://api.osv.dev/v1/vulns/GHSA-mh6f-8j2x-4483",
+      "kind": "advisory",
+      "status": 200,
+      "bytes": 1773,
+      "fetched_at": "2026-10-14T20:19:31Z"
+    },
+    {
+      "case": "event_stream",
+      "name": "event_stream/issue_115.json",
+      "url": "https://api.github.com/repos/dominictarr/event-stream/issues/115",
+      "kind": "github_issue",
+      "status": 200,
+      "bytes": 2926,
+      "fetched_at": "2026-10-14T20:19:32Z"
+    },
+    {
+      "case": "event_stream",
+      "name": "event_stream/issue_115_comments.json",
+      "url": "https://api.github.com/repos/dominictarr/event-stream/issues/115/comments?per_page=100",
+      "kind": "github_comments",
+      "status": 200,
+      "bytes": 76880,
+      "fetched_at": "2026-10-14T20:19:33Z"
+    },
+    {
+      "case": "event_stream",
+      "name": "event_stream/issue_116.json",
+      "url": "https://api.github.com/repos/dominictarr/event-stream/issues/116",
+      "kind": "github_issue",
+      "status": 200,
+      "bytes": 13850,
+      "fetched_at": "2026-10-14T20:19:34Z"
+    },
+    {
+      "case": "axios",
+      "name": "axios/npm_axios.json",
+      "url": "https://registry.npmjs.org/axios",
+      "kind": "npm_packument",
+      "status": 200,
+      "bytes": 793903,
+      "fetched_at": "2026-10-14T20:19:34Z"
+    },
+    {
+      "case": "axios",
+      "name": "axios/osv_MAL-2026-2307.json",
+      "url": "https://api.osv.dev/v1/vulns/MAL-2026-2307",
+      "kind": "advisory",
+      "status": 200,
+      "bytes": 2848,
+      "fetched_at": "2026-10-14T20:19:35Z"
+    },
+    {
+      "case": "axios",
+      "name": "axios/issue_10604.json",
+      "url": "https://api.github.com/repos/axios/axios/issues/10604",
+      "kind": "github_issue",
+      "status": 200,
+      "bytes": 3638,
+      "fetched_at": "2026-10-14T20:19:37Z"
+    },
+    {
+      "case": "axios",
+      "name": "axios/stepsecurity_writeup.html",
+      "url": "https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan",
+      "kind": "secondary_writeup",
+      "status": 200,
+      "bytes": 260297,
+      "fetched_at": "2026-10-14T20:19:37Z"
+    }
+  ],
+  "all_ok": true
+}

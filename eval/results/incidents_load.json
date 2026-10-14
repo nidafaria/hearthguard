@@ -1,0 +1,98 @@
+{
+  "scope": "public records only: npm registry, OSV, GitHub issues, one secondary write-up (labelled). Identifiers hashed; only the adjudicated handle right9ctrl is named.",
+  "limits": [
+    "CAN_GRANT npm_publish starts at the first version that lists a maintainer; a removal from the list is not modelled.",
+    "The registry records no grant event; a GRANTED edge's time is the first version listing the maintainer, an upper bound.",
+    "The removed axios versions have no registry record; their path is from one secondary write-up, stored only where the quoted sentence is in the cached file."
+  ],
+  "cases": {
+    "event_stream": {
+      "graph": "org_event_stream",
+      "package": "event-stream",
+      "releases_in_registry": 84,
+      "removed_versions": [
+        "event-stream@3.3.6"
+      ],
+      "secondary_records": [],
+      "issue_events": 42,
+      "maintainers_listed": 2,
+      "named_public_handles": [
+        "right9ctrl"
+      ],
+      "counts_after_load_1": {
+        "nodes": 240,
+        "edges": 195
+      },
+      "counts_after_load_2": {
+        "nodes": 240,
+        "edges": 195
+      },
+      "idempotent": true,
+      "by_label": {
+        "nodes": {
+          "Action": 127,
+          "Actor": 27,
+          "Org": 1,
+          "Path": 84,
+          "Privilege": 1
+        },
+        "edges": {
+          "CAN_GRANT": 2,
+          "DID": 108,
+          "GRANTED": 1,
+          "VIA": 84
+        }
+      },
+      "email_like_properties": []
+    },
+    "axios": {
+      "graph": "org_axios",
+      "package": "axios",
+      "releases_in_registry": 145,
+      "removed_versions": [
+        "axios@1.14.1",
+        "axios@0.30.4"
+      ],
+      "secondary_records": [
+        {
+          "ref": "axios@1.14.1",
+          "evidence": "secondary",
+          "source": "axios/stepsecurity_writeup.html"
+        },
+        {
+          "ref": "axios@0.30.4",
+          "evidence": "secondary",
+          "source": "axios/stepsecurity_writeup.html"
+        }
+      ],
+      "issue_events": 0,
+      "maintainers_listed": 4,
+      "named_public_handles": [],
+      "counts_after_load_1": {
+        "nodes": 301,
+        "edges": 301
+      },
+      "counts_after_load_2": {
+        "nodes": 301,
+        "edges": 301
+      },
+      "idempotent": true,
+      "by_label": {
+        "nodes": {
+          "Action": 147,
+          "Actor": 5,
+          "Org": 1,
+          "Path": 147,
+          "Privilege": 1
+        },
+        "edges": {
+          "CAN_GRANT": 4,
+          "DID": 147,
+          "GRANTED": 3,
+          "VIA": 147
+        }
+      },
+      "email_like_properties": []
+    }
+  }
+}

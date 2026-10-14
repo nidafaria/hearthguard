@@ -64,13 +64,17 @@ def main():
                 sourced_numbers += numbers
             else:
                 preview = block.splitlines()[0][:70]
-                failures.append(f"paragraph {i} has {numbers} number(s) and no source file: {preview!r}")
+                failures.append(
+                    f"paragraph {i} has {numbers} number(s) and no source file: {preview!r}"
+                )
 
         for hit in BANNED.findall(block):
             failures.append(f"paragraph {i} uses banned word {hit!r}")
 
         if SYNTHETIC_STORY.search(block) and not re.search(r"\bsynthetic\b", block, re.IGNORECASE):
-            failures.append(f"paragraph {i} mentions the synthetic story without the word 'synthetic'")
+            failures.append(
+                f"paragraph {i} mentions the synthetic story without the word 'synthetic'"
+            )
 
     missing = []
     for src in sorted(set(SOURCE.findall(text))):
@@ -82,7 +86,9 @@ def main():
         failures.append(f"source file named in the post does not exist: {src}")
 
     print(f"word count: {words} (allowed {WORD_MIN}-{WORD_MAX})")
-    print(f"numbers in post: {total_numbers}; with a source in the same paragraph: {sourced_numbers}")
+    print(
+        f"numbers in post: {total_numbers}; with a source in the same paragraph: {sourced_numbers}"
+    )
     print(f"source files named: {len(set(SOURCE.findall(text)))}; missing in repo: {len(missing)}")
 
     if failures:

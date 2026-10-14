@@ -1,0 +1,1 @@
+- Block G (Claude, Sonnet 5.5): wrote the npm registry and GitHub issue parsers, the event-stream and axios incident cache, graph loader and replays, the final README, and their unit and real-FalkorDB tests; no LLM was called by the product code or the tests.
