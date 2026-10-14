@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 51, PARTIAL 35, NOT STARTED 45. Score 52.3% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 61, PARTIAL 41, NOT STARTED 29. Score 62.2% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -22,11 +22,11 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 14 | §2.3/3.1 | Ecosystem records ingested for the six public places (oss-fuzz, LKML, Debian, Launchpad) | DONE | packs/oss/ecosystem/fetch.py; eval/results/ecosystem_sources.json: oss-fuzz, LKML, Debian, Launchpad all 200 with a body; xz git, GitHub and xz-devel already cached |
 | 15 | §3.1 | Incident data for event-stream and axios ingested | NOT STARTED | none in data/raw/ |
 | 16 | §3.5 | `tallowdate` synthetic case generated | DONE | redteam/tallowdate.py (seeded), data/synthetic/tallowdate.json, redteam/load_tallowdate.py; tests/integration/test_tallowdate_*.py |
-| 17 | §4.2 | Core free of domain code; OSS pack and finance pack separated | PARTIAL | packs/oss exists; packs/finance empty |
-| 18 | §4.2 | `make verify-packs` (finance runs with OSS pack removed) | NOT STARTED | target not built |
+| 17 | §4.2 | Core free of domain code; OSS pack and finance pack separated | PARTIAL | packs/finance/ now exists beside packs/oss/; core imports nothing from packs/ (tests/unit/test_pack_oss.py) and packs/finance imports nothing from packs.oss (tests/unit/test_finance_pack.py). Not DONE: core still holds OSS words in core/normal/metrics.py (commit, release) and the per-pack property table in core/detectors/bypass.py. See eval/results/blockers_H.md row 17. |
+| 18 | §4.2 | `make verify-packs` (finance runs with OSS pack removed) | DONE | eval/verify_packs.py runs the Northbridge case in a temp tree with no packs/oss and compares it to the run with the pack present: eval/results/finance_verify_packs.json (passed); tests/integration/test_finance_verify_packs.py. Run as `uv run python -m eval.verify_packs`; the Makefile target is for the lead to wire. |
 | 19 | §4.2 | OSS pack: parsers for GitHub, npm, mailing lists, bug trackers | PARTIAL | git, GitHub and mail parsers (f5d741a, 09c776c); npm and trackers none |
 | 20 | §4.2 | OSS pack: privileges, normal path, claim vocabulary | DONE | packs/oss/pack.py (privilege kinds, sensitive flags, normal path, claim vocabulary); tests/unit/test_pack_oss.py (incl. test_core_imports_nothing_from_packs) |
-| 21 | §4.2 | Finance pack (parsers, mapping, vocabulary, normal path) | NOT STARTED | packs/finance empty |
+| 21 | §4.2 | Finance pack (parsers, mapping, vocabulary, normal path) | DONE | packs/finance/{pack,parse,mapping,synthetic,tools}.py; data/synthetic/northbridge.json (93 synthetic records); tests/unit/test_finance_pack.py, tests/integration/test_finance_case.py on a real FalkorDB. |
 | 22 | §4.3 | Maintainer private note | PARTIAL | web inbox only: core/agents/liaison.py, api/inbox_actions.py; no Slack DM; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py; blockers_a.md |
 | 23 | §4.3 | Downstream packager question via MCP or web | DONE | ui/src/Packager.tsx at #/packager: the visibility-gap question for a chosen decision, roles only, from eval/results/ecosystem_gaps.json; ui/src/screens.test.tsx 'Packager'; eval/results/ui_screens_b/packager.png |
 | 24 | §4.3 | Foundation view across projects (Could) | NOT STARTED | none |
@@ -40,17 +40,17 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 32 | §6.1 | org graph: Org, Actor, Action, DID, Path, VIA, Normal, OF | DONE | packs/oss/xz_graph.py; 09c776c |
 | 33 | §6.1 | org graph: Source, Span, Claim, FROM, ASSERTED | DONE | core/claims/graph_write.py; 086a5e2 |
 | 34 | §6.1 | org graph: Privilege, GRANTED, CAN_GRANT, APPROVED | PARTIAL | packs/oss/grants.py (documented records -> Privilege, GRANTED, CAN_GRANT, APPROVED); tests/unit/test_grants_mapping.py, tests/integration/test_grants_write.py. No documented grant records exist for xz, so its results stay NOT COMPUTED. |
-| 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | NOT STARTED | not written anywhere |
+| 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | PARTIAL | Written for the finance case (packs/finance/mapping.py; tests/integration/test_visibility_graph.py) and for the cached xz mail (eval/populate_visibility.py: 323 messages, 28 authors, 28 PARTICIPATES_IN, 323 RECORDED_IN, second run identical: eval/results/visibility_xz.json). The cached xz git part was not run: it needs HEARTHGUARD_HASH_SALT (eval/results/blockers_H.md row 35). |
 | 36 | §6.1 | org graph: SHARES edges built | NOT STARTED | no builder; decision 0004 |
 | 37 | §6.1 | org graph: CONTRADICTS / SUPERSEDES / QUALIFIES written | PARTIAL | core/claims/conflicts.py writes CONTRADICTS / SUPERSEDES / QUALIFIES via the unchanged core/policy/conflict.py; tests/integration/test_conflict_links.py. Pairs are supplied by the caller; no detector finds contradicting pairs yet. |
 | 38 | §6.1 | org graph: Finding, Gap, Objection, Request, Note, Draft, OwnerDecision, BACKUP | PARTIAL | core/agents/inbox_graph.py writes Finding, Note, Draft, OwnerDecision, BACKUP, Gap (xz from eval/results/ecosystem_gaps.json), Hardening; Objection and Request writers exist but no Skeptic source and no test; blockers_a.md |
-| 39 | §6.1 | org graph: Hardening, Task, AgentStep | NOT STARTED | none |
+| 39 | §6.1 | org graph: Hardening, Task, AgentStep | DONE | core/board/hardening.py (Hardening MERGE on run_ref+step, FOR Org), core/board/board.py (Task), core/agents/agent_step.py (AgentStep); tests/integration/test_board_core.py on a real FalkorDB. |
 | 40 | §6.2 | ecosystem_<id> graph | PARTIAL | packs/oss/ecosystem/graph.py; eval/results/ecosystem_load.json: ecosystem_xz, 43 events, second load identical; no Foundation, HOSTED_BY or Campaign |
 | 41 | §6.3 | redteam_<run> and harden_<run> graphs | DONE | redteam/run.py and redteam/harden.py GRAPH.COPY org_tallowdate and org_xz to redteam_<run> and harden_<run>, plant into the copy only; tests/integration/test_redteam.py; eval/results/redteam_tallowdate.json, redteam_xz.json (real graph counts before and after) |
 | 42 | §6.4 | census_<date> graph | NOT STARTED | none |
-| 43 | §6.5 | playbook graph | NOT STARTED | core/playbook is empty |
+| 43 | §6.5 | playbook graph | PARTIAL | core/playbook/store.py (DetectorSpec hash, Exception nodes with state, agreements and gate numbers; no org data); tests/integration/test_learning_store.py. Compiled investigation plans are not built (eval/results/blockers_E.md, row 43). |
 | 44 | §6.6 | Unique constraints and range indexes | DONE | core/graph/schema.py; 2483a41 |
-| 45 | §6.6 | Vector index on Span and full-text index on Span.text | NOT STARTED | schema.py has neither |
+| 45 | §6.6 | Vector index on Span and full-text index on Span.text | DONE | core/graph/schema.py apply_schema creates both (verified DDL); eval/vector_index.py, eval/results/vector_index_run.json; tests/integration/test_vector_index.py. No real Span is embedded yet: the pinned sentence-transformers model is not installed (eval/results/blockers_H.md row 45). |
 | 46 | §7.1 | Pressure detector | PARTIAL | core/detectors/pressure.py; keeper condition OPEN (0005) |
 | 47 | §7.1 | Vouch detector | PARTIAL | core/detectors/vouch.py; no target, no SHARES (0004) |
 | 48 | §7.1 | Rush detector | DONE | core/detectors/rush.py; e0535ef |
@@ -70,23 +70,23 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 62 | §8.1 | Skeptic | NOT STARTED | none |
 | 63 | §8.1 | Liaison | PARTIAL | core/agents/liaison.py: note as question, dismiss, snooze, drafts; no Slack sender, no learned-exception proposals, no LLM wording; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 64 | §8.1 | Red Team generator | DONE | redteam/generate.py (N, SEED, patience, moves, privilege; same seed same bytes); tests/unit/test_redteam_generate.py; tests/integration/test_redteam.py; eval/results/redteam_tallowdate.json |
-| 65 | §8.2 | Task board with leases, stale-result rejection, requests | NOT STARTED | core/board is empty |
-| 66 | §8.3 | Learned exceptions with safety rules and regression gate | NOT STARTED | core/learning is empty |
+| 65 | §8.2 | Task board with leases, stale-result rejection, requests | DONE | core/board/board.py (8.2 claim query, 30 s lease, expired lease reopens, stale result requeued by input_version, unique note key), core/board/requests.py (objection -> request -> finding released); tests/integration/test_board_core.py, tests/unit/test_board_rules.py. Not yet called by the Investigator or Skeptic agents. |
+| 66 | §8.3 | Learned exceptions with safety rules and regression gate | PARTIAL | core/learning/ (templates, filler, safety, gate, states, pipeline); tests/unit/test_learning_*.py (39 passing); docs/decisions/0007. The gate is a worst-case replay on eval/results/redteam_xz.json; the filler is a fixed table, not the LLM of spec 8.3. Adopted does not act yet (eval/results/blockers_E.md, row 66). |
 | 67 | §8.4 | LLM client: models config, rate limiter, retries, cache | DONE | core/llm/client.py; 22ea2cd, 018aab7 |
 | 68 | §8.4 | Compiled plans | NOT STARTED | none |
-| 69 | §8.4 | Guardrails: circuit breaker, bounded HOLD, re-plan limits | NOT STARTED | none |
+| 69 | §8.4 | Guardrails: circuit breaker, bounded HOLD, re-plan limits | DONE | core/agents/guardrails.py (layout check, named failure types, <=2 re-plans, time limit, 3-strike breaker, bounded HOLD, no LLM on the abort path); tests/unit/test_guardrails_policy.py; eval/results/faults_run.json. The breaker is in memory, not saved across a restart, and no LLM planner calls run_guarded yet. |
 | 70 | §8.5 | Hardening simulator (up to three steps, measured) | DONE | redteam/harden.py: three menu steps, same campaigns, frozen detectors, caught and lead time before/after; eval/results/hardening_redteam_tallowdate.json, hardening_redteam_xz.json; tests/integration/test_redteam.py |
 | 71 | §9 | Episodic memory, every query as of T | DONE | core/graph/as_of.py |
 | 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | core/claims/conflicts.py (contradictions resolved by policy and linked); tests/integration/test_conflict_links.py. Pair detection is still missing. |
 | 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (eval/results/xz_normal.json) |
 | 74 | §9 | Who-saw-what memory | PARTIAL | core/memory/who_saw.py (PARTICIPATES_IN, WATCHES {since}, already_acknowledged); tests/integration/test_who_saw.py. Not yet filled from the cached mail and git data. |
 | 75 | §9 | Owner memory | PARTIAL | OwnerDecision written once per finding (core/agents/inbox_graph.py record_dismissal); the 'same situation does not return without new evidence' rule is not built; tests: tests/integration/test_inbox_loop.py |
-| 76 | §9 | Working memory (AgentStep, task board) | NOT STARTED | none |
+| 76 | §9 | Working memory (AgentStep, task board) | DONE | core/agents/agent_step.py (log_step, resume_state); tests/integration/test_board_core.py (a second client resumes a crashed agent's task from the graph). A docker restart of the container was also checked by hand with a named volume; that check is not a test. |
 | 77 | §10.1 | Freeze protocol: dated spec published with hash; `make verify-frozen` | PARTIAL | docs/FREEZE.md is a DRAFT, hash in FREEZE.sha256; target not built; Reader frozen b6e3b1c |
 | 78 | §10.2 | Memory ablation (`make ablation-memory`) | NOT STARTED | target not built |
-| 79 | §10.2 | Determinism, race and concurrency tests | NOT STARTED | tests/determinism, tests/race empty |
-| 80 | §10.2 | Learning proof (`verify-learning`, `chaos`) | NOT STARTED | none |
-| 81 | §10.2 | Resilience (`make faults`) | NOT STARTED | tests/faults is empty |
+| 79 | §10.2 | Determinism, race and concurrency tests | DONE | eval/verify_determinism.py -> eval/results/determinism_run.json (5 orderings, different claim orders, identical findings equal to the fixture answers); eval/race.py -> race_run.json (0 duplicate claims, 0 duplicate notes); eval/concurrency.py -> concurrency_run.json (throughput and p50/p95 on this machine only); tests/determinism, tests/race. The make targets are not wired yet. |
+| 80 | §10.2 | Learning proof (`verify-learning`, `chaos`) | PARTIAL | eval/verify_learning.py -> eval/results/learning_verify.json; eval/chaos.py -> eval/results/learning_chaos_seed{1,2,3,4,5,7,42}.json. The make targets are not wired yet, and seeds with the same pattern give the same exception (eval/results/blockers_E.md, row 80). |
+| 81 | §10.2 | Resilience (`make faults`) | DONE | eval/faults.py -> eval/results/faults_run.json: all 9 failure types incl. LLM offline (real LLMClient with no key) end in a bounded HOLD; circuit breaker; structural tasks finish with the LLM offline; tests/faults/test_faults.py. Five of the nine are injected by real causes, four are raised by the test plan (the JSON says which). The make target is not wired yet. |
 | 82 | §10.2 | Algorithm ablation (`make ablation-algos`) | NOT STARTED | none |
 | 83 | §10.2 | xz replay (`make replay CASE=xz`) | PARTIAL | eval/replay_xz.py; 59c5e87: runs, but no detector fires and 146 messages unread |
 | 84 | §10.2 | event-stream and axios replays | NOT STARTED | none |
@@ -99,17 +99,17 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 91 | §10.3 | `make redteam N=200 SEED=...` | DONE | Makefile and make.ps1 target redteam (N, SEED, CASE); eval/results/redteam_tallowdate.json (seed 7, N 200), eval/results/redteam_xz.json |
 | 92 | §10.3 | `make smoke-algos` | DONE | tests/integration/test_smoke_algos.py; a5711b5 |
 | 93 | §10.3 | `make demo` with no key | DONE | eval/demo.py prints the replay, gaps, hardening and tallowdate sections from saved files; two runs byte-identical; tests/unit/test_replay_demo.py, tests/unit/test_gaps_report.py::test_demo_prints_the_replay_table_before_the_new_sections |
-| 94 | §11.1 | Finance pack case (Northbridge, Kestrel), scripted | NOT STARTED | none |
+| 94 | §11.1 | Finance pack case (Northbridge, Kestrel), scripted | PARTIAL | eval/northbridge_case.py, eval/results/finance_northbridge_case.json: Rush FIRED, Bypass FIRED on channel, callback, approvers; Lone keeper FLAG_SET; takeover cost 1 -> 2 after restoring two-person approval on a GRAPH.COPY; tests/integration/test_finance_case.py. Pressure, Vouch and the Liaison note are NOT COMPUTED: they need the Reader and the Liaison, which are LLM steps (eval/results/blockers_H.md row 94). |
 | 95 | §11.2 | Takeover Cost Census ingest (npm, structure only) | NOT STARTED | none |
 | 96 | §12.1 | hearthguard-core MCP server (9 tools) | NOT STARTED | mcp_servers/ is empty |
 | 97 | §12.1 | pack-oss MCP server | NOT STARTED | none |
-| 98 | §12.1 | pack-finance MCP server | NOT STARTED | none |
+| 98 | §12.1 | pack-finance MCP server | DONE | mcp_servers/pack-finance/server.py registers vendor_change_path and approval_history (logic in packs/finance/tools.py); tests/integration/test_finance_mcp.py on a real FalkorDB, including a read-only check and a tool-list check. |
 | 99 | §12.1 | FalkorDB MCP wired read-only; Claude Code check_trust demo | NOT STARTED | none |
 | 100 | §12.2 | Slack app (Bolt, Socket Mode) sends the note | PARTIAL | slack_app/render.py renders the note (eval/results/slack_preview.json, sent_to_slack false); no Bolt, nothing sent |
 | 101 | §12.2 | Show me why button | DONE | web inbox: api/inbox_actions.py show_why, ui/src/Thread.tsx; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 102 | §12.2 | Simulate a fix button | PARTIAL | live simulate on GRAPH.COPY (core/agents/simulate_fix.py, core/hardening/xz.py); caught and lead time NOT COMPUTED (no saved red-team file); tests: tests/integration/test_inbox_loop.py |
 | 103 | §12.2 | Draft a reply button | DONE | core/agents/inbox_graph.py create_draft/edit_draft/mark_draft_sent; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/integration/test_inbox_loop.py |
-| 104 | §12.2 | It's fine button and learning result in thread | PARTIAL | api dismiss writes a local JSONL file; no OwnerDecision, no learned exception |
+| 104 | §12.2 | It's fine button and learning result in thread | PARTIAL | api/inbox_actions.py dismiss runs the learning step and returns the result; ui/src/Thread.tsx shows it; tests/integration/test_learning_thread.py (8 passing). The browser check is not run and nothing is applied (eval/results/blockers_E.md, row 104). |
 | 105 | §12.2 | Thread questions answered from tools | DONE | core/agents/investigator.py; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/unit/test_inbox_rules.py, tests/integration/test_inbox_loop.py |
 | 106 | §12.2 | Availability routing to the named backup; shared thread for two keepers | DONE | core/agents/routing.py (tested rules); api/inbox_actions.py routing endpoints; tests/unit/test_inbox_rules.py |
 | 107 | §12.2 | Weekly digest | DONE | core/agents/digest.py (saved results, quiet-week case); eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png; tests: tests/unit/test_inbox_rules.py |
@@ -125,7 +125,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 117 | §13.7 | Patience curve | PARTIAL | ui/src/Patience.tsx shows NOT COMPUTED and names the blocker; eval/results/blockers_b.md. Needs eval/results/ablation_memory.json from block C (absent on this branch) |
 | 118 | §13.8 | Connect your repo | DONE | packs/oss/connect_repo.py (read-only GETs, cache under data/raw/connect, hashed ids, org_<id>, job progress); api/app.py POST /api/connect and GET /api/connect/{job}; ui/src/ConnectRepo.tsx; tests/integration/test_connect_repo.py (stub + FalkorDB); eval/results/ui_check_b.json |
 | 119 | §13.9 | Census screen | NOT STARTED | none |
-| 120 | §13.10 | Playbook screen | NOT STARTED | none |
+| 120 | §13.10 | Playbook screen | PARTIAL | ui/src/Playbook.tsx and the #/playbook route in ui/src/App.tsx; tsc --noEmit clean, vitest 31 passing. No browser check and no test of the screen itself (eval/results/blockers_E.md, row 120). |
 | 121 | §13.11 | Inbox screen | DONE | ui/src/Inbox.tsx + ui/src/Thread.tsx: note, buttons and thread; eval/results/inbox_browser_check.json; eval/results/inbox_screens/xz_2021-Q4_all_controls.png |
 | 122 | §13.12 | Two endings screen | DONE | ui/src/TwoEndings.tsx: xz and tallowdate lanes on one quarter axis, tallowdate labelled SYNTHETIC; ui/src/screens.test.tsx 'TwoEndings'; eval/results/ui_check_b.json |
 | 123 | §13 | Pack header and synthetic labels on every screen | DONE | ui/src/App.tsx Header on every route ('Pack: OSS'); SYNTHETIC tags in TrustMap, Gauge, TwoEndings; eval/results/ui_screens_b/*.png; eval/results/ui_check_b.json |
