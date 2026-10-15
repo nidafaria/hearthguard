@@ -83,6 +83,6 @@ def org_graph(client):
     yield org
     client.drop(g)
 
+
 # The local GitHub stub for the connect tests (the same `site` fixture the unit tests use).
 from tests.unit.conftest import site  # noqa: E402,F401
-

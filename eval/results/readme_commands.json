@@ -1,0 +1,117 @@
+{
+  "run_on": "main, no key set",
+  "note": "lint exited 1 on the first pass (E501 and format drift in 5 files); fixed with whitespace and noqa only, then exited 0. harden CASE=xz exited 0 but took about 38 minutes. reader-score exits 1 without human labels and was removed from the README.",
+  "commands": [
+    {
+      "command": "uv run python -m eval.demo",
+      "exit_code": 0
+    },
+    {
+      "command": "docker compose up -d",
+      "exit_code": 0
+    },
+    {
+      "command": "smoke-algos",
+      "exit_code": 0
+    },
+    {
+      "command": "ingest-xz",
+      "exit_code": 0
+    },
+    {
+      "command": "normal-xz",
+      "exit_code": 0
+    },
+    {
+      "command": "takeover-xz",
+      "exit_code": 0
+    },
+    {
+      "command": "detectors-xz",
+      "exit_code": 0
+    },
+    {
+      "command": "pressure-vouch-xz",
+      "exit_code": 0
+    },
+    {
+      "command": "quarterly-xz",
+      "exit_code": 0
+    },
+    {
+      "command": "decision-xz",
+      "exit_code": 0
+    },
+    {
+      "command": "replay CASE=xz",
+      "exit_code": 0
+    },
+    {
+      "command": "gaps CASE=xz",
+      "exit_code": 0
+    },
+    {
+      "command": "tallowdate-run",
+      "exit_code": 0
+    },
+    {
+      "command": "redteam N=200 SEED=7 CASE=tallowdate",
+      "exit_code": 0
+    },
+    {
+      "command": "lint",
+      "exit_code": 0,
+      "seconds": 0.6
+    },
+    {
+      "command": "uv run python -m eval.ablation_memory",
+      "exit_code": 0,
+      "seconds": 170.3
+    },
+    {
+      "command": "uv run python -m eval.ablation_algos",
+      "exit_code": 0,
+      "seconds": 121.3
+    },
+    {
+      "command": "uv run python -m eval.incidents_fetch",
+      "exit_code": 0,
+      "seconds": 1.0
+    },
+    {
+      "command": "uv run python -m eval.incidents_load",
+      "exit_code": 0,
+      "seconds": 2.4
+    },
+    {
+      "command": "uv run python -m eval.replay_event_stream",
+      "exit_code": 0,
+      "seconds": 2.0
+    },
+    {
+      "command": "uv run python -m eval.replay_axios",
+      "exit_code": 0,
+      "seconds": 2.7
+    },
+    {
+      "command": "uv run python -m eval.verify_packs",
+      "exit_code": 0,
+      "seconds": 3.5
+    },
+    {
+      "command": "uv run python -m eval.queries_doc",
+      "exit_code": 0,
+      "seconds": 1.2
+    },
+    {
+      "command": "ecosystem-xz",
+      "exit_code": 0,
+      "seconds": 26.8
+    },
+    {
+      "command": "harden CASE=xz",
+      "exit_code": 0,
+      "seconds": 2269.3
+    }
+  ]
+}

@@ -16,6 +16,8 @@ from packs.oss.ecosystem import graph as G
 
 TEST_GRAPH = "ecosystem_xz_test"
 RESULTS = Path(__file__).resolve().parents[2] / "eval" / "results"
+
+
 def _ecosystem_cache_missing() -> list[str]:
     """Cached records this module reads that are not on disk. data/raw is git-ignored."""
     names = json.loads((RESULTS / "ecosystem_sources.json").read_text(encoding="utf-8"))

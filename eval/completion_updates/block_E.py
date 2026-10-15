@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Block E re-marks, applied by eval/completion_full.py. Each entry names its evidence."""
 
 D, P = "DONE", "PARTIAL"

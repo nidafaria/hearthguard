@@ -1,7 +1,7 @@
 # Windows fallback for the Makefile. Usage: .\make.ps1 <target>   (targets: up, down, test, lint)
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "inbox", "replay", "hardening-fixture", "harden-xz", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "ecosystem-xz", "gaps", "redteam", "harden", "video-check", "blog-check", "help")]
+    [ValidateSet("up", "down", "test", "lint", "smoke-algos", "schema-test", "ingest-xz", "normal-xz", "takeover-xz", "detectors-xz", "cache-mail-xz", "cache-github-xz", "cache-inventory-xz", "llm-test", "reader-spotcheck", "reader-testset", "reader-score", "reader-full", "pressure-vouch-xz", "quarterly-xz", "decision-xz", "slack-preview", "inbox", "replay", "hardening-fixture", "harden-xz", "demo", "ui", "synthetic-tallowdate", "tallowdate-run", "ecosystem-xz", "gaps", "redteam", "harden", "video-check", "blog-check", "ablation-memory", "ablation-algos", "eval-reader", "verify-determinism", "race", "help")]
     [string]$Target = "help",
 
     [Parameter(Position = 1)]
@@ -179,7 +179,27 @@ switch ($Target) {
         uv run python eval/blog_check.py
         exit $LASTEXITCODE
     }
+    "ablation-memory" {
+        uv run python -m eval.ablation_memory
+        exit $LASTEXITCODE
+    }
+    "ablation-algos" {
+        uv run python -m eval.ablation_algos
+        exit $LASTEXITCODE
+    }
+    "eval-reader" {
+        uv run python -m eval.reader_score
+        exit $LASTEXITCODE
+    }
+    "verify-determinism" {
+        uv run python -m eval.verify_determinism
+        exit $LASTEXITCODE
+    }
+    "race" {
+        uv run python -m eval.race
+        exit $LASTEXITCODE
+    }
     default {
-        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|slack-preview|inbox|replay|hardening-fixture|harden-xz|demo|ui|synthetic-tallowdate|tallowdate-run|video-check|blog-check>"
+        Write-Host "Usage: .\make.ps1 <up|down|test|lint|smoke-algos|schema-test|ingest-xz|normal-xz|takeover-xz|detectors-xz|cache-mail-xz|cache-github-xz|cache-inventory-xz|llm-test|reader-spotcheck|reader-testset|reader-score|reader-full|pressure-vouch-xz|quarterly-xz|decision-xz|slack-preview|inbox|replay|hardening-fixture|harden-xz|demo|ui|synthetic-tallowdate|tallowdate-run|video-check|blog-check|ablation-memory|ablation-algos|eval-reader|verify-determinism|race>"
     }
 }

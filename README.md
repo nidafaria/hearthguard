@@ -47,7 +47,7 @@ Each name works as `make <name>` or `.\make.ps1 <name>` where `make.ps1` lists i
 | `ecosystem-xz`, `gaps CASE=xz` | Load `ecosystem_xz` and compute the visibility gaps; print them (roles only) | network, FalkorDB; files only for `gaps` |
 | `tallowdate-run` | The synthetic tallowdate history, load to demo script | FalkorDB, `.env` |
 | `redteam N=200 SEED=7 CASE=tallowdate` | Plant N campaigns into copies of a case graph and score the frozen detectors | FalkorDB |
-| `harden CASE=xz` | Each hardening step on a copy of the case graph, the same campaigns | FalkorDB |
+| `harden CASE=xz` | Each hardening step on a copy of the case graph, the same campaigns. Slow: about 38 minutes at the default N=200 | FalkorDB |
 | `uv run python -m eval.ablation_memory` | Full vs forgetful memory (last 90 / 30 days) on the same campaigns | FalkorDB, tallowdate loaded |
 | `uv run python -m eval.ablation_algos` | Vouch components, SPpaths and maxFlow off one at a time | FalkorDB, tallowdate loaded |
 | `uv run python -m eval.incidents_fetch` | Cache the public event-stream and axios records (npm registry, OSV, GitHub issues) | network |
@@ -57,8 +57,16 @@ Each name works as `make <name>` or `.\make.ps1 <name>` where `make.ps1` lists i
 | `queries` (`uv run python -m eval.queries_doc`) | Rewrite `docs/queries.md` from the query constants in the code | files only |
 | `ui` | Read-only page at http://localhost:5173 | Node, npm |
 | `inbox` | The local inbox at http://127.0.0.1:8765/#/inbox, the same note and thread as Slack | Node, npm |
-| `llm-test`, `reader-spotcheck`, `reader-full` | The Reader through Groq | `GROQ_API_KEY` |
-| `reader-score` | Score the Reader against human labels; stops if labels are missing | human labels |
+| `llm-test`, `reader-spotcheck`, `reader-full` | The Reader through Groq | **needs a key** (`GROQ_API_KEY`) |
+
+### Which commands were run, and what was left out
+
+Every command in the table above, apart from the ones named here, was run on main without a key and exited 0. The exit codes are in `eval/results/readme_commands.json`.
+
+- **Needs a key, not run:** `llm-test`, `reader-spotcheck`, `reader-full`.
+- **Removed: `reader-score` (also `make eval-reader`).** It exits 1 until a person has filled in every human label, and the labels are not filled in. It was in this table before; it is removed so that every command listed exits 0. The scorer's own message names each unlabelled message.
+- **Not run, by design:** `down` (stops the database), `ui` and `inbox` (servers that do not exit; `inbox` also runs `npm install`), `test` (the suite is the verification step: 959 passed, 0 failed, 1 xfailed on main).
+- **Targets that still print "not built yet":** `false-positives` and `verify-frozen`. They are not listed above. See `eval/results/makefile_gaps.md`.
 
 Commands that the spec lists in §10.3 and that are not wired are in eval/results/makefile_gaps.md.
 

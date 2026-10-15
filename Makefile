@@ -144,10 +144,31 @@ redteam:
 harden:
 	uv run python -m redteam.harden --n $(N) --seed $(SEED) --case $(CASE)
 
-# Placeholders for later steps. Each one fails until it is built.
-ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race:
+# Wired to the command that already produces the result. Two targets still have no command
+# (false-positives, verify-frozen); they fail until one exists. See eval/results/makefile_gaps.md.
+ablation-memory:
+	uv run python -m eval.ablation_memory
+
+ablation-algos:
+	uv run python -m eval.ablation_algos
+
+false-positives:
 	@echo "$@: not built yet"
 	@exit 1
+
+# Needs the human labels filled in; the scorer refuses and names the rows if they are not.
+eval-reader:
+	uv run python -m eval.reader_score
+
+verify-frozen:
+	@echo "$@: not built yet"
+	@exit 1
+
+verify-determinism:
+	uv run python -m eval.verify_determinism
+
+race:
+	uv run python -m eval.race
 
 # Fetch the public xz ecosystem records, load ecosystem_xz twice, compute visibility gaps (no model calls).
 ecosystem-xz:
