@@ -18,4 +18,11 @@ UPDATES = {
         "(tests/unit/test_slack_notify.py). No Bolt, no workspace, no token; nothing is sent "
         "(eval/results/blockers_slack_sender.md).",
     ),
+    "Slack safety tests: injection, double tap, Slack down": (
+        D,
+        "injection and double-tap tests in tests/integration/test_inbox_loop.py; "
+        "tests/integration/test_inbox_safety.py: no accusation in any note, draft or answer for "
+        "both cases, one send per double tap, and the inbox unchanged with Slack down, "
+        "unimplemented or absent (fake and failing senders; no real Slack).",
+    ),
 }
