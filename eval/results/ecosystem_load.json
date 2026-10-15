@@ -2,8 +2,10 @@
   "graph": "ecosystem_xz",
   "after_first_load": {
     "nodes": {
+      "Campaign": 1,
       "Decision": 4,
       "Identity": 20,
+      "Org": 2,
       "Place": 6,
       "Role": 4,
       "Signal": 43
@@ -16,15 +18,18 @@
       "RECORDED_IN": 43,
       "REFERENCES": 16,
       "SAME_AS": 1,
+      "TOUCHES": 2,
       "WATCHES": 4
     },
-    "node_total": 77,
-    "edge_total": 140
+    "node_total": 80,
+    "edge_total": 142
   },
   "after_second_load": {
     "nodes": {
+      "Campaign": 1,
       "Decision": 4,
       "Identity": 20,
+      "Org": 2,
       "Place": 6,
       "Role": 4,
       "Signal": 43
@@ -37,10 +42,11 @@
       "RECORDED_IN": 43,
       "REFERENCES": 16,
       "SAME_AS": 1,
+      "TOUCHES": 2,
       "WATCHES": 4
     },
-    "node_total": 77,
-    "edge_total": 140
+    "node_total": 80,
+    "edge_total": 142
   },
   "identical": true,
   "events_loaded": 43

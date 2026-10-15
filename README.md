@@ -8,6 +8,8 @@ It was built to ask one question: would this memory have flagged the xz backdoor
 
 **Status: provisional. The project is not complete.** The score and every row's status are in eval/results/completion_full.md. The rules are not frozen: docs/FREEZE.md is a draft.
 
+**Deployment: local only.** Nothing is deployed or hosted. Everything runs on your own machine.
+
 **Demo video:** not recorded yet. There is no link.
 
 ## Setup
@@ -66,7 +68,7 @@ Every command in the table above, apart from the ones named here, was run on mai
 - **Needs a key, not run:** `llm-test`, `reader-spotcheck`, `reader-full`.
 - **Removed: `reader-score` (also `make eval-reader`).** It exits 1 until a person has filled in every human label, and the labels are not filled in. It was in this table before; it is removed so that every command listed exits 0. The scorer's own message names each unlabelled message.
 - **Not run, by design:** `down` (stops the database), `ui` and `inbox` (servers that do not exit; `inbox` also runs `npm install`), `test` (the suite is the verification step: 959 passed, 0 failed, 1 xfailed on main).
-- **Targets that still print "not built yet":** `false-positives` and `verify-frozen`. They are not listed above. See `eval/results/makefile_gaps.md`.
+- **Not included:** `false-positives` and `verify-frozen` are not in the Makefile or `make.ps1` because nothing implements them yet; a target that only prints "not built yet" would look like a feature. See `eval/results/makefile_gaps.md`.
 
 Commands that the spec lists in §10.3 and that are not wired are in eval/results/makefile_gaps.md.
 

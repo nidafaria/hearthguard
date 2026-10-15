@@ -1,4 +1,4 @@
-.PHONY: blog-check video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos false-positives eval-reader verify-frozen verify-determinism race
+.PHONY: blog-check video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos eval-reader verify-determinism race
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -144,25 +144,16 @@ redteam:
 harden:
 	uv run python -m redteam.harden --n $(N) --seed $(SEED) --case $(CASE)
 
-# Wired to the command that already produces the result. Two targets still have no command
-# (false-positives, verify-frozen); they fail until one exists. See eval/results/makefile_gaps.md.
+# Wired to the command that already produces the result. Targets with no command are not listed.
 ablation-memory:
 	uv run python -m eval.ablation_memory
 
 ablation-algos:
 	uv run python -m eval.ablation_algos
 
-false-positives:
-	@echo "$@: not built yet"
-	@exit 1
-
 # Needs the human labels filled in; the scorer refuses and names the rows if they are not.
 eval-reader:
 	uv run python -m eval.reader_score
-
-verify-frozen:
-	@echo "$@: not built yet"
-	@exit 1
 
 verify-determinism:
 	uv run python -m eval.verify_determinism

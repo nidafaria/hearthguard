@@ -176,3 +176,24 @@ Commit: 776f07b. Command: `powershell -ExecutionPolicy Bypass -File eval\fresh_c
 | `decision-xz`, `ui build`, demo, replay | 0 | as before |
 
 What still stops a clean clone from going green: a FalkorDB database (`make up`) and a `.env` with `HEARTHGUARD_HASH_SALT`, both listed in the README's first step. Lint is unchanged.
+
+## Run 7: clean clone of main at f26c75e
+
+Command: `powershell -ExecutionPolicy Bypass -File eval\fresh_clone_test.ps1 -Dest <new folder>` (no `-WithTests`). New clone of main, nothing copied from the working tree. `.env`, `data/raw`, `data/derived`, `data/llm_cache`, `.venv` and `ui/node_modules` were all absent in the clone. No setup defect was found, so no setup file was changed in this run. Results are unchanged.
+
+| Command | Exit | First error line |
+|---|---|---|
+| `git clone --branch main` | 0 | |
+| `uv sync` | 0 | |
+| `make.ps1 demo` | 0 | |
+| demo with sockets blocked | 0 | |
+| `make.ps1 lint` | 0 | |
+| `make.ps1 replay xz` | 0 | |
+| `make.ps1 decision-xz` | 0 | (rewrites `generated_at_utc` in `eval/results/decision_status.json`, F3) |
+| `npm install` in `ui/` | 0 | |
+| `npm run build` in `ui/` | 0 | |
+| `uv run pytest tests/unit tests/injection -q` | 1 | `redis.exceptions.AuthenticationError: Authentication required.` (15 failed, 601 passed, 17 skipped, 6 errors; one failure is `MissingSaltError`) |
+
+The one failing command needs a FalkorDB and a `.env` with `HEARTHGUARD_HASH_SALT`, which a clone does not have by design (README first step). Demo log SHA256: `111B4C02F7CA3C1E9FDC6546E2F83D460001393D1F738D14D026B100E809811F`.
+
+The full `make test` was run in the author's working tree, with FalkorDB and `.env`: 959 passed, 0 failed, 1 xfailed.

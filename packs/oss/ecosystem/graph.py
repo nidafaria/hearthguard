@@ -2,9 +2,10 @@
 
 Every write is a MERGE on a unique key, so loading again changes no count.
 
-Nodes:  Place (6), Identity (hashed ids only), Role, Signal (one per event), Decision (4).
+Nodes:  Place (6), Identity (hashed ids only), Role, Signal (one per event), Decision (4),
+        Org (2), Campaign (1).
 Edges:  ACTIVE_IN {first_at, last_at, actions}, EMITTED, RECORDED_IN, SAME_AS, WATCHES {since},
-        MADE_IN, CONCERNS, REFERENCES.
+        MADE_IN, CONCERNS, REFERENCES, TOUCHES {signals} (Campaign to Org).
 
 Modelling choices that decide the gap result, so they are stated here and repeated in the output:
   - WATCHES exists only for a decision-making role, in a place where a holder of that role is seen
@@ -33,7 +34,18 @@ UNIQUE = (
     ("Role", "name"),
     ("Signal", "ref"),
     ("Decision", "ref"),
+    ("Org", "ref"),
+    ("Campaign", "id"),
 )
+
+# Public sources only. An Org is the GitHub owner/repo that the cached API URLs of a place name.
+# Places whose cached records name no owning organisation (lkml, debian-bts, launchpad, xz-devel)
+# get no Org. Foundation and HOSTED_BY are not loaded: no cached record names a foundation for
+# any of these projects (eval/results/blockers_40.md). The Campaign is the CVE id that the cached
+# records cite; `moves` counts the persona's signals in the loaded records, and `status` is left
+# out because no record states one.
+CAMPAIGN_ID = "CVE-2024-3094"
+ORG_PLACES = {"xz-git": "tukaani-project/xz", "oss-fuzz": "google/oss-fuzz"}
 
 
 @dataclass
@@ -271,6 +283,22 @@ def load(client: FalkorClient, events: list[P.Event], reg: P.Registry, graph: st
             "MERGE (r)-[w:WATCHES]->(pl) SET w.since = $since, w.evidence_ref = $ev",
             {"role": role, "place": place, "since": w["since"], "ev": w["evidence"]},
         )
+    persona_rows = [r for r in p["rows"] if r["persona"]]
+    _q(
+        client,
+        "MERGE (c:Campaign {id: $id}) SET c.moves = $moves",
+        {"id": CAMPAIGN_ID, "moves": len(persona_rows)},
+    )
+    for place, org in ORG_PLACES.items():
+        n = sum(1 for r in persona_rows if r["place"] == place)
+        _q(client, "MERGE (o:Org {ref: $ref}) SET o.place = $place", {"ref": org, "place": place})
+        if n:
+            _q(
+                client,
+                "MATCH (c:Campaign {id: $id}), (o:Org {ref: $ref}) "
+                "MERGE (c)-[t:TOUCHES]->(o) SET t.signals = $n",
+                {"id": CAMPAIGN_ID, "ref": org, "n": n},
+            )
     for d in p["decisions"]:
         _q(
             client,
