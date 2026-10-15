@@ -6,6 +6,7 @@ import { NotComputed, NOT_COMPUTED, Status, SyntheticTag, useResult } from "./da
 import { EvidenceCard, type Check, type Query, type Quote } from "./EvidenceCard";
 import { Packager } from "./Packager";
 import { Playbook } from "./Playbook";
+import { Census } from "./Census";
 import { Patience, ABLATION_FILE } from "./Patience";
 import { Timeline, type TimelineQuarter } from "./Timeline";
 import { TrustMap, type TrustMapDoc } from "./TrustMap";
@@ -36,7 +37,7 @@ type TallowDetector = { quarters: Array<{ quarter: string; checks: Record<string
 type TallowDecision = { quarters: Array<{ quarter: string; decision: string; hold_reason?: string | null }> };
 type VideoQuotes = { quotes: Record<string, Quote> };
 
-const SCREENS = ["#/connect", "#/packager", "#/playbook"];
+const SCREENS = ["#/connect", "#/packager", "#/playbook", "#/census"];
 
 function Header({ hash }: { hash: string }) {
   const nav: Array<[string, string]> = [
@@ -45,6 +46,7 @@ function Header({ hash }: { hash: string }) {
     ["#/packager", "Packager question"],
     ["#/inbox", "Inbox (local)"],
     ["#/playbook", "Playbook"],
+    ["#/census", "Census"],
   ];
   const current = (href: string) => (href === "#/" ? !SCREENS.some((s) => hash.startsWith(s)) : hash.startsWith(href));
   return (
@@ -368,6 +370,16 @@ export default function App() {
     );
   }
   if (hash.startsWith("#/packager")) return <PackagerPage />;
+  if (hash.startsWith("#/census")) {
+    return (
+      <>
+        <Header hash="#/census" />
+        <main>
+          <Census present />
+        </main>
+      </>
+    );
+  }
   if (hash.startsWith("#/playbook")) {
     return (
       <>

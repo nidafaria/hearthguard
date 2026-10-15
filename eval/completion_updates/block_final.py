@@ -25,4 +25,23 @@ UPDATES = {
         "both cases, one send per double tap, and the inbox unchanged with Slack down, "
         "unimplemented or absent (fake and failing senders; no real Slack).",
     ),
+    "Patience curve": (
+        D,
+        "ui/src/Patience.tsx draws detection rate and lead time for full and forgetful memory "
+        "from eval/results/ablation_memory.json (synthetic campaigns, labelled by the file); "
+        "ui/src/Patience.test.tsx, ui/src/screens.test.tsx 'Patience'; vitest 40 passing, "
+        "tsc --noEmit clean.",
+    ),
+    "Census screen": (
+        P,
+        "ui/src/Census.tsx at #/census: aggregate-only, NOT COMPUTED with the reason while "
+        "eval/results/census.json is absent; ui/src/screens.test.tsx 'Census'. No census data "
+        "exists (eval/results/blockers_census.md).",
+    ),
+    "Playbook screen": (
+        D,
+        "ui/src/Playbook.tsx and the #/playbook route; ui/src/screens.test.tsx 'Playbook' "
+        "(exceptions with state and regression numbers, approve call, empty and error states); "
+        "vitest 40 passing, tsc --noEmit clean. No browser check was run in this pass.",
+    ),
 }

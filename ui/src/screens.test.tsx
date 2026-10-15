@@ -11,6 +11,8 @@ import { Patience, ABLATION_FILE } from "./Patience";
 import { TwoEndings } from "./TwoEndings";
 import { Packager } from "./Packager";
 import { ConnectRepo } from "./ConnectRepo";
+import { Playbook } from "./Playbook";
+import { Census, CENSUS_FILE } from "./Census";
 import App from "./App";
 
 afterEach(() => {
@@ -412,5 +414,81 @@ describe("results page", () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 404 })));
     render(<App />);
     expect(screen.getByLabelText("Repository owner/name")).toBeTruthy();
+  });
+});
+
+// ---------------------------------------------------------------- Playbook (13.10) and Census (13.9)
+
+describe("Playbook", () => {
+  // Hand-written fixture, not a measurement.
+  const doc = {
+    graph: "playbook",
+    spec_hashes: ["abcdef0123456789"],
+    states: ["Proposed", "Shadow", "Adopted", "Rejected"],
+    data_kind: "fixture",
+    exceptions: [
+      {
+        id: "x1",
+        exception: "Known release bot",
+        applies_to: "Rush",
+        when: "actor in bots",
+        effect: "narrows",
+        state: "Shadow",
+        state_reason: "waiting for owner approval",
+        agreements: 1,
+        gate: {
+          passed: true,
+          reason: "ok",
+          planted_total: 10,
+          planted_caught_before: 9,
+          planted_caught_after: 9,
+          planted_lost: 0,
+          planted_points_changed: 2,
+          real_total: 3,
+          real_lost: 0,
+        },
+      },
+    ],
+  };
+
+  it("shows each exception with its state and regression numbers, and approves a Shadow one", async () => {
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) =>
+      new Response(JSON.stringify(init?.method === "POST" ? {} : doc), { status: 200 }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    render(<Playbook />);
+    await waitFor(() => expect(screen.getByText("Known release bot")).toBeTruthy());
+    expect(screen.getByText("Shadow")).toBeTruthy();
+    expect(screen.getByText(/10 planted attacks: 9 caught before/)).toBeTruthy();
+    fireEvent.click(screen.getByText("Approve"));
+    await waitFor(() =>
+      expect(fetchMock.mock.calls.some((c) => c[0] === "/api/inbox/playbook/x1/approve")).toBe(true),
+    );
+  });
+
+  it("says so when there are no exceptions, and shows the error when the API is down", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ ...doc, exceptions: [] }), { status: 200 })));
+    render(<Playbook />);
+    await waitFor(() => expect(screen.getByText(/No learned exceptions yet/)).toBeTruthy());
+    cleanup();
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ detail: "graph could not be reached" }), { status: 503 })));
+    render(<Playbook />);
+    await waitFor(() => expect(screen.getByText(/graph could not be reached/)).toBeTruthy());
+  });
+});
+
+describe("Census", () => {
+  it("is NOT COMPUTED with the reason while census.json is absent, and shows no package rows", () => {
+    render(<Census present={false} />);
+    expect(screen.getByText(new RegExp(CENSUS_FILE.replace(".", "\.")))).toBeTruthy();
+    expect(screen.getByText(/NOT COMPUTED/)).toBeTruthy();
+    expect(document.querySelectorAll("table").length).toBe(0);
+  });
+
+  it("shows only the aggregate distribution when given a file (hand-written fixture)", () => {
+    render(<Census present data={{ n: 4, cost_distribution: { "1": 3, "2": 1 } }} />);
+    expect(screen.getByText("75%")).toBeTruthy();
+    expect(screen.getByText("25%")).toBeTruthy();
+    expect(screen.getByText(/No package names/)).toBeTruthy();
   });
 });
