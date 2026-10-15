@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hearthguard</title>
+<meta name="description" content="A memory that notices when a trusted project is being slowly taken over, and asks the person in charge a calm question about it. Every value on this page is read from eval/results.">
+<style>
+@font-face { font-family: "Instrument Serif"; src: url(data:font/woff2;base64,__fontDisplay__) format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "Instrument Serif"; src: url(data:font/woff2;base64,__fontDisplayItalic__) format("woff2"); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: "Geist"; src: url(data:font/woff2;base64,__fontText__) format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url(data:font/woff2;base64,__fontMono__) format("woff2"); font-weight: 100 900; font-display: block; }
+
+:root, :root[data-theme="light"] {
+  --paper: #EEEBE4; --cell: #E5E1D8; --ink: #161513; --graphite: #625E57;
+  --signal: #B8340A; --ultra: #2F43C8; --ultra-tint: rgba(47, 67, 200, .06);
+  --rule: rgba(22, 21, 19, .17); --rule-2: rgba(22, 21, 19, .32); --hatch: rgba(22, 21, 19, .22);
+  --grain: .09; color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --paper: #121210; --cell: #1B1A17; --ink: #EDE9E0; --graphite: #A19C92;
+  --signal: #FF6A3D; --ultra: #9AA6FF; --ultra-tint: rgba(154, 166, 255, .07);
+  --rule: rgba(237, 233, 224, .15); --rule-2: rgba(237, 233, 224, .3); --hatch: rgba(237, 233, 224, .2);
+  --grain: .06; color-scheme: dark;
+}
+:root {
+  --sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", "Cascadia Mono", Consolas, monospace;
+  --serif: "Instrument Serif", Georgia, serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --pad: clamp(16px, 2vw, 28px);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 400 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 200; opacity: var(--grain); mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+:root[data-theme="dark"] body::after { mix-blend-mode: screen; }
+::selection { background: var(--signal); color: var(--paper); }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+
+/* Sheet frame: a drawing border with ruler ticks */
+.frame { position: fixed; inset: 8px; border: 1px solid var(--rule-2); pointer-events: none; z-index: 60; }
+.frame::before, .frame::after { content: ""; position: absolute; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(90deg, var(--rule-2) 0 1px, transparent 1px 12px); }
+.frame::before { top: 0; } .frame::after { bottom: 0; }
+.frame i { position: absolute; top: 0; bottom: 0; width: 6px; background: repeating-linear-gradient(180deg, var(--rule-2) 0 1px, transparent 1px 12px); }
+.frame i:first-child { left: 0; } .frame i:last-child { right: 0; }
+.wrap { padding: 8px; }
+
+/* Header: a row of ruled cells */
+.hdr { position: sticky; top: 8px; z-index: 50; display: grid; grid-template-columns: auto 1fr auto auto auto auto auto; background: var(--paper); border-bottom: 1px solid var(--rule-2); }
+.hdr > * { border-left: 1px solid var(--rule); padding: 0 18px; height: 58px; display: flex; align-items: center; gap: 10px; font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.hdr > *:first-child { border-left: 0; }
+.hdr .logo { font: 650 17px/1 var(--sans); letter-spacing: -.02em; text-transform: none; }
+.hdr .logo svg { width: 24px; height: 24px; }
+.hdr .now { color: var(--graphite); min-width: 0; overflow: hidden; }
+.hdr .now b { color: var(--ink); font-weight: 500; }
+.hdr button:hover, .hdr a:hover { background: var(--ink); color: var(--paper); }
+.hdr .sq { width: 8px; height: 8px; background: var(--signal); display: inline-block; }
+
+/* Plates and cells */
+.row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); border-bottom: 1px solid var(--rule); position: relative; }
+.row::before, .row::after { content: "+"; position: absolute; bottom: -9px; font: 300 14px/1 var(--mono); color: var(--graphite); z-index: 2; pointer-events: none; }
+.row::before { left: -5px; } .row::after { right: -5px; }
+.c { border-left: 1px solid var(--rule); padding: var(--pad); min-width: 0; position: relative; }
+.c:first-child { border-left: 0; }
+.s2 { grid-column: span 2; } .s3 { grid-column: span 3; } .s4 { grid-column: span 4; } .s5 { grid-column: span 5; } .s6 { grid-column: span 6; } .s7 { grid-column: span 7; } .s8 { grid-column: span 8; } .s12 { grid-column: span 12; }
+.c.syn { background: var(--ultra-tint); }
+.c.flush { padding: 0; }
+
+/* Type */
+.lab { font: 500 11px/1.35 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--graphite); }
+.br::before { content: "[ "; } .br::after { content: " ]"; }
+.H { font: 640 clamp(2.5rem, 5.6vw, 6rem)/.9 var(--sans); letter-spacing: -.048em; text-transform: uppercase; margin: 0; text-wrap: balance; }
+.H .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .05em; margin-bottom: -.05em; }
+.H .w > span { display: inline-block; animation: up .9s var(--ease) both; }
+.H i, .ital { font: italic 400 1.1em/.9 var(--serif); letter-spacing: -.01em; text-transform: none; }
+.lede { font: 400 clamp(1.05rem, 1.35vw, 1.3rem)/1.45 var(--sans); letter-spacing: -.01em; max-width: 34em; margin: 0; text-wrap: pretty; }
+.lede b { font-weight: 600; }
+.body { font-size: 15px; line-height: 1.5; max-width: 40em; margin: 0; }
+.serif-q { font: italic 400 clamp(1.9rem, 3.8vw, 3.6rem)/1.04 var(--serif); letter-spacing: -.012em; margin: 0; text-wrap: balance; }
+.mono { font-family: var(--mono); font-feature-settings: "tnum", "zero"; }
+.fine { font: 400 12.5px/1.55 var(--mono); margin: 0; max-width: 80em; }
+.src { font: 400 10.5px/1.4 var(--mono); letter-spacing: .04em; color: var(--graphite); display: block; margin-top: 10px; word-break: break-all; }
+.src::before { content: "SRC / "; letter-spacing: .1em; }
+.g { color: var(--graphite); }
+.sig { color: var(--signal); }
+.big-t { font: 640 clamp(1.5rem, 2.4vw, 2.4rem)/.92 var(--sans); letter-spacing: -.045em; text-transform: uppercase; }
+@keyframes up { from { transform: translateY(105%); } to { transform: none; } }
+
+/* Data-kind tag */
+.tag { display: inline-flex; align-items: center; gap: 8px; font: 500 10.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.tag::before { content: ""; width: 9px; height: 9px; background: var(--ink); flex: none; }
+.tag.syn { color: var(--ultra); }
+.tag.syn::before { background: repeating-linear-gradient(135deg, var(--ultra) 0 1.5px, transparent 1.5px 3.5px); outline: 1px solid var(--ultra); outline-offset: -1px; }
+.tag.gh::before { background: none; outline: 1px solid var(--ink); outline-offset: -1px; }
+.tag.fx { color: var(--graphite); } .tag.fx::before { background: none; outline: 1px dashed var(--graphite); outline-offset: -1px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+
+/* Title block */
+.tb { display: grid; grid-template-columns: auto 1fr; border-top: 1px solid var(--rule); font: 400 11px/1.35 var(--mono); }
+.tb > span { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); letter-spacing: .04em; }
+.tb > span:nth-child(odd) { color: var(--graphite); text-transform: uppercase; letter-spacing: .1em; padding-right: 18px; }
+.tb > span:nth-child(even) { word-break: break-word; }
+.head .c.s4 { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+
+/* Figures */
+.fig { font: 300 clamp(3.4rem, 6.6vw, 6.8rem)/.82 var(--sans); letter-spacing: -.06em; font-feature-settings: "tnum"; white-space: nowrap; display: block; }
+.fig small { font: 400 .3em var(--mono); letter-spacing: 0; color: var(--graphite); margin-left: .35em; vertical-align: .2em; }
+.fig.xl { font-size: clamp(5rem, 11vw, 11rem); }
+.fig.sig { color: var(--signal); }
+.fig .sq { display: inline-block; width: .16em; height: .16em; background: var(--signal); vertical-align: .62em; margin-right: .12em; }
+.figcap { font: 400 14px/1.4 var(--sans); max-width: 21em; margin: 14px 0 0; }
+.figcol { display: flex; flex-direction: column; justify-content: space-between; min-height: 250px; gap: 18px; }
+
+/* Wordmark */
+.wordmark { font: 700 100px/.78 var(--sans); letter-spacing: -.065em; text-transform: uppercase; white-space: nowrap; margin: 0; display: inline-block; padding-top: .06em; }
+.wordmark .sq { display: inline-block; width: .13em; height: .13em; background: var(--signal); vertical-align: .55em; margin-left: .04em; }
+
+/* Buttons */
+.btn { display: flex; justify-content: space-between; align-items: center; gap: 20px; font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 18px; border: 1px solid var(--ink); transition: background .25s var(--ease), color .25s; width: 100%; }
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn.solid { background: var(--ink); color: var(--paper); }
+.btn.solid:hover { background: var(--signal); border-color: var(--signal); }
+.btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.btn[aria-disabled="true"]:hover { background: none; color: inherit; }
+.btn.solid[aria-disabled="true"]:hover { background: var(--ink); color: var(--paper); }
+.btns { display: grid; gap: 8px; }
+.seg { display: flex; flex-wrap: wrap; border: 1px solid var(--rule-2); width: fit-content; }
+.seg button { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 12px 16px; border-left: 1px solid var(--rule-2); }
+.seg button:first-child { border-left: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.seg button:hover:not([aria-pressed="true"]) { background: var(--cell); }
+
+/* Status marks: squares, like annotation points on a drawing */
+.m { display: inline-flex; align-items: center; gap: 7px; font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.m i { width: 10px; height: 10px; flex: none; display: inline-block; }
+.m.FIRED i { background: var(--signal); } .m.FIRED { color: var(--signal); }
+.m.NOT_FIRED i, .m.COMPUTED i, .m.DONE i { border: 1.5px solid currentColor; }
+.m.HOLD i { height: 4px; background: currentColor; }
+.m.NC { color: var(--graphite); } .m.NC i { background: repeating-linear-gradient(135deg, var(--graphite) 0 1px, transparent 1px 3px); outline: 1px solid var(--graphite); outline-offset: -1px; }
+.m.UNREACHABLE i { border: 1.5px dashed var(--signal); } .m.UNNOTICED i { background: var(--signal); }
+.m.UNREACHABLE, .m.UNNOTICED { color: var(--signal); }
+
+/* Blank: section hatching */
+.blank { background: repeating-linear-gradient(135deg, var(--hatch) 0 1px, transparent 1px 8px); display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 180px; }
+.blank > * { background: var(--paper); align-self: flex-start; padding: 3px 7px; margin-left: -7px; }
+.blank .bt { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+.blank .bt::before { content: ""; width: 10px; height: 10px; outline: 1px solid var(--ink); background: repeating-linear-gradient(135deg, var(--ink) 0 1px, transparent 1px 3px); }
+.blank .bn { font: 640 clamp(1.3rem, 2vw, 1.75rem)/1 var(--sans); letter-spacing: -.035em; text-transform: uppercase; }
+.blank .bw { font: 400 13px/1.5 var(--mono); max-width: 38em; }
+.blank .src { margin-top: 0; }
+
+/* Quarter cells with message dot fields */
+.qrow { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); border-bottom: 1px solid var(--rule); }
+.qc { border-left: 1px solid var(--rule); padding: 16px 14px 14px; display: flex; flex-direction: column; gap: 12px; min-width: 0; transition: background .25s; position: relative; }
+.qc:first-child { border-left: 0; }
+button.qc:hover { background: var(--cell); }
+.qc[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.qc[aria-pressed="true"] .lab, .qc[aria-pressed="true"] .m { color: var(--paper); }
+.qc[aria-pressed="true"] .dots i { border-color: var(--paper); }
+.qc .qq { font: 600 15px/1 var(--mono); letter-spacing: -.01em; }
+.qc .mk { display: grid; grid-template-columns: 1fr auto; gap: 6px 8px; align-items: center; }
+.qc .mk .lab { font-size: 9.5px; letter-spacing: .05em; color: inherit; opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qc .mk .m { font-size: 0; gap: 0; }
+.dots { display: flex; flex-wrap: wrap; gap: 3px; min-height: 28px; align-content: flex-start; }
+.dots i { width: 5px; height: 5px; border: 1px solid var(--ink); animation: pop .3s var(--ease) both; }
+.dots i.r { background: var(--ink); }
+.qc[aria-pressed="true"] .dots i.r { background: var(--paper); }
+.qc .stamp { margin-top: auto; display: inline-flex; align-self: flex-start; font: 700 10px/1 var(--mono); letter-spacing: .2em; padding: 5px 6px 4px; border: 1.5px solid currentColor; transform: rotate(-4deg); }
+.qc.empty { background: repeating-linear-gradient(135deg, var(--hatch) 0 1px, transparent 1px 8px); justify-content: center; }
+.qc.empty .lab { background: var(--paper); padding: 2px 5px; align-self: flex-start; }
+.qc.syn { background-color: var(--ultra-tint); }
+.qrow.tl .qc { padding: 12px 8px 10px; }
+.qrow.tl .qc .qq { font-size: 12px; }
+.qrow.tl .qc .mk .lab { font-size: 8.5px; }
+@keyframes pop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: none; } }
+
+/* Check cells */
+.ck { display: flex; flex-direction: column; gap: 14px; min-height: 260px; }
+.ck .nm { font: 640 clamp(1.6rem, 2.3vw, 2.2rem)/.9 var(--sans); letter-spacing: -.045em; text-transform: uppercase; }
+.ck .why { font: 400 13px/1.5 var(--mono); }
+details { margin-top: auto; }
+summary { cursor: pointer; font: 500 10.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; list-style: none; display: inline-block; background: var(--paper); padding: 6px 8px; border: 1px solid var(--rule-2); }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+ "; } details[open] summary::before { content: "− "; }
+pre { font: 400 11.5px/1.6 var(--mono); background: var(--paper); border: 1px solid var(--rule-2); padding: 14px; white-space: pre-wrap; word-break: break-word; margin: 10px 0 0; }
+
+/* Tables */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { font: 500 10.5px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--graphite); text-align: left; padding: 14px var(--pad) 12px 0; border-bottom: 1px solid var(--rule-2); white-space: nowrap; }
+.tbl th:first-child, .tbl td:first-child { padding-left: var(--pad); }
+.tbl td { padding: 15px var(--pad) 15px 0; border-bottom: 1px solid var(--rule); vertical-align: top; font-size: 14px; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl td.n { font: 400 14px var(--mono); font-feature-settings: "tnum", "zero"; white-space: nowrap; }
+.tbl tr.go { cursor: pointer; } .tbl tr.go:hover td { background: var(--cell); }
+.scroll { overflow-x: auto; border-bottom: 1px solid var(--rule); }
+
+/* Charts */
+svg.viz { width: 100%; height: auto; display: block; overflow: visible; }
+svg.viz text { fill: var(--graphite); font: 400 10.5px var(--mono); letter-spacing: .04em; }
+svg.viz .t-ink { fill: var(--ink); }
+svg.viz .lane { fill: var(--ink); font: 640 14px var(--sans); letter-spacing: -.02em; text-transform: uppercase; }
+svg.viz .rule { stroke: var(--rule-2); }
+.drawn { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.3s cubic-bezier(.65,0,.35,1) forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.fi { opacity: 0; animation: fade .45s var(--ease) forwards; }
+@keyframes fade { to { opacity: 1; } }
+
+/* Inbox list */
+.ib { display: grid; grid-template-columns: 70px 120px 130px 1fr 40px; align-items: center; border-bottom: 1px solid var(--rule); width: 100%; transition: background .2s, color .2s; }
+.ib > * { padding: 22px 0 22px var(--pad); }
+.ib:hover { background: var(--ink); color: var(--paper); }
+.ib:hover .lab, .ib:hover .m { color: var(--paper); }
+.ib .hl { font-size: 15px; }
+.ib .hl strong { font-weight: 600; }
+.ib .ar { font: 400 18px var(--mono); }
+
+/* Note + receipt */
+.note p { margin: 0 0 6px; font-size: 15.5px; }
+.note .sp { height: 12px; }
+.note code { font: 400 12.5px var(--mono); }
+.note p.serif-q { font: italic 400 clamp(1.8rem, 2.8vw, 2.7rem)/1.06 var(--serif); margin: 26px 0 0; }
+.receipt { background: var(--ink); color: var(--paper); padding: 22px 22px 32px; font: 400 11.5px/1.62 var(--mono); white-space: pre-wrap; word-break: break-word; margin: var(--pad);
+  -webkit-mask: linear-gradient(#000 0 0) top/100% calc(100% - 9px) no-repeat, radial-gradient(circle at 6px 0, transparent 5px, #000 5.5px) bottom/12px 9px repeat-x;
+          mask: linear-gradient(#000 0 0) top/100% calc(100% - 9px) no-repeat, radial-gradient(circle at 6px 0, transparent 5px, #000 5.5px) bottom/12px 9px repeat-x; }
+.receipt .rh { display: flex; justify-content: space-between; letter-spacing: .14em; text-transform: uppercase; border-bottom: 1px dashed currentColor; padding-bottom: 10px; margin-bottom: 12px; font-weight: 600; }
+
+/* Comparison */
+.ba { font: 300 clamp(2.4rem, 4.2vw, 4.2rem)/.9 var(--sans); letter-spacing: -.055em; display: flex; align-items: baseline; gap: .22em; font-feature-settings: "tnum"; white-space: nowrap; }
+.ba .ar { font: 400 .35em var(--mono); color: var(--graphite); letter-spacing: 0; }
+.ba .bad { color: var(--signal); }
+.ba small { font: 400 .26em var(--mono); color: var(--graphite); letter-spacing: 0; }
+
+/* Index overlay */
+.idx { position: fixed; inset: 8px; z-index: 120; background: var(--paper); overflow-y: auto; visibility: hidden; clip-path: inset(0 0 100% 0); transition: clip-path .55s var(--ease), visibility 0s .55s; }
+.idx.open { visibility: visible; clip-path: inset(0 0 0 0); transition: clip-path .55s var(--ease); }
+.idx a { display: grid; grid-template-columns: 90px 1fr auto; align-items: baseline; gap: 20px; padding: 10px var(--pad); border-bottom: 1px solid var(--rule); color: var(--graphite); transition: color .2s, background .2s; }
+.idx a .t { font: 640 clamp(2rem, 5vw, 4.6rem)/.92 var(--sans); letter-spacing: -.05em; text-transform: uppercase; }
+.idx a:hover, .idx a[aria-current="page"] { color: var(--ink); }
+.idx a:hover { background: var(--cell); }
+.idx a .n { font: 500 12px var(--mono); }
+
+/* Ticker */
+.tick { border-bottom: 1px solid var(--rule-2); overflow: hidden; white-space: nowrap; font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.tick .tr { display: inline-flex; animation: marquee 60s linear infinite; }
+.tick:hover .tr { animation-play-state: paused; }
+.tick span.it { padding: 14px 22px; display: inline-flex; gap: 10px; align-items: center; border-right: 1px solid var(--rule); }
+.tick span.it::before { content: ""; width: 7px; height: 7px; background: var(--signal); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Next plate */
+.nx { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); border-bottom: 1px solid var(--rule); }
+.nx a { grid-column: span 8; padding: var(--pad); border-left: 1px solid var(--rule); display: flex; flex-direction: column; gap: 18px; transition: background .3s var(--ease), color .3s; }
+.nx a:hover { background: var(--ink); color: var(--paper); }
+.nx a:hover .lab { color: var(--paper); }
+.nx a .t { font: 640 clamp(2.4rem, 6vw, 6.4rem)/.88 var(--sans); letter-spacing: -.05em; text-transform: uppercase; }
+.nx .q { grid-column: span 4; padding: var(--pad); display: flex; align-items: flex-end; }
+.nx .q p { font: italic 400 clamp(1.3rem, 1.9vw, 1.8rem)/1.15 var(--serif); margin: 0; }
+.foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 16px var(--pad) 26px; font: 400 10.5px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--graphite); }
+
+/* Plate entrance */
+.plate > * { animation: rise .6s var(--ease) both; }
+.plate > *:nth-child(2) { animation-delay: .06s; } .plate > *:nth-child(3) { animation-delay: .12s; } .plate > *:nth-child(n+4) { animation-delay: .18s; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.still > *, .still .H .w > span, .still .dots i { animation: none !important; }
+.still .drawn { animation: none !important; stroke-dashoffset: 0; }
+.still .fi { animation: none !important; opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .drawn { stroke-dashoffset: 0 !important; } .fi { opacity: 1 !important; }
+}
+@media (max-width: 1100px) {
+  .row > .c { grid-column: span 12 !important; border-left: 0; border-top: 1px solid var(--rule); }
+  .row > .c:first-child { border-top: 0; }
+  .row > .c.half { grid-column: span 6 !important; }
+  .row > .c.half:nth-child(even) { border-left: 1px solid var(--rule); }
+  .qrow { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+  .qrow > .qc:nth-child(n+6) { border-top: 1px solid var(--rule); }
+  .qrow > .qc:nth-child(5n+1) { border-left: 0; }
+  .hdr .now { display: none; }
+  .hdr { grid-template-columns: 1fr auto auto auto auto; }
+  .nx a, .nx .q { grid-column: span 12; border-left: 0; }
+  .ib { grid-template-columns: 50px 100px 1fr 30px; } .ib .m { display: none; }
+}
+@media (max-width: 640px) {
+  .row > .c.half { grid-column: span 12 !important; border-left: 0 !important; }
+  .qrow { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .qrow > .qc { border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); } .qrow > .qc:nth-child(odd) { border-left: 0; }
+  .hdr > * { padding: 0 12px; }
+  .hdr .hide-s { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="frame" aria-hidden="true"><i></i><i></i></div>
+<div class="wrap">
+<header class="hdr">
+  <a class="logo" href="#/overview" aria-label="Hearthguard, overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21V9.5L12 3l9 6.5V21"/><path d="M8.5 21v-5.5a3.5 3.5 0 0 1 7 0V21"/><rect x="10.5" y="9" width="3" height="3" fill="currentColor" stroke="none"/></svg>Hearthguard</a>
+  <span class="now" id="now"></span>
+  <button id="prev" aria-label="Previous plate" class="hide-s">← Prev</button>
+  <button id="nextb" aria-label="Next plate" class="hide-s">Next →</button>
+  <span class="hide-s" id="count"></span>
+  <button id="theme" aria-label="Switch paper or night">Paper / Night</button>
+  <button id="openidx" aria-haspopup="dialog"><span class="sq"></span>Index</button>
+</header>
+<main id="main" tabindex="-1"></main>
+</div>
+<nav class="idx" id="idx" role="dialog" aria-modal="true" aria-label="All plates"></nav>
+
+<!--__FILES__-->
+
+<script>
+"use strict";
+/* Files: the embedded copies of eval/results/*.json, parsed at load */
+const FILES = {};
+document.querySelectorAll('script[type="application/json"][data-file]').forEach(s => { FILES[s.dataset.file] = JSON.parse(s.textContent); });
+const COMMIT = "__COMMIT__";
+const NC = "NOT COMPUTED";
+const RM = matchMedia("(prefers-reduced-motion: reduce)");
+const get = (file, path) => path.split(".").reduce((o, k) => (o == null ? undefined : k === "length" ? o.length : o[k]), FILES[file]);
+const get2 = (o, path) => path.split(".").reduce((x, k) => (x == null ? undefined : x[k]), o);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const norm = s => (s == null || s === "NOT_COMPUTED" ? NC : s);
+const computed = s => norm(s) !== NC;
+const FMT = { int: v => String(Math.round(v)), f1: v => (Math.round(v * 10) / 10).toFixed(1), f4: v => v.toFixed(4), raw: v => String(v) };
+
+/* A value read from a file. The element keeps its file and path so the self-check can re-read it. */
+function N(file, path, o = {}) {
+  const v = get(file, path);
+  const fmt = o.fmt || (Number.isInteger(v) ? "int" : typeof v === "number" ? "f1" : "raw");
+  const text = v == null ? NC : FMT[fmt](v);
+  return `<span class="${o.cls || ""}" data-file="${esc(file)}" data-path="${esc(path)}" data-fmt="${fmt}"${o.up && typeof v === "number" ? ` data-up="${v}"` : ""}>${esc(text)}</span>`;
+}
+/* A count or a sum over an array in a file, kept checkable the same way. */
+function C(file, arr, key, val, o = {}) {
+  const n = get(file, arr).filter(x => get2(x, key) === val).length;
+  return `<span data-file="${esc(file)}" data-count="${esc(arr)}|${esc(key)}|${esc(val)}" data-fmt="int"${o.up ? ` data-up="${n}"` : ""}>${n}</span>`;
+}
+function SUM(file, arr, key, o = {}) {
+  const n = get(file, arr).reduce((a, x) => a + (get2(x, key) || 0), 0);
+  return `<span data-file="${esc(file)}" data-sum="${esc(arr)}|${esc(key)}" data-fmt="int"${o.up ? ` data-up="${n}"` : ""}>${n}</span>`;
+}
+const src = (...f) => `<span class="src">${f.map(esc).join(" · ")}</span>`;
+const TAG = { pub: '<span class="tag">Public record (xz)</span>', syn: '<span class="tag syn">Synthetic (tallowdate)</span>', gh: '<span class="tag gh">Public record (octocat/Hello-World)</span>', fx: '<span class="tag fx">Hand-built test fixture</span>', plant: '<span class="tag syn">Synthetic campaigns planted on a copy of xz</span>' };
+const TAGTXT = { pub: "Public record (xz)", syn: "Synthetic (tallowdate)", gh: "Public record (octocat/Hello-World)", fx: "Hand-built fixture", plant: "Synthetic, planted on a copy of xz" };
+const WORD = { FIRED: "Fired", NOT_FIRED: "Did not fire", COMPUTED: "Computed", HOLD: "Held", DONE: "Done", UNREACHABLE: "Unreachable", UNNOTICED: "Unnoticed", NOTE: "Note", WATCH: "Watch" };
+const mk = s => { const v = norm(s); const c = v === NC ? "NC" : v; return `<span class="m ${c}"><i></i>${esc(v === NC ? NC : WORD[v] || v)}</span>`; };
+function H(html) {
+  let k = 0;
+  html = html.replace(/<i>(.*?)<\/i>/g, (_, inner) => inner.split(/\s+/).map(w => `<i>${w}</i>`).join(" "));
+  const parts = html.split(/(<i>.*?<\/i>|<span[^>]*>.*?<\/span>|\s+)/).filter(Boolean);
+  return `<h1 class="H">${parts.map(w => /^\s+$/.test(w) ? " " : `<span class="w"><span style="animation-delay:${(k++) * 40}ms">${w}</span></span>`).join("")}</h1>`;
+}
+function blank(name, reason, file, cls = "") {
+  return `<div class="c blank ${cls}"><span class="bt">${NC}</span>${name ? `<span class="bn">${esc(name)}</span>` : ""}<span class="bw">${esc(reason || "no reason saved in the file")}</span>${file ? `<span class="src">${esc(file)}</span>` : ""}</div>`;
+}
+const fine = t => `<div class="row"><div class="c s12"><p class="fine">${t}</p></div></div>`;
+
+/* Shared data */
+const R = FILES["xz_replay.json"], PV = FILES["pressure_vouch_status.json"], QSF = FILES["xz_quarterly_status.json"];
+const TD = FILES["tallowdate_detector_status.json"], TDEC = FILES["tallowdate_decision.json"], INB = FILES["rendered/inbox_notes.json"];
+const QS = R.quarters.map(q => q.quarter);
+const PVN = "pressure_vouch_status.json";
+const MOVES = [["pressure", "Pressure"], ["vouch", "Vouch"], ["rush", "Rush"], ["bypass", "Bypass"], ["lone_keeper", "Lone keeper"]];
+const DEF = {
+  pressure: "Newcomers lean on the person in charge to hurry.",
+  vouch: "Low-history accounts vouch for the same newcomer.",
+  rush: "Someone is handed rights faster than this project has ever handed them out.",
+  bypass: "Rights get used outside the project's usual path.",
+  lone_keeper: "One person holds the keys. Not a move but a condition: it never fires on its own.",
+};
+const state = { q: "2024-Q1", ic: "xz", iq: null, pk: 2, tc: "xz", hc: "xz", screen: null };
+
+/* Quarter cell: the five checks, the Pressure window as dots, and the decision stamp */
+function dots(path) {
+  const w = get(PVN, path); if (!w) return "";
+  let s = ""; const n = Math.min(w.messages_in_window, 300);
+  for (let k = 0; k < n; k++) s += `<i class="${k < w.read ? "r" : ""}" style="animation-delay:${(k * 9) % 600}ms"></i>`;
+  return `<span class="dots" title="${w.read} of ${w.messages_in_window} read">${s}</span>`;
+}
+function qcell(q, checks, decision, opts = {}) {
+  const pi = PV.quarters.findIndex(x => x.quarter === q);
+  const tag = opts.attr ? "button" : "div";
+  return `<${tag} class="qc ${opts.cls || ""}" ${opts.attr ? `${opts.attr}="${esc(q)}" aria-pressed="${q === state.q && !opts.noPress}" type="button"` : ""}>
+    <span class="qq">${esc(q)}</span>
+    <span class="mk">${MOVES.map(([k, l]) => `<span class="lab">${l}</span>${mk(checks[k] && checks[k].status)}`).join("")}</span>
+    ${opts.dots && pi >= 0 ? `<span class="lab">Pressure window · ${N(PVN, `quarters.${pi}.window_coverage.pressure.read`)}/${N(PVN, `quarters.${pi}.window_coverage.pressure.messages_in_window`)} read</span>${dots(`quarters.${pi}.window_coverage.pressure`)}` : ""}
+    <span class="stamp">${esc((WORD[decision] || decision).toUpperCase())}</span></${tag}>`;
+}
+const xzRow = attr => `<div class="qrow">${R.quarters.map(r => qcell(r.quarter, r.checks, r.decision.type, { attr, dots: true })).join("")}</div>`;
+
+/* Count-up after render */
+function animate(root) {
+  const still = !!root.querySelector(".still");
+  root.querySelectorAll("[data-up]").forEach(el => {
+    const target = +el.dataset.up, fmt = FMT[el.dataset.fmt || "int"];
+    if (RM.matches || still) { el.textContent = fmt(target); return; }
+    const t0 = performance.now(), dur = 1200;
+    const tick = t => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 4); el.textContent = fmt(target * e); if (p < 1) requestAnimationFrame(tick); else el.textContent = fmt(target); };
+    el.textContent = fmt(0); requestAnimationFrame(tick);
+  });
+}
+function fitWordmark() {
+  const w = document.querySelector(".wordmark"); if (!w) return;
+  w.style.fontSize = "100px";
+  const cs = getComputedStyle(w.parentElement);
+  const avail = w.parentElement.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  w.style.fontSize = (100 * avail / w.scrollWidth) + "px";
+}
+
+/* Plate head: headline and lede on the left, the drawing's title block on the right */
+function head(title, lede, tags, files, extra = "") {
+  const i = cur();
+  return `<div class="row head">
+    <div class="c s8" style="padding-top:clamp(40px,6vw,96px);padding-bottom:clamp(28px,3.4vw,52px)"><div class="lab br" style="margin-bottom:28px">Plate ${pad(i)} / ${pad(SCREENS.length - 1)}</div>${H(title)}<p class="lede" style="margin-top:clamp(22px,2.6vw,40px)">${lede}</p>${extra}</div>
+    <div class="c s4"><div class="tags">${tags.map(t => TAG[t]).join("")}</div>
+      <div class="tb"><span>Plate</span><span>${pad(i)} · ${esc(SCREENS[i].t)}</span><span>Data</span><span>${tags.map(t => TAGTXT[t]).join(" + ")}</span><span>Source</span><span>${files.map(esc).join("<br>")}</span><span>Built</span><span>commit ${esc(COMMIT)}</span></div></div>
+  </div>`;
+}
+function next(line) {
+  const i = cur(), n = SCREENS[(i + 1) % SCREENS.length];
+  return `<div class="nx"><div class="q"><p>${line}</p></div><a href="#/${n.id}"><span class="lab">Next plate · ${pad((i + 1) % SCREENS.length)}</span><span class="t">${esc(n.t)} →</span></a></div>
+  <div class="foot"><span>Every value on this page is parsed at load from eval/results/*.json, embedded at build · commit ${esc(COMMIT)}</span><span>Nothing here is a finding about a person</span></div>`;
+}
+
+/* ================= Plates ================= */
+
+function pOverview() {
+  const A = "ablation_memory.json", G = "ecosystem_gaps.json", X = "xz_replay.json";
+  const facts = [
+    `${N(X, "quarters.length")} quarters of xz replayed`,
+    `${C(X, "quarters", "decision.type", "HOLD")} held · 0 moves fired`,
+    `${N(X, "reader_coverage.read_so_far")} of ${N(X, "reader_coverage.to_read")} messages read`,
+    `${N(G, "gap_rows")} visibility gaps in ${N(G, "decisions_computed")} downstream decisions`,
+    `${N("xz_grant_search.json", "grant_records_found")} grant records in ${N("xz_grant_search.json", "sources.length")} searches`,
+    `${N(A, "arms.full.summary.caught")}/${N(A, "arms.full.summary.n")} planted campaigns caught, full memory · synthetic`,
+    `${N("learning_verify.json", "steps.gate.planted_lost")} of ${N("learning_verify.json", "steps.gate.planted_total")} attacks lost to a learned rule · synthetic`,
+  ];
+  const tk = facts.map(f => `<span class="it">${f}</span>`).join("");
+  return `<div class="row"><div class="c s12" style="padding-top:clamp(30px,4vw,60px);padding-bottom:4px"><h1 class="wordmark">Hearthguard<span class="sq"></span></h1></div></div>
+  <div class="row"><div class="c s4 lab">A trust memory for open source</div><div class="c s4 lab"><span class="br">${SCREENS.length} plates</span></div><div class="c s4 lab" style="text-align:right">Read from eval/results · commit ${esc(COMMIT)}</div></div>
+  <div class="row">
+    <div class="c s7" style="padding-top:clamp(36px,5vw,80px);padding-bottom:clamp(36px,5vw,80px)">${H("Takeovers are patient. Memory has to be <i>longer.</i>")}</div>
+    <div class="c s5" style="display:flex;flex-direction:column;justify-content:space-between;gap:36px;padding-top:clamp(36px,5vw,80px)">
+      <p class="lede">Hearthguard remembers how a project hands out trust: who gets the keys, how fast, and through which door. When the pattern shifts, it asks the person in charge one calm question. <b>When it can't check something, it says so.</b></p>
+      <div class="btns"><a class="btn solid" href="#/replay"><span>Start with the real record</span><span>→</span></a><button class="btn" data-idx><span>Open the index</span><span>${SCREENS.length}</span></button></div></div>
+  </div>
+  <div class="tick" aria-label="Facts from the files"><div class="tr">${tk}${tk}</div></div>
+  <div class="row">
+    <div class="c s3 half syn figcol"><div><div class="lab">Full memory</div><span class="fig">${N(A, "arms.full.summary.caught", { up: 1 })}<small>/ ${N(A, "arms.full.summary.n")}</small></span><p class="figcap">planted takeover campaigns caught.</p></div><div>${TAG.syn}${src(A)}</div></div>
+    <div class="c s3 half syn figcol"><div><div class="lab">Memory cut to 30 days</div><span class="fig sig"><span class="sq"></span>${N(A, "arms.forget_30.summary.caught", { up: 1 })}<small>/ ${N(A, "arms.forget_30.summary.n")}</small></span><p class="figcap">caught by the same detectors, at the same thresholds.</p></div><div>${TAG.syn}${src(A)}</div></div>
+    <div class="c s3 half syn figcol"><div><div class="lab">False alarms, 30-day memory</div><span class="fig sig"><span class="sq"></span>${N(A, "arms.forget_30.clean.flagged", { up: 1 })}<small>/ ${N(A, "arms.forget_30.clean.n")}</small></span><p class="figcap">clean projects wrongly flagged. Full memory flagged ${N(A, "arms.full.clean.flagged")}.</p></div><div>${TAG.syn}${src(A)}</div></div>
+    <div class="c s3 half figcol"><div><div class="lab">The real record</div><span class="fig">${N(G, "gap_rows", { up: 1 })}</span><p class="figcap">gaps between an earlier signal and the role that decided, across ${N(G, "decisions_computed")} downstream decisions in the xz story.</p></div><div>${TAG.pub}${src(G)}</div></div>
+  </div>
+  <div class="row"><div class="c s8"><div class="lab br" style="margin-bottom:14px">The real record</div><p style="font:400 clamp(1.25rem,1.9vw,1.75rem)/1.25 var(--sans);letter-spacing:-.025em;margin:0;max-width:30em">Ten quarter-ends of xz, ${esc(QS[0])} to ${esc(QS[QS.length - 1])}. Each square below is one message in Pressure's 120-day window. <span class="ital">Not one of them was read.</span></p></div><div class="c s4" style="display:flex;align-items:flex-end">${TAG.pub}</div></div>
+  ${xzRow("data-q")}
+  <div class="row">${MOVES.map(([k, l], j) => `<div class="c ${j < 4 ? "s2 half" : "s4"}" style="${j === 4 ? "background:var(--cell);" : ""}min-height:230px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span class="lab">${j < 4 ? `Move 0${j + 1}` : "The condition"}</span><div><div class="big-t" style="margin-bottom:12px">${l}</div><p class="body" style="font-size:14px">${DEF[k]}</p></div></div>`).join("")}</div>
+  <div class="row"><div class="c s12" style="display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center">${mk("FIRED")}${mk("NOT_FIRED")}${mk("HOLD")}${mk(NC)}<span class="lab">The orange square is reserved for a move that fired.</span></div></div>
+  ${next("The real record first. Every quarter, every check, every reason.")}`;
+}
+
+function pReplay() {
+  const F = "xz_replay.json";
+  const W = 1400, PL = 170, PR = 30, T = 46, LH = 54, n = QS.length;
+  const x = i => PL + (i * (W - PL - PR)) / (n - 1);
+  const Ht = T + MOVES.length * LH + 30;
+  let g = `<line class="rule" x1="${PL - 20}" x2="${W - PR + 10}" y1="18" y2="18"/>`;
+  for (let i = 0; i <= (n - 1) * 4; i++) { const X = PL + (i * (W - PL - PR)) / ((n - 1) * 4); g += `<line class="rule" x1="${X}" x2="${X}" y1="18" y2="${i % 4 ? 23 : 28}"/>`; }
+  QS.forEach((q, i) => { g += `<text x="${x(i)}" y="11" text-anchor="middle" class="t-ink">${esc(q)}</text>`; });
+  MOVES.forEach(([k, l], li) => {
+    const y = T + li * LH + (li === 4 ? 12 : 0);
+    g += `<text class="lane" x="0" y="${y + 5}">${l}</text><line class="rule drawn" pathLength="1" style="animation-delay:${li * 80}ms" x1="${PL - 20}" x2="${W - PR + 10}" y1="${y}" y2="${y}"/>`;
+    QS.forEach((q, i) => {
+      const s = norm(R.quarters[i].checks[k].status), d = `animation-delay:${500 + i * 60 + li * 30}ms`, X = x(i);
+      g += s === "FIRED" ? `<rect class="fi" style="${d}" x="${X - 8}" y="${y - 8}" width="16" height="16" fill="var(--signal)"/>`
+        : s === NC ? `<g class="fi" style="${d}"><rect x="${X - 8}" y="${y - 8}" width="16" height="16" fill="var(--paper)" stroke="var(--graphite)"/><path d="M${X - 8} ${y + 4}l12 -12M${X - 4} ${y + 8}l12 -12M${X - 8} ${y - 2}l6 -6M${X + 2} ${y + 8}l6 -6" stroke="var(--graphite)" stroke-width=".8"/></g>`
+        : `<rect class="fi" style="${d}" x="${X - 7}" y="${y - 7}" width="14" height="14" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/>`;
+    });
+  });
+  g += `<line x1="${PL - 20}" x2="${W - PR + 10}" y1="${T + 3.5 * LH + 6}" y2="${T + 3.5 * LH + 6}" stroke="var(--rule-2)" stroke-dasharray="2 4"/>`;
+  const last = R.quarters[R.quarters.length - 1];
+  return `${head(`${N(F, "quarters.length")} quarters. ${C(F, "quarters", "decision.type", "HOLD")} holds. <i>Not one all-clear.</i>`,
+    `Each cell is the xz record as it stood at a quarter's end. <b>Held means a check could not run, not that the quarter was clear.</b> The squares are the messages in Pressure's 120-day window: filled if read, hollow if not.`, ["pub"], [F, PVN])}
+  <div class="row">
+    <div class="c s4 half figcol"><div><div class="lab">Quarters held</div><span class="fig xl">${C(F, "quarters", "decision.type", "HOLD", { up: 1 })}<small>/ ${N(F, "quarters.length")}</small></span></div>${src(F)}</div>
+    <div class="c s4 half figcol"><div><div class="lab">Pressure-window messages read</div><span class="fig xl sig"><span class="sq"></span>${SUM(PVN, "quarters", "window_coverage.pressure.read", { up: 1 })}<small>/ ${SUM(PVN, "quarters", "window_coverage.pressure.messages_in_window")}</small></span><p class="figcap">Summed over all ten quarters. Pressure "did not fire" every time, without reading a single message in its window.</p></div>${src(PVN)}</div>
+    <div class="c s4 figcol"><div><div class="lab">Messages the Reader has read</div><span class="fig xl">${N(F, "reader_coverage.read_so_far", { up: 1 })}<small>/ ${N(F, "reader_coverage.to_read")}</small></span><p class="figcap">${N(F, "reader_coverage.excluded_human_labelled_test_set")} more are held back for the human-labelled test set.</p></div>${src(F)}</div>
+  </div>
+  ${xzRow("data-q")}
+  <div class="row"><div class="c s12"><div class="lab br" style="margin-bottom:22px">The four moves and one condition, by quarter</div><svg class="viz" viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Moves by quarter">${g}</svg>
+    <div style="display:flex;flex-wrap:wrap;gap:12px 30px;margin-top:18px">${mk("FIRED")}${mk("NOT_FIRED")}${mk(NC)}</div></div></div>
+  <div class="row">${["rush", "bypass", "lone_keeper", "takeover_cost"].map(k => blank(k === "takeover_cost" ? "Takeover cost" : MOVES.find(m => m[0] === k)[1], last.checks[k].reason, last.checks[k].source, "s3 half")).join("")}</div>
+  <div class="scroll"><table class="tbl"><thead><tr><th>Quarter</th><th>Commit cadence, median days</th><th>Active keepers</th><th>Usual path</th><th>Unread, 120 days</th><th>Decision</th></tr></thead>
+    <tbody>${R.quarters.map((r, i) => `<tr class="go" data-q="${esc(r.quarter)}" data-goto="quarter"><td class="n">${esc(r.quarter)}</td><td class="n">${N(F, `quarters.${i}.normal.cadence_days.value`, { fmt: "f4" })}</td><td class="n">${N(F, `quarters.${i}.normal.active_keepers.value`)}</td><td class="n">${N(F, `quarters.${i}.normal.usual_path.value`)}</td><td class="n">${N(F, `quarters.${i}.reader_unread_in_pressure_window`)}</td><td>${mk(r.decision.type)}</td></tr>`).join("")}</tbody></table></div>
+  ${next("Pick any quarter. Every check comes with its reason and the query behind it.")}`;
+}
+
+function ckCell(label, c, file, winPath) {
+  if (!c) return blank(label, "no data for this quarter", file, "s4 half");
+  const s = norm(c.status);
+  const q = (c.queries || []).map(x => `<details><summary>Query ${esc(x.name)} · ${x.rows} rows · ${x.ms == null ? "—" : x.ms.toFixed(1) + " ms"}</summary><pre>${esc(x.query)}</pre></details>`).join("");
+  const cov = winPath ? `<div><div class="lab" style="margin-bottom:8px">In its 120-day window · ${N(PVN, winPath + ".read")} read of ${N(PVN, winPath + ".messages_in_window")}</div>${dots(winPath)}</div>` : "";
+  if (s === NC) return `<div class="c s4 half blank ck"><span class="bt">${NC}</span><span class="nm">${esc(label)}</span><span class="bw">${esc(c.reason || "")}</span>${q}<span class="src">${esc(file)}</span></div>`;
+  return `<div class="c s4 half ck"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><span class="nm">${esc(label)}</span>${mk(s)}</div><span class="why">${esc(c.reason || "")}</span>${cov}${q}<span class="src" style="margin-top:0">${esc(file)}</span></div>`;
+}
+const qbar = () => `<div class="qrow" style="grid-template-columns:repeat(${QS.length},minmax(0,1fr))">${QS.map(q => `<button class="qc" data-q="${esc(q)}" aria-pressed="${q === state.q}" style="padding:14px"><span class="qq">${esc(q)}</span></button>`).join("")}</div>`;
+
+function pQuarter() {
+  const p = PV.quarters.find(x => x.quarter === state.q), pi = PV.quarters.indexOf(p);
+  const s = QSF.quarters.find(x => x.quarter === state.q), r = R.quarters.find(x => x.quarter === state.q);
+  return `${head(`${esc(state.q)}, <i>taken apart.</i>`, `Seven checks as of <span class="mono">${esc(r.T_iso)}</span>, each with its verdict, its reason and the exact query that produced it. Decision: ${mk(r.decision.type)} <span class="mono" style="font-size:13px">${esc(r.decision.reason)}</span>`, ["pub"], [PVN, "xz_quarterly_status.json", "decision_status.json"])}
+  ${qbar()}
+  <div class="row">${ckCell("Pressure", p.pressure, PVN, `quarters.${pi}.window_coverage.pressure`)}${ckCell("Vouch", p.vouch, PVN, `quarters.${pi}.window_coverage.vouch`)}${ckCell("Rush", s.checks.rush, "xz_quarterly_status.json")}</div>
+  <div class="row">${ckCell("Bypass", s.checks.bypass, "xz_quarterly_status.json")}${ckCell("Lone keeper", s.checks.lone_keeper, "xz_quarterly_status.json")}${ckCell("Takeover cost", s.checks.takeover_cost, "xz_quarterly_status.json")}</div>
+  <div class="row">${ckCell("Guardians", s.checks.guardians, "xz_quarterly_status.json")}${blank("What limits Pressure here", PV.not_computed_notes.pressure, PVN, "s4 half")}${blank("What limits Vouch here", PV.not_computed_notes.vouch, PVN, "s4 half")}</div>
+  ${next("Now read the same quarter as evidence, the way the owner would.")}`;
+}
+
+function pEvidence() {
+  const p = PV.quarters.find(x => x.quarter === state.q), pi = PV.quarters.indexOf(p), s = QSF.quarters.find(x => x.quarter === state.q);
+  const items = [["Pressure", p.pressure, PVN], ["Vouch", p.vouch, PVN], ["Rush", s.checks.rush, "xz_quarterly_status.json"], ["Bypass", s.checks.bypass, "xz_quarterly_status.json"], ["Lone keeper", s.checks.lone_keeper, "xz_quarterly_status.json"]];
+  const done = items.filter(([, c]) => c && computed(c.status)).length;
+  const Q = FILES["video_quotes.json"], keys = Object.keys(Q.quotes);
+  const qOf = d => d ? d.slice(0, 4) + "-Q" + (Math.floor((+d.slice(5, 7) - 1) / 3) + 1) : null;
+  const inQ = keys.filter(k => Q.quotes[k].status === "FOUND" && qOf(Q.quotes[k].message_date_utc) === state.q);
+  const qq = [...new Set(keys.filter(k => Q.quotes[k].status === "FOUND").map(k => qOf(Q.quotes[k].message_date_utc)))];
+  const line = (n, l, c, f) => `<div style="display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid var(--rule)"><div style="padding:22px 0 0 var(--pad)" class="lab">${n}</div><div style="padding:20px var(--pad) 20px 0;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><span class="big-t" style="font-size:1.6rem">${l}</span>${mk(c ? c.status : NC)}</div><span class="mono" style="font-size:13px">${esc(c ? c.reason : "The Skeptic is not built; no saved result holds an objection.")}</span>${f ? `<span class="src" style="margin-top:0">${esc(f)}</span>` : ""}</div></div>`;
+  return `${head(`The evidence, <i>and its holes.</i>`, `${esc(state.q)}: <b>${done} of ${items.length}</b> checks computed. A box is filled only when a saved result earned it. Words from the public archive appear only when a file dates them to this quarter.`, ["pub"], [PVN, "xz_quarterly_status.json", "video_quotes.json"])}
+  ${qbar()}
+  <div class="row">
+    <div class="c s6 flush">${items.map(([l, c, f], j) => line("0" + (j + 1), l, c, f)).join("")}${line("06", "Skeptic", null, null)}</div>
+    <div class="c s6" style="display:flex;flex-direction:column;justify-content:space-between;gap:30px">${inQ.length ? `<div class="lab br">Exact public words, ${esc(state.q)}</div>${inQ.map(k => `<div><p class="serif-q">“${N("video_quotes.json", `quotes.${k}.text`)}”</p><span class="src">${N("video_quotes.json", `quotes.${k}.message_date_utc`)} · matched exactly in ${N("video_quotes.json", `quotes.${k}.file`)}</span></div>`).join("")}<p class="fine">The file names no speaker, and neither does this page. In this quarter Pressure's window held ${N(PVN, `quarters.${pi}.window_coverage.pressure.messages_in_window`)} messages and ${N(PVN, `quarters.${pi}.window_coverage.pressure.read`)} were read. Its "did not fire" covers none of them.</p>`
+      : `<div class="lab br">Archived words</div><p class="serif-q g">No saved quote is dated in ${esc(state.q)}.</p><div class="btns">${qq.map(q => `<button class="btn" data-q="${esc(q)}"><span>Open ${esc(q)}, where the archive has dated words</span><span>→</span></button>`).join("")}</div>`}</div>
+  </div>
+  ${next("Every blank above traces back to one missing record.")}`;
+}
+
+function pRights() {
+  const F = "xz_grant_search.json", g = FILES[F];
+  return `${head(`Who was handed the keys? <i>The records don't say.</i>`, `We searched the git history and the cached GitHub records ${N(F, "sources.length")} ways. With no record of who was given commit or release rights, Rush and takeover cost have nothing to measure. So they don't pretend to.`, ["pub"], [F])}
+  <div class="row"><div class="c s4 figcol"><div><div class="lab">Grant records found</div><span class="fig xl sig"><span class="sq"></span>${N(F, "grant_records_found", { up: 1 })}</span></div>${src(F)}</div>${blank("Rights granted", g.reason, F, "s8")}</div>
+  <div class="scroll"><table class="tbl"><thead><tr><th>#</th><th>Where we looked</th><th>The search</th><th>Records</th></tr></thead>
+    <tbody>${g.sources.map((s, i) => `<tr><td class="n g">${pad(i + 1)}</td><td>${esc(s.source)}</td><td class="n" style="font-size:12px;white-space:normal">${esc(s.query || "")}</td><td class="n">${N(F, `sources.${i}.records`)}</td></tr>`).join("")}</tbody></table></div>
+  ${fine(esc(g.note))}
+  ${next("No grant record, no takeover cost. Here is what that looks like.")}`;
+}
+
+function dial(title, cell, file, sub) {
+  const ok = cell && computed(cell.status) && typeof cell.value === "number";
+  let ticks = "";
+  for (let k = 0; k <= 40; k++) { const a = (-120 + k * 6) * Math.PI / 180, r1 = 92, r2 = k % 5 ? 86 : 79; ticks += `<line x1="${(110 + r1 * Math.sin(a)).toFixed(1)}" y1="${(110 - r1 * Math.cos(a)).toFixed(1)}" x2="${(110 + r2 * Math.sin(a)).toFixed(1)}" y2="${(110 - r2 * Math.cos(a)).toFixed(1)}" stroke="var(--ink)" stroke-width="${k % 5 ? .7 : 1.3}"/>`; }
+  const svg = `<svg viewBox="0 0 220 175" style="width:min(100%,300px);display:block;align-self:center;background:var(--paper);margin:8px 0">${ticks}<text x="110" y="128" text-anchor="middle" style="font:300 60px var(--sans);letter-spacing:-3px;fill:${ok ? "var(--ink)" : "var(--graphite)"}">${ok ? cell.value : "—"}</text></svg>`;
+  return `<div class="c s4 half ${ok ? "" : "blank"}" style="min-height:440px;display:flex;flex-direction:column;justify-content:space-between;gap:14px"><span class="bn big-t" style="font-size:1.7rem">${title}</span>${svg}${ok ? "" : `<span class="bt">${NC}</span><span class="bw">${esc(cell ? cell.reason : "no saved result")}</span>`}<span class="bw" style="font-size:12px">${sub}</span><span class="src">${esc(file)}</span></div>`;
+}
+function pTakeover() {
+  const isX = state.tc === "xz", F = isX ? "xz_takeover_status.json" : "tallowdate_detector_status.json", last = TD.quarters[TD.quarters.length - 1];
+  const cost = isX ? FILES[F].takeover_cost : last.checks.takeover_cost, guard = isX ? FILES[F].guardians : last.checks.guardians;
+  return `${head(`How many people stand between an outsider and a release? <i>A blank beats a guess.</i>`, isX ? `For xz, as of <span class="mono">${esc(FILES[F].T_iso)}</span>, the graph holds no record of who could grant release rights. So the number is not computed, and the dial stays empty.` : `tallowdate is invented: a fictional project with fictional people. Latest quarter in the file: <span class="mono">${esc(last.quarter)}</span>. Its synthetic events record no grant either.`, [isX ? "pub" : "syn"], [F],
+    `<div class="seg" style="margin-top:32px"><button data-tc="xz" aria-pressed="${isX}">xz · public record</button><button data-tc="tallowdate" aria-pressed="${!isX}">tallowdate · synthetic</button></div>`)}
+  <div class="row">${dial("Takeover cost", cost, F, "The fewest approvals an outsider needs to reach the release privilege.")}${dial("Guardians", guard, F, "The fewest people standing on every route to that privilege.")}${dial("The route", null, F, "A route exists only where a takeover cost is computed.")}</div>
+  ${fine(esc(isX ? FILES[F].note + " Rule: " + FILES[F].rule + "." : TD.note))}
+  ${next("Next: what the people downstream could see before they said yes.")}`;
+}
+
+function pWhoSaw() {
+  const G = "ecosystem_gaps.json", E = "ecosystem_events.json", gd = FILES[G], ev = FILES[E].events;
+  const gapBy = {}; gd.decisions.forEach(d => d.status === "COMPUTED" && d.gaps.forEach(x => (gapBy[x.signal] = gapBy[x.signal] || []).push(x.gap)));
+  const places = [...new Set(ev.map(e => e.place))].sort();
+  const t = s => Date.parse(s), ts = ev.map(e => t(e.at)).concat(gd.decisions.map(d => t(d.decision_at)));
+  const t0 = Math.min(...ts), t1 = Math.max(...ts);
+  const W = 1400, PL = 150, PR = 40, T = 150, RH = 70, Ht = T + places.length * RH + 20;
+  const x = v => PL + ((v - t0) / (t1 - t0)) * (W - PL - PR), y = p => T + places.indexOf(p) * RH + RH / 2;
+  let g = `<line class="rule" x1="${PL}" x2="${W - PR}" y1="116" y2="116"/>`;
+  for (let yr = new Date(t0).getUTCFullYear(); yr <= new Date(t1).getUTCFullYear(); yr++) for (let mo = 0; mo < 12; mo += 3) { const v = Date.UTC(yr, mo, 1); if (v < t0 || v > t1) continue; g += `<line class="rule" x1="${x(v)}" x2="${x(v)}" y1="116" y2="${mo ? 122 : 128}"/>${mo ? "" : `<text x="${x(v) + 4}" y="110" class="t-ink">${yr}</text>`}`; }
+  places.forEach((p, i) => { g += `<text class="lane" x="0" y="${y(p) + 5}">${esc(p)}</text><line class="rule drawn" pathLength="1" style="animation-delay:${i * 70}ms" x1="${PL}" x2="${W - PR}" y1="${y(p)}" y2="${y(p)}"/>`; });
+  gd.decisions.forEach((d, i) => { const X = x(t(d.decision_at)); g += `<line class="drawn" pathLength="1" style="animation-delay:${600 + i * 150}ms" x1="${X}" x2="${X}" y1="${T - 6}" y2="${Ht - 6}" stroke="var(--ink)" stroke-width="1"/><g class="fi" style="animation-delay:${800 + i * 150}ms"><rect x="${X - 7}" y="${y(d.place) - 7}" width="14" height="14" fill="var(--ink)"/><line x1="${X}" y1="${22 + i * 22}" x2="${X}" y2="${T - 6}" stroke="var(--ink)" stroke-width=".6" stroke-dasharray="2 2"/><text x="${X - 8}" y="${26 + i * 22}" text-anchor="end" class="t-ink" style="text-transform:uppercase">${esc(d.deciding_role)} · ${esc(d.decision_at.slice(0, 10))}</text></g>`; });
+  ev.forEach((e, i) => { const gp = gapBy[e.event_id], X = x(t(e.at)), Y = y(e.place), dl = `animation-delay:${400 + i * 16}ms`, un = gp && gp.includes("UNNOTICED");
+    g += `<g class="fi" style="${dl}">${gp ? (un ? `<rect x="${X - 9}" y="${Y - 9}" width="18" height="18" fill="var(--signal)"/>` : `<rect x="${X - 9}" y="${Y - 9}" width="18" height="18" fill="none" stroke="var(--signal)" stroke-width="1.6" stroke-dasharray="3 2"/>`) : ""}<circle cx="${X}" cy="${Y}" r="3.2" fill="${un ? "var(--paper)" : "var(--ink)"}"/><title>${esc(e.kind)} by ${esc(e.actor_role)} in ${esc(e.place)}, ${esc(e.at)}${gp ? " · " + esc(gp.join(", ")) : ""}</title></g>`; });
+  return `${head(`${N(G, "decisions_computed")} decisions. ${N(G, "gap_rows")} gaps. <i>No one saw it whole.</i>`, `Each line is a place where the xz story played out. Each black square is a downstream decision. An orange square marks an earlier signal that the deciding role's records do not reach. Roles, never names.`, ["pub"], [G, E])}
+  <div class="row"><div class="c s12"><svg class="viz" viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Signals by place and time, with downstream decisions">${g}</svg>
+    <div style="display:flex;flex-wrap:wrap;gap:12px 30px;margin-top:20px"><span class="m"><i style="border-radius:50%;background:var(--ink);width:7px;height:7px"></i>A signal</span><span class="m"><i style="background:var(--ink)"></i>A decision</span>${mk("UNREACHABLE")}${mk("UNNOTICED")}</div></div></div>
+  <div class="row">
+    <div class="c s3 half figcol"><div><div class="lab">Unreachable</div><span class="fig sig"><span class="sq"></span>${N(G, "unreachable_rows", { up: 1 })}</span><p class="figcap">No loaded record shows the deciding role in that place before the signal. Absence of evidence, not proof nobody was watching.</p></div>${src(G)}</div>
+    <div class="c s3 half figcol"><div><div class="lab">Unnoticed</div><span class="fig sig"><span class="sq"></span>${N(G, "unnoticed_rows", { up: 1 })}</span><p class="figcap">The role was on record in the place, and the decision does not reference the signal.</p></div>${src(G)}</div>
+    <div class="c s6 flush"><table class="tbl"><thead><tr><th>Who decided</th><th>When</th><th>Checked</th><th>Covered</th><th>Gaps</th></tr></thead><tbody>${gd.decisions.map((d, i) => `<tr><td>${esc(d.deciding_role)}<div class="lab" style="margin-top:4px">${esc(d.place)}</div></td><td class="n">${esc(d.decision_at.slice(0, 10))}</td><td class="n">${N(G, `decisions.${i}.signals_checked`)}</td><td class="n">${N(G, `decisions.${i}.covered_watched_and_referenced`)}</td><td class="n sig">${N(G, `decisions.${i}.gaps.length`)}</td></tr>`).join("")}</tbody></table></div>
+  </div>
+  ${fine(`${esc(gd.scope)} Persona, handle and hashed-id fields were removed from ${esc(E)} at build; this plate never reads them.`)}
+  ${next("Turn one of those decisions into the question it deserved.")}`;
+}
+
+function pPackager() {
+  const G = "ecosystem_gaps.json", ds = FILES[G].decisions, d = ds[state.pk];
+  return `${head(`The question every downstream maintainer <i>deserves to ask.</i>`, `Pick a decision from the public record. Hearthguard turns its gaps into one plain question, with roles only. It sends nothing to anyone.`, ["pub"], [G])}
+  <div class="row">${ds.map((x, i) => `<button class="c s3 half" data-pk="${i}" style="${i === state.pk ? "background:var(--ink);color:var(--paper);" : ""}display:flex;flex-direction:column;gap:10px;min-height:120px"><span class="lab" style="${i === state.pk ? "color:var(--paper)" : ""}">${esc(x.place)} · ${esc(x.decision_at.slice(0, 10))}</span><span class="big-t" style="font-size:1.3rem">${esc(x.deciding_role)}</span></button>`).join("")}</div>
+  <div class="row"><div class="c s12" style="padding-top:clamp(40px,6vw,96px);padding-bottom:clamp(40px,6vw,96px)"><p class="serif-q" style="font-size:clamp(2.2rem,5vw,4.8rem);max-width:17em">“Before the ${esc(d.deciding_role)} decided, could that role see the earlier signals about the same identity, in the places it watches?”</p></div></div>
+  <div class="row"><div class="c s4 figcol"><div><div class="lab">Gaps behind this question</div><span class="fig xl sig"><span class="sq"></span>${N(G, `decisions.${state.pk}.gaps.length`, { up: 1 })}</span><p class="figcap">of ${N(G, `decisions.${state.pk}.signals_checked`)} signals checked. ${N(G, `decisions.${state.pk}.covered_watched_and_referenced`)} were covered.</p></div>${src(G)}</div>
+    ${d.status !== "COMPUTED" ? blank("This decision", d.reason, G, "s8") : `<div class="c s8 flush"><table class="tbl"><thead><tr><th>Gap</th><th>Signal</th><th>Where</th><th>When</th><th>Confidence</th></tr></thead><tbody>${d.gaps.map(x => `<tr><td>${mk(x.gap)}</td><td class="n">${esc(x.signal_kind)}</td><td class="n">${esc(x.signal_place)}</td><td class="n">${esc(x.signal_at.slice(0, 10))}</td><td class="n g" style="font-size:12px">${esc(x.label_confidence || "")}</td></tr>`).join("")}</tbody></table></div>`}</div>
+  ${fine("A gap is a lower bound: the cached records are the only signals. A question, not a verdict.")}
+  ${next("Now set the real record beside an invented one.")}`;
+}
+
+function pTwo() {
+  const xs = R.quarters.map(r => [r.quarter, r.checks, r.decision.type]);
+  const ts = TDEC.quarters.map((q, i) => [q.quarter, TD.quarters[i].checks, q.decision]);
+  const axis = [...new Set(xs.concat(ts).map(a => a[0]))].sort();
+  const row = (list, cls) => `<div class="qrow tl" style="grid-template-columns:repeat(${axis.length},minmax(0,1fr));border-bottom:0">${axis.map(q => { const r = list.find(a => a[0] === q); return r ? qcell(q, r[1], r[2], { cls, attr: cls ? "" : "data-q2", noPress: true }) : `<div class="qc empty"><span class="lab">${esc(q)}<br>not in this file</span></div>`; }).join("")}</div>`;
+  return `${head(`One real. One invented. <i>Same rules.</i>`, `Top: the public xz record. Bottom: tallowdate, a fictional project, on the same quarter axis. The spec imagines a different ending for the fiction. The saved files hold no fired move in either, so no ending is drawn.`, ["pub", "syn"], ["xz_replay.json", "tallowdate_decision.json", "tallowdate_detector_status.json"])}
+  <div class="row"><div class="c s12 lab">xz · public record · ${N("xz_replay.json", "quarters.length")} quarters</div></div>
+  <div class="scroll">${row(xs, "")}</div>
+  <div class="row"><div class="c s12 lab" style="color:var(--ultra)">tallowdate · synthetic · ${N("tallowdate_decision.json", "quarters.length")} quarters</div></div>
+  <div class="scroll">${row(ts, "syn")}</div>
+  <div class="row">${blank("tallowdate, every quarter", TDEC.quarters[TDEC.quarters.length - 1].hold_reason, "tallowdate_decision.json", "s6 half syn")}${blank("tallowdate Pressure and Vouch", TD.quarters[0].checks.pressure.reason, "tallowdate_detector_status.json", "s6 half syn")}</div>
+  ${next("Inside the fiction: who touched the release.")}`;
+}
+
+function pTrust() {
+  const F = "trust_map_tallowdate.json", T = FILES[F];
+  const W = 1000, Ht = 470, cy = 150;
+  const rel = T.nodes.find(n => n.type === "release"), path = T.nodes.find(n => n.type === "path");
+  const linked = new Set(T.edges.flatMap(e => [e.source, e.target]));
+  const actors = T.nodes.filter(n => n.type === "actor"), la = actors.filter(a => linked.has(a.id)), ua = actors.filter(a => !linked.has(a.id));
+  const pos = {}, lab = {};
+  la.forEach((a, i) => (pos[a.id] = [150, cy + i * 80])); pos[rel.id] = [500, cy]; pos[path.id] = [850, cy];
+  ua.forEach((a, i) => (pos[a.id] = [130 + (i * (W - 260)) / Math.max(ua.length - 1, 1), 370]));
+  T.nodes.forEach((n, i) => (lab[n.id] = (n.type === "actor" ? "A" : n.type === "release" ? "R" : "P") + (i + 1)));
+  let g = "";
+  T.edges.forEach((e, i) => { const [x1, y1] = pos[e.source], [x2, y2] = pos[e.target]; g += `<line class="drawn" pathLength="1" style="animation-delay:${300 + i * 300}ms" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--ultra)" stroke-width="1.6"/><text x="${(x1 + x2) / 2}" y="${y1 + 22}" text-anchor="middle" class="fi t-ink" style="animation-delay:900ms">${esc(e.type)}</text>`; });
+  T.nodes.forEach((n, i) => { const [x, y] = pos[n.id], on = linked.has(n.id), r = on ? 24 : 15;
+    g += `<g class="fi" style="animation-delay:${i * 60}ms">${n.type === "actor" ? `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--paper)" stroke="var(--ultra)" stroke-width="1.5" ${on ? "" : 'stroke-dasharray="3 3"'}/>` : `<rect x="${x - 24}" y="${y - 24}" width="48" height="48" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/>`}
+      <line x1="${x + r * .7}" y1="${y - r * .7}" x2="${x + r + 18}" y2="${y - r - 18}" stroke="var(--graphite)" stroke-width=".8"/><text x="${x + r + 22}" y="${y - r - 20}" class="t-ink">${lab[n.id]}</text></g>`; });
+  return `${head(`Who touched the release, <i>as far as the record goes.</i>`, `${N(F, "nodes.length")} nodes and ${N(F, "edges.length")} edges, hashed ids only. One account is linked to one release, and the release to one path. Where the file stops, the map stops.`, ["syn"], [F])}
+  <div class="row"><div class="c s8 syn"><svg class="viz" viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Trust map of the fictional project">${g}</svg></div>
+    <div class="c s4 flush"><table class="tbl"><thead><tr><th>Ref</th><th>Node</th><th>Actions</th></tr></thead><tbody>${T.nodes.map((n, i) => `<tr><td class="n">${lab[n.id]}</td><td class="n" style="font-size:12px">${esc(n.type === "actor" ? "actor " + n.id.slice(6, 14) : n.id)}${linked.has(n.id) ? "" : '<div class="lab">no edge in the file</div>'}</td><td class="n">${n.actions == null ? "—" : N(F, `nodes.${i}.actions`)}</td></tr>`).join("")}</tbody></table></div></div>
+  <div class="row">${blank("The trust path", T.trust_path_note, F, "s12 syn")}</div>
+  ${fine(esc(T.label))}
+  ${next("A map with no route is still a reason to fix something. So we tested the fixes.")}`;
+}
+
+function pHarden() {
+  const RF = state.hc === "xz" ? "hardening_redteam_xz.json" : "hardening_redteam_tallowdate.json", RT = FILES[RF];
+  const lbl = s => ({ add_second_keeper: "Add a second keeper", require_provenance_ci: "Require CI and provenance", require_two_approvals: "Require two approvals" }[s] || s);
+  const H2 = FILES["xz_hardening.json"], last = H2.results[H2.results.length - 1], FX = FILES["hardening_fixture.json"];
+  return `${head(`The obvious fix doubled the guardians. <i>It also caught fewer attacks.</i>`, `Every fix is tried on a copy first. ${N(RF, "n")} planted takeover campaigns, seed ${N(RF, "seed")}. Before any fix, ${N(RF, "baseline_campaigns.caught")} were caught. Here is what each fix did to that number.`, [state.hc === "xz" ? "plant" : "syn"], [RF, "xz_hardening.json", "hardening_fixture.json"],
+    `<div class="seg" style="margin-top:32px"><button data-hc="xz" aria-pressed="${state.hc === "xz"}">Copy of xz</button><button data-hc="tallowdate" aria-pressed="${state.hc !== "xz"}">tallowdate</button></div>`)}
+  ${RT.steps.map((s, i) => { const b = s.campaigns.before, a = s.campaigns.after, worse = a.caught < b.caught;
+    return `<div class="row"><div class="c s3 half syn" style="display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:200px"><span class="lab">Fix 0${i + 1}</span><span class="big-t">${lbl(s.step)}</span></div>
+      <div class="c s3 half syn"><div class="lab" style="margin-bottom:18px">Guardians</div><div class="ba">${N(RF, `steps.${i}.guardians.before`)}<span class="ar">→</span>${N(RF, `steps.${i}.guardians.after`)}</div></div>
+      <div class="c s3 half syn"><div class="lab" style="margin-bottom:18px">Campaigns caught</div><div class="ba">${N(RF, `steps.${i}.campaigns.before.caught`)}<span class="ar">→</span>${N(RF, `steps.${i}.campaigns.after.caught`, { cls: worse ? "bad" : "" })}<small>/ ${b.n}</small></div></div>
+      <div class="c s3 half syn"><div class="lab" style="margin-bottom:18px">Median warning, days</div><div class="ba">${N(RF, `steps.${i}.campaigns.before.median_lead_time_days`, { fmt: "f1" })}<span class="ar">→</span>${N(RF, `steps.${i}.campaigns.after.median_lead_time_days`, { fmt: "f1", cls: a.median_lead_time_days < b.median_lead_time_days ? "bad" : "" })}</div></div></div>`; }).join("")}
+  ${fine(`${esc(RT.label)}. Caught: ${esc(RT.definitions.caught)}. ${esc(RT.definitions.no_change)}.`)}
+  <div class="row"><div class="c s12" style="padding-top:56px"><div style="display:flex;gap:16px;align-items:center;margin-bottom:16px">${TAG.pub}<span class="lab">${esc(last.quarter)}</span></div><p class="big-t" style="margin:0">On the real xz graph, nothing to measure yet.</p></div></div>
+  <div class="row">${last.steps.map(s => blank(lbl(s.step) + (s.applied ? ", applied to a copy" : ", nothing to change"), (s.note ? s.note + ". " : "") + "Takeover cost: " + (s.before.takeover_cost.reason || NC), "xz_hardening.json", "s3 half")).join("")}${blank("Caught and lead time", H2.red_team, "xz_hardening.json", "s3 half")}</div>
+  <div class="row"><div class="c s12" style="padding-top:56px"><div style="margin-bottom:16px">${TAG.fx}</div><p class="big-t" style="margin:0">On hand-built graphs, it works as designed.</p></div></div>
+  <div class="scroll"><table class="tbl"><thead><tr><th>Fixture</th><th>Step</th><th>Takeover cost</th><th>Guardians</th></tr></thead><tbody>${FX.results.map((r, i) => `<tr><td class="n">${esc(r.fixture)}</td><td>${esc(lbl(r.step))}</td><td class="n">${N("hardening_fixture.json", `results.${i}.before.cost`)} → ${N("hardening_fixture.json", `results.${i}.after.cost`)}</td><td class="n">${N("hardening_fixture.json", `results.${i}.before.guardians`)} → ${N("hardening_fixture.json", `results.${i}.after.guardians`)}</td></tr>`).join("")}</tbody></table></div>
+  ${next("Why memory length matters more than any single fix.")}`;
+}
+
+function pPatience() {
+  const F = "ablation_memory.json", A = FILES[F], order = ["full", "forget_90", "forget_30"];
+  const name = { full: "Full memory", forget_90: "Last 90 days", forget_30: "Last 30 days" };
+  const col = { full: "var(--ink)", forget_90: "var(--ultra)", forget_30: "var(--signal)" }, dash = { full: "", forget_90: "6 5", forget_30: "" };
+  const xs = A.arms.full.by_patience.map(r => r.patience_days);
+  const W = 1400, PL = 80, PR = 30, PH = 280, xp = v => PL + (xs.indexOf(v) / (xs.length - 1)) * (W - PL - PR);
+  const lm = Math.ceil(Math.max(...order.flatMap(k => A.arms[k].by_patience.map(r => r.median_lead_time_days || 0))) / 10) * 10;
+  function panel(title, field, max, top, f) {
+    const yp = v => top + 44 + (1 - v / max) * (PH - 90);
+    let g = `<text class="lane" x="0" y="${top + 14}">${title}</text>`;
+    [0, max / 2, max].forEach(t => { g += `<line class="rule" x1="${PL}" x2="${W - PR}" y1="${yp(t)}" y2="${yp(t)}"/><text x="${PL - 12}" y="${yp(t) + 4}" text-anchor="end">${f(t)}</text>`; });
+    order.forEach((k, ai) => { const pts = A.arms[k].by_patience.filter(r => r[field] != null);
+      g += `<polyline class="drawn" pathLength="1" style="animation-delay:${ai * 700}ms" points="${pts.map(r => `${xp(r.patience_days)},${yp(r[field])}`).join(" ")}" fill="none" stroke="${col[k]}" stroke-width="${k === "full" ? 2.2 : 1.8}" ${dash[k] ? `stroke-dasharray="${dash[k]}"` : ""}/>`;
+      pts.forEach(r => { g += `<rect class="fi" style="animation-delay:${ai * 700 + 1000}ms" x="${xp(r.patience_days) - 4}" y="${yp(r[field]) - 4}" width="8" height="8" fill="${col[k]}"><title>${name[k]}, patience ${r.patience_days} days: ${f(r[field])} (${r.caught} of ${r.n})</title></rect>`; }); });
+    return g;
+  }
+  const Ht = PH * 2 + 40;
+  let g = panel("Share of campaigns caught", "detection_rate", 1, 0, v => Math.round(v * 100) + "%") + panel("Median warning before the final move, days", "median_lead_time_days", lm, PH, v => String(Math.round(v)));
+  xs.forEach(v => { g += `<text x="${xp(v)}" y="${Ht - 4}" text-anchor="middle" class="t-ink">${v}d</text>`; });
+  return `${head(`The slower the attack, <i>the longer you need to remember.</i>`, `${N(F, "n")} takeover campaigns and ${N(F, "n_clean")} clean ones, planted in a fictional project. Same detectors, same thresholds, in every run. <b>Only the memory changes.</b>`, ["syn"], [F])}
+  <div class="row">${order.map(k => `<div class="c s3 half syn figcol"><div><div class="lab">${name[k]}</div><span class="fig ${k === "forget_30" ? "sig" : ""}">${k === "forget_30" ? '<span class="sq"></span>' : ""}${N(F, `arms.${k}.summary.caught`, { up: 1 })}<small>/ ${N(F, `arms.${k}.summary.n`)}</small></span><p class="figcap">caught. Clean projects wrongly flagged: <span class="mono">${N(F, `arms.${k}.clean.flagged`)}/${N(F, `arms.${k}.clean.n`)}</span>.</p></div>${src(F)}</div>`).join("")}
+    <div class="c s3 half syn" style="display:flex;flex-direction:column;justify-content:flex-end;gap:12px"><div class="lab">Against full memory</div>${order.slice(1).map(k => `<p class="mono" style="margin:0;font-size:13px">${name[k]}: ${esc(A.comparison[k].overall.verdict)}.</p>`).join("")}</div></div>
+  <div class="row"><div class="c s12 syn"><svg class="viz" id="pchart" viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Detection rate and lead time against attacker patience">${g}</svg>
+    <div style="display:flex;flex-wrap:wrap;gap:12px 30px;margin-top:20px;align-items:center">${order.map(k => `<span class="m" style="color:${col[k]}"><svg width="26" height="10"><line x1="0" x2="26" y1="5" y2="5" stroke="currentColor" stroke-width="2" ${dash[k] ? `stroke-dasharray="${dash[k]}"` : ""}/></svg>${name[k]}</span>`).join("")}<span class="lab">Across: attacker patience, days from first action to the grant</span><span class="seg"><button id="redraw">Draw again</button></span></div></div></div>
+  ${fine(A.notes.map(esc).join("<br>"))}
+  ${next("All of it ends in one place: a calm note to the person in charge.")}`;
+}
+
+const curCase = () => INB.cases[state.ic];
+const curNote = () => { const c = curCase(); return c.notes.find(n => n.quarter === state.iq) || c.notes[c.notes.length - 1]; };
+const caseSeg = () => `<div class="seg" style="margin-top:32px"><button data-ic="xz" aria-pressed="${state.ic === "xz"}">xz · public record</button><button data-ic="tallowdate" aria-pressed="${state.ic !== "xz"}">tallowdate · synthetic</button></div>`;
+const rich = t => esc(t).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
+
+function pInbox() {
+  const c = curCase();
+  return `${head(`No alarms. <i>Just questions.</i>`, `One note per quarter. Each says what was checked, what wasn't, and why, then ends on a question, never a verdict. Local only: nothing here is sent to Slack or to anyone.`, [state.ic === "xz" ? "pub" : "syn"], ["rendered/inbox_notes.json", c.decision_file], caseSeg())}
+  <div>${c.notes.map((n, i) => `<button class="ib" data-note="${esc(n.quarter)}"><span class="lab">${pad(i + 1)}</span><span class="mono" style="font-size:14px;font-weight:600">${esc(n.quarter)}</span>${mk(n.decision)}<span class="hl">${rich(n.headline)}</span><span class="ar">→</span></button>`).join("")}</div>
+  ${fine(`${esc(c.label)} Rendered by ${esc(INB.rendered_by)} from the saved decision file.`)}
+  ${next("Open a note. Every sentence in it has a receipt.")}`;
+}
+
+function pNote() {
+  const c = curCase(), n = curNote();
+  const lines = n.note.split("\n").filter(l => !l.startsWith("`["));
+  const qi = lines.findIndex(l => l.trim().endsWith("?"));
+  const body = lines.map((l, i) => i === qi ? "" : l.trim() ? `<p>${rich(l)}</p>` : '<div class="sp"></div>').join("");
+  return `${head(`Every sentence <i>has a receipt.</i>`, `Left: the note the owner reads. Right: "Show me why", every fact with its file and the query that produced it. Nothing is re-run to write either one.`, [state.ic === "xz" ? "pub" : "syn"], ["rendered/inbox_notes.json", c.decision_file], caseSeg())}
+  <div class="qrow" style="grid-template-columns:repeat(${c.notes.length},minmax(0,1fr))">${c.notes.map(x => `<button class="qc ${state.ic === "xz" ? "" : "syn"}" data-nq="${esc(x.quarter)}" aria-pressed="${x.quarter === n.quarter}" style="padding:14px"><span class="qq" style="font-size:13px">${esc(x.quarter)}</span></button>`).join("")}</div>
+  <div class="row">
+    <div class="c s7 note ${state.ic === "xz" ? "" : "syn"}" style="padding-top:40px;padding-bottom:40px">${body}${qi >= 0 ? `<p class="serif-q sig" style="margin-top:26px">${esc(lines[qi].trim())}</p>` : ""}
+      <div class="btns" style="margin-top:30px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${INB.controls.map(k => k === "Show me why" ? `<a class="btn solid" href="#why"><span>${esc(k)}</span><span>↓</span></a>` : k === "Simulate a fix" ? `<a class="btn" href="#/hardening"><span>${esc(k)}</span><span>→</span></a>` : `<span class="btn" aria-disabled="true" title="Runs against the local server only"><span>${esc(k)}</span><span>·</span></span>`).join("")}</div></div>
+    <div class="c s5 flush" style="background:var(--cell)"><div class="receipt" id="why"><div class="rh"><span>Show me why</span><span>${esc(n.quarter)}</span></div>${esc(n.why)}</div></div>
+  </div>
+  <div class="row"><div class="c s4"><div class="lab br" style="margin-bottom:14px">Draft a reply</div><p class="body" style="font-size:14px">Fixed wording from the code, the same for every note. It names no one and accuses no one. You send it yourself, or you don't.</p></div>
+    <div class="c s8" style="padding-top:40px;padding-bottom:40px"><p class="serif-q">“${esc(INB.draft_boundary_reply)}”</p></div></div>
+  <div class="row"><div class="c s4"><div class="lab br">Weekly digest · ${esc(c.digest.as_of.slice(0, 10))}</div></div><div class="c s8"><p class="mono" style="margin:0;font-size:14px">${esc(c.digest.headline)}</p></div></div>
+  <div class="row">${blank("Routing, snooze and thread history", "built live by the local API from the org graph; this page reads saved files only (make inbox)", null, "s8")}<div class="c s4"><div class="lab" style="margin-bottom:12px">The thread can answer</div>${INB.suggested_questions.map(q => `<p class="mono" style="font-size:12.5px;margin:0 0 6px">→ ${esc(q)}</p>`).join("")}</div></div>
+  ${next("When the owner says no, the system learns, but only after it proves the lesson is safe.")}`;
+}
+
+function pPlaybook() {
+  const F = "learning_verify.json", L = FILES[F], s = L.steps;
+  const step = (n, t, b, d, bg) => `<div class="row"><div class="c s12" style="display:grid;grid-template-columns:150px 1fr 1.1fr;gap:24px;align-items:baseline;${bg ? "background:var(--cell)" : ""}"><span class="lab">${n}</span><span class="big-t">${t}</span><span class="mono" style="font-size:13px">${b}${d ? `<br><span class="g">${d}</span>` : ""}</span></div></div>`;
+  return `${head(`It learns from “no”. <i>Only after proving it hides nothing.</i>`, `An owner dismissed a note on the fictional project. Hearthguard turned that dismissal into a proposed exception, then replayed every planted attack and every real case against it before keeping anything.`, ["syn"], [F])}
+  <div class="row"><div class="c s6 half syn figcol"><div><div class="lab">Planted attacks lost to the new rule</div><span class="fig xl sig"><span class="sq"></span>${N(F, "steps.gate.planted_lost", { up: 1 })}<small>/ ${N(F, "steps.gate.planted_total")}</small></span></div>${src(F)}</div>
+    <div class="c s6 half syn figcol"><div><div class="lab">Real-case points lost</div><span class="fig xl">${N(F, "steps.gate.real_lost", { up: 1 })}<small>/ ${N(F, "steps.gate.real_total")}</small></span></div>${src(F)}</div></div>
+  ${step("01 · Dismissed", `“${esc(s.dismissal.reason)}”`, `${esc(s.dismissal.case)}, ${esc(s.dismissal.quarter)}`, "")}
+  ${step("02 · Proposed", esc(s.proposal.template.exception.replace(/_/g, " ")), `${esc(s.proposal.template.applies_to)} · ${esc(s.proposal.template.effect)}`, esc(s.proposal.template.when))}
+  ${step("03 · Safety rules", `${N(F, "steps.safety.rules.length")} rules, ${N(F, "steps.safety.violations.length")} broken`, s.safety.rules.map(esc).join("<br>"), "")}
+  ${step("04 · Regression gate", `${N(F, "steps.gate.planted_caught_before")} caught before. ${N(F, "steps.gate.planted_caught_after")} after.`, esc(s.gate.reason), "")}
+  ${step("05 · End state", `<span class="sig">${esc(s.end_state.state)}</span>`, esc(s.end_state.reason), `${esc(L.not_applied)}. Shadow records what it would have suppressed and acts on nothing.`, true)}
+  <div class="row"><div class="c s4"><span class="btn" aria-disabled="true"><span>Approve</span><span>·</span></span></div><div class="c s8" style="display:flex;align-items:center"><span class="mono" style="font-size:12.5px">Approval runs only against the local server.</span></div></div>
+  ${next("And it all starts with any public repository.")}`;
+}
+
+function pConnect() {
+  const F = "connect_repo_run.json", C2 = FILES[F];
+  const met = (l, k) => { const m = C2.metrics[k]; return computed(m.status) && m.value != null ? `<tr><td>${l}</td><td class="n">${N(F, `metrics.${k}.value`, { fmt: typeof m.value === "number" && !Number.isInteger(m.value) ? "f1" : undefined })} ${esc(m.unit || "")}</td></tr>` : `<tr><td>${l}</td><td>${mk(NC)}<div class="mono g" style="font-size:12px;margin-top:6px">${esc(m.reason)}</div></td></tr>`; };
+  return `${head(`Point it at any public repository. <i>It reads. It never writes.</i>`, `One measured run on <span class="mono">${esc(C2.repo)}</span>: read-only requests, identifiers hashed on the way in, no sign-in. What it couldn't compute, it says.`, ["gh"], [F])}
+  <div class="row"><div class="c s8" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap"><span class="lab">Repository</span><span class="mono" style="font-size:clamp(1.4rem,2.4vw,2.2rem);letter-spacing:-.02em">${esc(C2.repo)}</span></div><div class="c s4"><span class="btn solid" aria-disabled="true" title="This preview reads the saved run; the local server connects (make inbox)"><span>Connect</span><span>→</span></span></div></div>
+  <div class="row"><div class="c s4 half figcol"><div><div class="lab">Measured wall clock</div><span class="fig xl">${N(F, "wall_clock_s", { up: 1, fmt: "f1" })}<small>s</small></span></div>${src(F)}</div>
+    <div class="c s4 half figcol"><div><div class="lab">Read-only requests to GitHub</div><span class="fig xl">${N(F, "requests.network", { up: 1 })}</span></div>${src(F)}</div>
+    <div class="c s4 flush"><table class="tbl"><tbody>${C2.steps.map((s, i) => `<tr><td class="n g">${pad(i + 1)}</td><td>${esc(s.name)}</td><td class="n" style="font-size:12px">${esc(s.detail || "done")}</td></tr>`).join("")}</tbody></table></div></div>
+  <div class="row"><div class="c s6 flush"><table class="tbl"><tbody>${met("Commit cadence, median gap", "cadence_days")}${met("Active keepers, last 90 days", "active_keepers")}${met("Usual release path", "usual_path")}<tr><td>Commits read</td><td class="n">${N(F, "counts.commits_read")}</td></tr><tr><td>Releases loaded</td><td class="n">${N(F, "counts.releases_loaded")}</td></tr></tbody></table></div>
+    ${blank("Takeover cost and best fix", C2.best_hardening_step.reason, F, "s6")}</div>
+  ${next("That's the whole record. Back to the beginning.")}`;
+}
+
+/* Registry and chrome */
+const SCREENS = [
+  { id: "overview", t: "Hearthguard", r: pOverview },
+  { id: "replay", t: "The replay", r: pReplay },
+  { id: "quarter", t: "A quarter, taken apart", r: pQuarter },
+  { id: "evidence", t: "The evidence trail", r: pEvidence },
+  { id: "rights", t: "Who was given rights", r: pRights },
+  { id: "takeover", t: "Takeover cost", r: pTakeover },
+  { id: "who-saw", t: "Who saw what", r: pWhoSaw },
+  { id: "packager", t: "The packager question", r: pPackager },
+  { id: "two", t: "Two timelines", r: pTwo },
+  { id: "trust", t: "The trust map", r: pTrust },
+  { id: "hardening", t: "Hardening results", r: pHarden },
+  { id: "patience", t: "The patience curve", r: pPatience },
+  { id: "inbox", t: "The inbox", r: pInbox },
+  { id: "note", t: "A note and its why", r: pNote },
+  { id: "playbook", t: "The playbook", r: pPlaybook },
+  { id: "connect", t: "Connect a repository", r: pConnect },
+];
+const pad = n => String(n).padStart(2, "0");
+const cur = () => SCREENS.findIndex(s => s.id === state.screen);
+function chrome() {
+  const i = cur();
+  document.getElementById("now").innerHTML = `<b>${pad(i)}</b>&nbsp;·&nbsp;${esc(SCREENS[i].t)}&nbsp;&nbsp;/&nbsp;&nbsp;xz as of ${esc(R.quarters[R.quarters.length - 1].T_iso.slice(0, 10))}`;
+  document.getElementById("count").innerHTML = `${pad(i)} / ${pad(SCREENS.length - 1)}`;
+  document.getElementById("idx").innerHTML = `<div class="row" style="position:sticky;top:0;background:var(--paper);z-index:2"><div class="c s8 lab" style="display:flex;align-items:center">Index · ${SCREENS.length} plates</div><button class="c s4 lab" data-close style="text-align:right">Close ×</button></div>` +
+    SCREENS.map((s, j) => `<a href="#/${s.id}" ${j === i ? 'aria-current="page"' : ""}><span class="n">${pad(j)}</span><span class="t">${esc(s.t)}</span><span class="n">→</span></a>`).join("");
+}
+function render(keep) {
+  const id = location.hash.replace(/^#\/?/, "").split(/[?#]/)[0] || "overview";
+  const s = SCREENS.find(x => x.id === id) || SCREENS[0];
+  const changed = state.screen !== s.id; state.screen = s.id;
+  chrome();
+  const main = document.getElementById("main"), y = scrollY;
+  main.innerHTML = `<section class="plate${changed ? "" : " still"}">${s.r()}</section>`;
+  document.title = s.id === "overview" ? "Hearthguard" : `${s.t} · Hearthguard`;
+  fitWordmark(); animate(main);
+  scrollTo(0, changed && !keep ? 0 : y);
+  document.getElementById("idx").classList.remove("open");
+}
+const go = d => { const i = cur(); location.hash = "#/" + SCREENS[(i + d + SCREENS.length) % SCREENS.length].id; };
+const toggleIdx = () => document.getElementById("idx").classList.toggle("open");
+
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[href^='#']");
+  if (a && !a.getAttribute("href").startsWith("#/")) { e.preventDefault(); const t = document.getElementById(a.getAttribute("href").slice(1)); if (t) t.scrollIntoView({ behavior: RM.matches ? "auto" : "smooth", block: "start" }); return; }
+  const t = e.target.closest("[data-q],[data-q2],[data-ic],[data-nq],[data-note],[data-pk],[data-tc],[data-hc],[data-idx],[data-close],#openidx,#prev,#nextb,#theme,#redraw");
+  if (!t) return;
+  if (t.id === "openidx" || t.hasAttribute("data-idx")) return toggleIdx();
+  if (t.hasAttribute("data-close")) return document.getElementById("idx").classList.remove("open");
+  if (t.id === "prev") return go(-1);
+  if (t.id === "nextb") return go(1);
+  if (t.id === "theme") { const r = document.documentElement; r.dataset.theme = r.dataset.theme === "dark" ? "light" : "dark"; try { localStorage.setItem("hg-theme", r.dataset.theme); } catch (_) {} return; }
+  if (t.id === "redraw") { const svg = document.getElementById("pchart"); svg.replaceWith(svg.cloneNode(true)); return; }
+  if (t.dataset.q) { state.q = t.dataset.q; if (t.dataset.goto || ["overview", "replay"].includes(state.screen)) location.hash = "#/" + (t.dataset.goto || "quarter"); else render(true); return; }
+  if (t.dataset.q2) { state.q = t.dataset.q2; location.hash = "#/quarter"; return; }
+  if (t.dataset.ic) { state.ic = t.dataset.ic; state.iq = null; return render(true); }
+  if (t.dataset.nq) { state.iq = t.dataset.nq; return render(true); }
+  if (t.dataset.note) { state.iq = t.dataset.note; location.hash = "#/note"; return; }
+  if (t.dataset.pk) { state.pk = +t.dataset.pk; return render(true); }
+  if (t.dataset.tc) { state.tc = t.dataset.tc; return render(true); }
+  if (t.dataset.hc) { state.hc = t.dataset.hc; return render(true); }
+});
+document.addEventListener("keydown", e => {
+  if (e.target.closest("input,textarea,select")) return;
+  if (e.key === "Escape") document.getElementById("idx").classList.remove("open");
+  else if (e.key === "ArrowRight") go(1);
+  else if (e.key === "ArrowLeft") go(-1);
+  else if (e.key.toLowerCase() === "i") toggleIdx();
+});
+addEventListener("resize", fitWordmark);
+try { const th = localStorage.getItem("hg-theme"); if (th) document.documentElement.dataset.theme = th; } catch (_) {}
+addEventListener("hashchange", () => render());
+if (document.fonts) document.fonts.ready.then(fitWordmark);
+render();
+
+/* Self-check: every value on screen against its file */
+window.hgCheck = function () {
+  const out = { checked: 0, mismatches: [] };
+  document.querySelectorAll("[data-file][data-path],[data-file][data-count],[data-file][data-sum]").forEach(el => {
+    let want; const f = el.dataset.file;
+    if (el.dataset.count) { const [arr, key, val] = el.dataset.count.split("|"); want = String(get(f, arr).filter(x => get2(x, key) === val).length); }
+    else if (el.dataset.sum) { const [arr, key] = el.dataset.sum.split("|"); want = String(get(f, arr).reduce((a, x) => a + (get2(x, key) || 0), 0)); }
+    else { const v = get(f, el.dataset.path); want = v == null ? NC : FMT[el.dataset.fmt || "raw"](v); }
+    out.checked++;
+    if (el.textContent !== want) out.mismatches.push({ file: f, path: el.dataset.path || el.dataset.count || el.dataset.sum, shown: el.textContent, file_value: want });
+  });
+  return out;
+};
+</script>
+</body>
+</html>
