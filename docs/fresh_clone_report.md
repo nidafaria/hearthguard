@@ -197,3 +197,61 @@ Command: `powershell -ExecutionPolicy Bypass -File eval\fresh_clone_test.ps1 -De
 The one failing command needs a FalkorDB and a `.env` with `HEARTHGUARD_HASH_SALT`, which a clone does not have by design (README first step). Demo log SHA256: `111B4C02F7CA3C1E9FDC6546E2F83D460001393D1F738D14D026B100E809811F`.
 
 The full `make test` was run in the author's working tree, with FalkorDB and `.env`: 959 passed, 0 failed, 1 xfailed.
+
+## Run 8: README steps in a clean clone of main at 7c99268 (2026-10-17)
+
+Clone: `C:\Users\farze\hh-clean-run-2026-10-17`, from `git clone --branch main`. Nothing copied from the working tree. Absent at the start: `.env`, `data/raw/`, `data/derived/`, `data/llm_cache/`, `.venv/`, `ui/node_modules/`. Every command ran through the README's Windows route, `powershell -ExecutionPolicy Bypass -File .\make.ps1 <target>`, or `uv run python -m ...`. The clone's `.env` holds a generated salt. Its value is not recorded here.
+
+### Setup steps, in README order
+
+| Step | Command | Exit | First error line |
+|---|---|---|---|
+| 2 | `uv sync` | 0 | |
+| 3 | write `.env` with `HEARTHGUARD_HASH_SALT` | n/a | |
+| 4, as written | `docker compose up -d` | 1 | `Bind for 0.0.0.0:3000 failed: port is already allocated` (the UI port is in use on this machine) |
+| 4, after the README's port fix | `FALKORDB_PORT=6390` and `FALKORDB_UI_PORT=3090` added to `.env`, then `docker compose up -d` | 0 | |
+
+Step 4 fails as written on a machine where port 3000 is taken. The README already says to set `FALKORDB_UI_PORT` in that case, so this is the documented route, not a new defect.
+
+### Commands table, in the clone
+
+| # | Command | Exit | Note |
+|---|---|---|---|
+| 1 | `uv run python -m eval.demo` | 0 | |
+| 2 | `make.ps1 up` | 0 | |
+| 3 | `make.ps1 lint` | 0 | |
+| 4 | `make.ps1 smoke-algos` | 0 | prints a deliberate `maxFlow` error check |
+| 5 | `uv run python -m eval.queries_doc` | 0 | |
+| 6 | `make.ps1 decision-xz` | 0 | rewrites a tracked file (F3) |
+| 7 | `make.ps1 replay xz` | 0 | |
+| 8 | `make.ps1 gaps xz` | 0 | |
+| 9 | `make.ps1 ingest-xz` | 0 | fetched the live xz git history (see below) |
+| 10 | `make.ps1 normal-xz` | 0 | |
+| 11 | `make.ps1 takeover-xz` | 0 | |
+| 12 | `make.ps1 detectors-xz` | 0 | |
+| 13 | `make.ps1 pressure-vouch-xz` | 0 | |
+| 14 | `make.ps1 quarterly-xz` | 0 | |
+| 15 | `make.ps1 synthetic-tallowdate` | 0 | |
+| 16 | `make.ps1 tallowdate-run` | 0 | |
+| 17 | `make.ps1 redteam tallowdate` | 0 | N and seed take their defaults (200, 7) |
+| 18 | `uv run python -m eval.ablation_memory` | 0 | |
+| 19 | `uv run python -m eval.ablation_algos` | 0 | |
+| 20 | `uv run python -m eval.incidents_fetch` | 0 | network |
+| 21 | `uv run python -m eval.incidents_load` | 0 | |
+| 22 | `uv run python -m eval.replay_event_stream` | 0 | |
+| 23 | `uv run python -m eval.replay_axios` | 0 | |
+| 24 | `uv run python -m eval.verify_packs` | 0 | |
+| 25 | `make.ps1 ecosystem-xz` | 0 | network |
+| 26 | `make.ps1 harden xz` | pending | about 38 minutes; recorded below when it finishes |
+
+Not run here, as the README says: `down`, `ui` and `inbox` (servers that do not exit), `test` (run separately, below), and the three commands that need a key: `llm-test`, `reader-spotcheck`, `reader-full`.
+
+### What the clone changed
+
+- The clone's runs rewrote 19 tracked files in `eval/results/` (for example `decision_status.json`, `xz_normal.json`, `redteam_tallowdate.json`). Their content changes on each run, so a clean clone does not reproduce the committed result files byte for byte. `git checkout -- eval/results` restores them.
+- The live xz history changed. `ingest-xz` fetched `https://git.tukaani.org/xz.git` at head `299eb5c3` on 2026-10-17. The committed `eval/results/xz_normal.json` cites head `3b1efb04`, fetched 2026-10-12. A clone therefore runs the same code on newer data, and the committed numbers came from the older head.
+- `ingest-xz` ran with no `data/raw/xz.git` in the clone. It is git-ignored and was created by that step, so the README's "needs `data/raw/xz.git`" is not accurate for a clone. The README now says the step fetches it.
+
+### Test suite
+
+Run 8 did not run the suite in the clone. The full suite was run in the worktree `coding/setup-docs` (same code as 7c99268, with the README and blog edits, and the `.env` copied in): 951 passed, 0 failed, 1 xfailed, 31 skipped, 0 errors. Earlier runs in the author's checkout failed on leftover scratch graphs (`takeover_*`, `test_no_copies_left_behind`) from test cleanup. Those failures varied from run to run (10, then 3), so the suite is not yet stable.

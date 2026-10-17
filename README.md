@@ -19,7 +19,7 @@ This is the whole local setup. A judge needs no API key for any of it.
 1. Install `uv` (https://docs.astral.sh/uv/) and Docker. For the UI, also Node and npm.
 2. `uv sync`
 3. Create a `.env` in the repo root with `HEARTHGUARD_HASH_SALT=<any long random text>`. It is git-ignored; `.env.example` lists the names. Hashing refuses to run without it.
-4. Start the database: `docker compose up -d` (Windows: `.\make.ps1 up`). The image is pinned to `falkordb/falkordb:6.0.2`. If a port is taken, set `FALKORDB_PORT` or `FALKORDB_UI_PORT` in `.env`.
+4. Start the database: `docker compose up -d` (Windows: `powershell -ExecutionPolicy Bypass -File .\make.ps1 up`). The image is pinned to `falkordb/falkordb:6.0.2`. If a port is taken, set `FALKORDB_PORT` or `FALKORDB_UI_PORT` in `.env`.
 5. Run the checks below.
 
 The demo needs none of the three (no key, no network, no database); it prints from saved result files:
@@ -30,11 +30,11 @@ uv run python -m eval.demo
 
 On Windows without `make`, every target below runs as `powershell -ExecutionPolicy Bypass -File .\make.ps1 <target>`. A plain `.\make.ps1` fails on a default Windows install ("running scripts is disabled"), because Windows defaults to the Restricted policy. Judge path with expected outputs: [docs/judge_guide.md](docs/judge_guide.md).
 
-Tests: `uv run pytest` (Windows: `make.ps1 test`). The FalkorDB-backed tests need step 3 and step 4. Tests that need git-ignored data (`data/raw/`) skip with a reason.
+Tests: `uv run pytest` (Windows: `powershell -ExecutionPolicy Bypass -File .\make.ps1 test`). The FalkorDB-backed tests need step 3 and step 4. Tests that need git-ignored data (`data/raw/`) skip with a reason.
 
 ## Commands
 
-Each name works as `make <name>` or `.\make.ps1 <name>` where `make.ps1` lists it. Commands shown in full (`uv run python -m <module>`) are run exactly so.
+Each name works as `make <name>`, or on Windows as `powershell -ExecutionPolicy Bypass -File .\make.ps1 <name>`, where `make.ps1` lists it. Positional arguments work (`.\make.ps1 replay xz`). Named ones are passed as parameters: the red team is `.\make.ps1 redteam -N 200 -Seed 7 -Case tallowdate` (N and seed default to 200 and 7). Commands shown in full (`uv run python -m <module>`) are run exactly so.
 
 | Command | What it does | Needs |
 |---|---|---|
@@ -43,7 +43,7 @@ Each name works as `make <name>` or `.\make.ps1 <name>` where `make.ps1` lists i
 | `test` | Run the test suite | uv; FalkorDB and `.env` for the full suite |
 | `lint` | ruff check and format check | uv |
 | `smoke-algos` | Re-check each FalkorDB procedure the product depends on | FalkorDB |
-| `ingest-xz`, `normal-xz`, `takeover-xz`, `detectors-xz`, `pressure-vouch-xz`, `quarterly-xz` | Build `org_xz` from the public xz git history and run the detectors at each quarter-end | FalkorDB; `data/raw/xz.git` |
+| `ingest-xz`, `normal-xz`, `takeover-xz`, `detectors-xz`, `pressure-vouch-xz`, `quarterly-xz` | Build `org_xz` from the public xz git history and run the detectors at each quarter-end | FalkorDB; fetches the public xz git history into `data/raw/xz.git` if it is absent (network) |
 | `decision-xz` | The decision policy on the saved statuses | files only |
 | `replay CASE=xz` | Rewrite `eval/results/xz_replay.json` and `.md` from saved files | files only |
 | `ecosystem-xz`, `gaps CASE=xz` | Load `ecosystem_xz` and compute the visibility gaps; print them (roles only) | network, FalkorDB; files only for `gaps` |
@@ -63,7 +63,7 @@ Each name works as `make <name>` or `.\make.ps1 <name>` where `make.ps1` lists i
 
 ### Which commands were run, and what was left out
 
-Every command in the table above, apart from the ones named here, was run on main without a key and exited 0. The exit codes are in `eval/results/readme_commands.json`.
+Every command in the table above, apart from the ones named here, was run in a clean clone of main without a key and exited 0, except where the table says otherwise. The exit codes and the notes are in docs/fresh_clone_report.md (run 8). An earlier run's codes are in `eval/results/readme_commands.json`. Some commands rewrite tracked files under `eval/results/`; see run 8.
 
 - **Needs a key, not run:** `llm-test`, `reader-spotcheck`, `reader-full`.
 - **Removed: `reader-score` (also `make eval-reader`).** It exits 1 until a person has filled in every human label, and the labels are not filled in. It was in this table before; it is removed so that every command listed exits 0. The scorer's own message names each unlabelled message.
@@ -77,7 +77,7 @@ Commands that the spec lists in §10.3 and that are not wired are in eval/result
 As built, in FalkorDB 6.0.2 with one graph per organisation, `org_<id>` (docs/HEARTHGUARD.md §6.1; the schema and its unique keys are in core/graph/schema.py).
 
 - **Trust graph:** `Org`, `Actor` (hashed id), `Action` (commit, review, issue, release), `Path` (how a release was made), `Privilege` (`merge`, `release`, `sign`, `npm_publish`), edges `DID`, `VIA`, `GRANTED`, `CAN_GRANT`, `APPROVED`.
-- **Remembered normal:** `Normal` nodes (cadence, active keepers, usual path, grant speed), each stored as of the time `T` it was computed for.
+- **Remembered normal:** `Normal` nodes (`cadence_days`, `active_keepers`, `usual_path`, `grant_days`; core/normal/metrics.py), each stored as of the time `T` it was computed for.
 - **Claim graph:** `Source -[HAS]-> Span <-[FROM]- Claim <-[ASSERTED]- Actor` (core/claims/graph_write.py).
 - **Agents and memory:** `Finding`, `Note`, `Task`, `AgentStep`, `Hardening`, `Exception` (the playbook), `OwnerDecision`.
 - **Ecosystem graph** `ecosystem_<id>`: `Place`, `Identity`, `Role`, `Signal`, `Decision`, edges `EMITTED`, `RECORDED_IN`, `WATCHES`, `MADE_IN`, `SAME_AS` (packs/oss/ecosystem/graph.py). `Foundation`, `HOSTED_BY`, `Campaign` and `TOUCHES` are not written, because no public source in the cache names a hosting foundation for xz (eval/results/blockers_G.md).
@@ -91,7 +91,8 @@ Every Cypher constant, with the module that runs it, is generated into [docs/que
 - `algo.SPpaths` over `OUTSIDER_ENTRY`, `CAN_GRANT`, `GRANTED` for takeover cost (core/takeover/cost.py), and over `VOUCHED_FOR`, `REVIEWED`, `GRANTED` for the trust path (core/takeover/trust_path.py).
 - `algo.maxFlow` on a node-split projection for guardians (core/takeover/guardians.py).
 - Plain code over graph reads for Vouch components (core/detectors/vouch.py).
-- Every read goes through `GRAPH.RO_QUERY` with an explicit timeout and a `LIMIT`, and every detector reads only events at or before `T` (core/graph/as_of.py, core/graph/ro_guard.py).
+- The time-filtered reads (`run_as_of`, core/graph/as_of.py) and the checked read path (`ro_query`, core/graph/ro_guard.py) go through `GRAPH.RO_QUERY` with an explicit timeout. The detector Cypher filters on `$T`, for example core/detectors/bypass.py.
+- Other graph calls, such as the task board, the playbook and the claim writes, use the write-capable client with an explicit timeout (core/graph/client.py). They are not read-only.
 
 ## What is measured
 
@@ -100,18 +101,18 @@ Every number has its source file next to it. Where a result is unflattering it i
 | Number | Value | Source |
 |---|---|---|
 | xz, per quarter | HOLD in all 10 quarters (2021-Q4 to 2024-Q1), reason "move unknown: RUSH, BYPASS" | eval/results/decision_status.json |
-| Grant records found for xz | 0 | eval/results/xz_grant_search.json |
+| Grant records found for xz | 0 (14 sources searched; one commit-message match was read and is not a grant) | eval/results/xz_grant_search.json |
 | Red-team, tallowdate (synthetic), 200 campaigns | 182 caught, detection rate 0.91, median lead time 12.8 days | eval/results/redteam_tallowdate.json |
 | Red-team, planted into a copy of xz history, 200 campaigns | 167 caught, detection rate 0.835, median lead time 11.0 days | eval/results/redteam_xz.json |
 | Memory ablation, 100 campaigns | detection 0.88 with full memory, 0.82 with the last 90 days, 0.60 with the last 30. Clean campaigns flagged: 1 of 20 with full memory, 20 of 20 with either forgetful memory | eval/results/ablation_memory.json |
 | Algorithm ablation, 100 campaigns | SPpaths off and maxFlow off tie the baseline (SPpaths is never called by the decision path). Vouch without components: detection 0.88 to 0.90, false alarms unchanged on a clean set that has no vouch claims | eval/results/ablation_algos.json |
 | event-stream replay (2018) | First NOTE on 2018-09-16, 7.1 days AFTER the malicious release; 64.1 days before the public report. HOLD before that | eval/results/replay_event_stream.json |
 | axios replay (2026) | Bypass did not fire: 33 of the 37 releases in the trailing 730 days were manual publishes, so a manual publish matched the remembered normal | eval/results/replay_axios.json |
-| Hardening, scaffolded copy of xz history | Adding a second keeper raises guardians from 1 to 2; the other steps change neither takeover cost nor guardians | eval/results/hardening_redteam_xz.json |
+| Hardening, scaffolded copy of xz history | Adding a second keeper raises guardians from 1 to 2 and lowers the caught campaigns from 167 to 152 of 200 (detection 0.835 to 0.76). This build does not explain that drop. The other two steps change neither takeover cost, guardians nor the caught count | eval/results/hardening_redteam_xz.json |
 | Race test | 8 workers, 200 tasks, 0 duplicate claims, 40 notes for 40 findings | eval/results/race_run.json |
 | Determinism | Identical findings under 5 task orderings | eval/results/determinism_run.json |
 | Faults | All 9 failure types, including LLM offline, end in a bounded HOLD | eval/results/faults_run.json |
-| Reader messages done | 94 of 240; 146 unread because the free model allowance ran out | eval/results/reader_full_progress.json |
+| Reader messages done | 94 of 240; 146 unread because the run stopped at the model's limit of 200000 tokens per day | eval/results/reader_full_progress.json |
 | Reader precision and recall | NOT COMPUTED: no human labels yet | eval/results/reader_testset.json |
 
 Three real attacks are too few to claim precision; the red-team numbers are on synthetic or planted campaigns and say nothing about how often a real project would be flagged.
@@ -126,7 +127,7 @@ Three real attacks are too few to claim precision; the red-team numbers are on s
 
 ## Limitations
 
-- The xz backdoor was in the release tarballs, not in git. A git-based replay cannot show it.
+- The xz backdoor was in the release tarballs, not in git. A git-based replay cannot show it (eval/results/xz_normal.json, notes).
 - A NOT_FIRED result only covers the messages that were read. The Reader read 94 of 240 and found 3 claims; its recall is not measured.
 - The frozen Bypass remembers 730 days. A two-year gap (event-stream) or a recent change of normal (axios) defeats it, and the replays show both.
 - The registry-based incident graphs do not model a maintainer being removed; the replays stop at the incident date.
@@ -146,7 +147,7 @@ Act II, the `tallowdate` case, is synthetic: a fictional project, labelled SYNTH
 
 ## Tracks
 
-Track entered: Track 02 — Agent Memory and Coordination (the name on the event page, https://www.wemakedevs.org/hackathons/falkordb). The submission form has not been filled in yet.
+Track entered: Track 02 — Agent Memory and Coordination (the name in docs/HEARTHGUARD.md and docs/submission_checklist.md; the event page is https://www.wemakedevs.org/hackathons/falkordb, listed in data/sources.yaml, and the name was not re-checked against it). The submission form has not been filled in yet.
 
 ## Docs
 
