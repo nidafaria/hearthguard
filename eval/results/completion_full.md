@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 75, PARTIAL 35, NOT STARTED 21. Score 70.6% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 75, PARTIAL 36, NOT STARTED 20. Score 71.0% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -16,7 +16,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 8 | §1 R12/13 | Named module owners; design decisions recorded | PARTIAL | docs/decisions/0001-0006; no named owners |
 | 9 | §1 R5 | Tracks named in the submission | PARTIAL | README.md names Track 02 (Tracks section); the submission itself is not made |
 | 10 | §2.2 | Takeover cost (SPpaths) on hand-built graphs | DONE | core/takeover/cost.py; ef68035 |
-| 11 | §2.2 | Takeover cost on real xz over time | NOT STARTED | eval/results/xz_takeover_status.json: NOT COMPUTED (no grant data) |
+| 11 | §2.2 | Takeover cost on real xz over time | PARTIAL | Computed on a copy of org_xz from 5 grant edges taken from public statements (not a system log; dates approximate): cost and guardians per eval/results/xz_grants_from_statements.json at four dates. The real org_xz still has no grant data. Result is provisional (decision 0001). |
 | 12 | §2.2/7.4 | Guardians (maxFlow min-cut) on hand-built graphs | DONE | core/takeover/guardians.py; ef68035 |
 | 13 | §2.2 | Outsider edge rule (spec TRUSTS vs built) settled | PARTIAL | docs/decisions/0001 PROPOSED |
 | 14 | §2.3/3.1 | Ecosystem records ingested for the six public places (oss-fuzz, LKML, Debian, Launchpad) | DONE | packs/oss/ecosystem/fetch.py; eval/results/ecosystem_sources.json: oss-fuzz, LKML, Debian, Launchpad all 200 with a body; xz git, GitHub and xz-devel already cached |
@@ -39,7 +39,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 31 | §5.2 | One graph per organisation; GRAPH.COPY works | DONE | org_xz; core/graph/client.py copy; a5711b5 |
 | 32 | §6.1 | org graph: Org, Actor, Action, DID, Path, VIA, Normal, OF | DONE | packs/oss/xz_graph.py; 09c776c |
 | 33 | §6.1 | org graph: Source, Span, Claim, FROM, ASSERTED | DONE | core/claims/graph_write.py; 086a5e2 |
-| 34 | §6.1 | org graph: Privilege, GRANTED, CAN_GRANT, APPROVED | PARTIAL | packs/oss/grants.py (documented records -> Privilege, GRANTED, CAN_GRANT, APPROVED); tests/unit/test_grants_mapping.py, tests/integration/test_grants_write.py. No documented grant records exist for xz, so its results stay NOT COMPUTED. |
+| 34 | §6.1 | org graph: Privilege, GRANTED, CAN_GRANT, APPROVED | PARTIAL | packs/oss/grants.py plus packs/oss/xz_statements.py: 3 GRANTED and 2 CAN_GRANT edges from public statements loaded into a copy of org_xz; loading twice gives identical counts (tests/integration/test_xz_statements.py). APPROVED comes from the PR review record, not this. |
 | 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | DONE | eval/populate_visibility.py writes Place, PARTICIPATES_IN and RECORDED_IN for the cached xz mail (323 messages) and git history (4,509 commits) into a GRAPH.COPY of org_xz, so the commit Actions are there to link: 96 actors, 4,832 RECORDED_IN, second run identical (eval/results/visibility_xz_org.json); also written for the finance case (packs/finance/mapping.py; tests/integration/test_visibility_graph.py); tests/unit/test_visibility_xz_org_result.py. |
 | 36 | §6.1 | org graph: SHARES edges built | NOT STARTED | no builder; decision 0004 |
 | 37 | §6.1 | org graph: CONTRADICTS / SUPERSEDES / QUALIFIES written | PARTIAL | core/claims/conflicts.py writes CONTRADICTS / SUPERSEDES / QUALIFIES via the unchanged core/policy/conflict.py; tests/integration/test_conflict_links.py. Pairs are supplied by the caller; no detector finds contradicting pairs yet. |
@@ -60,7 +60,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 52 | §7.2 | Conflict policy | DONE | core/policy/conflict.py; 2e9054f |
 | 53 | §7.3 | Decision policy (frozen decide()) | DONE | core/policy/decision.py; 6d3f62d, 2e9054f |
 | 54 | §7.5 | Visibility gaps (UNREACHABLE / UNNOTICED) | DONE | packs/oss/ecosystem/gaps.py runs the §7.5 query as written; eval/results/ecosystem_gaps.json: 4 decisions computed, 22 gap rows (a lower bound); tests/integration/test_ecosystem_xz.py |
-| 55 | §7.6 | Trust path query (SPpaths from a young actor) | PARTIAL | core/takeover/trust_path.py (SPpaths, tested in tests/integration/test_trust_path.py); eval/results/trust_path_tallowdate.json: NOT COMPUTED for every quarter, because the tallowdate case records no grant. |
+| 55 | §7.6 | Trust path query (SPpaths from a young actor) | PARTIAL | Not changed by this work. `eval/trust_path_tallowdate.py` was not run on the xz copy. The grant edges from statements now exist on a copy, so a trace could be run once the script is generalised; that has not been done. |
 | 56 | §7.6 | `why` query (finding to quote and link) | DONE | core/agents/why.py run_why (spec 7.6 Cypher through core/graph/ro_guard.py, timeout); tests: tests/integration/test_why_quote_link.py, tests/unit/test_inbox_rules.py; tests/integration/test_inbox_loop.py; tests/integration/test_why_quote_link.py |
 | 57 | §7.6 | Read-path guard (RO_QUERY, timeout, write block, LIMIT cap) | DONE | core/graph/ro_guard.py; 2483a41 |
 | 58 | §7 | As-of-T helper; no future leakage | DONE | core/graph/as_of.py; tests/integration/test_as_of.py |
@@ -78,7 +78,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 70 | §8.5 | Hardening simulator (up to three steps, measured) | DONE | redteam/harden.py: three menu steps, same campaigns, frozen detectors, caught and lead time before/after; eval/results/hardening_redteam_tallowdate.json, hardening_redteam_xz.json; tests/integration/test_redteam.py |
 | 71 | §9 | Episodic memory, every query as of T | DONE | core/graph/as_of.py |
 | 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | core/claims/conflicts.py (contradictions resolved by policy and linked); tests/integration/test_conflict_links.py. Pair detection is still missing. |
-| 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (eval/results/xz_normal.json) |
+| 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (xz_normal.json). `grant_days` and `trusted_actor_set` could be computed from the statement edges on the copy, but only from public statements with approximate dates; this was not run, and `core/normal` was not changed. |
 | 74 | §9 | Who-saw-what memory | PARTIAL | core/memory/who_saw.py (PARTICIPATES_IN, WATCHES {since}, already_acknowledged); tests/integration/test_who_saw.py. PARTICIPATES_IN is now filled from the cached xz mail and git: 96 actors, second run identical (eval/results/visibility_xz_org.json, on a copy of org_xz). Not DONE: WATCHES has no public source for xz, and nothing calls already_acknowledged before a send (eval/results/blockers_open_rows.md). |
 | 75 | §9 | Owner memory | DONE | OwnerDecision written once per finding (core/agents/inbox_graph.py record_dismissal); a dismissed situation is held back in a later quarter and returns only with a Claim newer than the dismissal, as of T (_apply_owner_memory); tests/integration/test_learning_memory.py (4 passing: held back, new evidence reopens, different situation not held, later dismissal does not hold back an earlier quarter). |
 | 76 | §9 | Working memory (AgentStep, task board) | DONE | core/agents/agent_step.py (log_step, resume_state); tests/integration/test_board_core.py (a second client resumes a crashed agent's task from the graph). A docker restart of the container was also checked by hand with a named volume; that check is not a test. |
