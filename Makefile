@@ -1,4 +1,4 @@
-.PHONY: blog-check video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos eval-reader verify-determinism race
+.PHONY: blog-check video-check ecosystem-xz inbox slack-preview harden-xz hardening-fixture tallowdate-run synthetic-tallowdate reader-full pressure-vouch-xz quarterly-xz decision-xz ui up down test lint smoke-algos schema-test ingest-xz normal-xz takeover-xz detectors-xz cache-mail-xz cache-github-xz cache-inventory-xz llm-test reader-spotcheck reader-testset reader-score gaps harden redteam ablation-memory ablation-algos eval-reader verify-determinism race verify-frozen
 
 # Working targets. On Windows without make, use: .\make.ps1 <target>
 up:
@@ -168,3 +168,11 @@ ecosystem-xz:
 # Visibility gaps from the saved ecosystem_xz output: make gaps CASE=xz. Reads files only.
 gaps:
 	uv run python -m eval.gaps_report $(or $(CASE),xz)
+verify-frozen:
+	uv run python -m eval.verify_frozen
+
+verify-learning:
+	uv run python -m eval.verify_learning
+
+chaos:
+	uv run python -m eval.chaos --seed $(or $(SEED),7)

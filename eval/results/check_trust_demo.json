@@ -1,0 +1,47 @@
+{
+  "question": "A merge by this author is pending. What does check_trust say first?",
+  "transport": "MCP over stdio, server started as a child process",
+  "client": "eval/merge_gate.py (not Claude Code)",
+  "org": "tallowdate",
+  "synthetic": true,
+  "action": "release",
+  "tools_listed": [
+    "check_trust",
+    "claims_for",
+    "guardians",
+    "org_normal",
+    "simulate_hardening",
+    "takeover_cost",
+    "trust_path",
+    "visibility_gaps",
+    "why"
+  ],
+  "evidence": {
+    "actor_hid": "5fa4c6ba823f7f30bbdae5771ed48c19bdd96dfc0edeba52da90e321da25bb55",
+    "action": "release",
+    "history": {
+      "status": "COMPUTED",
+      "days_in_org": 133.0,
+      "actions": 3,
+      "low_history": true,
+      "rule": "low-history = < 90 days or < 5 actions (config/frozen.yaml)"
+    },
+    "vouched_for_by": [],
+    "already_holds": [],
+    "trust_path": {
+      "status": "NOT COMPUTED",
+      "weight": null,
+      "hops": [],
+      "reason": "no CAN_GRANT or Privilege data in org_tallowdate"
+    },
+    "org_detectors": {
+      "pressure": "NOT_FIRED",
+      "vouch": "NOT_FIRED"
+    },
+    "note": "evidence for a human, not a verdict; no score is produced",
+    "org": "tallowdate",
+    "T": 1781049600,
+    "T_defaulted": true
+  },
+  "note": "Evidence for a human. No score, no verdict, nothing written to any graph."
+}
