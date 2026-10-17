@@ -1,4 +1,4 @@
-# Team 1 Status: Slack Delivery & Interactive Receiver
+# Team 1 Status: Slack Delivery, Interactive Receiver & Event Listener
 
 **Agent:** Agent 1 (Slack Delivery & Interaction)  
 **Branch:** `team/t1-slack`  
@@ -6,62 +6,81 @@
 
 ---
 
-## 1. Summary of Work Done
+## 1. Listener Audit & Implementation
 
-### Real Slack Delivery & Interactive Receiver
-- **Implementation (`slack_app/client.py`):**
-  - Built `SlackWebClient`: HTTPS client calling the Slack Web API (`chat.postMessage`, `auth.test`) via `httpx`.
-  - Built `SlackSender`: Implements `NoteSender` protocol; validates `find_accusations()` (spec §4.4) and `ends_with_question()` (spec §12.2); attaches Block Kit interactive buttons (`build_note_blocks`); posts notes via Slack Web API and returns message timestamp `ts`.
-  - Built `handle_slack_action()`: Dispatches interactive button actions (`action_show_why`, `action_simulate_fix`, `action_draft_reply`, `action_dismiss`, `action_snooze`) in-thread, ensuring replies strictly pass accusation checks.
-  - Built `handle_slack_thread_question()`: Dispatches follow-up user questions in Slack threads to the deterministic `Investigator` (`core/agents/investigator.py`), validating that answers contain no accusations before posting.
-- **Send Path Integration (`slack_app/notify.py`):**
-  - Updated `notify.py` to export `SlackSender` and `get_default_sender()`.
-  - Maintained `UnimplementedSlackSender` and `SenderNotImplemented` to preserve backwards compatibility and safety checks when unconfigured.
-  - Zero banned words inside `notify.py` (`import httpx`, `requests`, `slack_sdk`, `os.environ`), preserving static checks in `test_slack_notify.py`.
-  - Network request execution in `client.py` adheres strictly to AST boundary rules (`test_boundary.py`).
+### Prior State Audit
+- **Audit Result:** No listener was running or defined in `slack_app/`.
+- **Existing Files:**
+  - `slack_app/client.py`: Contained Web API client, `SlackSender`, and handler functions `handle_slack_action()` / `handle_slack_thread_question()`, but lacked an inbound network listener.
+  - `slack_app/notify.py`: Note delivery orchestrator and protocol definition.
+  - `slack_app/render.py`: Static note formatting.
+  - `slack_app/rules.py`: Accusation and question validation.
+  - `slack_app/show_why.py`: "Show me why" factual proof renderer.
+  - No active Socket Mode client or Events API server was present.
 
-### Testing & Verification
-- **Unit Tests (`tests/unit/test_slack_client.py`):**
-  - Added 22 comprehensive unit tests with mocked transports covering:
-    - Token loading from environment (`get_token`), raising `SenderNotConfigured` when missing.
-    - Security invariant: tokens are never printed or leaked in error messages.
-    - Block Kit block generation structure and action IDs.
-    - Slack Web API `auth.test` and `chat.postMessage` payloads, headers, and error handling (HTTP errors and Slack API `ok=False` errors).
-    - `SlackSender.deliver()` success and validation failures (accusations, missing questions, missing timestamp).
-    - Interactive action buttons: `Show me why`, `Simulate a fix`, `Draft a reply`, `Dismiss`, `Snooze`.
-    - Thread question handling via `Investigator` callback.
-    - Accusation rejection backstops on thread responses.
-    - `notify.get_default_sender()` behavior with and without environment token.
-    - Full end-to-end send via `send_note()`.
-- **Manual Verification Script (`scripts/slack_check.py`):**
-  - Created standalone script for running with the live token:
-    - Verifies presence of `SLACK_BOT_TOKEN` in the environment without exposing it.
-    - Calls `client.auth_test()` and displays workspace name, team ID, bot user, and workspace URL.
-    - Supports optional `--channel <ID>` to send a real test note with interactive buttons.
-    - Verified against workspace `hearthguard-test` (`T0CA66517GU`, bot user `hearthguard` `U0C9X74METF`).
+### Listener Construction (`slack_app/listener.py`)
+- Built an inbound Slack listener supporting both **Events API** and **Interactive Components (Block Kit)**:
+  - **Button Clicks (`type == "block_actions"`):** Parses `action_id`, `value`, `channel`, `user`, and `thread_ts`. Routes each click to `slack_app.client.handle_slack_action()` (`action_show_why`, `action_simulate_fix`, `action_draft_reply`, `action_dismiss`, `action_snooze`).
+  - **Thread Messages (`type == "event_callback"`):** Parses message text and thread timestamp. Routes user questions asked in Slack threads to `slack_app.client.handle_slack_thread_question()`. Suppresses bot messages (`bot_id` / `subtype`) to prevent loops.
+  - **Handshake (`type == "url_verification"`):** Immediately replies with challenge token for Slack verification.
+  - **Endpoints:**
+    - `POST /slack/actions`: Accepts `application/x-www-form-urlencoded` (`payload=...`) and `application/json`.
+    - `POST /slack/events`: Accepts dual-configured Events API callbacks and Block Actions.
+    - `GET /slack/health`: Health status endpoint returning `{"status": "listening", "mode": "events_api"}`.
+- **Security & Safety Invariants:**
+  - Uses `SLACK_BOT_TOKEN` strictly from the environment; never prints, logs, or leaks credentials.
+  - Validates that every outbound reply is checked with `find_accusations()`; strictly refuses any accusation.
+  - Boundary scan compliance: zero outbound write violations in `tests/unit/test_boundary.py`.
 
 ---
 
-## 2. Blocked Items
+## 2. Summary of Full Work Done
 
-- **None.** All deliverables completed without external blockers.
+### Deliverables
+1. **`slack_app/client.py`:**
+   - `SlackWebClient`: HTTPS client calling `chat.postMessage` and `auth.test`.
+   - `SlackSender`: Delivers private notes to owner/backup, attaches Block Kit interactive buttons, validates question line and zero accusations.
+   - `handle_slack_action()` & `handle_slack_thread_question()`: Thread action and Q&A handlers.
+2. **`slack_app/listener.py`:**
+   - `dispatch_slack_payload()`: Event & action dispatcher.
+   - `create_listener_app()`: FastAPI listener app.
+   - `start_listener()`: Standalone server runner with uvicorn.
+3. **`slack_app/notify.py`:**
+   - Exported `SlackSender` and `get_default_sender()`, with safety fallbacks.
+4. **`scripts/slack_check.py`:**
+   - Verifies `SLACK_BOT_TOKEN` without printing it.
+   - Authenticates against Slack workspace (`auth.test`).
+   - Confirms listener initializes and passes health check.
+   - Supports `--listen --port <port>` to run live.
+   - Supports `--channel <id>` for test note delivery.
+5. **`tests/unit/test_slack_client.py`:**
+   - 22 unit tests with mocked transports covering client, sender, and handlers.
+6. **`tests/unit/test_slack_listener.py`:**
+   - 11 unit tests with mocked events covering all 5 button clicks, thread Q&A, form encoding, URL verification, bot loop prevention, and accusation refusal.
 
 ---
 
-## 3. Test Counts
+## 3. Blocked Items
+
+- **None.** Everything is functional and verified.
+
+---
+
+## 4. Test Counts
 
 ### Slack & Boundary Test Suite
-- `tests/unit/test_slack_notify.py`: **17 passed**
+- `tests/unit/test_slack_listener.py`: **11 passed**
 - `tests/unit/test_slack_client.py`: **22 passed**
+- `tests/unit/test_slack_notify.py`: **17 passed**
 - `tests/unit/test_slack_inbox_api.py`: **19 passed**
 - `tests/unit/test_slack_no_accusation.py`: **22 passed**
 - `tests/unit/test_slack_render.py`: **10 passed**
 - `tests/unit/test_boundary.py`: **59 passed**
-- **Total Slack + Boundary:** **149 passed / 0 failed / 0 skipped**
+- **Total Slack + Boundary:** **160 passed / 0 failed / 0 skipped**
 
 ### Full Repository Test Suite
-- **Passed:** 1,031
+- **Passed:** 1,042
 - **Strict Expected XFail:** 1 (`tests/integration/test_smoke_algos.py::test_sspaths_weighted_expectation`)
 - **Failed:** 0
 - **Skipped:** 0
-- **Total:** 1,032 test items
+- **Total Test Items:** 1,043

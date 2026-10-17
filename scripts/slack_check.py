@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Manual verification script for Slack connectivity.
+"""Manual verification script for Slack connectivity and listener readiness.
 
 Usage:
     uv run python scripts/slack_check.py
+    uv run python scripts/slack_check.py --listen --port 3000
     uv run python scripts/slack_check.py --channel C0123456789
 
 Security & Policy Rules:
@@ -20,6 +21,8 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from fastapi.testclient import TestClient
+
 from slack_app.client import (
     SenderNotConfigured,
     SlackDeliveryError,
@@ -27,17 +30,37 @@ from slack_app.client import (
     SlackWebClient,
     get_token,
 )
+from slack_app.listener import create_listener_app, start_listener
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Verify Slack bot credentials and optionally send a test note."
+        description="Verify Slack bot credentials, listener startup, and optionally send a test note."
     )
     parser.add_argument(
         "--channel",
         "-c",
         help="Optional Slack channel or user ID (e.g. C0123456789 or U0123456789) to deliver a test note.",
         default=None,
+    )
+    parser.add_argument(
+        "--listen",
+        "-l",
+        action="store_true",
+        help="Start the live HTTP listener for Slack events and interactive actions.",
+        default=False,
+    )
+    parser.add_argument(
+        "--port",
+        "-p",
+        type=int,
+        help="Port for the listener server (default: 3000).",
+        default=3000,
+    )
+    parser.add_argument(
+        "--host",
+        help="Host for the listener server (default: 127.0.0.1).",
+        default="127.0.0.1",
     )
     args = parser.parse_args()
 
@@ -67,7 +90,23 @@ def main() -> int:
         print(f"[ERROR] Slack auth.test failed: {e}")
         return 2
 
-    # 3. Optional channel test send
+    # 3. Confirm listener startup and health
+    try:
+        app = create_listener_app()
+        test_client = TestClient(app)
+        health_resp = test_client.get("/slack/health")
+        if health_resp.status_code == 200 and health_resp.json().get("status") == "listening":
+            print("[OK] Slack listener initialized and ready to receive events:")
+            print(f"     Mode             : {health_resp.json().get('mode', 'events_api')}")
+            print("     Endpoints        : /slack/actions, /slack/events, /slack/health")
+        else:
+            print(f"[ERROR] Listener health check returned unexpected: {health_resp.text}")
+            return 3
+    except Exception as e:
+        print(f"[ERROR] Failed to initialize Slack listener: {e}")
+        return 3
+
+    # 4. Optional channel test send
     if args.channel:
         target_channel = args.channel.strip()
         print(f"\n[INFO] Sending test note to recipient: {target_channel}...")
@@ -84,11 +123,23 @@ def main() -> int:
             print(f"     Message Timestamp (ts): {ts}")
         except Exception as e:
             print(f"[ERROR] Delivery failed: {e}")
-            return 3
+            return 4
     else:
         print("\n[INFO] No --channel provided. Skipping test message delivery.")
         print("       To test sending a real note, run:")
         print("       uv run python scripts/slack_check.py --channel <CHANNEL_ID_OR_USER_ID>")
+
+    # 5. Optional live listener execution
+    if args.listen:
+        print(f"\n[INFO] Starting live Slack listener on http://{args.host}:{args.port}...")
+        print("       Press Ctrl+C to stop.")
+        try:
+            start_listener(host=args.host, port=args.port)
+        except KeyboardInterrupt:
+            print("\n[INFO] Listener stopped by user.")
+    else:
+        print("\n[INFO] To start the listener on a live port, run:")
+        print(f"       uv run python scripts/slack_check.py --listen --port {args.port}")
 
     print("=" * 60)
     print("Check completed successfully.")
