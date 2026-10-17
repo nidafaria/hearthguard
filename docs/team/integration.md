@@ -25,7 +25,7 @@ All four team branches have been successfully merged into `team/integration`:
    - **Merge Commit:** `ae6f93a24da55bb12dc2cb5047da2f99616af167`
 4. **`team/t2-reader` (Agent 2):**
    - **Feature & Results Commit:** `613a00db59fd40c20d592995e6041558587a95e8` (`eval: support batching in reader_full_run and update progress to 132 messages`)
-   - **Merge Commit:** Merged into `team/integration` with full batch support, progress checkpoint, and eval summary.
+   - **Merge Commit:** `c40e5595b1599bfead5b3e90d2cd820b1f2d6579` (`Merge branch 'team/t2-reader' (commit 613a00d) into team/integration`)
 
 ---
 
@@ -71,7 +71,7 @@ Full repository test execution (`uv run pytest`):
 - **Failed:** **0**
 - **Skipped:** **0**
 - **Errors:** **0**
-- **Duration:** 294.06s (~4m 54s)
+- **Duration:** 338.83s (~5m 38s) on FalkorDB port 6411
 
 ### Test Breakdown by Subsystem:
 - **Slack App (`team/t1-slack`):**
