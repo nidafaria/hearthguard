@@ -63,7 +63,7 @@ Commits per day, from `git log` on branch coding/s4-submission (merge commits ar
 OWNER TO CONFIRM: which parts above were built after Oct 15 12:01 AM IST.
 
 ## Honest limits (paste)
-No public grant record exists for real xz, so takeover cost, Rush, Bypass and Lone keeper are NOT COMPUTED on it and the decision is HOLD in all 10 quarters. The xz backdoor was in release tarballs, not git; this build does not detect it. The Reader read 94 of 240 messages and its precision and recall are NOT COMPUTED (no human labels). The Act II case is synthetic and labelled. The Slack send path is tested with a fake sender; no real Slack message was sent. There is no live deployment beyond a static demo page.
+No public grant record exists for real xz, so takeover cost, Rush, Bypass and Lone keeper are NOT COMPUTED on it and the decision is HOLD in all 10 quarters. The xz backdoor was in release tarballs, not git; this build does not detect it. The Reader has read 132 of 240 in-scope messages (resumable) and its precision and recall are NOT COMPUTED (evaluation test set is preserved blinded with no human labels yet). The Act II case is synthetic and labelled. The Slack Web API sender and listener are tested with mock transports; no live Slack message was sent to an external workspace and real click testing requires a public URL or tunnel. Action Boundary (§4.4) strictly forbids automatic blocking of releases or payments; Hearthguard only warns and recalls. There is no live deployment beyond a static demo page.
 
 ## Team
 `<<names and GitHub handles of members>>` (solo or up to 4; each person on one team only).
