@@ -1,8 +1,10 @@
 # Hearthguard
 
-> Some attacks are too slow for anything that forgets.
+> Persistent graph memory for software projects on FalkorDB: remembering custodians, handoffs, and normal across sessions.
 
-Hearthguard keeps a memory of who could change an open-source project, and how that changed over time. It stores that memory as a graph in FalkorDB (docs/HEARTHGUARD.md §5). Four slow moves (Pressure, Vouch, Rush, Bypass) and one multiplier (Lone keeper) are read from that graph by plain code. An LLM reads text into typed claims; it is never in the decision path (docs/HEARTHGUARD.md §8.4).
+Hearthguard maintains episodic and structural memory of who could change an open-source project and how authority evolved over time. It stores that memory as a graph in FalkorDB using dedicated per-project graph names (`org_<id>`, `ecosystem_<id>`, docs/HEARTHGUARD.md §5). Agent handoffs (Watcher → Reader → Investigator → Skeptic → Policy → Liaison) happen entirely through graph state on a leased task board, not prompt stuffing.
+
+Across sessions, Hearthguard preserves custody memory: a custody baseline written on Day 1 is recalled on Day 4 after the application is closed. Under the project's Action Boundary (§4.4), Hearthguard asks and never orders: it strictly forbids automatic blocking of releases or payments, instead recalling historical custody and warning the person in charge with private, evidenced notes. Four slow moves (Pressure, Vouch, Rush, Bypass) and one multiplier (Lone keeper) are read from that graph by plain, deterministic code. An LLM reads text into typed claims; it is never in the decision path (docs/HEARTHGUARD.md §8.4).
 
 It was built to ask one question: would this memory have flagged the xz backdoor, using only public data? In this build, it does **not** detect the xz backdoor, and it does not claim to. What it does do, and what it does not, is listed under "What is measured" and "Limitations".
 
@@ -39,6 +41,7 @@ Each name works as `make <name>`, or on Windows as `powershell -ExecutionPolicy 
 | Command | What it does | Needs |
 |---|---|---|
 | `uv run python -m eval.demo` | Print the xz replay table, the visibility gaps, the hardening summary and the tallowdate summary (synthetic, labelled) | files only |
+| `uv run python -m demo.custody_demo` | Day 1 write, app closed, Day 4 recall across sessions; warns and recalls, never blocks (§4.4) | FalkorDB |
 | `up` / `down` | Start or stop FalkorDB | Docker |
 | `test` | Run the test suite | uv; FalkorDB and `.env` for the full suite |
 | `lint` | ruff check and format check | uv |
