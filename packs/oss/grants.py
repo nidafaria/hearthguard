@@ -25,7 +25,9 @@ from dataclasses import dataclass
 from core.graph.client import FalkorClient
 from packs.oss import pack
 
-SOURCES = frozenset({"MAINTAINERS", "CODEOWNERS", "collaborator_permission", "pr_review"})
+SOURCES = frozenset(
+    {"MAINTAINERS", "CODEOWNERS", "collaborator_permission", "pr_review", "public_statement"}
+)
 KINDS = frozenset({"grant", "can_grant", "approval"})
 WRITE_TIMEOUT_MS = 30_000
 

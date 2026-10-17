@@ -1,0 +1,144 @@
+{
+  "label": "From public statements, not a system log. Dates approximate.",
+  "generated_at_utc": "2026-10-17T18:43:16Z",
+  "graph_copied_from": "org_xz",
+  "graph_written": "org_xz_statements",
+  "real_org_xz_written": false,
+  "statements_total": 9,
+  "statements_as_edges": {
+    "granted": 3,
+    "can_grant": 2
+  },
+  "rule": "0001-outsider-edges (PROPOSED)",
+  "provisional": true,
+  "results": [
+    {
+      "privilege": "release",
+      "T": 1664582399,
+      "T_date": "2022-09-30",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    },
+    {
+      "privilege": "release",
+      "T": 1672531199,
+      "T_date": "2022-12-31",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    },
+    {
+      "privilege": "release",
+      "T": 1680307199,
+      "T_date": "2023-03-31",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    },
+    {
+      "privilege": "release",
+      "T": 1711929599,
+      "T_date": "2024-03-31",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    },
+    {
+      "privilege": "merge",
+      "T": 1664582399,
+      "T_date": "2022-09-30",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    },
+    {
+      "privilege": "merge",
+      "T": 1672531199,
+      "T_date": "2022-12-31",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    },
+    {
+      "privilege": "merge",
+      "T": 1680307199,
+      "T_date": "2023-03-31",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    },
+    {
+      "privilege": "merge",
+      "T": 1711929599,
+      "T_date": "2024-03-31",
+      "takeover_cost": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null,
+        "path_length": 3
+      },
+      "guardians": {
+        "status": "COMPUTED",
+        "value": 1,
+        "reason": null
+      }
+    }
+  ]
+}
