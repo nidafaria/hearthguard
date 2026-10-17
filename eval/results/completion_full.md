@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 74, PARTIAL 35, NOT STARTED 22. Score 69.8% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 75, PARTIAL 35, NOT STARTED 21. Score 70.6% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -31,7 +31,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 23 | §4.3 | Downstream packager question via MCP or web | DONE | ui/src/Packager.tsx at #/packager: the visibility-gap question for a chosen decision, roles only, from eval/results/ecosystem_gaps.json; ui/src/screens.test.tsx 'Packager'; eval/results/ui_screens_b/packager.png |
 | 24 | §4.3 | Foundation view across projects (Could) | NOT STARTED | none |
 | 25 | §4.3 | Controller note with Mark callback done (finance) | NOT STARTED | none |
-| 26 | §4.3 | Coding agent `check_trust` before a merge | NOT STARTED | no MCP server |
+| 26 | §4.3 | Coding agent `check_trust` before a merge | DONE | eval/merge_gate.py starts the hearthguard-core MCP server over stdio, lists its nine tools and calls check_trust for a pending merge's author: evidence, no verdict, nothing written (eval/results/check_trust_demo.json, on the SYNTHETIC tallowdate case); tests/integration/test_merge_gate.py on a real FalkorDB. The client is this script, not Claude Code; wiring Claude Code itself is row 99 (docs/mcp/claude_code_config.json). |
 | 27 | §4.3 | Judge connects own GitHub repo, sees cost in about a minute | DONE | Measured, not claimed: eval/results/connect_repo_run.json records one cold run of octocat/Hello-World (3 commits): pipeline 2.965 s, wall clock 3.045 s, status DONE, takeover cost NOT COMPUTED. Only a small public repo is measured; a large repo is not. Live path: tests/integration/test_connect_repo.py; ui/src/ConnectRepo.tsx |
 | 28 | §4.4 | Action boundary levels 0-2 enforced; never-list enforced | DONE | core/policy/boundary.py (levels enum, one check(), Never list); tests/unit/test_boundary.py (each Never item refused for every recipient; a static scan finds no outbound write outside the allowed modules). No send path exists yet, so the scan is the enforcement. |
 | 29 | §4.5 | Ethics by design: hashed ids, private only, aggregate census, situations not people | PARTIAL | hashing and read-only guard done; notes and census not built |
