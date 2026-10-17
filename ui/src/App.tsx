@@ -39,6 +39,24 @@ type VideoQuotes = { quotes: Record<string, Quote> };
 
 const SCREENS = ["#/connect", "#/packager", "#/playbook", "#/census"];
 
+// Paper / Night, as in the demo header. The choice is kept in this browser only.
+function ThemeSwitch() {
+  const toggle = () => {
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === "dark" ? "light" : "dark";
+    try {
+      localStorage.setItem("hg-theme", r.dataset.theme);
+    } catch (_) {
+      /* not kept: the switch still works for this page */
+    }
+  };
+  return (
+    <button type="button" className="theme" onClick={toggle} aria-label="Switch paper or night">
+      Paper / Night
+    </button>
+  );
+}
+
 function Header({ hash }: { hash: string }) {
   const nav: Array<[string, string]> = [
     ["#/", "Results"],
@@ -60,6 +78,7 @@ function Header({ hash }: { hash: string }) {
             {label}
           </a>
         ))}
+        <ThemeSwitch />
       </nav>
     </header>
   );
@@ -189,7 +208,10 @@ function ResultsPage() {
   const gaps = useResult<GapsDoc>("ecosystem_gaps.json");
   const events = useResult<EventsDoc>("ecosystem_events.json");
   const quotes = useResult<VideoQuotes>("video_quotes.json");
-  const [sel, setSel] = useState("2024-Q1");
+  // The quarter on show: the reader's pick, or the first quarter the replay file holds.
+  const [picked, setPicked] = useState<string | null>(null);
+  const sel = picked ?? (replay.state === "ok" ? (replay.data.quarters[0]?.quarter ?? "") : "");
+  const setSel = setPicked;
 
   const pvRow = pv.state === "ok" ? pv.data.quarters.find((q) => q.quarter === sel) : undefined;
   const qsRow = qs.state === "ok" ? qs.data.quarters.find((q) => q.quarter === sel) : undefined;

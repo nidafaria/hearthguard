@@ -34,7 +34,7 @@ export function Packager({ gaps, file }: { gaps?: GapsDoc; file: string }) {
           {d && (
             <>
               <p>
-                <b>{questionFor(d)}</b>
+                <b className="question">{questionFor(d)}</b>
               </p>
               {d.status !== "COMPUTED" ? (
                 <p>

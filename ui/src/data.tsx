@@ -22,6 +22,14 @@ export function useResult<T>(file: string): Loaded<T> {
 
 export const NOT_COMPUTED = "NOT COMPUTED";
 
+// A design token's current value, for code that needs a concrete colour (a canvas, not CSS). The
+// fallback is used only where no stylesheet is loaded, such as a test.
+export function token(name: string, fallback: string): string {
+  if (typeof document === "undefined") return fallback;
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return v || fallback;
+}
+
 // A saved status string, with NOT_COMPUTED and NOT COMPUTED treated as one value.
 export function norm(s: string | null | undefined): string {
   if (s == null) return NOT_COMPUTED;
@@ -45,11 +53,14 @@ export function Status({ s }: { s: string | null | undefined }) {
   return <span className={`tag ${v.replace(/ /g, "_")}`}>{v}</span>;
 }
 
+// A value the saved files do not hold: a blank tile, hatched, with the reason on a paper label.
 export function NotComputed({ file, what }: { file: string; what?: string }) {
   return (
-    <p className="NOT_COMPUTED tag">
-      NOT COMPUTED{what ? `: ${what}` : ""}: {file} not found. Build it first (see README, Commands).
-    </p>
+    <div className="blank">
+      <p className="NOT_COMPUTED tag">
+        NOT COMPUTED{what ? `: ${what}` : ""}: {file} not found. Build it first (see README, Commands).
+      </p>
+    </div>
   );
 }
 
