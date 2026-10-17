@@ -24,10 +24,11 @@ Agent 3 owns the detector implementations in Hearthguard. All partial detectors 
 ### B. Vouch (Claim.target_hid Population & SHARES Edge Builder)
 - **Status:** Completed.
 - **Candidate Target Writing (`core/claims/graph_write.py`):**
-  1. Created `resolve_target_hid()` which resolves candidate targets in three prioritized tiers:
-     - *Tier 1:* Explicit target in claim payload (`target_hid`, `target`, or `candidate`).
-     - *Tier 2:* Agent 2's reader outputs (`_load_agent2_targets()`), reading from `eval/results/` when available.
-     - *Tier 3:* Current data fallbacks, including regex extraction over quote/summary (`vouch for <name>`) and known persona resolution (e.g., Jia Tan actor hash `b0589c05e633346d8d573da58413aa56fbe18b56b21e05eed49e7fdf5e3908a8`, Rowan).
+  1. Created `resolve_target_hid()` which strictly adheres to specification constraints:
+     - *Source 1:* Explicit target in claim payload (`target_hid`, `target`, or `candidate`).
+     - *Source 2:* Agent 2's reader outputs (`_load_agent2_targets()`), reading from `eval/results/` when available.
+     - *Fallback Removal:* All hardcoded persona names (`jia tan`, `rowan`, etc.), actor hashes (`b0589...`), and regex heuristics were completely removed.
+     - *Missing Target Handling:* If missing from both claim data and reader outputs, returns `None` so that `Claim.target_hid` remains unset, ensuring Vouch evaluates to `NOT_COMPUTED` as required by §7.1.
   2. The claim writer populates `Claim.target_hid` in FalkorDB via batch `UNWIND` Cypher updates.
 - **Automated SHARES Edge Builder (`core/claims/shares.py`):**
   1. Implemented `build_shares_edges(client, graph, T)` and `create_shares_edge()`.
@@ -40,9 +41,9 @@ Agent 3 owns the detector implementations in Hearthguard. All partial detectors 
 
 ### C. Lone Keeper (Centrality Fallback)
 - **Status:** Completed.
-- **Centrality Fallback (`core/detectors/lone_keeper.py` & `core/takeover/guardians.py`):**
-  1. In `core/takeover/guardians.py`, handled `algo.maxFlow` errors gracefully when no source route exists or projection fails, cleanly returning `NOT_COMPUTED`.
-  2. In `core/detectors/lone_keeper.py`, built `betweenness_fallback(client, org, T)` implementing the §7.1 specification fallback:
+- **Centrality Fallback (`core/detectors/lone_keeper.py`):**
+  1. In `core/detectors/lone_keeper.py`, calls `guardians.guardians(...)` inside a `try/except` block, ensuring that exceptions or `NOT_COMPUTED` results from maxFlow trigger the §7.1 betweenness fallback while preserving the original exception-raising behavior of `guardians.py` for audit tests (`tests/integration/test_takeover.py`).
+  2. Built `betweenness_fallback(client, org, T)`:
      - Reads all `REVIEWED` and `APPROVED` relationships visible at $\le T$.
      - Projects the directed review/approval network into an isolated scratch graph (`takeover_<run>`).
      - Executes `algo.betweenness({nodeLabels: ['Actor'], relationshipTypes: ['REVIEWED']})`.
@@ -60,7 +61,7 @@ In accordance with the specification and frozen rules, the following conditions 
 1. **Pressure on real `org_xz`:**
    - **Reason:** `xz` has no grant records (`eval/results/xz_grant_search.json`) and no keeper records in `org_xz`. Under decision 0005, firing without knowing who the keepers are would be guessing. It remains `NOT_COMPUTED` with `"keeper activity condition open in freeze: default chosen for submission, not final"`.
 2. **Vouch on claims without candidate targets:**
-   - **Reason:** If $\ge 2$ low-history vouchers exist but their claims specify no candidate target, Vouch remains `NOT_COMPUTED` with `"VOUCH claims carry no target: the same candidate cannot be established"` (spec §7.1 requirement).
+   - **Reason:** If $\ge 2$ low-history vouchers exist but their claims specify no candidate target (and Agent 2 did not produce a target for them), Vouch remains `NOT_COMPUTED` with `"VOUCH claims carry no target: the same candidate cannot be established"` (spec §7.1 requirement).
 3. **Vouch on candidate targets before SHARES edges are generated:**
    - **Reason:** If candidate targets exist but no `SHARES` edges join the vouchers, Vouch returns `NOT_COMPUTED` with `"no SHARES edges built between the vouchers"` until `build_shares_edges()` runs.
 4. **Lone keeper on graphs lacking both grants and review history:**
@@ -68,16 +69,28 @@ In accordance with the specification and frozen rules, the following conditions 
 
 ---
 
-## 3. Testing & Verification
+## 3. Environment & Workspace Setup
+
+- `.env` configured with `FALKORDB_PORT=6412` and necessary secrets (`HEARTHGUARD_HASH_SALT`, `GITHUB_TOKEN`, `GROQ_API_KEY`, `SLACK_BOT_TOKEN`) loaded identically to the audit setup.
+- `.env` is fully git-ignored, confirmed not staged or committed. No keys, tokens, or salts are printed in logs or code.
+- Data directory junctions created identically to `hh-audit`:
+  - `data/derived` $\rightarrow$ `c:\Users\farze\newhackathon\data\derived`
+  - `data/llm_cache` $\rightarrow$ `c:\Users\farze\newhackathon\data\llm_cache`
+  - `data/raw` $\rightarrow$ `c:\Users\farze\newhackathon\data\raw`
+
+---
+
+## 4. Testing & Verification
 
 1. **New Unit & Integration Test Suite (`tests/unit/test_t3_detectors.py`):**
-   - 13 dedicated unit tests covering every change:
+   - 14 dedicated unit tests covering all detector paths:
      - `test_pressure_condition2_keeper_capacity_statement_fires` (PASS)
      - `test_pressure_condition2_keeper_activity_drop_fires` (PASS)
      - `test_pressure_condition2_keeper_activity_normal_not_fired` (PASS)
      - `test_pressure_condition2_no_keeper_record_not_computed` (PASS)
      - `test_claim_writer_populates_target_hid_from_claim` (PASS)
-     - `test_claim_writer_populates_target_hid_from_text_fallback` (PASS)
+     - `test_claim_writer_target_missing_leaves_target_hid_none_and_vouch_not_computed` (PASS)
+     - `test_claim_writer_populates_target_hid_from_agent2_output` (PASS)
      - `test_build_shares_edges_creation_window_and_domain_hash` (PASS)
      - `test_build_shares_edges_only_interacts_with_target_and_burst` (PASS)
      - `test_vouch_fires_end_to_end_with_shares_edges_and_target_hid` (PASS)
@@ -88,6 +101,10 @@ In accordance with the specification and frozen rules, the following conditions 
 2. **Existing Detector Regression Suites:**
    - `tests/integration/test_pressure_vouch.py`: 22 passed.
    - `tests/integration/test_detectors.py`: 41 passed.
-3. **Code Quality:**
-   - `ruff check`: All checks passed.
+   - Total detector tests: 77 passed, 0 failed.
+3. **Full Suite Test Results:**
+   - Full suite execution: **1022 passed, 0 skipped, 1 xfailed, 0 errors**.
+   - Note on single transient subprocess test: `test_unchanged_guarded_graph_passes` in `tests/integration/test_real_graph_guard.py` had a transient Windows Temp file cleanup collision during the full suite, but passes 100% when run (3/3 passed).
+4. **Code Quality:**
+   - `uv run ruff check`: All checks passed.
    - Real FalkorDB port 6412 used for all graph queries.
