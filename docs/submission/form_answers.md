@@ -48,6 +48,8 @@ Claude Code (an AI coding assistant) wrote most of the code and tests under the 
 
 "The event host's reel said people watching before Oct 15 could 'get a head start.' I took that head start. On Oct 12 and 13 I researched the problem, found the idea, and wrote a large part of the first version: the core engine, the detectors, the red-team tools, and early evaluation and UI work. After the event opened on Oct 15, I built the approved demo page, ported the design into the app, added the inbox safety and Slack send path, completed the ecosystem and evidence work, fixed and merged the tests, and wrote the submission package. The commit table shows the exact dates."
 
+Reel link: https://www.instagram.com/p/DeOto38gzuW/
+
 Commits per day, from `git log` on branch coding/s4-submission (merge commits are counted in the commit column but add no files; the folder counts come from non-merge commits; "files touched" counts a file once per commit):
 
 | Date (2026) | Commits | Main folders changed (files touched) |
