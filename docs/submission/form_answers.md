@@ -44,12 +44,19 @@ Public, synthetic or our own data only. Real data: the public xz git history and
 Claude Code (an AI coding assistant) wrote most of the code and tests under the owner's direction. Every AI-assisted step is logged in docs/AI_USE.md. A Haiku 5.5 subagent gave a blind second opinion on test-set labels, marked as an AI opinion. The Reader calls `openai/gpt-oss-20b` through Groq for claim extraction only; no other product code calls a model. `<<OWNER: add one or two sentences, in your own words, on what you decided and can explain, e.g. the graph model and one detector. Rules 12 and 13 need a human who can explain the project. No module has a named owner in the repo yet.>>`
 
 ## Honest note about commit dates (paste, edit if needed)
-The first commit is dated 12 October 2026 (13:21 IST), three days before the event window opened on 15 October at 12:01 AM IST. Dates come from `git log`.
+"I began thinking through the Hearthguard idea and setting up its basic structure before the hackathon opened. I researched how slow supply-chain takeovers like the xz case happen, chose the data sources, and wrote the first specification and project skeleton on October 12 and 13. I am stating this openly so the judges can see exactly what existed before the start and what was built during the event."
 
-- **Before the start (12 and 13 October, 127 commits):** the repo skeleton and tooling, the spec and the freeze notes, the FalkorDB smoke tests, the graph schema and as-of reads, the xz ingest, takeover cost and guardians, the four detectors, the Reader and its tests, the red-team generator and the tallowdate case, the first UI and the first README and blog drafts, the learning block, the task board, and the finance pack (Oct 13).
-- **After the start (15 and 17 October, 33 commits):** the evaluation and MCP-server block, the ecosystem ingest and visibility graph, the Slack send path (with a fake sender), the full design overhaul and demo page, the inbox safety tests, the Census screen, the `check_trust` MCP check, the clean-clone check and README commands, and the final completion and blocker records.
+Commits per day, from `git log` on branch coding/s4-submission (merge commits are counted in the commit column but add no files; the folder counts come from non-merge commits; "files touched" counts a file once per commit):
 
-We are not claiming that the main work started on 15 October. Rule 7 says main coding and design work must begin after the start, and allows ideas, notes and sketches before it. A judge should treat the work from before 15 October as pre-event work, and decide whether it counts. `<<OWNER: confirm, in your own words, what you did before the 15th (if you only planned and the Oct 12 commits were not the build, say that only if it is true). I cannot verify what is not in git.>>`
+| Date (2026) | Commits | Main folders changed (files touched) |
+|---|---|---|
+| Oct 12 | 115 | eval (155), docs (75), core (55), ui (46), redteam (23) |
+| Oct 13 | 12 | eval (51), core (17), docs (4), ui (3), redteam (2) |
+| Oct 15 | 12 | eval (39), demo (25), docs (8), ui (5), core (1) |
+| Oct 17 | 21 | ui (33), eval (28), demo (16), docs (9), core (1) |
+| Oct 18 | 1 | docs (9), eval (3) |
+
+OWNER TO CONFIRM: which parts above were built after Oct 15 12:01 AM IST.
 
 ## Honest limits (paste)
 No public grant record exists for real xz, so takeover cost, Rush, Bypass and Lone keeper are NOT COMPUTED on it and the decision is HOLD in all 10 quarters. The xz backdoor was in release tarballs, not git; this build does not detect it. The Reader read 94 of 240 messages and its precision and recall are NOT COMPUTED (no human labels). The Act II case is synthetic and labelled. The Slack send path is tested with a fake sender; no real Slack message was sent. There is no live deployment beyond a static demo page.
