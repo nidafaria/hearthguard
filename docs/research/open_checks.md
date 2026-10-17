@@ -65,3 +65,19 @@ No `takeover_*` graph exists on either port.
   - Other fields match too: missed 48, caught_rate 0.76, median_lead_time_days 1.1416670000000004, guardians 1 to 2, takeover cost unchanged. The other two steps stay at 167.
   - No cause to look for, since nothing differs. The README and blog already say the build does not explain the drop; this rerun does not explain it either.
   - Not rerun: port 6390 (my first attempt there was killed before finishing).
+
+## Cleanup result
+
+Approved by the user and done. Each graph was deleted by exact name with `GRAPH.DELETE`; each returned `OK`.
+
+- Port 6380: `redteam_cfeb3abfb5`, `redteam_ef5c1684e1`, `org_rta080c2549e`.
+- Port 6390: `org_rtbd43dbc733`, `redteam_66f3d50c3c`, `redteam_eda31b1227`.
+
+No other graph was deleted. `harden_b526c8b473`, `redteam_00ccbd26bf` and `org_rta8b49fd554` (the live rerun's) were already gone before this step; the rerun script dropped them itself when it finished.
+
+Graphs left:
+
+- Port 6380: `org_octocat_hello_world`, `org_xz`, `playbook`, `org_octo_demo`, `p_msf2`, `ecosystem_xz`, `org_whytest`, `org_xz_visibility`, `p_msf_N`, `org_axios`, `p_msf_hid`, `p_ss`, `org_tallowdate`, `p_msf_Actor`, `org_event_stream`.
+- Port 6390: `org_xz`, `org_event_stream`, `org_axios`, `ecosystem_xz`, `org_tallowdate`.
+
+No `redteam_*`, `org_tst*`, `org_rt*`, `takeover_*` or `harden_*` graph remains on either port.
