@@ -35,9 +35,11 @@ class SenderNotConfigured(SlackDeliveryError):
     """Raised when SLACK_BOT_TOKEN is missing from the environment."""
 
 
+load_dotenv()
+
+
 def get_token() -> str:
     """Read the bot token from the environment; never prints or leaks it."""
-    load_dotenv()
     token = os.environ.get("SLACK_BOT_TOKEN", "").strip()
     if not token:
         raise SenderNotConfigured(
