@@ -1,0 +1,44 @@
+{
+  "synthetic": true,
+  "case": "tallowdate (fictional project, fictional people; docs/HEARTHGUARD.md section 3.5)",
+  "client": "Claude Code",
+  "claude_code_version": "2.1.302 (Claude Code)",
+  "model": "claude-sonnet-5-5",
+  "generated_at_utc": "2026-10-17T19:15:15Z",
+  "server": "hearthguard-core, MCP over stdio, started by Claude Code from --mcp-config",
+  "prompt": "A pull request from a contributor named Rowan is waiting to be merged into the project tallowdate, and it touches the release process. Before merging, call the check_trust tool with org='tallowdate', actor='Rowan', action='release'. Then tell me in three or four plain sentences what the tool returned: how long the contributor has been in the project, how many actions they have, who vouches for them, and whether the result is a verdict. Call no tool other than check_trust (loading it first is fine).",
+  "check_trust_called": true,
+  "ok": true,
+  "tool_calls": [
+    {
+      "tool": "ToolSearch",
+      "input": {
+        "query": "select:mcp__hearthguard-core__check_trust",
+        "max_results": 1
+      }
+    },
+    {
+      "tool": "mcp__hearthguard-core__check_trust",
+      "input": {
+        "org": "tallowdate",
+        "actor": "Rowan",
+        "action": "release"
+      }
+    }
+  ],
+  "tool_results": [
+    {
+      "tool": "ToolSearch",
+      "is_error": false,
+      "text": ""
+    },
+    {
+      "tool": "mcp__hearthguard-core__check_trust",
+      "is_error": false,
+      "text": "{\n  \"actor_hid\": \"f3e5aef25fef08ce6f9cec6eee28b240620a2c1e645e652f6fdc22b7f44e94ed\",\n  \"action\": \"release\",\n  \"history\": {\n    \"status\": \"COMPUTED\",\n    \"days_in_org\": 152.0,\n    \"actions\": 4,\n    \"low_history\": true,\n    \"rule\": \"low-history = < 90 days or < 5 actions (config/frozen.yaml)\"\n  },\n  \"vouched_for_by\": [],\n  \"already_holds\": [],\n  \"trust_path\": {\n    \"status\": \"NOT COMPUTED\",\n    \"weight\": null,\n    \"hops\": [],\n    \"reason\": \"no CAN_GRANT or Privilege data in org_tallowdate\"\n  },\n  \"org_detectors\": {\n    \"pressure\": \"NOT_FIRED\",\n    \"vouch\": \"NOT_FIRED\"\n  },\n  \"note\": \"evidence for a human, not a verdict; no score is produced\",\n  \"org\": \"tallowdate\",\n  \"T\": 1781049600,\n  \"T_defaulted\": true\n}"
+    }
+  ],
+  "answer": "Rowan has been in the tallowdate project for 152 days and has 4 recorded actions. Under the project's rule, a low-history contributor has fewer than 90 days or fewer than 5 actions. Rowan clears the days threshold but not the actions one, so they are flagged as low-history. Nobody vouches for Rowan, and Rowan doesn't already hold the release privilege. The result is not a verdict. The tool calls it evidence for a human and produces no score. It also couldn't compute a trust path to the release action, because the org has no grant or privilege data. The pressure and vouch detectors didn't fire. The tool also defaulted the as-of time T because none was given.",
+  "exit_code": 0,
+  "note": "Evidence for a human. No score, no verdict, nothing written to any graph."
+}

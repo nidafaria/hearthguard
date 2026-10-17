@@ -139,6 +139,28 @@ Three real attacks are too few to claim precision; the red-team numbers are on s
 
 Act II, the `tallowdate` case, is synthetic: a fictional project, labelled SYNTHETIC wherever it appears (docs/HEARTHGUARD.md §3.5; `uv run python -m redteam.run_tallowdate`).
 
+## Coding agent demo (check_trust from Claude Code)
+
+The `hearthguard-core` MCP server gives a coding agent read-only evidence about a contributor before it merges. This demo uses the **synthetic** `tallowdate` case (fictional project, fictional people). No real project, person or pull request is involved.
+
+Add the server to Claude Code (from the repo root, FalkorDB running with `org_tallowdate` loaded by `tallowdate-run`; set `FALKORDB_PORT` to your port):
+
+```
+claude mcp add hearthguard-core --env FALKORDB_PORT=6379 -- uv run python mcp_servers\hearthguard-core\server.py
+```
+
+The path is written for Windows. On macOS or Linux use forward slashes, as in `docs/mcp/claude_code_config.json`.
+
+Then ask Claude Code: "Before merging a pull request from Rowan that touches release, call check_trust for org tallowdate, actor Rowan, action release." The tool returns history, vouches, holdings and the trust path, with no score and no verdict.
+
+To run it once without touching your own Claude Code settings:
+
+```
+uv run python -m eval.claude_code_demo
+```
+
+It starts the server from a throwaway `--mcp-config`, runs `claude -p` with only `check_trust` allowed, and saves the tool call, the tool result and the agent's answer to `eval/results/claude_code_check_trust.json`. The saved file is a real run on the synthetic case (`"synthetic": true`). Config entry for hand setup: `docs/mcp/claude_code_config.json`.
+
 ## AI disclosure
 
 - Claude Code, an AI coding assistant, wrote most of the code and tests, under the owner's direction. Each AI-assisted step is logged in docs/AI_USE.md.
