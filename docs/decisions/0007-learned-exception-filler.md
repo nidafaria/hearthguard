@@ -54,3 +54,8 @@ campaign.
 Spec 8.3 says "nothing untested ever acts" and "zero planted campaigns may be lost". A
 deterministic filler and a gate on the frozen code meet both without a model call, and the result
 can be re-run by anyone from the saved files.
+
+## Default chosen for submission, not final (2026-10-18)
+
+- Accept the fixed-table filler in place of the spec 8.3 LLM proposal, with Adopted not acting on any live decision. Why: it keeps the LLM out of the decision path (CLAUDE.md) and nothing untested acts.
+- "A different exception" (row 80) means a different pattern: two seeds drawing the same pattern give the same exception, because the template holds no organisation data. Why: the careful reading, as it cannot make a template carry data.

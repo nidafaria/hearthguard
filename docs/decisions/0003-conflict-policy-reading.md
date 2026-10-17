@@ -13,3 +13,7 @@ Authority (owner decision > system record > established actor > low-history acto
 3. **A specificity relation is explicit.** A claim names the general claim it narrows (`exception_to`). The code does not guess it from text. It applies only between claims of equal authority, because authority is checked first: a lower-authority exception does not narrow a higher-authority statement.
 4. **NARROWED is not a winner.** When an exception narrows a general statement, both stand and no winner is named. The exception governs its narrow scope.
 5. **Bad input is refused:** not exactly two claims, equal ids, an unknown authority class, a non-integer time, or two claims that are each an exception to the other.
+
+## Default chosen for submission, not final (2026-10-18)
+
+- Keep all five reading choices as built. Why: UNRESOLVED on equal-authority equal-or-missing time is the careful reading, since it never names a winner on thin evidence, and the code needs no change.

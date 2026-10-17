@@ -20,3 +20,7 @@ It never returns FIRED on real data. No threshold was changed. The metric `keepe
 ## To close it
 
 The owner picks what counts as a keeper (committers in the last N days; or holders of a grant once grants are known), then the freeze file is dated and updated.
+
+## Default chosen for submission, not final (2026-10-18)
+
+- Pressure stays NOT_COMPUTED whenever condition (1) holds and no keeper record exists. Why: firing without knowing who the keepers are would be a guess. A keeper means a grant holder once grants are known; until then no committer proxy is used. FREEZE.md is not edited.

@@ -19,3 +19,7 @@
 ## Not decided here
 
 Whether to count mail messages as actions, and whether GitHub account data may enter the graph. Both change results, so the choice stays with the owner.
+
+## Default chosen for submission, not final (2026-10-18)
+
+- Mail messages do not count as actions, and GitHub account data does not enter the graph. Why: the literal spec reading of low-history is kept, the graph keeps only public git and list data already held, and no result changes. The weaker low-history filter for list posters stays a stated limit; Vouch stays NOT COMPUTED.

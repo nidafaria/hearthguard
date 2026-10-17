@@ -31,3 +31,9 @@ Rule 1 is the owner's request. Rule 2 is my extension of the same idea; the owne
 
 1. A NOTE can still be sent while a move is unknown (case n: Bypass unknown, Pressure and Vouch fired, so NOTE medium). Its urgency might have been higher had Bypass been known. The breakdown lists the unknown move, so the note can say so. Should an unknown move cap or annotate the urgency?
 2. Lone keeper unknown with two moves fired (case t) gives `medium`, because unknown is passed as false. With Lone keeper true it would be `high`. The breakdown records `lone_keeper_unknown`. Should this be a HOLD instead?
+
+## Default chosen for submission, not final (2026-10-18)
+
+- Keep both proposed rules (unknown move and unknown Lone keeper turn NO_ACTION into HOLD). Why: HOLD is the careful answer when something could not be checked.
+- Open question 1: an unknown move annotates a NOTE through the breakdown and does not cap urgency. Why: capping would invent a rule the spec does not state.
+- Open question 2: Lone keeper unknown with two moves fired stays `medium` with `lone_keeper_unknown` recorded. Why: changing it to HOLD would change a fixture expectation; the breakdown already shows the gap.

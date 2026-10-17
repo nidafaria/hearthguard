@@ -45,3 +45,9 @@ Both are about the remembered-normal metrics in `core/normal/metrics.py`. Neithe
 
 1. **Cadence. Status: OPEN.** `commit_cadence_days` is the median gap between consecutive commits. On xz it is minutes (0.004 to 0.019 days) at every quarter-end, because commits arrive in bursts and the median sits inside a burst. Options: replace it with the median gap between distinct commit days, or between bursts, or keep it and add a second metric.
 2. **Active keepers. Status: OPEN.** `active_keepers` counts distinct commit authors in the trailing 90 days. An author is not always someone with commit access, so it can overcount keepers. Options: count committers, or count maintainers once grants are known. This feeds the Lone keeper condition (§7.1), so it matters.
+
+## Default chosen for submission, not final (2026-10-18)
+
+- Outsider rule: keep the reading above (entry edge weight 1, cost = pathWeight - 1). Why: it is the only reading that gives the spec's own numbers (lone keeper 1, two-keeper rule 2), and it needs no code change. Guardians stay CAN_GRANT only, exactly as spec 7.4 reads. Takeover cost stays provisional.
+- Cadence: keep `commit_cadence_days` as built and unchanged. Why: any replacement rewrites saved results; the value is labelled as burst-sensitive and not used as a finding.
+- Active keepers: keep counting distinct authors in the trailing 90 days, labelled an upper bound on keepers. Why: the careful side for Lone keeper is to not claim a keeper count that grants cannot back; Lone keeper stays NOT COMPUTED on xz.

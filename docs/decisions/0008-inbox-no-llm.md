@@ -22,3 +22,7 @@ Questions that ask for a judgement about a person, or ask the system to approve,
 
 1. Accept the no-LLM router for the demo, or wait for an LLM planner?
 2. Should the list of answerable questions be widened, and by whom?
+
+## Default chosen for submission, not final (2026-10-18)
+
+- Accept the no-LLM router for the demo; the list of answerable questions is not widened. Why: it is tested, makes zero model calls, and refuses to judge people.
