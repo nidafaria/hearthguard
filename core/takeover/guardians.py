@@ -81,30 +81,20 @@ def guardians(
         client.query(scratch, PROJECTION, params, timeout_ms=timeout_ms)
         res.queries.append(sc.QueryRecord("projection", PROJECTION, params, 0.0).as_dict())
         start = time.perf_counter()
-        try:
-            r = client.query(scratch, GUARDIANS_QUERY, params, timeout_ms=timeout_ms)
-            res.query_ms = (time.perf_counter() - start) * 1000
-            res.queries.append(
-                sc.QueryRecord(
-                    "maxflow", GUARDIANS_QUERY, params, res.query_ms, len(r.result_set)
-                ).as_dict()
-            )
-            res.status = COMPUTED
-            if not r.result_set:
-                # No keeper can grant the privilege at T, so the projection built no OUTSIDER node.
-                res.guardians = 0
-                res.reason = "no route from OUTSIDER"
-            else:
-                res.guardians = int(r.result_set[0][0])
-        except ResponseError as e:
-            res.query_ms = (time.perf_counter() - start) * 1000
-            res.status = NOT_COMPUTED
-            res.reason = f"maxFlow failed: {e}"
-            res.queries.append(
-                sc.QueryRecord(
-                    "maxflow (failed)", GUARDIANS_QUERY, params, res.query_ms, 0
-                ).as_dict()
-            )
+        r = client.query(scratch, GUARDIANS_QUERY, params, timeout_ms=timeout_ms)
+        res.query_ms = (time.perf_counter() - start) * 1000
+        res.queries.append(
+            sc.QueryRecord(
+                "maxflow", GUARDIANS_QUERY, params, res.query_ms, len(r.result_set)
+            ).as_dict()
+        )
 
+    res.status = COMPUTED
+    if not r.result_set:
+        # No keeper can grant the privilege at T, so the projection built no OUTSIDER node.
+        res.guardians = 0
+        res.reason = "no route from OUTSIDER"
+    else:
+        res.guardians = int(r.result_set[0][0])
     return res
 

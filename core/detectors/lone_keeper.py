@@ -145,8 +145,11 @@ def lone_keeper(
     bw_top = None
 
     if not force_fallback:
-        g = gmod.guardians(client, org, privilege_kind, T, timeout_ms, run=run)
-        res.queries = list(g.queries)
+        try:
+            g = gmod.guardians(client, org, privilege_kind, T, timeout_ms, run=run)
+            res.queries = list(g.queries)
+        except Exception:
+            g = None
     else:
         g = None
 
