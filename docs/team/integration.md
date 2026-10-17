@@ -3,7 +3,7 @@
 **Agent:** Agent 4 (Demo, Pitch, Merge Lead)  
 **Branch:** `team/integration`  
 **Date:** October 18, 2026  
-**Commit:** `ae6f93a24da55bb12dc2cb5047da2f99616af167`
+**Commit:** `e98c610a5aafe876b36f9017e40d58a64c59ced9`
 
 ---
 
@@ -23,7 +23,8 @@ All ready team branches have been merged into `team/integration`:
    - **Feature Commit:** `7e940c0` (`feat(detectors): implement Pressure Condition 2, Vouch SHARES builder & target resolution, and Lone Keeper betweenness fallback`)
    - **Follow-up Refinement:** `6a97d48` (`fix(detectors): remove hardcoded xz fallbacks from resolve_target_hid and update docs`)
    - **Regression Fix:** `ef2ab43` (`fix(takeover): propagate ResponseError in guardians for scratch graph cleanup; catch in lone_keeper fallback`)
-   - **Merge Commit:** `ae6f93a24da55bb12dc2cb5047da2f99616af167` (`Merge updated team/t3-detect (commit 6a97d48) into team/integration`)
+   - **Latest Commit:** `35939e2` (`docs(team): update t3_detect.md with latest full-suite test counts`)
+   - **Latest Merge Commit:** `e98c610a5aafe876b36f9017e40d58a64c59ced9` (`Merge commit 35939e2 from team/t3-detect into team/integration`)
 4. **`team/t2-reader` (Agent 2):**
    - **Status:** Agent 2's AI reader run is actively processing in-scope messages under Groq rate limits. Branch currently contains no diverging commits ahead of main (`b8d1d02`); `docs/team/t2_reader.md` is pending completion of batch processing.
 
@@ -32,8 +33,8 @@ All ready team branches have been merged into `team/integration`:
 ## 2. Full Test Suite Verification
 
 ### Isolated Test Runs Prior to Full Suite:
-- `tests/integration/test_takeover.py`: **18 passed / 0 failed** (14.58s)
-- `tests/integration/test_real_graph_guard.py`: **3 passed / 0 failed** (25.13s)
+- `tests/integration/test_takeover.py`: **18 passed / 0 failed** (6.93s)
+- `tests/integration/test_real_graph_guard.py`: **3 passed / 0 failed** (19.78s)
 
 ### Full Repository Test Execution (`uv run pytest`):
 Executed with `.env` loaded and `data/derived`, `data/raw`, and `data/llm_cache` linked as junctions:
@@ -41,7 +42,9 @@ Executed with `.env` loaded and `data/derived`, `data/raw`, and `data/llm_cache`
 - **Passed:** 1,063
 - **Strict Expected XFail:** 1 (`tests/integration/test_smoke_algos.py::test_sspaths_weighted_expectation`)
 - **Failed:** 0
-- **Duration:** 429.20s (~7m 09s)
+- **Skipped:** 0
+- **Errors:** 0
+- **Duration:** 280.95s (~4m 41s)
 
 ### Test Breakdown by Deliverable Subsystem:
 - **Slack App (`team/t1-slack`):**
