@@ -64,8 +64,8 @@
       "label": "Reader messages done",
       "source_file": "eval/results/reader_full_progress.json",
       "source_field": "done",
-      "value": 94,
-      "display": "94",
+      "value": 132,
+      "display": "132",
       "status": "COMPUTED",
       "used_in_scenes": [
         "S7"
@@ -88,8 +88,8 @@
       "label": "Reader messages too long to read",
       "source_file": "eval/results/reader_full_run.json",
       "source_field": "totals.messages_not_read_too_long",
-      "value": 4,
-      "display": "4",
+      "value": 7,
+      "display": "7",
       "status": "COMPUTED",
       "used_in_scenes": [
         "S7"

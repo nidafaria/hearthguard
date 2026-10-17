@@ -11,9 +11,9 @@
     "in_scope_messages": 300,
     "excluded_human_labelled_test_set": 60,
     "to_read": 240,
-    "read_so_far": 90,
+    "read_so_far": 132,
     "complete": false,
-    "recorded_but_not_read": 4
+    "recorded_but_not_read": 8
   },
   "quarters": [
     {
@@ -70,7 +70,7 @@
         },
         "pressure": {
           "status": "NOT_FIRED",
-          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "reason": "1 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
           "source": "pressure_vouch_status.json"
         },
         "vouch": {
@@ -79,7 +79,7 @@
           "source": "pressure_vouch_status.json"
         }
       },
-      "reader_unread_in_pressure_window": 19,
+      "reader_unread_in_pressure_window": 6,
       "decision": {
         "type": "HOLD",
         "reason": "move unknown: RUSH, BYPASS",
@@ -149,7 +149,7 @@
           "source": "pressure_vouch_status.json"
         }
       },
-      "reader_unread_in_pressure_window": 28,
+      "reader_unread_in_pressure_window": 6,
       "decision": {
         "type": "HOLD",
         "reason": "move unknown: RUSH, BYPASS",
@@ -210,7 +210,7 @@
         },
         "pressure": {
           "status": "NOT_FIRED",
-          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "reason": "4 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
           "source": "pressure_vouch_status.json"
         },
         "vouch": {
@@ -219,7 +219,7 @@
           "source": "pressure_vouch_status.json"
         }
       },
-      "reader_unread_in_pressure_window": 34,
+      "reader_unread_in_pressure_window": 22,
       "decision": {
         "type": "HOLD",
         "reason": "move unknown: RUSH, BYPASS",
@@ -280,7 +280,7 @@
         },
         "pressure": {
           "status": "NOT_FIRED",
-          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "reason": "3 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
           "source": "pressure_vouch_status.json"
         },
         "vouch": {
@@ -355,7 +355,7 @@
         },
         "vouch": {
           "status": "NOT_FIRED",
-          "reason": "0 low-history actors vouched; need 2",
+          "reason": "1 low-history actors vouched; need 2",
           "source": "pressure_vouch_status.json"
         }
       },
@@ -425,7 +425,7 @@
         },
         "vouch": {
           "status": "NOT_FIRED",
-          "reason": "0 low-history actors vouched; need 2",
+          "reason": "1 low-history actors vouched; need 2",
           "source": "pressure_vouch_status.json"
         }
       },
@@ -495,7 +495,7 @@
         },
         "vouch": {
           "status": "NOT_FIRED",
-          "reason": "0 low-history actors vouched; need 2",
+          "reason": "1 low-history actors vouched; need 2",
           "source": "pressure_vouch_status.json"
         }
       },
@@ -565,7 +565,7 @@
         },
         "vouch": {
           "status": "NOT_FIRED",
-          "reason": "0 low-history actors vouched; need 2",
+          "reason": "1 low-history actors vouched; need 2",
           "source": "pressure_vouch_status.json"
         }
       },
@@ -635,7 +635,7 @@
         },
         "vouch": {
           "status": "NOT_FIRED",
-          "reason": "0 low-history actors vouched; need 2",
+          "reason": "1 low-history actors vouched; need 2",
           "source": "pressure_vouch_status.json"
         }
       },
@@ -700,12 +700,12 @@
         },
         "pressure": {
           "status": "NOT_FIRED",
-          "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+          "reason": "1 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
           "source": "pressure_vouch_status.json"
         },
         "vouch": {
           "status": "NOT_FIRED",
-          "reason": "0 low-history actors vouched; need 2",
+          "reason": "1 low-history actors vouched; need 2",
           "source": "pressure_vouch_status.json"
         }
       },

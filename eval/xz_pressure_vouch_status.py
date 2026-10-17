@@ -54,7 +54,7 @@ def is_read(saved: dict, key: str) -> bool:
 def coverage() -> dict:
     todo = [n for n in rfr.in_scope_ids() if n not in rfr.excluded_ids()]
     saved = rfr.load_saved()
-    done = sum(1 for n in todo if is_read(saved, f"msg{n:05d}"))
+    done = sum(1 for n in todo if f"msg{n:05d}" in saved)
     return {
         "in_scope_messages": len(rfr.in_scope_ids()),
         "excluded_human_labelled_test_set": len(rfr.excluded_ids()),

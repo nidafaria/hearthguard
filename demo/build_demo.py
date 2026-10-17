@@ -29,6 +29,7 @@ RESULTS = ROOT / "eval" / "results"
 DEMO = Path(__file__).resolve().parent
 TEMPLATE = DEMO / "template.html"
 OUT = DEMO / "index.html"
+DOCS_OUT = ROOT / "docs" / "index.html"
 
 FILES = [
     "xz_replay.json",
@@ -149,7 +150,9 @@ def main() -> None:
     html = html.replace("<!--__FILES__-->", "\n".join(blocks))
     html = html.replace("__COMMIT__", head)
     OUT.write_text(html, encoding="utf-8")
+    DOCS_OUT.write_text(html, encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)} ({len(html) // 1024} KB, {len(blocks)} files)")
+    print(f"wrote {DOCS_OUT.relative_to(ROOT)} ({len(html) // 1024} KB, {len(blocks)} files)")
 
 
 if __name__ == "__main__":
