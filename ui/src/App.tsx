@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { ConnectRepo } from "./ConnectRepo";
+import { ConnectRepo, type ConnectResult } from "./ConnectRepo";
 import { Gauge, type CostCell } from "./Gauge";
 import { Hardening, type FixtureHardening, type XzHardening } from "./Hardening";
-import { NotComputed, NOT_COMPUTED, PlateTitle, RisingTitle, Status, SyntheticTag, useResult } from "./data";
+import { Blank, Fig, NotComputed, NOT_COMPUTED, PlateHead, Status, SyntheticTag, WORD, norm, useResult } from "./data";
 import { EvidenceCard, type Check, type Query, type Quote } from "./EvidenceCard";
 import { Packager } from "./Packager";
 import { Playbook } from "./Playbook";
 import { Census } from "./Census";
 import { Patience, ABLATION_FILE } from "./Patience";
-import { Timeline, type TimelineQuarter } from "./Timeline";
+import { ReplayChart } from "./ReplayChart";
 import { TrustMap, type TrustMapDoc } from "./TrustMap";
 import { TwoEndings, type LaneQuarter } from "./TwoEndings";
 import { WhoSaw, type EventsDoc, type GapsDoc } from "./WhoSaw";
@@ -90,17 +90,15 @@ export function Header({ hash }: { hash: string }) {
 }
 
 const COLS: Array<[string, string]> = [
+  ["pressure", "Pressure"],
+  ["vouch", "Vouch"],
   ["rush", "Rush"],
   ["bypass", "Bypass"],
   ["lone_keeper", "Lone keeper"],
-  ["takeover_cost", "Takeover cost"],
-  ["guardians", "Guardians"],
-  ["pressure", "Pressure"],
-  ["vouch", "Vouch"],
 ];
 
-// The replay as a quarter strip: one cell per quarter-end, the seven checks as marks, the Pressure window as
-// a field of message squares (filled if read), and the decision. Click a cell to open its detail below.
+// The replay as a quarter strip: one cell per quarter-end, the five checks as marks, the Pressure window as
+// a field of message squares (filled if read), and the decision stamp. Click a cell for its detail below.
 function QuarterStrip({
   replay,
   pressure,
@@ -112,54 +110,122 @@ function QuarterStrip({
   sel: string;
   onSel: (q: string) => void;
 }) {
-  const cov = replay.reader_coverage;
   const windowOf = (q: string) => pressure?.quarters.find((p) => p.quarter === q)?.window_coverage?.pressure;
   return (
-    <section aria-label="Replay quarter strip">
-      <h2>Replay, one cell per quarter-end</h2>
-      {!cov.complete && (
-        <div className="banner">
-          Reader coverage is incomplete: {cov.read_so_far} of {cov.to_read} messages read.{" "}
-          {cov.excluded_human_labelled_test_set} messages are held back for the human-labelled test set. A NOT_FIRED
-          here is a result on the messages read only.
-        </div>
-      )}
-      <div className="strip">
-        {replay.quarters.map((r) => {
-          const w = windowOf(r.quarter);
-          const n = Math.min(w?.messages_in_window ?? 0, 300);
-          return (
-            <button
-              type="button"
-              key={r.quarter}
-              className="qc"
-              aria-pressed={r.quarter === sel}
-              onClick={() => onSel(r.quarter)}
-            >
-              <span className="qq">{r.quarter}</span>
-              <span className="marks">
-                {COLS.map(([k, label]) => (
-                  <span key={k} className="mark-row">
-                    <span className="lab">{label}</span>
-                    <Status s={r.checks[k]?.status ?? NOT_COMPUTED} />
-                  </span>
-                ))}
-              </span>
-              {w && (
+    <div
+      className="qrow"
+      role="group"
+      aria-label="Replay quarter strip"
+      style={{ gridTemplateColumns: `repeat(${replay.quarters.length}, minmax(0, 1fr))` }}
+    >
+      {replay.quarters.map((r) => {
+        const w = windowOf(r.quarter);
+        const n = Math.min(w?.messages_in_window ?? 0, 300);
+        return (
+          <button
+            type="button"
+            key={r.quarter}
+            className="qc"
+            aria-pressed={r.quarter === sel}
+            onClick={() => onSel(r.quarter)}
+          >
+            <span className="qq">{r.quarter}</span>
+            <span className="mk">
+              {COLS.map(([k, label]) => (
+                <span key={k} style={{ display: "contents" }}>
+                  <span className="lab">{label}</span>
+                  <Status s={r.checks[k]?.status ?? NOT_COMPUTED} />
+                </span>
+              ))}
+            </span>
+            {w && (
+              <>
+                <span className="lab">
+                  Pressure window · {w.read}/{w.messages_in_window} read
+                </span>
                 <span className="dots" title={`${w.read} of ${w.messages_in_window} read`}>
                   {Array.from({ length: n }, (_, k) => (
                     <i key={k} className={k < w.read ? "r" : ""} />
                   ))}
                 </span>
-              )}
-              <span className="lab">Unread, 120 days: {r.reader_unread_in_pressure_window}</span>
-              <Status s={r.decision.type} />
-            </button>
-          );
-        })}
-      </div>
-      <p className="muted">Source files: {replay.sources.join(", ")}. Click a cell for the detail below.</p>
-    </section>
+              </>
+            )}
+            <span className="stamp">{WORD[r.decision.type] ?? r.decision.type}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// The three stat cells under the plate head. Counts and sums are over the saved rows; nothing else is derived.
+function ReplayFigures({ replay, pressure }: { replay: Replay; pressure: { quarters: PvRow[] } | undefined }) {
+  const cov = replay.reader_coverage;
+  const held = replay.quarters.filter((q) => q.decision.type === "HOLD").length;
+  const win = pressure?.quarters.map((q) => q.window_coverage?.pressure);
+  const read = win?.reduce((a, w) => a + (w?.read ?? 0), 0);
+  const total = win?.reduce((a, w) => a + (w?.messages_in_window ?? 0), 0);
+  return (
+    <div className="row">
+      <Fig cls="s4" label="Quarters held" value={held} of={replay.quarters.length} src="xz_replay.json" />
+      {pressure ? (
+        <Fig
+          cls="s4"
+          label="Pressure-window messages read"
+          signal
+          value={read}
+          of={total}
+          caption={`Summed over all ${replay.quarters.length} quarters. Pressure "did not fire" every time, without reading a single message in its window.`}
+          src="pressure_vouch_status.json"
+        />
+      ) : (
+        <Blank cls="s4" name="Pressure-window messages read" reason="pressure_vouch_status.json not found" />
+      )}
+      <Fig
+        cls="s4"
+        label="Messages the Reader has read"
+        value={cov.read_so_far}
+        of={cov.to_read}
+        caption={`${cov.excluded_human_labelled_test_set} more are held back for the human-labelled test set.`}
+        src="xz_replay.json"
+      />
+    </div>
+  );
+}
+
+// The saved normal per quarter: cadence, active keepers, usual path, unread messages, decision.
+function ReplayTable({ replay, onSel }: { replay: Replay; onSel: (q: string) => void }) {
+  const num = (c: Cell | undefined, digits?: number) =>
+    c && c.value != null ? (typeof c.value === "number" && digits != null ? c.value.toFixed(digits) : String(c.value)) : NOT_COMPUTED;
+  return (
+    <div className="scroll">
+      <table className="tbl">
+        <thead>
+          <tr>
+            <th>Quarter</th>
+            <th>Commit cadence, median days</th>
+            <th>Active keepers</th>
+            <th>Usual path</th>
+            <th>Unread, 120 days</th>
+            <th>Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          {replay.quarters.map((r) => (
+            <tr key={r.quarter} onClick={() => onSel(r.quarter)}>
+              <td className="n">{r.quarter}</td>
+              <td className="n">{num(r.normal.cadence_days, 4)}</td>
+              <td className="n">{num(r.normal.active_keepers)}</td>
+              <td className="n">{num(r.normal.usual_path)}</td>
+              <td className="n">{r.reader_unread_in_pressure_window}</td>
+              <td>
+                <span className={`tag ${norm(r.decision.type)}`}>{WORD[r.decision.type] ?? r.decision.type}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -224,24 +290,14 @@ function ResultsPage() {
   const gaps = useResult<GapsDoc>("ecosystem_gaps.json");
   const events = useResult<EventsDoc>("ecosystem_events.json");
   const quotes = useResult<VideoQuotes>("video_quotes.json");
-  // The quarter on show: the reader's pick, or the first quarter the replay file holds.
+  // The quarter on show: the reader's pick, or the last quarter the replay file holds.
   const [picked, setPicked] = useState<string | null>(null);
-  const sel = picked ?? (replay.state === "ok" ? (replay.data.quarters[0]?.quarter ?? "") : "");
+  const sel = picked ?? (replay.state === "ok" ? (replay.data.quarters[replay.data.quarters.length - 1]?.quarter ?? "") : "");
   const setSel = setPicked;
 
   const pvRow = pv.state === "ok" ? pv.data.quarters.find((q) => q.quarter === sel) : undefined;
   const qsRow = qs.state === "ok" ? qs.data.quarters.find((q) => q.quarter === sel) : undefined;
   const row = replay.state === "ok" ? replay.data.quarters.find((r) => r.quarter === sel) : undefined;
-
-  const timeline: TimelineQuarter[] | null =
-    replay.state === "ok"
-      ? replay.data.quarters.map((r) => ({
-          quarter: r.quarter,
-          moves: Object.fromEntries(Object.entries(r.checks).map(([k, c]) => [k, c.status])),
-          takeover_cost: r.checks.takeover_cost?.value ?? null,
-          decision: r.decision.type,
-        }))
-      : null;
 
   const lanesXz: LaneQuarter[] | undefined =
     replay.state === "ok"
@@ -262,21 +318,37 @@ function ResultsPage() {
   // Quotes are shown only from the saved file; a missing file leaves the card's quote section NOT COMPUTED.
   const quoteList: Quote[] | undefined = quotes.state === "ok" ? Object.values(quotes.data.quotes) : undefined;
 
+  const lastQ = replay.state === "ok" ? replay.data.quarters[replay.data.quarters.length - 1] : undefined;
+
   return (
     <main>
-      <div className="plate-head">
-        <RisingTitle text="Hearthguard: xz replay" />
-        <PlateTitle
-          plate="01 · The replay"
-          data="Public record (xz), provisional"
-          sources={["xz_replay.json", "pressure_vouch_status.json", "xz_quarterly_status.json"]}
-        />
-      </div>
-      <p className="sub">Read-only view of eval/results/*.json. Provisional. Nothing here is a finding about a person.</p>
-      <div className="banner">
-        Data on this page: the public xz git history and the public xz-devel mailing list, hashed on ingest. The
-        tallowdate panels are labelled SYNTHETIC. Hand-built fixtures appear only where labelled.
-      </div>
+      <PlateHead
+        n="01"
+        title={
+          replay.state === "ok"
+            ? `${replay.data.quarters.length} quarters. ${replay.data.quarters.filter((q) => q.decision.type === "HOLD").length} holds.`
+            : "The xz replay."
+        }
+        italic={
+          replay.state === "ok"
+            ? replay.data.quarters.every((q) => q.decision.type === "HOLD")
+              ? "Not one all-clear."
+              : undefined
+            : "Not computed."
+        }
+        lede={
+          <>
+            Each cell is the xz record as it stood at a quarter&apos;s end.{" "}
+            <b>Held means a check could not run, not that the quarter was clear.</b> The squares are the messages in
+            Pressure&apos;s 120-day window: filled if read, hollow if not.
+          </>
+        }
+        kind="pub"
+        tagLabel="Public record (xz)"
+        plate="The replay"
+        data="Public record (xz)"
+        sources={["xz_replay.json", "pressure_vouch_status.json"]}
+      />
 
       {replay.state === "loading" && <p>Loading…</p>}
       {replay.state === "missing" && (
@@ -285,16 +357,35 @@ function ResultsPage() {
         </section>
       )}
       {replay.state === "ok" && (
-        <QuarterStrip replay={replay.data} pressure={pv.state === "ok" ? pv.data : undefined} sel={sel} onSel={setSel} />
-      )}
-
-      {timeline && (
-        <Timeline
-          quarters={timeline}
-          source="xz_replay.json (moves and takeover cost per quarter-end)"
-          counts={null}
-          noteSent={null}
-        />
+        <>
+          <ReplayFigures replay={replay.data} pressure={pv.state === "ok" ? pv.data : undefined} />
+          <QuarterStrip replay={replay.data} pressure={pv.state === "ok" ? pv.data : undefined} sel={sel} onSel={setSel} />
+          <ReplayChart quarters={replay.data.quarters} />
+          <div className="row">
+            {["rush", "bypass", "lone_keeper", "takeover_cost"]
+              .filter((k) => lastQ && norm(lastQ.checks[k]?.status) === NOT_COMPUTED)
+              .map((k) => (
+                <Blank
+                  key={k}
+                  cls="s3"
+                  name={k === "takeover_cost" ? "Takeover cost" : (COLS.find(([c]) => c === k)?.[1] ?? k)}
+                  reason={lastQ?.checks[k]?.reason}
+                  src={lastQ?.checks[k]?.source}
+                />
+              ))}
+          </div>
+          <ReplayTable replay={replay.data} onSel={setSel} />
+          <div className="row">
+            <div className="c s12">
+              <p className="fine">
+                Data on this page: the public xz git history and the public xz-devel mailing list, hashed on ingest.
+                The tallowdate panels are labelled SYNTHETIC. Hand-built fixtures appear only where labelled.
+                {!replay.data.reader_coverage.complete &&
+                  ` Reader coverage is incomplete: ${replay.data.reader_coverage.read_so_far} of ${replay.data.reader_coverage.to_read} messages read. A NOT_FIRED here is a result on the messages read only.`}
+              </p>
+            </div>
+          </div>
+        </>
       )}
 
       <section>
@@ -404,6 +495,12 @@ function PackagerPage() {
   );
 }
 
+// The saved run of the connect flow fills the screen until a live run replaces it.
+function ConnectPage() {
+  const saved = useResult<ConnectResult>("connect_repo_run.json");
+  return <ConnectRepo saved={saved.state === "ok" ? saved.data : undefined} />;
+}
+
 export default function App() {
   const hash = window.location.hash || "#/";
   if (hash.startsWith("#/connect")) {
@@ -411,7 +508,7 @@ export default function App() {
       <>
         <Header hash="#/connect" />
         <main>
-          <ConnectRepo />
+          <ConnectPage />
         </main>
       </>
     );

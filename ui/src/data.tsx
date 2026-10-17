@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 // Shared loading and labels for every screen. Screens read saved files from eval/results/ through
 // the dev server (vite.config.ts serves them) and never compute a number of their own.
@@ -50,10 +50,16 @@ export function quarterOf(iso: string): string {
 
 export function Status({ s }: { s: string | null | undefined }) {
   const v = norm(s);
-  return <span className={`tag ${v.replace(/ /g, "_")}`}>{v}</span>;
+  return <span className={`tag ${v.replace(/ /g, "_")}`}>{WORD[v] ?? v}</span>;
 }
 
-// The title block in a plate's corner: the plate, its data kind, and the files it reads. Shared by every screen.
+declare const __COMMIT__: string;
+export const COMMIT: string = typeof __COMMIT__ === "undefined" ? "unknown" : __COMMIT__;
+
+// The words the plates use for a saved status.
+export const WORD: Record<string, string> = { HOLD: "Held", NOT_FIRED: "Did not fire", FIRED: "Fired" };
+
+// The title block in a plate's corner: the plate, its data kind, the files it reads, and the build.
 export function PlateTitle({ plate, data, sources }: { plate: string; data: string; sources: string[] }) {
   return (
     <div className="tb" aria-label="Title block">
@@ -62,23 +68,180 @@ export function PlateTitle({ plate, data, sources }: { plate: string; data: stri
       <span>Data</span>
       <span>{data}</span>
       <span>Source</span>
-      <span>{sources.join(", ")}</span>
+      <span>
+        {sources.map((f, i) => (
+          <span key={f}>
+            {i > 0 && <br />}
+            {f}
+          </span>
+        ))}
+      </span>
+      <span>Built</span>
+      <span>commit {COMMIT}</span>
     </div>
   );
 }
 
 // The plate headline: each word rises from a mask, 40 ms apart, unless reduced motion is on (then it shows at once).
-export function RisingTitle({ text }: { text: string }) {
+// The words of `italic` follow `text`, set in the serif turn the plates use.
+export function RisingTitle({ text, italic }: { text: string; italic?: string }) {
+  const words = [
+    ...text.split(" ").map((w) => [w, false] as const),
+    ...(italic ? italic.split(" ").map((w) => [w, true] as const) : []),
+  ];
   return (
     <h1 className="H">
-      {text.split(" ").map((w, i) => (
+      {words.map(([w, it], i) => (
         <span key={i}>
           <span className="w">
-            <span style={{ animationDelay: `${i * 40}ms` }}>{w}</span>
+            <span style={{ animationDelay: `${i * 40}ms` }}>{it ? <i>{w}</i> : w}</span>
           </span>{" "}
         </span>
       ))}
     </h1>
+  );
+}
+
+export type DataKind = "pub" | "syn" | "gh";
+
+export function DataTag({ kind, label }: { kind: DataKind; label: string }) {
+  const cls = kind === "syn" ? "tag synthetic" : kind === "gh" ? "tag public" : "tag pub";
+  return <span className={cls}>{label}</span>;
+}
+
+// The head of a plate: kicker, headline, lede, and the title block in the corner.
+export function PlateHead({
+  n,
+  of = 15,
+  title,
+  italic,
+  lede,
+  kind,
+  tagLabel,
+  plate,
+  data,
+  sources,
+  extra,
+}: {
+  n: string;
+  of?: number;
+  title: string;
+  italic?: string;
+  lede: ReactNode;
+  kind: DataKind;
+  tagLabel: string;
+  plate: string;
+  data: string;
+  sources: string[];
+  extra?: ReactNode;
+}) {
+  return (
+    <div className="row head">
+      <div className="c s8 head-l">
+        <div className="lab br">
+          Plate {n} / {of}
+        </div>
+        <RisingTitle text={title} italic={italic} />
+        <p className="lede">{lede}</p>
+        {extra}
+      </div>
+      <div className="c s4 head-r">
+        <div className="tags">
+          <DataTag kind={kind} label={tagLabel} />
+        </div>
+        <PlateTitle plate={`${n} · ${plate}`} data={data} sources={sources} />
+      </div>
+    </div>
+  );
+}
+
+// The foot of a plate: a serif line, the next screen, and the provenance line.
+export function PlateNext({ line, href, n, title }: { line: string; href: string; n: string; title: string }) {
+  return (
+    <>
+      <div className="nx">
+        <div className="q">
+          <p>{line}</p>
+        </div>
+        <a href={href}>
+          <span className="lab">Next plate · {n}</span>
+          <span className="t">{title} →</span>
+        </a>
+      </div>
+      <PlateFoot />
+    </>
+  );
+}
+
+export function PlateFoot() {
+  return (
+    <div className="foot">
+      <span>Every value on this page is read from eval/results/*.json or the local API · commit {COMMIT}</span>
+      <span>Nothing here is a finding about a person</span>
+    </div>
+  );
+}
+
+// A big figure with its caption and source, as in the plates' stat cells.
+export function Fig({
+  label,
+  value,
+  of,
+  unit,
+  signal,
+  caption,
+  src,
+  syn,
+  cls = "",
+}: {
+  label: string;
+  value: ReactNode;
+  of?: ReactNode;
+  unit?: string;
+  signal?: boolean;
+  caption?: ReactNode;
+  src: string;
+  syn?: boolean;
+  cls?: string;
+}) {
+  return (
+    <div className={`c figcol ${syn ? "syn" : ""} ${cls}`}>
+      <div>
+        <div className="lab">{label}</div>
+        <span className={`fig xl ${signal ? "sig" : ""}`}>
+          {signal && <span className="sq" />}
+          {value}
+          {(of != null || unit) && <small>{of != null ? `/ ${of}` : unit}</small>}
+        </span>
+        {caption && <p className="figcap">{caption}</p>}
+      </div>
+      <span className="src">{src}</span>
+    </div>
+  );
+}
+
+// A hatched tile naming what a saved file could not compute, and why.
+export function Blank({
+  name,
+  reason,
+  src,
+  cls = "",
+  children,
+}: {
+  name?: string;
+  reason?: string | null;
+  src?: string | null;
+  cls?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div className={`c blank ${cls}`}>
+      <span className="bt">{NOT_COMPUTED}</span>
+      {name && <span className="bn">{name}</span>}
+      <span className="bw">{reason || "no reason saved in the file"}</span>
+      {children}
+      {src && <span className="src">{src}</span>}
+    </div>
   );
 }
 

@@ -3,6 +3,7 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
 // Serves ../eval/results at /results/<name>.json. A missing file is a real 404, so the page can
 // show NOT COMPUTED instead of the dev server's index.html fallback. Read-only; no key, no database.
@@ -28,6 +29,15 @@ function results(): Plugin {
   };
 }
 
-export default defineConfig({ plugins: [react(), results()], server: { port: 5173, proxy: { "/api": process.env.HEARTHGUARD_API ?? "http://127.0.0.1:8765" } },
+// The commit the page was built from, shown in each plate's title block. "unknown" outside a git checkout.
+function commit(): string {
+  try {
+    return execSync("git rev-parse --short HEAD", { cwd: __dirname }).toString().trim();
+  } catch {
+    return "unknown";
+  }
+}
+
+export default defineConfig({ define: { __COMMIT__: JSON.stringify(commit()) }, plugins: [react(), results()], server: { port: 5173, proxy: { "/api": process.env.HEARTHGUARD_API ?? "http://127.0.0.1:8765" } },
   test: { environment: "jsdom", include: ["src/**/*.test.{ts,tsx}"] },
 });

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NOT_COMPUTED, PlateTitle, PublicTag, Status } from "./data";
+import { Blank, Fig, NOT_COMPUTED, PlateHead, PlateNext, Status } from "./data";
 
 // Connect your repo (spec 13.8). A public GitHub repo as owner/name. The local API reads it with
 // read-only GETs, builds org_<id> with hashed identifiers, and reports live progress. No login: a
@@ -25,74 +25,116 @@ type Job = { id: string; repo: string; state: string; steps: Step[]; result: Con
 
 export const POLL_MS = 500;
 
+export const DEFAULT_REPO = "octocat/Hello-World";
+
+const isComputed = (m?: Metric) => !!m && m.status !== NOT_COMPUTED && m.status !== "NOT_COMPUTED" && m.value != null;
+
+// A saved number as the plates show it: whole numbers as they are, others to one decimal.
+function shown(m: Metric): string {
+  const v = typeof m.value === "number" && !Number.isInteger(m.value) ? m.value.toFixed(1) : String(m.value);
+  return m.unit && m.unit !== "channel" ? `${v} ${m.unit}` : v;
+}
+
 // One metric as a table row: the label, then the saved value, or its NOT COMPUTED mark and reason.
 function MetricRow({ label, m }: { label: string; m?: Metric }) {
-  if (!m)
-    return (
-      <tr>
-        <th>{label}</th>
-        <td>
-          <Status s={NOT_COMPUTED} />
-        </td>
-      </tr>
-    );
-  const ok = m.status !== NOT_COMPUTED && m.status !== "NOT_COMPUTED" && m.value != null;
   return (
     <tr>
-      <th>{label}</th>
-      <td>
-        {ok ? <b>{String(m.value)}{m.unit ? ` ${m.unit}` : ""}</b> : <Status s={m.status} />}
-        {!ok && m.reason && <span className="muted"> ({m.reason})</span>}
+      <td>{label}</td>
+      <td className="n">
+        {isComputed(m) ? (
+          shown(m!)
+        ) : (
+          <>
+            <Status s={m?.status ?? NOT_COMPUTED} />
+            {m?.reason && <div className="mono g" style={{ fontSize: 12, marginTop: 6 }}>{m.reason}</div>}
+          </>
+        )}
       </td>
     </tr>
   );
 }
 
-export function ConnectResultView({ r }: { r: ConnectResult }) {
+const plain = (v: number | undefined) => (v == null ? NOT_COMPUTED : String(v));
+
+// The plate's body: the measured figures, the steps, the project's normal, and what could not be computed.
+// `live` adds the run's own summary lines, which the saved-run view does not repeat.
+export function ConnectResultView({ r, steps, live = false, file }: { r: ConnectResult; steps?: Step[]; live?: boolean; file: string }) {
+  const rows = steps ?? r.steps ?? [];
+  const best = r.best_hardening_step;
   return (
-    <div>
-      <p>
-        <b>{r.repo}</b> → <code>{r.org}</code> <Status s={r.status} /> {r.reason && <span className="muted">{r.reason}</span>}
-      </p>
-      {r.wall_clock_s != null && (
-        <p className="muted">
-          Measured wall clock: {r.wall_clock_s} s. Requests to GitHub: {r.requests?.network ?? NOT_COMPUTED}, from
-          cache: {r.requests?.from_cache ?? NOT_COMPUTED}.
-        </p>
+    <>
+      {live && (
+        <div className="row">
+          <div className="c s12">
+            <p className="fine">
+              <b>{r.repo}</b> → <code>{r.org}</code> <Status s={r.status} />{" "}
+              {r.reason && <span className="muted">{r.reason}</span>}
+            </p>
+            {r.wall_clock_s != null && (
+              <p className="fine muted">
+                Measured wall clock: {r.wall_clock_s} s. Requests to GitHub: {r.requests?.network ?? NOT_COMPUTED}, from
+                cache: {r.requests?.from_cache ?? NOT_COMPUTED}.
+              </p>
+            )}
+          </div>
+        </div>
       )}
-      {r.counts && (
-        <p>
-          Commits read {r.counts.commits_read ?? NOT_COMPUTED}, loaded {r.counts.commits_loaded ?? NOT_COMPUTED},
-          actors {r.counts.actors ?? NOT_COMPUTED}, releases {r.counts.releases_loaded ?? NOT_COMPUTED}.
-        </p>
-      )}
-      <h3>The project&apos;s normal</h3>
-      <table className="metrics">
-        <tbody>
-          <MetricRow label="Commit cadence (median gap)" m={r.metrics?.cadence_days} />
-          <MetricRow label="Active keepers, last 90 days" m={r.metrics?.active_keepers} />
-          <MetricRow label="Usual release path" m={r.metrics?.usual_path} />
-        </tbody>
-      </table>
-      <h3>Takeover cost</h3>
-      <table className="metrics">
-        <tbody>
-          <MetricRow label="Takeover cost" m={r.takeover_cost} />
-          <MetricRow label="Guardians" m={r.guardians} />
-        </tbody>
-      </table>
-      <h3>Best hardening step</h3>
-      <table className="metrics">
-        <tbody>
-          <MetricRow label="Best hardening step" m={r.best_hardening_step} />
-        </tbody>
-      </table>
-    </div>
+      <div className="row">
+        {r.wall_clock_s != null ? (
+          <Fig cls="s4" label="Measured wall clock" value={r.wall_clock_s.toFixed(1)} unit="s" src={file} />
+        ) : (
+          <Blank cls="s4" name="Measured wall clock" reason="not saved in this run" src={file} />
+        )}
+        <Fig cls="s4" label="Read-only requests to GitHub" value={plain(r.requests?.network)} src={file} />
+        <div className="c s4 flush">
+          <table className="tbl">
+            <tbody>
+              {rows.map((st, i) => (
+                <tr key={st.name}>
+                  <td className="n g">{String(i + 1).padStart(2, "0")}</td>
+                  <td>{st.name}</td>
+                  <td className="n" style={{ fontSize: 12 }}>
+                    {st.detail || (st.status === "done" ? "done" : st.status)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className="row">
+        <div className="c s6 flush">
+          <table className="tbl">
+            <tbody>
+              <MetricRow label="Commit cadence, median gap" m={r.metrics?.cadence_days} />
+              <MetricRow label="Active keepers, last 90 days" m={r.metrics?.active_keepers} />
+              <MetricRow label="Usual release path" m={r.metrics?.usual_path} />
+              <tr>
+                <td>Commits read</td>
+                <td className="n">{plain(r.counts?.commits_read)}</td>
+              </tr>
+              <tr>
+                <td>Releases loaded</td>
+                <td className="n">{plain(r.counts?.releases_loaded)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <Blank cls="s6" name="Takeover cost and best fix" reason={best?.reason ?? r.takeover_cost?.reason} src={file}>
+          {live && (
+            <>
+              <span className="bw">{r.takeover_cost?.reason}</span>
+              <span className="bw">{r.guardians?.reason}</span>
+            </>
+          )}
+        </Blank>
+      </div>
+    </>
   );
 }
 
-export function ConnectRepo() {
-  const [repo, setRepo] = useState("");
+export function ConnectRepo({ saved }: { saved?: ConnectResult }) {
+  const [repo, setRepo] = useState(DEFAULT_REPO);
   const [job, setJob] = useState<Job | null>(null);
   const [error, setError] = useState<string | null>(null);
   const timer = useRef<number | null>(null);
@@ -137,49 +179,89 @@ export function ConnectRepo() {
       );
   }
 
+  const shownRun = job?.result ?? (job ? null : (saved ?? null));
+  const live = !!job?.result;
+  const repoName = shownRun?.repo ?? DEFAULT_REPO;
   return (
-    <section aria-label="Connect your repo">
-      <div className="plate-head">
-        <h2 className="headline">
-          Connect your repo <PublicTag />
-        </h2>
-        <PlateTitle
-          plate="15 · Connect a repository"
-          data="Public GitHub repo, read live through the local API"
-          sources={["the local API, /api/connect"]}
-        />
-      </div>
-      <p className="muted">
-        Public GitHub repos only, as owner/name. Read-only GET requests. Identifiers are hashed. No sign-in.
-      </p>
-      <form onSubmit={submit}>
-        <label>
-          Repository{" "}
+    <>
+      <PlateHead
+        n="15"
+        title="Point it at any public repository."
+        italic="It reads. It never writes."
+        lede={
+          <>
+            One measured run on <span className="mono">{repoName}</span>: read-only requests, identifiers hashed on the
+            way in, no sign-in. What it couldn&apos;t compute, it says.
+          </>
+        }
+        kind="gh"
+        tagLabel={`Public record (${repoName})`}
+        plate="Connect a repository"
+        data={`Public record (${repoName})`}
+        sources={[live ? "/api/connect" : "connect_repo_run.json"]}
+      />
+      <form className="row" onSubmit={submit} aria-label="Connect your repo">
+        <div className="c s8" style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+          <label className="lab" htmlFor="repo-input">
+            Repository
+          </label>
           <input
+            id="repo-input"
+            className="repo-input"
             value={repo}
             onChange={(e) => setRepo(e.target.value)}
-            placeholder="octocat/Hello-World"
+            placeholder={DEFAULT_REPO}
             aria-label="Repository owner/name"
             required
           />
-        </label>{" "}
-        <button type="submit">Connect</button>
+        </div>
+        <div className="c s4">
+          <button type="submit" className="btn solid">
+            <span>Connect</span>
+            <span>→</span>
+          </button>
+        </div>
       </form>
-      {error && <p className="NOT_COMPUTED tag">{error}</p>}
-      {job && (
-        <>
-          <h3>Progress ({job.state})</h3>
-          <ol>
-            {job.steps.map((s) => (
-              <li key={s.name}>
-                {s.name}: <Status s={s.status === "done" ? "DONE" : s.status === "failed" ? "FAILED" : s.status} />{" "}
-                {s.detail && <span className="muted">{s.detail}</span>}
-              </li>
-            ))}
-          </ol>
-          {job.result && <ConnectResultView r={job.result} />}
-        </>
+      {error && (
+        <div className="row">
+          <div className="c s12">
+            <p className="NOT_COMPUTED tag">{error}</p>
+          </div>
+        </div>
       )}
-    </section>
+      {job && !job.result && (
+        <div className="row">
+          <div className="c s12">
+            <div className="lab br">Progress ({job.state})</div>
+            <ol>
+              {job.steps.map((s) => (
+                <li key={s.name}>
+                  {s.name}: <Status s={s.status === "done" ? "DONE" : s.status === "failed" ? "FAILED" : s.status} />{" "}
+                  {s.detail && <span className="muted">{s.detail}</span>}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      )}
+      {shownRun && (
+        <ConnectResultView
+          r={shownRun}
+          steps={job?.result ? job.steps : undefined}
+          live={live}
+          file={live ? "/api/connect" : "connect_repo_run.json"}
+        />
+      )}
+      {!shownRun && !job && (
+        <div className="row">
+          <div className="c s12">
+            <p className="fine">
+              Public GitHub repos only, as owner/name. Read-only GET requests. Identifiers are hashed. No sign-in.
+            </p>
+          </div>
+        </div>
+      )}
+      <PlateNext line="That's the whole record. Back to the beginning." href="#/" n="00" title="Hearthguard" />
+    </>
   );
 }

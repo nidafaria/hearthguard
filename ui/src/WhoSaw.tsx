@@ -22,6 +22,8 @@ export type GapDecision = {
   decision_kind?: string;
   status: string;
   reason?: string | null;
+  signals_checked?: number;
+  covered_watched_and_referenced?: number;
   gaps: GapRow[];
 };
 export type GapsDoc = { decisions: GapDecision[] };

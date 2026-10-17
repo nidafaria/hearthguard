@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Thread } from "./Thread";
 import { Header } from "./App";
+import { PlateHead, PlateNext, Status } from "./data";
 
 const LABEL = "Public record: xz project git history (org_xz). Synthetic data: none on this screen.";
 
@@ -82,32 +83,70 @@ function Frame({ title, children }: { title: string; children: ReactNode }) {
 
 function ListScreen() {
   const { data, error } = useLoad<NotesList>("/api/notes");
+  const first = data?.notes[0]?.quarter;
   return (
-    <Frame title="Inbox">
-      <section>
-        {error && <p className="NOT_COMPUTED tag">Could not load notes: {error}</p>}
+    <>
+      <Header hash={window.location.hash || "#/inbox"} />
+      <main>
+        <PlateHead
+          n="12"
+          title="No alarms."
+          italic="Just questions."
+          lede="One note per quarter. Each says what was checked, what wasn't, and why, then ends on a question, never a verdict. Local only: nothing here is sent to Slack or to anyone."
+          kind="pub"
+          tagLabel="Public record (xz)"
+          plate="The inbox"
+          data="Public record (xz)"
+          sources={["/api/notes"]}
+        />
+        {error && (
+          <div className="row">
+            <div className="c s12">
+              <p className="NOT_COMPUTED tag">Could not load notes: {error}</p>
+            </div>
+          </div>
+        )}
         {data && (
           <>
-            {data.provisional && <p className="sub">Provisional: the decision policy is not final.</p>}
-            <div className="rows" role="list">
+            <div role="list">
               {data.notes.map((n, i) => (
-                <div className="row-item" role="listitem" key={n.quarter}>
+                <div className="ib" role="listitem" key={n.quarter}>
                   <span className="lab">{String(i + 1).padStart(2, "0")}</span>
-                  <a className="row-quarter" href={`#/inbox/${n.quarter}`}>
+                  <a className="quarter" href={`#/inbox/${n.quarter}`}>
                     {n.quarter}
                   </a>
-                  <span className={`tag ${n.decision}`}>{n.decision === "HOLD" ? "Held" : n.decision}</span>
-                  <span className="row-note">
+                  <Status s={n.decision} />
+                  <span className="hl">
                     <Rich text={n.headline} />
+                    {n.dismissed && <span className="lab"> · Dismissed</span>}
                   </span>
-                  <span className="lab">Dismissed: {n.dismissed ? "Yes" : "No"}</span>
+                  <span className="why">
+                    <a href={`#/inbox/${n.quarter}/why`}>Show me why</a>
+                  </span>
+                  <a className="ar" href={`#/inbox/${n.quarter}`} aria-label={`Open the note for ${n.quarter}`}>
+                    →
+                  </a>
                 </div>
               ))}
             </div>
+            <div className="row">
+              <div className="c s12">
+                <p className="fine">
+                  {LABEL}
+                  {data.provisional && " Provisional: the decision policy is not final."}
+                </p>
+              </div>
+            </div>
           </>
         )}
-      </section>
-    </Frame>
+        <PlateNext
+          line="Open a note. Every sentence in it has a receipt."
+          href={first ? `#/inbox/${first}` : "#/inbox"}
+          n="13"
+          title="A note and its why"
+        />
+      </main>
+    </>
   );
 }
 
