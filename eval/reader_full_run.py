@@ -18,6 +18,7 @@ Writes eval/results/reader_full_run.json when all messages are done: per-message
 rejection counts, rejection reasons and token totals. No quotes, names, emails or bodies.
 """
 
+import argparse
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -140,7 +141,17 @@ def public_summary(saved: dict, todo_total: int) -> dict:
     }
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Run the frozen Reader on in-scope messages.")
+    parser.add_argument(
+        "--batch-size", "-b",
+        type=int,
+        default=None,
+        help="Maximum number of new messages to read in this run",
+    )
+    args = parser.parse_args(argv)
+    batch_size = args.batch_size
+
     bad = rf.mismatches(rf.load_frozen())
     if bad:
         print("The Reader no longer matches its freeze:", ", ".join(bad))
@@ -154,10 +165,14 @@ def main() -> int:
     saved = load_saved()
     redactor = rs.build_redactor()
     stop = None
+    batch_done = 0
     for n in todo:
         key = rs.msg_id(n)
         if key in saved:
             continue
+        if batch_size is not None and batch_done >= batch_size:
+            stop = f"batch limit of {batch_size} reached"
+            break
         head, author_hash, clean = rs.prepare(n, redactor)
         try:
             res = reader.read_message(clean.text, author_hash, client=client)
@@ -178,9 +193,13 @@ def main() -> int:
             # the whole message, so it is not cut or split: it is recorded as not read.
             res = reader.ReadResult(skipped=TOO_LONG)
         saved[key] = entry(n, head, author_hash, res)
-        if len(saved) % 10 == 0:
-            save(saved)
-    save(saved)
+        batch_done += 1
+        save(saved)
+        print(
+            f"[{len(saved)}/{len(todo)}] {key} read "
+            f"(claims: {len(res.claims)}, skipped: {res.skipped})",
+            flush=True,
+        )
     remaining = [rs.msg_id(n) for n in todo if rs.msg_id(n) not in saved]
     progress = {
         "updated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -202,6 +221,8 @@ def main() -> int:
         raise RuntimeError("an '@' reached the public output; nothing was written")
     OUT.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print("wrote", OUT.name, "(complete)" if doc["complete"] else "(INCOMPLETE)")
+    if stop and "batch limit" in stop:
+        return 0
     return 3 if stop else 0
 
 
