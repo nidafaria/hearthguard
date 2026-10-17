@@ -209,19 +209,21 @@ def test_claim_writer_populates_target_hid_from_claim(client, org):
     assert row[0] == "candidate_c"
 
 
-def test_claim_writer_populates_target_hid_from_text_fallback(client, org):
-    """Writer extracts candidate target from quote/summary if not explicit."""
+def test_claim_writer_target_missing_leaves_target_hid_none_and_vouch_not_computed(
+    client, org, monkeypatch
+):
+    """When target is absent from claim and Agent 2 output, target_hid is None."""
     g = sc.graph_for(org)
+    monkeypatch.setattr(graph_write, "_load_agent2_targets", lambda: {})
     entries = [
         {
-            "message_id": "m2",
+            "message_id": "m_notarget",
             "date_utc": "2022-03-01T12:00:00Z",
             "author_hash": "author_b",
-            "summary": "email discussion regarding maintainer nomination",
             "claims": [
                 {
                     "kind": "VOUCH",
-                    "quote": "Please give commit rights to Rowan as they are ready",
+                    "quote": "Please give commit rights as they are ready",
                     "confidence": 0.8,
                 }
             ],
@@ -230,10 +232,39 @@ def test_claim_writer_populates_target_hid_from_text_fallback(client, org):
     res = graph_write.write_claims(client, g, entries)
     assert res["claims_written"] == 1
 
-    row = client.query(g, "MATCH (c:Claim {kind: 'VOUCH'}) RETURN c.target_hid LIMIT 1").result_set[
-        0
+    row = client.query(
+        g, "MATCH (c:Claim {kind: 'VOUCH'}) RETURN c.target_hid LIMIT 1"
+    ).result_set[0]
+    assert row[0] is None
+
+
+def test_claim_writer_populates_target_hid_from_agent2_output(client, org, monkeypatch):
+    """Writer populates Claim.target_hid from Agent 2 reader output mapping."""
+    g = sc.graph_for(org)
+    monkeypatch.setattr(
+        graph_write, "_load_agent2_targets", lambda: {"m_agent2": "candidate_reader_target"}
+    )
+    entries = [
+        {
+            "message_id": "m_agent2",
+            "date_utc": "2022-03-01T12:00:00Z",
+            "author_hash": "author_b",
+            "claims": [
+                {
+                    "kind": "VOUCH",
+                    "quote": "I endorse this nomination",
+                    "confidence": 0.8,
+                }
+            ],
+        }
     ]
-    assert row[0] == "Rowan"
+    res = graph_write.write_claims(client, g, entries)
+    assert res["claims_written"] == 1
+
+    row = client.query(
+        g, "MATCH (c:Claim {kind: 'VOUCH'}) RETURN c.target_hid LIMIT 1"
+    ).result_set[0]
+    assert row[0] == "candidate_reader_target"
 
 
 def test_build_shares_edges_creation_window_and_domain_hash(client, org):

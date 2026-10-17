@@ -14,7 +14,6 @@ Candidate targets for VOUCH claims land in Claim.target_hid.
 """
 
 import json
-import re
 from collections.abc import Iterator
 from datetime import datetime
 from pathlib import Path
@@ -67,8 +66,8 @@ def _load_agent2_targets() -> dict[str, str]:
 def resolve_target_hid(c: dict, e: dict) -> str | None:
     """Resolve candidate target for a claim.
 
-    Uses explicit target on the claim first, then agent 2's output when it exists,
-    otherwise resolves from current data (quote/summary text or known persona).
+    Target resolution comes from the claim data or the Agent 2 reader output only.
+    If missing, returns None so Vouch evaluates to NOT_COMPUTED.
     """
     # 1. Direct explicit field in the claim
     target = c.get("target_hid") or c.get("target") or c.get("candidate")
@@ -80,20 +79,6 @@ def resolve_target_hid(c: dict, e: dict) -> str | None:
     msg_id = e.get("message_id")
     if msg_id and msg_id in agent2_targets:
         return agent2_targets[msg_id]
-
-    # 3. Use current data otherwise
-    quote = (c.get("quote") or "").lower()
-    summary = (e.get("summary") or "").lower()
-    combined = f"{quote} {summary}"
-
-    if "jia tan" in combined or "jiat75" in combined or "jia" in combined:
-        return "b0589c05e633346d8d573da58413aa56fbe18b56b21e05eed49e7fdf5e3908a8"
-    if "rowan" in combined:
-        return "Rowan"
-
-    m = re.search(r"\b(?:vouch for|vouching for|recommend|support)\s+([A-Za-z0-9_\-]+)", combined)
-    if m:
-        return m.group(1)
 
     return None
 

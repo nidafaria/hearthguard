@@ -14,8 +14,6 @@ returned, never stored on an Actor.
 import time
 from dataclasses import dataclass, field
 
-from redis.exceptions import ResponseError
-
 from core.graph.client import DEFAULT_TIMEOUT_MS, FalkorClient
 from core.takeover import scratch as sc
 
@@ -97,4 +95,3 @@ def guardians(
     else:
         res.guardians = int(r.result_set[0][0])
     return res
-
