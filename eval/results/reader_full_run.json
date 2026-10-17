@@ -3,25 +3,25 @@
   "model": "openai/gpt-oss-20b",
   "excluded": "the human-labelled test set (reader_testset.json), read later by reader-score",
   "messages_in_scope_total": 240,
-  "messages_done": 94,
+  "messages_done": 132,
   "totals": {
-    "claims": 3,
+    "claims": 5,
     "claims_by_kind": {
-      "CAPACITY_STATEMENT": 3
+      "CAPACITY_STATEMENT": 5
     },
-    "rejections": 6,
+    "rejections": 10,
     "rejections_by_reason": {
-      "quote is not a substring of the message text": 6
+      "quote is not a substring of the message text": 10
     },
     "none_items": 0,
-    "messages_without_claims": 91,
-    "messages_not_read_too_long": 4,
-    "messages_not_read_no_valid_json": 0,
-    "input_tokens": 110366,
-    "output_tokens": 44479,
-    "reasoning_tokens": 42803,
-    "fresh_calls": 81,
-    "cache_hits": 9
+    "messages_without_claims": 127,
+    "messages_not_read_too_long": 7,
+    "messages_not_read_no_valid_json": 1,
+    "input_tokens": 154208,
+    "output_tokens": 61263,
+    "reasoning_tokens": 58868,
+    "fresh_calls": 110,
+    "cache_hits": 14
   },
   "messages": [
     {
@@ -1241,8 +1241,494 @@
         "reasoning": 318
       },
       "cache_hit": false
+    },
+    {
+      "message_id": "msg00507",
+      "date_utc": "2021-09-02T01:49:04Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 4199,
+        "output": 517,
+        "reasoning": 499
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00509",
+      "date_utc": "2021-10-05T21:33:40Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1131,
+        "output": 680,
+        "reasoning": 662
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00510",
+      "date_utc": "2021-10-27T20:40:47Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 765,
+        "output": 116,
+        "reasoning": 98
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00511",
+      "date_utc": "2021-10-28T20:45:49Z",
+      "claim_count": 0,
+      "rejection_count": 1,
+      "rejection_reasons": [
+        "quote is not a substring of the message text"
+      ],
+      "tokens": {
+        "input": 1562,
+        "output": 722,
+        "reasoning": 661
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00512",
+      "date_utc": "2021-10-29T18:29:18Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": null
+      },
+      "cache_hit": true
+    },
+    {
+      "message_id": "msg00513",
+      "date_utc": "2021-11-06T20:36:06Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 825,
+        "output": 311,
+        "reasoning": 294
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00514",
+      "date_utc": "2021-11-10T16:35:39Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": null,
+      "cache_hit": null
+    },
+    {
+      "message_id": "msg00516",
+      "date_utc": "2021-11-10T22:56:51Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1176,
+        "output": 182,
+        "reasoning": 164
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00518",
+      "date_utc": "2021-11-12T15:40:54Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1264,
+        "output": 426,
+        "reasoning": 408
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00519",
+      "date_utc": "2021-11-29T13:30:51Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1801,
+        "output": 168,
+        "reasoning": 149
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00520",
+      "date_utc": "2021-11-29T22:25:17Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": null,
+      "cache_hit": null
+    },
+    {
+      "message_id": "msg00521",
+      "date_utc": "2021-11-29T22:25:17Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1232,
+        "output": 726,
+        "reasoning": 708
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00522",
+      "date_utc": "2021-11-30T14:16:07Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 3547,
+        "output": 220,
+        "reasoning": 202
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00523",
+      "date_utc": "2021-12-04T22:55:19Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1034,
+        "output": 534,
+        "reasoning": 516
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00524",
+      "date_utc": "2021-12-15T21:34:06Z",
+      "claim_count": 0,
+      "rejection_count": 1,
+      "rejection_reasons": [
+        "quote is not a substring of the message text"
+      ],
+      "tokens": {
+        "input": 972,
+        "output": 1171,
+        "reasoning": 1113
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00525",
+      "date_utc": "2021-12-21T13:22:25Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": null,
+      "cache_hit": null
+    },
+    {
+      "message_id": "msg00526",
+      "date_utc": "2021-12-31T17:07:00Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 841,
+        "output": 221,
+        "reasoning": 204
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00527",
+      "date_utc": "2022-01-08T17:15:31Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": null
+      },
+      "cache_hit": true
+    },
+    {
+      "message_id": "msg00529",
+      "date_utc": "2022-02-06T23:47:49Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": null
+      },
+      "cache_hit": true
+    },
+    {
+      "message_id": "msg00530",
+      "date_utc": "2022-02-07T20:39:04Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 772,
+        "output": 165,
+        "reasoning": 148
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00531",
+      "date_utc": "2022-02-10T17:15:01Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 886,
+        "output": 903,
+        "reasoning": 885
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00532",
+      "date_utc": "2022-02-11T15:25:58Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1238,
+        "output": 174,
+        "reasoning": 156
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00533",
+      "date_utc": "2022-02-12T17:45:51Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 763,
+        "output": 229,
+        "reasoning": 211
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00535",
+      "date_utc": "2022-02-21T23:07:58Z",
+      "claim_count": 0,
+      "rejection_count": 1,
+      "rejection_reasons": [
+        "quote is not a substring of the message text"
+      ],
+      "tokens": {
+        "input": 1089,
+        "output": 1412,
+        "reasoning": 1359
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00536",
+      "date_utc": "2022-02-22T00:07:53Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 772,
+        "output": 135,
+        "reasoning": 118
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00537",
+      "date_utc": "2022-02-22T14:39:58Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": null,
+      "cache_hit": null
+    },
+    {
+      "message_id": "msg00538",
+      "date_utc": "2022-03-06T23:08:48Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 990,
+        "output": 723,
+        "reasoning": 705
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00539",
+      "date_utc": "2022-03-07T22:03:41Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 6614,
+        "output": 206,
+        "reasoning": 188
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00541",
+      "date_utc": "2022-03-10T22:03:51Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 997,
+        "output": 393,
+        "reasoning": 376
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00542",
+      "date_utc": "2022-03-11T13:59:41Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": null
+      },
+      "cache_hit": true
+    },
+    {
+      "message_id": "msg00543",
+      "date_utc": "2022-03-11T20:47:33Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 940,
+        "output": 466,
+        "reasoning": 449
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00544",
+      "date_utc": "2022-03-14T13:14:32Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1051,
+        "output": 932,
+        "reasoning": 914
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00545",
+      "date_utc": "2022-03-15T12:39:53Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1437,
+        "output": 369,
+        "reasoning": 351
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00546",
+      "date_utc": "2022-03-17T11:37:30Z",
+      "claim_count": 1,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 1247,
+        "output": 1602,
+        "reasoning": 1559
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00548",
+      "date_utc": "2022-03-17T13:50:18Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 2925,
+        "output": 578,
+        "reasoning": 561
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00549",
+      "date_utc": "2022-03-31T21:33:33Z",
+      "claim_count": 1,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 861,
+        "output": 627,
+        "reasoning": 582
+      },
+      "cache_hit": false
+    },
+    {
+      "message_id": "msg00550",
+      "date_utc": "2022-03-31T21:33:34Z",
+      "claim_count": 0,
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": null
+      },
+      "cache_hit": true
+    },
+    {
+      "message_id": "msg00551",
+      "date_utc": "2022-04-07T17:11:17Z",
+      "claim_count": 0,
+      "rejection_count": 1,
+      "rejection_reasons": [
+        "quote is not a substring of the message text"
+      ],
+      "tokens": {
+        "input": 911,
+        "output": 1876,
+        "reasoning": 1825
+      },
+      "cache_hit": false
     }
   ],
   "complete": false,
-  "remaining": 146
+  "remaining": 108
 }

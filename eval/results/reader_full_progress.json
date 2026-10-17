@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-10-12T12:53:03Z",
+  "updated_utc": "2026-10-17T22:40:29Z",
   "total": 240,
-  "done": 94,
-  "remaining": 146,
-  "stopped_because": "openai/gpt-oss-20b: 200000 tokens per day would be exceeded",
-  "next_message_id": "msg00507"
+  "done": 132,
+  "remaining": 108,
+  "stopped_because": "batch stopped by user command; rate limited at Groq",
+  "next_message_id": "msg00552"
 }
