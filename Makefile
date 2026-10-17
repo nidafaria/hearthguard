@@ -170,3 +170,9 @@ gaps:
 	uv run python -m eval.gaps_report $(or $(CASE),xz)
 verify-frozen:
 	uv run python -m eval.verify_frozen
+
+verify-learning:
+	uv run python -m eval.verify_learning
+
+chaos:
+	uv run python -m eval.chaos --seed $(or $(SEED),7)
