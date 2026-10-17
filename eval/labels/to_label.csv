@@ -1,0 +1,791 @@
+"id","text_first_600","label"
+"msg00397","From: [author] <[email]>
+
+Changes since v1:
+- Use the `timeout' parameter / mythread_cond_timedwait() in the main
+  thread.
+- A little bit of doxygen documentation.
+- Added enum `lzma_memlimit_opt' to lzma_stream_decoder_mt() as an init
+  parameter. The idea is to specify how to obey the memory limit so the
+  user can keep using one API and not worry to fail due to the memory
+  limit. Lets assume the archive has a 9MiB dictionary, 24MiB block of
+  uncompressed data. The archive contains two compressed blocks of 10
+  MiB each. Using two threads, the memory requirement is roughly
+     (9 + 24 + ",""
+"msg00398","Hello!
+
+Sorry for the two-week silence, I was ill. It will take a few days for
+me to catch up with the emails.
+
+0 means disabled, that is, xz is expected to behave just like most
+other programs that might allocate a lot of memory but don't have any
+internal memory usage limiting. Memory isn't unlimited but many
+programs sort of behave as if it were and fail hard if allocation
+fails. That's not robust but it seems to work most of the time and
+many seem find this to be acceptable behavior in general.
+
+The whole limiter feature exist because I felt it was good to have a
+mechanism to control the m",""
+"msg00405","I found it easy to change the above ""case"" and ignore >= 128 at the
+bottom of the script. But that still isn't enough.
+
+gzip -q turns SIGPIPE into exit status of 2. Ignoring 2 would work for
+gzip but that is incompatible with bzip2 which uses exit status 2 to
+indicate corrupt input. Trying to handle exit statuses separately for
+each compressor is complicated because two different tools may be in
+use at the same time. Getting rid of gzip -q sounds more reasonable.
+
+The script uses -cdfq to decompress and I'm not sure why the -q is
+there. There is an exception when only one argument is given, th",""
+"msg00414","I suppose it can be done. The build system uses Apache Ant. From some
+sources I've understood that there are more modern alternatives but I
+haven't had any interest or energy to learn more as Ant seems to still
+work OK.
+
+All these sound like worth checking out.
+
+Thanks! There are several XZ Utils related tasks I hope to get done (of
+which not all have been mentioned on xz-devel), so I won't think much
+about XZ for Java in the near future, I'm sorry.
+
+I assume that multi-release method has no performance overhead since
+the runtime will load the best .class file and that's it. How the other
+meth",""
+"msg00423","[person],
+
+I have found a way to use VarHandle byte array access at runtime in
+code which is compile time compatible with jdk 7. So here is an
+updated ArrayUtil class which will use a VarHandle to read long values
+in jdk 9+. If that is not available, it will attempt to use
+sun.misc.Unsafe. If that cannot be found, it falls back to standard
+byte by byte comparison.
+I did add an index bounds check for the unsafe implementation and
+found it had minimal impact on over all performance.
+Using VarHandle (at least on jdk 11) offers very similar performance
+to Unsafe across all 3 files I used for bench",""
+"msg00431","Another data point: xz -tv -T0 went from
+   100 %         10,2 GiB / 40,0 GiB = 0,255   921 MiB/s       0:44
+to
+   100 %         10,2 GiB / 40,0 GiB = 0,255   1,2 GiB/s       0:34
+
+(I converted my test archive from crc64 to sha256 for testing).
+
+[person]",""
+"msg00436","package org.tukaani.xz.common;
+
+import static java.lang.invoke.MethodType.methodType;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.nio.ByteOrder;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Utilities for optimized array interactions.
+ *
+ * <p>
+ * The means of comparing arrays can be controlled by setting the
+system property
+ * {@code org.",""
+"msg00440","Hi,
+
+Thank you.
+
+I moved the logic to reset the in buffer only after LZMA_STREAM_END.
+
+I changed that as suggested.
+
+So I updated the logic that if LZMA_OK is returned from the block
+decoder and either the complete in-buffer or out-buffer has been
+consumed then it returns LZMA_DATA_ERROR.
+
+I did implement it as described, didn't I?
+
+oh, okay. I assumed it as in ""waiting is okay but no longer than timeout
+secs"".
+It is possible that at SEQ_INDEX time we wait less than `timeout' copy a
+few bytes and then wait again less than `timeout' until the out-buffer
+is full. But hey, we make progress ;)
+At ",""
+"msg00448","I have played with this quite a bit and have come up with a slightly
+modified change which does not regress for the smallest of the sample
+objects and shows a nice improvement for the 2 larger files.
+
+Here is baseline benchmark on 1.8:
+jdk 11 64 bit 1.8 BASELINE
+Benchmark                                     (file)  Mode  Cnt
+Score   Error  Units
+XZDecompressionBenchmark.decompress  ihe_ovly_pr.dcm  avgt    3
+0.751 ± 0.145  ms/op
+XZDecompressionBenchmark.decompress       image1.dcm  avgt    3
+427.542 ± 7.724  ms/op
+XZDecompressionBenchmark.decompress        large.xml  avgt    3
+286.265 ± 2.841 ",""
+"msg00457","I still need to do more testing across jdk 8 and 15, but initial
+returns on this are pretty positive. The repeating byte file is
+meaningfully faster than baseline. One of my test files (image1.dcm)
+does not improve much from baseline, but the other 2 files do.
+
+diff --git a/src/org/tukaani/xz/lz/LZDecoder.java
+b/src/org/tukaani/xz/lz/LZDecoder.java
+index 85b2ca1..b062a9d 100644
+--- a/src/org/tukaani/xz/lz/LZDecoder.java
++++ b/src/org/tukaani/xz/lz/LZDecoder.java
+@@ -12,6 +12,8 @@ package org.tukaani.xz.lz;
+
+ import java.io.DataInputStream;
+ import java.io.IOException;
++import java.util.Arrays;",""
+"msg00465","Egads. I clearly just copied/pasted and did not think about it enough.
+The results were still correct, but definitely only got aligned if the
+offset was divisible by 2.
+
+I re-ran with this fixed and the changes are not significant.
+
+Sounds good.
+
+Yes.
+
+The differences are pretty minimal. My observation was switch a bit
+faster than for loop, which was a bit faster than a while loop. But
+the differences in averages were less than the confidence interval for
+the given tests.
+
+Yes.
+
+That is fine. You can include my e-mail.
+
+[person]",""
+"msg00474","To avoid byte swapping in the main loop on big endian systems, the
+lookup table would need to be big endian and operations need to be
+bitwise-mirrored too just like in liblzma. I'm not convinced yet that
+it's worth the extra effort and complexity for such a small speed gain.
+
+--
+[author]  |  IRC: [person] @ IRCnet & Freenode",""
+"msg00476","We can make it look even more like liblzma :)
+In my benchmark I observe no negative impact of using the functions.
+Which is to say that this is still 5-7% faster than the byte-by-byte
+approach.
+
+public class CRC64 extends Check {
+
+    private static final VarHandle INT_HANDLE =
+            MethodHandles.byteArrayViewVarHandle(int[].class,
+ByteOrder.nativeOrder());
+    private static final VarHandle LONG_HANDLE =
+            MethodHandles.byteArrayViewVarHandle(long[].class,
+ByteOrder.nativeOrder());
+    private static final long[][] TABLE = new long[4][256];
+
+    private static final LongToInt",""
+"msg00483","I quickly tried these with ""XZEncDemo 2"". I used the preset 2 because
+that uses LZMAEncoderFast instead of LZMAEncoderNormal where the
+negative lengths result in a crash. The performance was about the same
+or worse than the original code. I don't know why. I didn't spend much
+time on this and it's possible that I messed up something.
+
+One thing that may be worth checking out is how in HC4.java (and
+BT4.java too) the patch doesn't try to quickly skip too short matches
+like the original code does. I suppose the first set of patches should
+be such that they only replace the byte-by-byte loops wit",""
+"msg00491","I was able to test on AWS graviton2 instances (aarch64), but only with
+jdk 15. The results show that the vectorized approach appears the best
+option, though long comparisons are also an improvement over baseline.
+
+Based on this, I made a small change to ArrayUtil to, by default, use
+unsafe long comparisons for aarch64 for older JDKs.
+
+I attached an image of the summarized data, but here it is raw:
+
+BASELINE
+Benchmark                                 (file)  (preset)  Mode  Cnt
+    Score     Error  Units
+XZCompressionBenchmark.compress  ihe_ovly_pr.dcm         3  avgt    3
+    1.192 ±   0.005  m",""
+"msg00500","Hello [person],
+
+Am So., 11. Apr. 2021 um 20:48 Uhr schrieb [person]
+<[email]>:
+OK, good idea. I am curious to see when the first new translations
+will arrive :)
+
+Best Regards,
+[person]",""
+"msg00508","Perhaps it's an error. Long ago when I wrote the docs, I knew that the
+ARM filters worked on little endian code but didn't know how big endian
+ARM was done. If it always uses the same encoding for instructions,
+then the docs should be fixed. The same is likely true about PowerPC.
+
+It just hasn't been done, no other reason. In general I haven't gotten
+much done in years and there even are a few patches (unrelated to BCJ)
+that have been waiting my feedback for a very long time. :-(
+
+Thanks!
+
+The ""bl"" instruction takes a signed 26-bit immediate value that encodes
+the offsets as a multiple of four",""
+"msg00515","You have been very good boy indeed and I have been the opposite, still
+not gotten this done. I don't want to give any odds, although there are
+reasons why the odds should be better than a month or two ago, but I
+will really try so that Santa can deliver a new alpha package.
+
+--
+[author]",""
+"msg00517","I wasn't sure how to handle potential issues with utf-8 and
+translations files, compressed test files, and visual studio files,
+but after a bit of research your solution looks great.
+
+I apologize for an error in the original patch. I had only used
+editorconfig files in simple projects before, so I didn't know that
+curly braces are required to apply the formatting to two or more
+globs. Here is the adjusted version of the editorconfig file with
+those changes:
+
+# To use this config on your editor, follow the instructions at:
+# [url]
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_",""
+"msg00528","I now plan to use memlimit_threading and memlimit_stop in the lzma_mt
+structure. Documentation is still needed but hopefully those are a bit
+more obvious.
+
+And I'm late again. :-(
+
+This is more work than I had expected because there unfortunately are a
+few problems in the code and fixing them all requires quite significant
+changes (and I'm slow). As a bonus, working on this made me notice a few
+small bugs in the old liblzma code too (not yet committed).
+
+The following tries to explain some of the problems and what I have
+done locally. I don't have code to show yet because it still contains
+too",""
+"msg00534","Can this be reviewed?",""
+"msg00540","Thanks for doing this testing! Looks like the threading scales fairly
+well on large files like this. I don't have a machine with resources
+like this, so I am glad you were able to do this.
+
+I started writing tests in the new framework and I found one bug and
+one issue. If you want to check out the tests I have so far, here is a
+link to check out my progress:
+[url]
+
+The bug is with truncated xz files. In multithreaded mode, if a file
+has been corrupted and is missing the end, deadlock occurs. An easy
+way to recreate this is by using the truncate command:
+truncate -s 30000 some_multiblock_file.x",""
+"msg00547","Thanks to both of you for debugging this. I see now that I had
+completely missed this corner case. The patch looks correct except that
+the mutex locking order is wrong which can cause a new deadlock. If
+both thr->mutex and coder->mutex are locked at the same time,
+coder->mutex must be locked first.
+
+About memlimit updates, that may indeed need some work but I don't know
+yet how much is worth the trouble. stream_decoder_mt_memconfig() has a
+few FIXMEs too, maybe they don't need to be changed but it needs to be
+decided.
+
+I'm in a hurry now but I should have time for xz next week. :-)
+
+--
+[author",""
+"msg00553","These patches add lzma_str_to_filters and lzma_filters_to_str to
+liblzma and add a new ""-s, --filters"" option to xz. The string format
+is as follows:
+{filter name}={option name}:{option value},{option name}:{option
+value}+{filter name}...
+
+The ""="" delimits a filter name from a comma separated list of option
+value pairs. The ""="" is optional and only needed if you want to
+override default options. For lzma1 and 2, a short hand for a preset
+can be used: lzma2={preset number}.
+
+The "":"" delimits option name from option value.
+
+The "","" delimits option value pairs from each other.
+
+The ""+"" delimits f",""
+"msg00555","Hi
+
+The existing way to add filter chain is confusing so this change will be good.
+I do not think the -s short op is good. --filters as the long op is good no
+need for -s.
+
+The ""+"" is not the best character. What about using "";"" or ""|""?
+
+It should show all option names and values. It matches the current output with
+-vv option.
+
+I did not test your codes, but if they work then I think the format only needs
+minor adjustments I suggest. Your efforts are good but based on the slow
+release schedule it will unfortunatly be years until the community actually
+gets this quality of life feature.
+
+[perso",""
+"msg00560","+1
+
+Any updates on this?
+
+--
+[author]",""
+"msg00566","Progress will not happen until there is new maintainer. XZ for C has sparse
+commit log too. [person] you are better off waiting until new maintainer happens
+or fork yourself. Submitting patches here has no purpose these days. The
+current maintainer lost interest or doesn't care to maintain anymore. It is sad
+to see for a repo like this.",""
+"msg00573","What version of xz are you using?
+
+The differences between xz and lzma are a bit more involved. One such
+example is that xz is a framed format which includes checksums on each
+“frame”. I would not expect checksum verification to account for all of
+that difference, but it can be disabled to confirm.",""
+"msg00579","The other motivation for the block scheme is that the API provides
+random-access to data. Typically, if one is looking at data for
+Finland, one usually doesn't care much about the data from
+Australia.Thus the file is divided into regional blocks. So the choice
+of block size also reflects the way in which I anticipate applications
+would use the data.
+
+I hope you are aware that such a system has been in use for about seventy years,
+exactly for this purpose, namely the Universal Traverse Mercator system which
+uses 70 rectangular zones (some of them slightly overlapping).  See
+[url] .
+Most serious",""
+"msg00585","Thanks! So the fix for one thing broke another situation. :-(
+
+I cannot test but it seems the same addition is needed in six places,
+not just in ""Debug|Win32"" case, right?
+
+diff --git a/windows/vs2013/liblzma_dll.vcxproj
+b/windows/vs2013/liblzma_dll.vcxproj
+index 2bf3e41..f24cd6f 100644
+--- a/windows/vs2013/liblzma_dll.vcxproj
++++ b/windows/vs2013/liblzma_dll.vcxproj
+@@ -137,6 +137,7 @@
+     </Link>
+     <ResourceCompile>
+
+<AdditionalIncludeDirectories>./;../../src/liblzma/common;../../src/common;../../src/liblzma/api;</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>HAVE_CONFIG_",""
+"msg00592","Are there any open issues? If not, what needs to be done before the
+final release can happen?
+
+Sebasttian",""
+"msg00596","We ended up changing xz to use (total_ram / 4) as the default ""soft
+limit"". If the soft limit is reached, xz will decode single threaded.
+The ""hard limit"" shares the same environment variable and xz option
+(--memlimit-decompress).
+
+I am unsure if we will have time to include your sha256 patch, but if
+we finish all the tasks with extra time it may be considered.
+
+Thank you for notifying us about the January freeze. I hope this is
+the extra bit of motivation needed for us to release 5.4.0 as soon as
+it is ready.
+
+[person] is confident that we will have the release by December. I will
+see what we",""
+"msg00598","XZ Utils 5.2.7 is available at <[url] Here is an
+extract from the NEWS file:
+
+5.2.7 (2022-09-30)
+
+    * liblzma:
+
+        - Made lzma_filters_copy() to never modify the destination
+          array if an error occurs. lzma_stream_encoder() and
+          lzma_stream_encoder_mt() already assumed this. Before this
+          change, if a tiny memory allocation in lzma_filters_copy()
+          failed it would lead to a crash (invalid free() or invalid
+          memory reads) in the cleanup paths of these two encoder
+          initialization functions.
+
+        - Added missing integer overflow check ",""
+"msg00605","Sure!
+
+Let me know if you need any more data.
+
+test-suite.log
+Description: Binary data
+
+signature.asc
+Description: Message signed with OpenPGP",""
+"msg00611","Hi,
+
+I'm not sure if this an ia64 issue or something else is missing. Looking
+at the symbols:
+
+| bigeasy@yttrium:~$ readelf -W --dyn-syms
+/lib/ia64-linux-gnu/liblzma.so.5|grep lzma_get_progress
+|    160: 0000000000007480   208 FUNC    GLOBAL DEFAULT   12
+lzma_get_progress@@XZ_5.2
+|    161: 0000000000007480   208 FUNC    GLOBAL DEFAULT   12
+[email]
+| bigeasy@yttrium:~$ readelf -W --dyn-syms /usr/bin/xz|grep progress
+|     45: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND
+[email] (8)
+
+The @@ thingy is used in the library to mark the default symbol. So
+liblzma provides two lzma_get_progress ",""
+"msg00618","Why does it want static liblzma.a in the first place? It sounds weird
+to require rebuilding of mariadb-10.6 every time liblzma is updated.
+
+Can it build against liblzma.so if liblzma.a isn't available?
+
+It is fine to build *static* liblzma with --disable-symbol-versions on
+all archs. Debian-specific workaround is fine in the short term but
+this should be fixed upstream. One method would be to disable the extra
+symbols on ia64 but that is not a real fix. Perhaps it's not really
+possible as long as the main build system is Autotools, I don't
+currently know.
+
+I'm still curious why exactly one sym",""
+"msg00634","The primary Git repository of XZ Utils is now on
+<[url] It is also an alternative
+method for sending bug reports, patches, and general discussion. The
+old repository at <[url] will be maintained
+as a mirror and will be updated with some delay.
+
+The forum on Sourceforge.net is no longer used.
+
+The IRC channel #tukaani on Libera Chat has been a little more active
+recently. :-)
+
+XZ Utils 5.4.1 is available at <[url] Here is an
+extract from the NEWS file:
+
+5.4.1 (2023-01-11)
+
+    * liblzma:
+
+        - Fixed the return value of lzma_microlzma_encoder() if the
+          LZMA options lc/lp/pb are inv",""
+"msg00635","XZ Utils 5.2.11 and 5.4.2 are available at <[url]
+
+The Doxygen-generated liblzma API documentation is now available online
+at <[url]
+
+Please let us know if there is interest in more releases for the
+5.2 branch. Jia Tan and I will plan further bug-fix releases for this
+branch only if people will use it.
+
+Future release tarballs might be signed by Jia Tan. Recently he has done
+most of the work in XZ Utils. :-)
+
+Here is an extract from the NEWS file:
+
+5.2.11 (2023-03-18)
+
+    * Removed all possible cases of null pointer + 0. It is undefined
+      behavior in C99 and C17. This was detected by a sa",""
+"msg00636","XZ Utils 5.2.12 and 5.4.3 are available at <[url]
+
+The Doxygen-generated liblzma API documentation is available at
+<[url]
+
+This is the last planned release for the 5.2.12 branch. Patches or new
+releases may still be made if severe bugs are found.
+
+The OpenPGP signing key used for this and future releases has changed
+to my key (<[email]>). The fingerprint is:
+
+[fingerprint]
+
+The new key is available at [url]
+
+Here is an extract from the NEWS file:
+
+5.2.12 (2023-05-04)
+
+    * Fixed a build system bug that prevented building liblzma as a
+      shared library when configured with --disable-threads",""
+"msg00637","XZ Utils 5.4.4 is available at <[url] and
+<[url]
+
+Here is an extract from the NEWS file:
+
+5.4.4 (2023-08-02)
+
+    * liblzma and xzdec can now build against WASI SDK when threading
+      support is disabled. xz and tests don't build yet.
+
+    * CMake:
+
+        - Fixed a bug preventing other projects from including liblzma
+          multiple times using find_package().
+
+        - Don't create broken symlinks in Cygwin and MSYS2 unless
+          supported by the environment. This prevented building for the
+          default MSYS2 environment. The problem was introduced in
+          xz 5.4.0.
+
+   ",""
+"msg00638","The XZ_DEC_BCJ macro was not defined when only selecting the ARM64 BCJ
+decoder, leading to no BCJ decoder being compiled.
+
+The macro that select XZ_DEC_BCJ if any of the BCJ decoder is selected was
+missing a case for the recently added ARM64 BCJ decoder.
+
+Also the macro `defined(XZ_DEC_ARM)` was used twice in the condition for
+selecting XZ_DEC_BCJ, so this patch replaces one with XZ_DEC_ARM64.
+
+Signed-off-by: [author] <[email]>
+---
+ linux/lib/xz/xz_private.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux/lib/xz/xz_private.h b/linux/lib/xz/xz_private.h
+index e3bba7b..",""
+"msg00639","Thanks! I kept the ordering of the filter names the same as elsewhere
+in the file and in xz_dec_bcj.c.
+
+The ARM64 filter still hasn't been submitted to Linux but it's on the
+to-do list.
+
+--
+[author]",""
+"msg00640","OK great
+
+cool, i've just pushed the ARM64 filter to the barebox bootloader, see:
+[url] protected]/T/#t",""
+"msg00641","XZ Utils 5.4.5 is available at <[url] and
+<[url]
+
+Here is an extract from the NEWS file:
+
+5.4.5 (2023-11-01)
+
+    * liblzma:
+
+        - Use __attribute__((__no_sanitize_address__)) to avoid address
+          sanitization with CRC64 CLMUL. It uses 16-byte-aligned reads
+          which can extend past the bounds of the input buffer and
+          inherently trigger address sanitization errors. This isn't
+          a bug.
+
+        - Fixed an assertion failure that could be triggered by a large
+          unpadded_size argument. It was verified that there was no
+          other bug than the assertio",""
+"msg00642","The XZ specific content has been moved from <[url]
+to <[url] The old links will be kept working via
+redirections.
+
+Additionally, the official XZ Embedded Git repository is now on GitHub
+<[url] The repository on
+git.tukaani.org will be maintained as a mirror with some delay.
+
+XZ Utils 5.4.6 and 5.5.1alpha are available at
+<[url]
+
+Here is an extract from the NEWS file:
+
+5.4.6 (2024-01-26)
+
+    * Fixed a bug involving internal function pointers in liblzma not
+      being initialized to NULL. The bug can only be triggered if
+      lzma_filters_update() is called on a LZMA1 encoder, so it does
+    ",""
+"msg00644","This is the first release made under the 0BSD license. Please let us
+know if there are any concerns about the license change. We are looking
+forward to releasing 5.6.0 later this month!
+
+XZ Utils 5.5.2beta is available at <[url]
+
+Here is an extract from the NEWS file:
+
+5.5.2beta (2024-02-14)
+
+    * Licensing change: The core components are now under the
+      BSD Zero Clause License (0BSD). In XZ Utils 5.4.6 and older
+      and 5.5.1alpha these components are in the public domain and
+      obviously remain so; the change affects the new releases only.
+
+      0BSD is an extremely permissive lic",""
+"msg00645","Hi,
+
+I did some testing on !x86. I changed LZMA_RANGE_DECODER_CONFIG to
+different values run a test and looked at the MiB/s value. xz_0 means
+LZMA_RANGE_DECODER_CONFIG was 0, xz_1 means the define was set to 1. I
+touched src/liblzma/lzma/lzma_decoder.c and rebuilt xz. I pinned the
+shell to a single CPU and run test for archive (-tv) for one file three
+times. This are the results:
+
+arm64 (Lenovo HR350A):
+----=== xz 5.4.1 ===----
+linux-6.7.5.tar.xz (1/1)
+  100 %     134.9 MiB / 1,386.4 MiB = 0.097   110 MiB/s       0:12
+linux-6.7.5.tar.xz (1/1)
+  100 %     134.9 MiB / 1,386.4 MiB = 0.097   110 M",""
+"msg00649","I have created a pr to the GitHub project with these changes.
+
+[url]
+
+Thanks,
+[person]",""
+"msg00652","urandom should be incompressible. When LZMA2 cannot compress a chunk it
+stores it in uncompressed form. Decompression is like ""cat with CRC"".
+
+Great work! Thanks!
+
+On IRC one person ran a bunch of tests too. On ARM64 the results were
+mixed. A variant that was better with GCC could be worse with Clang. So
+those weren't as clear as your results but they too made me think that
+using 0 for non-x86-64 is the way to go for 5.6.0.
+
+Your x86-64 asm variant results were interesting too. Seems that the bit
+0x100 isn't good with GCC although the difference is small. I confirmed
+this on the tests I did on",""
+"msg00655","From: [author] <[email]>
+
+If threads are automatically selected then it is possible that their
+number needs to get reduced in order not to exceed the current memory
+limit. This ""reducing"" forces a warning which is printed on stderr to
+inform the user.
+The information is probably not something the user would be interested
+in since he did not explicitly ask for the additional threads and so any
+number of threads would probably do it without raising an eyebrow.
+The downside of this warning is that a few testsuites capture the output
+of stderr and complain now that something went wrong.
+
+Print the",""
+"msg00658","Yes. When compressing from stdin to stdout, there aren't many possible
+warnings but there are still a few rare ones. So -q isn't ideal to get
+rid of thread count reduction messages.
+
+It's simply 25 % of total RAM. The Linux-specific MemAvailable from
+/proc/meminfo didn't get into 5.6.0. Perhaps it could be done in the
+next development cycle, and maybe also look for similar features on a
+few other OSes.
+
+One issue is that currently the message tells about thread count
+reduction and what the memlimit is but not how much memory is actually
+required. One needs to use -vv to get the usage info.
+
+Do",""
+"msg00661","Thanks! :-)
+
+:-)
+
+There is a branch ""memavail"" on GitHub with experimental support for
+MemAvailable from Linux /proc/meminfo. It needs discussion and
+feedback (likely in a new thread). There is no rush as it's not for
+5.6.x anyway.
+
+--
+[author]",""
+"msg00665","Hi all,
+
+I think I may have found a bug with xz-java. With version 1.9 (the newest, I
+think). While trying to decompress a file I got an error message saying
+""Unknown Filter ID 11"". To try to solve the issue, I tried to run several of
+the test cases with XZDecDemo.jar. Most of them worked fine, but I noticed
+issues with two arm files and two riscv files. The arm files failed with
+""Unknown Filter ID 10"" and the riscv files failed with ""Unknown Filter ID 11"".
+
+The files specifically were good-1-arm64-lzma2-1.xz and good-1-arm64-lzma2-2.xz
+and good-1-riscv-lzma2-1.xz and good-1-riscv-lzma2-2.xz. ",""
+"msg00668","I hope 1.10 could be done in a month or two but I don't want to make any
+promises or serious predictions. Historically those haven't been
+accurate at all.
+
+[person]'s patches (originally from early 2021) should improve
+compression speed. They are currently under review. Those are one of
+the things to get into the next stable release.
+
+However, Java in general is slower. Some compressors have a Java API but
+the performance-critical code is native code. For example, java.util.zip
+calls into native code from zlib. XZ for Java doesn't use any native
+code (for now at least).
+
+XZ for Java lacks thre",""
+"msg00671","There are new commits in master now and those might slightly conflict
+with your PR (@Override additions). I'm playing around a bit and
+learning about the faster methods still. So right now I don't have
+wishes for changes; I don't want to request anything when there's a
+possibility that some other way might end up looking more preferable.
+
+In general, I would prefer splitting to more commits. Using your PR as
+an example:
+
+  1. Adding the changes to lz/*.java and the portable *Array*.java
+     code required by those changes.
+
+  2. Adding one advanced implementation that affects only the
+     *Ar",""
+"msg00674","I created a branch array_compare. It has a simple version for Java <= 8
+which seems very slightly faster than the current code in master, at
+least when tested with OpenJDK 21. For Java >= 9 there is
+Arrays.mismatch for portability and VarHandle for x86-64 and ARM64.
+These are clearly faster than the basic version.
+
+sun.misc.Unsafe would be a little faster than VarHandle but I feel it's
+not enough to be worth the downsides (non-standard and not memory safe).
+
+32-bit archs I didn't include, for now at least, since if people want
+speed I hope they don't run 32-bit Java.
+
+Speed differences are ver",""
+"msg00678","I still need to check a few of your edits if some of them should be
+included. :-)
+
+I pushed basic docs for getMatchLen.
+
+Once crc64_varhandle2 is merged then array_compare should use ArrayUtil
+too. It doesn't make a difference in speed.
+
+I can wait for the summary, thanks.
+
+If someone has, for example, a Raspberry Pi, the compression of zeros
+test is simple enough to do and at least on x86-64 has clear enough
+difference. It's an over-simplified test but it's a data point still.
+
+Thanks. I was already tilted towards not using Unsafe and now I'm even
+more. The speed benefit of Unsafe over VarHan",""
+"msg00681","XZ Utils 5.2.13, 5.4.7, and 5.6.2 are available at
+<[url] The releases are signed with my key. The same
+key was used for 5.2.11 and 5.4.2 and older. Fingerprint:
+
+    [fingerprint]
+
+[person] is now a supporting maintainer. The [email] email
+address forwards to me and him.
+
+Special thanks to [person] for discovering the backdoor in 5.6.0
+and 5.6.1.
+
+Extracts from the NEWS file:
+
+5.6.2 (2024-05-29)
+
+    * Remove the backdoor (CVE-2024-3094).
+
+    * Not changed: Memory sanitizer (MSAN) has a false positive
+      in the CRC CLMUL code which also makes OSS Fuzz unhappy.
+      Valgrind is smarter an",""
+"msg00684","Debian Bookworm (stable) has cmake 3.25 and the release before it has it
+in backports. So if one rolls its own xz and is using one of those two
+distros and prefers to avoid autotools then it would work.
+
+[person]",""
+"msg00687","[person] wrote...
+
+Just adding my 2¢, I consider your argument sane, and I appreciate a lot
+that you care about older release. Your notion became rare, please stay
+that way.
+
+    [person]
+
+signature.asc
+Description: PGP signature",""
