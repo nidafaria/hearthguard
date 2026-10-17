@@ -53,6 +53,35 @@ export function Status({ s }: { s: string | null | undefined }) {
   return <span className={`tag ${v.replace(/ /g, "_")}`}>{v}</span>;
 }
 
+// The title block in a plate's corner: the plate, its data kind, and the files it reads. Shared by every screen.
+export function PlateTitle({ plate, data, sources }: { plate: string; data: string; sources: string[] }) {
+  return (
+    <div className="tb" aria-label="Title block">
+      <span>Plate</span>
+      <span>{plate}</span>
+      <span>Data</span>
+      <span>{data}</span>
+      <span>Source</span>
+      <span>{sources.join(", ")}</span>
+    </div>
+  );
+}
+
+// The plate headline: each word rises from a mask, 40 ms apart, unless reduced motion is on (then it shows at once).
+export function RisingTitle({ text }: { text: string }) {
+  return (
+    <h1 className="H">
+      {text.split(" ").map((w, i) => (
+        <span key={i}>
+          <span className="w">
+            <span style={{ animationDelay: `${i * 40}ms` }}>{w}</span>
+          </span>{" "}
+        </span>
+      ))}
+    </h1>
+  );
+}
+
 // A value the saved files do not hold: a blank tile, hatched, with the reason on a paper label.
 export function NotComputed({ file, what }: { file: string; what?: string }) {
   return (

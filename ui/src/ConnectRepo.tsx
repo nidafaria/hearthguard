@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NOT_COMPUTED, PublicTag, Status } from "./data";
+import { NOT_COMPUTED, PlateTitle, PublicTag, Status } from "./data";
 
 // Connect your repo (spec 13.8). A public GitHub repo as owner/name. The local API reads it with
 // read-only GETs, builds org_<id> with hashed identifiers, and reports live progress. No login: a
@@ -25,14 +25,26 @@ type Job = { id: string; repo: string; state: string; steps: Step[]; result: Con
 
 export const POLL_MS = 500;
 
+// One metric as a table row: the label, then the saved value, or its NOT COMPUTED mark and reason.
 function MetricRow({ label, m }: { label: string; m?: Metric }) {
-  if (!m) return <li>{label}: <Status s={NOT_COMPUTED} /></li>;
+  if (!m)
+    return (
+      <tr>
+        <th>{label}</th>
+        <td>
+          <Status s={NOT_COMPUTED} />
+        </td>
+      </tr>
+    );
   const ok = m.status !== NOT_COMPUTED && m.status !== "NOT_COMPUTED" && m.value != null;
   return (
-    <li>
-      {label}: {ok ? <b>{String(m.value)}{m.unit ? ` ${m.unit}` : ""}</b> : <Status s={m.status} />}
-      {!ok && m.reason && <span className="muted"> ({m.reason})</span>}
-    </li>
+    <tr>
+      <th>{label}</th>
+      <td>
+        {ok ? <b>{String(m.value)}{m.unit ? ` ${m.unit}` : ""}</b> : <Status s={m.status} />}
+        {!ok && m.reason && <span className="muted"> ({m.reason})</span>}
+      </td>
+    </tr>
   );
 }
 
@@ -55,20 +67,26 @@ export function ConnectResultView({ r }: { r: ConnectResult }) {
         </p>
       )}
       <h3>The project&apos;s normal</h3>
-      <ul>
-        <MetricRow label="Commit cadence (median gap)" m={r.metrics?.cadence_days} />
-        <MetricRow label="Active keepers, last 90 days" m={r.metrics?.active_keepers} />
-        <MetricRow label="Usual release path" m={r.metrics?.usual_path} />
-      </ul>
+      <table className="metrics">
+        <tbody>
+          <MetricRow label="Commit cadence (median gap)" m={r.metrics?.cadence_days} />
+          <MetricRow label="Active keepers, last 90 days" m={r.metrics?.active_keepers} />
+          <MetricRow label="Usual release path" m={r.metrics?.usual_path} />
+        </tbody>
+      </table>
       <h3>Takeover cost</h3>
-      <ul>
-        <MetricRow label="Takeover cost" m={r.takeover_cost} />
-        <MetricRow label="Guardians" m={r.guardians} />
-      </ul>
+      <table className="metrics">
+        <tbody>
+          <MetricRow label="Takeover cost" m={r.takeover_cost} />
+          <MetricRow label="Guardians" m={r.guardians} />
+        </tbody>
+      </table>
       <h3>Best hardening step</h3>
-      <ul>
-        <MetricRow label="Best hardening step" m={r.best_hardening_step} />
-      </ul>
+      <table className="metrics">
+        <tbody>
+          <MetricRow label="Best hardening step" m={r.best_hardening_step} />
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -121,9 +139,16 @@ export function ConnectRepo() {
 
   return (
     <section aria-label="Connect your repo">
-      <h2>
-        Connect your repo <PublicTag />
-      </h2>
+      <div className="plate-head">
+        <h2 className="headline">
+          Connect your repo <PublicTag />
+        </h2>
+        <PlateTitle
+          plate="15 · Connect a repository"
+          data="Public GitHub repo, read live through the local API"
+          sources={["the local API, /api/connect"]}
+        />
+      </div>
       <p className="muted">
         Public GitHub repos only, as owner/name. Read-only GET requests. Identifiers are hashed. No sign-in.
       </p>
