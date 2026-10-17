@@ -59,7 +59,9 @@ No `takeover_*` graph exists on either port.
   - `docs/blog/post.md:59`
   - (the JSON itself, `eval/results/hardening_redteam_xz.json:59`)
   - Unrelated "152" matches in `reader_full_run.json:1030`, `redteam_xz.json:14617`, `redteam_tallowdate.json:14693`.
-- **Rerun value:** pending, rerun still running since 22:19.
-  - Run on port 6380 via `run_hardening("xz", 200, 7)` from a scratch script, writing to `docs/research/harden_rerun_6380.json` so no file in `eval/results/` is touched.
-  - Matches 152? Pending.
-  - Likely cause if it differs: pending the rerun.
+- **Rerun value:** `add_second_keeper` caught **152** of 200 (167 before), so it **equals 152**. The number reproduces.
+  - Run on port 6380 via `run_hardening("xz", 200, 7)` from a scratch script (started 22:19, took over an hour), writing to `docs/research/harden_rerun_6380.json` so no file in `eval/results/` is touched.
+  - Same `campaigns_sha256` (`78ebccbe...f296ef537`), same real-graph counts before and after (4679 nodes / 4668 edges; unchanged).
+  - Other fields match too: missed 48, caught_rate 0.76, median_lead_time_days 1.1416670000000004, guardians 1 to 2, takeover cost unchanged. The other two steps stay at 167.
+  - No cause to look for, since nothing differs. The README and blog already say the build does not explain the drop; this rerun does not explain it either.
+  - Not rerun: port 6390 (my first attempt there was killed before finishing).
