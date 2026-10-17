@@ -242,13 +242,14 @@ Step 4 fails as written on a machine where port 3000 is taken. The README alread
 | 23 | `uv run python -m eval.replay_axios` | 0 | |
 | 24 | `uv run python -m eval.verify_packs` | 0 | |
 | 25 | `make.ps1 ecosystem-xz` | 0 | network |
-| 26 | `make.ps1 harden xz` | pending | about 38 minutes; recorded below when it finishes |
+| 26 | `make.ps1 harden xz` | 0 | about 38 minutes. Last line: `require_two_approvals caught 167->167 of 200 cost 1->1 guardians 1->1`. The same run printed `add_second_keeper caught 167->154 of 200`; the committed `eval/results/hardening_redteam_xz.json` says 152. See the note below |
 
 Not run here, as the README says: `down`, `ui` and `inbox` (servers that do not exit), `test` (run separately, below), and the three commands that need a key: `llm-test`, `reader-spotcheck`, `reader-full`.
 
 ### What the clone changed
 
-- The clone's runs rewrote 19 tracked files in `eval/results/` (for example `decision_status.json`, `xz_normal.json`, `redteam_tallowdate.json`). Their content changes on each run, so a clean clone does not reproduce the committed result files byte for byte. `git checkout -- eval/results` restores them.
+- The clone's runs rewrote 22 tracked files in `eval/results/` (for example `decision_status.json`, `xz_normal.json`, `redteam_tallowdate.json`, `hardening_redteam_xz.json`). Their content changes on each run, so a clean clone does not reproduce the committed result files byte for byte. All 22 were restored with `git checkout -- eval/results`. None is kept: the committed files are the reference results, and the clone's versions came from a newer xz head.
+- The `harden xz` rerun does not match the committed hardening file. It printed `add_second_keeper caught 167->154 of 200`; the committed file says 152. The likely cause is the newer xz head, but this run did not test that. The README and blog keep the committed figure (152) and cite its file. Treat the 152 as "the saved result", not as reproduced.
 - The live xz history changed. `ingest-xz` fetched `https://git.tukaani.org/xz.git` at head `299eb5c3` on 2026-10-17. The committed `eval/results/xz_normal.json` cites head `3b1efb04`, fetched 2026-10-12. A clone therefore runs the same code on newer data, and the committed numbers came from the older head.
 - `ingest-xz` ran with no `data/raw/xz.git` in the clone. It is git-ignored and was created by that step, so the README's "needs `data/raw/xz.git`" is not accurate for a clone. The README now says the step fetches it.
 
