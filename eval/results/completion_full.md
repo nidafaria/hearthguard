@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 72, PARTIAL 37, NOT STARTED 22. Score 69.1% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 73, PARTIAL 36, NOT STARTED 22. Score 69.5% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -40,7 +40,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 32 | §6.1 | org graph: Org, Actor, Action, DID, Path, VIA, Normal, OF | DONE | packs/oss/xz_graph.py; 09c776c |
 | 33 | §6.1 | org graph: Source, Span, Claim, FROM, ASSERTED | DONE | core/claims/graph_write.py; 086a5e2 |
 | 34 | §6.1 | org graph: Privilege, GRANTED, CAN_GRANT, APPROVED | PARTIAL | packs/oss/grants.py (documented records -> Privilege, GRANTED, CAN_GRANT, APPROVED); tests/unit/test_grants_mapping.py, tests/integration/test_grants_write.py. No documented grant records exist for xz, so its results stay NOT COMPUTED. |
-| 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | PARTIAL | Written for the finance case (packs/finance/mapping.py; tests/integration/test_visibility_graph.py) and for the cached xz mail (eval/populate_visibility.py: 323 messages, 28 authors, 28 PARTICIPATES_IN, 323 RECORDED_IN, second run identical: eval/results/visibility_xz.json). The cached xz git part was not run: it needs HEARTHGUARD_HASH_SALT (eval/results/blockers_H.md row 35). |
+| 35 | §6.1 | org graph: Place, PARTICIPATES_IN, RECORDED_IN | DONE | eval/populate_visibility.py writes Place, PARTICIPATES_IN and RECORDED_IN for the cached xz mail (323 messages) and git history (4,509 commits) into a GRAPH.COPY of org_xz, so the commit Actions are there to link: 96 actors, 4,832 RECORDED_IN, second run identical (eval/results/visibility_xz_org.json); also written for the finance case (packs/finance/mapping.py; tests/integration/test_visibility_graph.py); tests/unit/test_visibility_xz_org_result.py. |
 | 36 | §6.1 | org graph: SHARES edges built | NOT STARTED | no builder; decision 0004 |
 | 37 | §6.1 | org graph: CONTRADICTS / SUPERSEDES / QUALIFIES written | PARTIAL | core/claims/conflicts.py writes CONTRADICTS / SUPERSEDES / QUALIFIES via the unchanged core/policy/conflict.py; tests/integration/test_conflict_links.py. Pairs are supplied by the caller; no detector finds contradicting pairs yet. |
 | 38 | §6.1 | org graph: Finding, Gap, Objection, Request, Note, Draft, OwnerDecision, BACKUP | PARTIAL | core/agents/inbox_graph.py writes Finding, Note, Draft, OwnerDecision, BACKUP, Gap (xz from eval/results/ecosystem_gaps.json), Hardening; Objection and Request writers exist but no Skeptic source and no test; blockers_a.md |

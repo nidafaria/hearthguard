@@ -1,0 +1,22 @@
+{
+  "graph": "org_xz_visibility_full",
+  "copied_from": "org_xz",
+  "mail_messages_read": 323,
+  "git": "read 4509 commits",
+  "git_commits_read": 4509,
+  "counts_after_first_run": {
+    "places": 2,
+    "participates_in": 96,
+    "recorded_in": 4832,
+    "actors": 96,
+    "actions": 4892
+  },
+  "counts_after_second_run": {
+    "places": 2,
+    "participates_in": 96,
+    "recorded_in": 4832,
+    "actors": 96,
+    "actions": 4892
+  },
+  "idempotent": true
+}

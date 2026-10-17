@@ -126,6 +126,12 @@ def read_git_events(mirror: Path | None = None) -> list[dict]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--graph", default="org_xz_visibility")
+    ap.add_argument(
+        "--from-graph",
+        default=None,
+        help="GRAPH.COPY this graph to --graph first (--graph must not exist), so commit "
+        "Actions are there to link; the source graph is never written",
+    )
     ap.add_argument("--git", action="store_true", help="also read the cached git mirror")
     ap.add_argument("--mirror", default=None, help="path of the cached xz.git mirror")
     ap.add_argument("--mail-index", default=str(MAIL_INDEX))
@@ -143,10 +149,15 @@ def main(argv: list[str] | None = None) -> int:
         except MissingSaltError as e:
             git_status = f"skipped: {e}"
     client = FalkorClient()
+    if args.from_graph:
+        if args.from_graph == args.graph:
+            raise SystemExit("--from-graph must differ from --graph; the source is never written")
+        client.copy(args.from_graph, args.graph)
     first = populate(client, args.graph, mail, git)
     second = populate(client, args.graph, mail, git)
     out = {
         "graph": args.graph,
+        "copied_from": args.from_graph,
         "mail_messages_read": len(mail),
         "git": git_status,
         "git_commits_read": len(git),
