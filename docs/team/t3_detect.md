@@ -103,8 +103,10 @@ In accordance with the specification and frozen rules, the following conditions 
    - `tests/integration/test_detectors.py`: 41 passed.
    - Total detector tests: 77 passed, 0 failed.
 3. **Full Suite Test Results:**
-   - Full suite execution: **1022 passed, 0 skipped, 1 xfailed, 0 errors**.
-   - Note on single transient subprocess test: `test_unchanged_guarded_graph_passes` in `tests/integration/test_real_graph_guard.py` had a transient Windows Temp file cleanup collision during the full suite, but passes 100% when run (3/3 passed).
+   - Full suite execution: **1017 passed, 0 skipped, 1 xfailed, 0 errors, 6 failed** (all 6 failures are existing race/cleanup assertions on ephemeral `takeover_*` / `redteam_*` scratch graphs across the 9-minute run, as noted in `docs/fresh_clone_report.md` §10.2).
+   - `tests/integration/test_takeover.py` alone: **18 passed, 0 failed** (100% pass).
+   - `tests/integration/test_real_graph_guard.py` alone: **3 passed, 0 failed** (100% pass).
+   - Detector tests alone: **77 passed, 0 failed** (100% pass).
 4. **Code Quality:**
    - `uv run ruff check`: All checks passed.
    - Real FalkorDB port 6412 used for all graph queries.
