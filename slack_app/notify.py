@@ -15,6 +15,13 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from core.policy import boundary
+from slack_app.client import (
+    SenderNotConfigured,
+    SlackDeliveryError,
+    SlackSender,
+    SlackWebClient,
+    build_note_blocks,
+)
 from slack_app.rules import ends_with_question, find_accusations
 
 ACTION = "send_private_note"
@@ -38,6 +45,14 @@ class UnimplementedSlackSender:
             "the real Slack sender is not implemented: needs a Slack workspace and bot token "
             "(eval/results/blockers_slack_sender.md)"
         )
+
+
+def get_default_sender() -> NoteSender:
+    """Returns real SlackSender if configured; falls back to UnimplementedSlackSender."""
+    try:
+        return SlackSender()
+    except Exception:
+        return UnimplementedSlackSender()
 
 
 @dataclass(frozen=True)
