@@ -1,6 +1,6 @@
 # Full-project completion (measured)
 
-Total rows 131: DONE 73, PARTIAL 36, NOT STARTED 22. Score 69.5% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
+Total rows 131: DONE 74, PARTIAL 35, NOT STARTED 22. Score 69.8% (DONE = 1, PARTIAL = 0.5, NOT STARTED = 0).
 
 Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL = something real exists but the row is not fully met. NOT STARTED = no code, file or result. Evidence is a file or commit in this repo.
 
@@ -80,7 +80,7 @@ Rubric: DONE = built to what the spec row says and tested or measured. PARTIAL =
 | 72 | §9 | Semantic claims linked to spans, contradictions resolved by policy | PARTIAL | core/claims/conflicts.py (contradictions resolved by policy and linked); tests/integration/test_conflict_links.py. Pair detection is still missing. |
 | 73 | §9 | Procedural: remembered normal | PARTIAL | 3 of 6 metrics computed on xz (eval/results/xz_normal.json) |
 | 74 | §9 | Who-saw-what memory | PARTIAL | core/memory/who_saw.py (PARTICIPATES_IN, WATCHES {since}, already_acknowledged); tests/integration/test_who_saw.py. Not yet filled from the cached mail and git data. |
-| 75 | §9 | Owner memory | PARTIAL | OwnerDecision written once per finding (core/agents/inbox_graph.py record_dismissal); the 'same situation does not return without new evidence' rule is not built; tests: tests/integration/test_inbox_loop.py |
+| 75 | §9 | Owner memory | DONE | OwnerDecision written once per finding (core/agents/inbox_graph.py record_dismissal); a dismissed situation is held back in a later quarter and returns only with a Claim newer than the dismissal, as of T (_apply_owner_memory); tests/integration/test_learning_memory.py (4 passing: held back, new evidence reopens, different situation not held, later dismissal does not hold back an earlier quarter). |
 | 76 | §9 | Working memory (AgentStep, task board) | DONE | core/agents/agent_step.py (log_step, resume_state); tests/integration/test_board_core.py (a second client resumes a crashed agent's task from the graph). A docker restart of the container was also checked by hand with a named volume; that check is not a test. |
 | 77 | §10.1 | Freeze protocol: dated spec published with hash; `make verify-frozen` | PARTIAL | docs/FREEZE.md is a DRAFT, hash in FREEZE.sha256; target not built; Reader frozen b6e3b1c |
 | 78 | §10.2 | Memory ablation (`make ablation-memory`) | DONE | eval/ablation_memory.py (full vs forgetful 90 / 30 days, same 100 campaigns + 20 clean, frozen detectors unchanged) writes eval/results/ablation_memory.json; tests/integration/test_ablation_memory.py on a real FalkorDB. Run as `uv run python -m eval.ablation_memory`; the Makefile target is for the lead to wire. Published as measured: forgetting lowers detection (0.88 full, 0.82 at 90 days, 0.60 at 30 days) and flags 20 of 20 clean campaigns under forgetful memory against 1 of 20 under full. |
