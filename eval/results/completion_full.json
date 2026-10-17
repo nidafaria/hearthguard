@@ -1,10 +1,10 @@
 {
   "total_rows": 131,
-  "DONE": 75,
-  "PARTIAL": 35,
+  "DONE": 77,
+  "PARTIAL": 33,
   "NOT_STARTED": 21,
-  "score_points": 92.5,
-  "score_percent": 70.6,
+  "score_points": 93.5,
+  "score_percent": 71.4,
   "weights": {
     "DONE": 1,
     "PARTIAL": 0.5,
