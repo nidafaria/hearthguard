@@ -2,6 +2,7 @@
 // Not connected to Slack. Nothing is sent. Every screen shows its data label.
 import { useEffect, useState, type ReactNode } from "react";
 import { Thread } from "./Thread";
+import { Header } from "./App";
 
 const LABEL = "Public record: xz project git history (org_xz). Synthetic data: none on this screen.";
 
@@ -62,17 +63,20 @@ function Rich({ text }: { text: string }) {
 
 function Frame({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <main>
-      <p className="banner">
-        <strong>Local inbox.</strong> Not connected to Slack. Nothing is sent. <br />
-        <span className="sub">{LABEL}</span>
-      </p>
-      <h1>{title}</h1>
-      {children}
-      <p className="sub">
-        <a href="#/inbox">Back to the inbox</a>
-      </p>
-    </main>
+    <>
+      <Header hash={window.location.hash || "#/inbox"} />
+      <main>
+        <p className="banner">
+          <strong>Local inbox.</strong> Not connected to Slack. Nothing is sent. <br />
+          <span className="sub">{LABEL}</span>
+        </p>
+        <h1>{title}</h1>
+        {children}
+        <p className="sub">
+          <a href="#/inbox">Back to the inbox</a>
+        </p>
+      </main>
+    </>
   );
 }
 
@@ -85,33 +89,20 @@ function ListScreen() {
         {data && (
           <>
             {data.provisional && <p className="sub">Provisional: the decision policy is not final.</p>}
-            <div className="scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Quarter</th>
-                    <th>Decision</th>
-                    <th>Note</th>
-                    <th>Dismissed</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.notes.map((n) => (
-                    <tr key={n.quarter}>
-                      <td>
-                        <a href={`#/inbox/${n.quarter}`}>{n.quarter}</a>
-                      </td>
-                      <td>
-                        <span className={`tag ${n.decision}`}>{n.decision === "HOLD" ? "Held" : n.decision}</span>
-                      </td>
-                      <td style={{ whiteSpace: "normal" }}>
-                        <Rich text={n.headline} />
-                      </td>
-                      <td>{n.dismissed ? "Yes" : "No"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="rows" role="list">
+              {data.notes.map((n, i) => (
+                <div className="row-item" role="listitem" key={n.quarter}>
+                  <span className="lab">{String(i + 1).padStart(2, "0")}</span>
+                  <a className="row-quarter" href={`#/inbox/${n.quarter}`}>
+                    {n.quarter}
+                  </a>
+                  <span className={`tag ${n.decision}`}>{n.decision === "HOLD" ? "Held" : n.decision}</span>
+                  <span className="row-note">
+                    <Rich text={n.headline} />
+                  </span>
+                  <span className="lab">Dismissed: {n.dismissed ? "Yes" : "No"}</span>
+                </div>
+              ))}
             </div>
           </>
         )}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ConnectRepo } from "./ConnectRepo";
 import { Gauge, type CostCell } from "./Gauge";
 import { Hardening, type FixtureHardening, type XzHardening } from "./Hardening";
-import { NotComputed, NOT_COMPUTED, Status, SyntheticTag, useResult } from "./data";
+import { NotComputed, NOT_COMPUTED, PlateTitle, RisingTitle, Status, SyntheticTag, useResult } from "./data";
 import { EvidenceCard, type Check, type Query, type Quote } from "./EvidenceCard";
 import { Packager } from "./Packager";
 import { Playbook } from "./Playbook";
@@ -31,7 +31,12 @@ type Replay = {
   quarters: ReplayRow[];
   reader_coverage: { read_so_far: number; to_read: number; complete: boolean; excluded_human_labelled_test_set: number };
 };
-type PvRow = { quarter: string; pressure: Check; vouch: Check };
+type PvRow = {
+  quarter: string;
+  pressure: Check;
+  vouch: Check;
+  window_coverage?: { pressure?: { read: number; messages_in_window: number } };
+};
 type QsRow = { quarter: string; checks: Record<string, Check & { value?: number | null }> };
 type TallowDetector = { quarters: Array<{ quarter: string; checks: Record<string, CostCell> }> };
 type TallowDecision = { quarters: Array<{ quarter: string; decision: string; hold_reason?: string | null }> };
@@ -39,7 +44,25 @@ type VideoQuotes = { quotes: Record<string, Quote> };
 
 const SCREENS = ["#/connect", "#/packager", "#/playbook", "#/census"];
 
-function Header({ hash }: { hash: string }) {
+// Paper / Night, as in the demo header. The choice is kept in this browser only.
+function ThemeSwitch() {
+  const toggle = () => {
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === "dark" ? "light" : "dark";
+    try {
+      localStorage.setItem("hg-theme", r.dataset.theme);
+    } catch (_) {
+      /* not kept: the switch still works for this page */
+    }
+  };
+  return (
+    <button type="button" className="theme" onClick={toggle} aria-label="Switch paper or night">
+      Paper / Night
+    </button>
+  );
+}
+
+export function Header({ hash }: { hash: string }) {
   const nav: Array<[string, string]> = [
     ["#/", "Results"],
     ["#/connect", "Connect your repo"],
@@ -60,6 +83,7 @@ function Header({ hash }: { hash: string }) {
             {label}
           </a>
         ))}
+        <ThemeSwitch />
       </nav>
     </header>
   );
@@ -75,11 +99,24 @@ const COLS: Array<[string, string]> = [
   ["vouch", "Vouch"],
 ];
 
-function ReplayTable({ replay, sel, onSel }: { replay: Replay; sel: string; onSel: (q: string) => void }) {
+// The replay as a quarter strip: one cell per quarter-end, the seven checks as marks, the Pressure window as
+// a field of message squares (filled if read), and the decision. Click a cell to open its detail below.
+function QuarterStrip({
+  replay,
+  pressure,
+  sel,
+  onSel,
+}: {
+  replay: Replay;
+  pressure: { quarters: PvRow[] } | undefined;
+  sel: string;
+  onSel: (q: string) => void;
+}) {
   const cov = replay.reader_coverage;
+  const windowOf = (q: string) => pressure?.quarters.find((p) => p.quarter === q)?.window_coverage?.pressure;
   return (
-    <section>
-      <h2>Replay, one row per quarter-end</h2>
+    <section aria-label="Replay quarter strip">
+      <h2>Replay, one cell per quarter-end</h2>
       {!cov.complete && (
         <div className="banner">
           Reader coverage is incomplete: {cov.read_so_far} of {cov.to_read} messages read.{" "}
@@ -87,43 +124,41 @@ function ReplayTable({ replay, sel, onSel }: { replay: Replay; sel: string; onSe
           here is a result on the messages read only.
         </div>
       )}
-      <div className="scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Quarter</th>
-              <th>Cadence (days)</th>
-              <th>Active keepers</th>
-              {COLS.map(([, label]) => (
-                <th key={label}>{label}</th>
-              ))}
-              <th>Unread msgs (120d)</th>
-              <th>Decision</th>
-            </tr>
-          </thead>
-          <tbody>
-            {replay.quarters.map((r) => (
-              <tr key={r.quarter} className={r.quarter === sel ? "sel" : ""} onClick={() => onSel(r.quarter)}>
-                <td>{r.quarter}</td>
-                <td>
-                  {r.normal.cadence_days?.value == null ? <Status s={NOT_COMPUTED} /> : r.normal.cadence_days.value.toFixed(4)}
-                </td>
-                <td>{r.normal.active_keepers?.value == null ? <Status s={NOT_COMPUTED} /> : r.normal.active_keepers.value}</td>
-                {COLS.map(([k]) => (
-                  <td key={k}>
+      <div className="strip">
+        {replay.quarters.map((r) => {
+          const w = windowOf(r.quarter);
+          const n = Math.min(w?.messages_in_window ?? 0, 300);
+          return (
+            <button
+              type="button"
+              key={r.quarter}
+              className="qc"
+              aria-pressed={r.quarter === sel}
+              onClick={() => onSel(r.quarter)}
+            >
+              <span className="qq">{r.quarter}</span>
+              <span className="marks">
+                {COLS.map(([k, label]) => (
+                  <span key={k} className="mark-row">
+                    <span className="lab">{label}</span>
                     <Status s={r.checks[k]?.status ?? NOT_COMPUTED} />
-                  </td>
+                  </span>
                 ))}
-                <td>{r.reader_unread_in_pressure_window}</td>
-                <td>
-                  <Status s={r.decision.type} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              </span>
+              {w && (
+                <span className="dots" title={`${w.read} of ${w.messages_in_window} read`}>
+                  {Array.from({ length: n }, (_, k) => (
+                    <i key={k} className={k < w.read ? "r" : ""} />
+                  ))}
+                </span>
+              )}
+              <span className="lab">Unread, 120 days: {r.reader_unread_in_pressure_window}</span>
+              <Status s={r.decision.type} />
+            </button>
+          );
+        })}
       </div>
-      <p className="muted">Source files: {replay.sources.join(", ")}. Click a row for the detail below.</p>
+      <p className="muted">Source files: {replay.sources.join(", ")}. Click a cell for the detail below.</p>
     </section>
   );
 }
@@ -189,7 +224,10 @@ function ResultsPage() {
   const gaps = useResult<GapsDoc>("ecosystem_gaps.json");
   const events = useResult<EventsDoc>("ecosystem_events.json");
   const quotes = useResult<VideoQuotes>("video_quotes.json");
-  const [sel, setSel] = useState("2024-Q1");
+  // The quarter on show: the reader's pick, or the first quarter the replay file holds.
+  const [picked, setPicked] = useState<string | null>(null);
+  const sel = picked ?? (replay.state === "ok" ? (replay.data.quarters[0]?.quarter ?? "") : "");
+  const setSel = setPicked;
 
   const pvRow = pv.state === "ok" ? pv.data.quarters.find((q) => q.quarter === sel) : undefined;
   const qsRow = qs.state === "ok" ? qs.data.quarters.find((q) => q.quarter === sel) : undefined;
@@ -226,7 +264,14 @@ function ResultsPage() {
 
   return (
     <main>
-      <h1>Hearthguard: xz replay</h1>
+      <div className="plate-head">
+        <RisingTitle text="Hearthguard: xz replay" />
+        <PlateTitle
+          plate="01 · The replay"
+          data="Public record (xz), provisional"
+          sources={["xz_replay.json", "pressure_vouch_status.json", "xz_quarterly_status.json"]}
+        />
+      </div>
       <p className="sub">Read-only view of eval/results/*.json. Provisional. Nothing here is a finding about a person.</p>
       <div className="banner">
         Data on this page: the public xz git history and the public xz-devel mailing list, hashed on ingest. The
@@ -239,7 +284,9 @@ function ResultsPage() {
           <NotComputed file={replay.file} />
         </section>
       )}
-      {replay.state === "ok" && <ReplayTable replay={replay.data} sel={sel} onSel={setSel} />}
+      {replay.state === "ok" && (
+        <QuarterStrip replay={replay.data} pressure={pv.state === "ok" ? pv.data : undefined} sel={sel} onSel={setSel} />
+      )}
 
       {timeline && (
         <Timeline

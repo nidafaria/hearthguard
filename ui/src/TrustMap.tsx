@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import cytoscape, { type Core, type ElementDefinition } from "cytoscape";
-import { SyntheticTag } from "./data";
+import { SyntheticTag, token } from "./data";
 
 // Trust map (spec 13.4), drawn with Cytoscape. Reads eval/results/trust_map_tallowdate.json, written by
 // eval/trust_map_export.py from the synthetic graph. Hashed actor ids only. The trust path is
@@ -18,11 +18,11 @@ export type TrustMapDoc = {
   trust_path_note?: string;
 };
 
-const COLOR: Record<string, string> = {
-  actor: "#4a7c8f",
-  release: "#8f6a2d",
-  path: "#6b4f8f",
-};
+// Node colours come from the design tokens: actors are ultramarine (synthetic), release and path are ink.
+function colorOf(): Record<string, string> {
+  const ink = token("--ink", "#161513");
+  return { actor: token("--ultra", "#2F43C8"), release: ink, path: ink };
+}
 
 export function elementsOf(doc: TrustMapDoc): ElementDefinition[] {
   const onPath = new Set(doc.trust_path ?? []);
@@ -49,13 +49,13 @@ export function TrustMap({ doc }: { doc: TrustMapDoc }) {
         container: ref.current,
         elements: elementsOf(doc),
         style: [
-          { selector: "node", style: { label: "data(label)", "font-size": 9, color: "#1d1c1a", "background-color": "#888", width: 26, height: 26 } },
-          ...Object.entries(COLOR).map(([t, c]) => ({
+          { selector: "node", style: { label: "data(label)", "font-size": 9, color: token("--ink", "#161513"), "background-color": token("--graphite", "#625E57"), width: 26, height: 26 } },
+          ...Object.entries(colorOf()).map(([t, c]) => ({
             selector: `node[type = "${t}"]`,
             style: { "background-color": c },
           })),
-          { selector: "edge", style: { width: 1.5, "line-color": "#999", "target-arrow-shape": "triangle", "target-arrow-color": "#999", "curve-style": "bezier", label: "data(label)", "font-size": 7 } },
-          { selector: ".onpath", style: { "line-color": "#c0392b", "background-color": "#c0392b", width: 4 } },
+          { selector: "edge", style: { width: 1.5, "line-color": token("--graphite", "#625E57"), "target-arrow-shape": "triangle", "target-arrow-color": token("--graphite", "#625E57"), "curve-style": "bezier", label: "data(label)", "font-size": 7 } },
+          { selector: ".onpath", style: { "line-color": token("--signal", "#B8340A"), "background-color": token("--signal", "#B8340A"), width: 4 } },
         ],
         layout: { name: "cose", animate: false, padding: 12 },
       });
@@ -73,7 +73,7 @@ export function TrustMap({ doc }: { doc: TrustMapDoc }) {
         Trust map <SyntheticTag />
       </h2>
       <p className="muted">{doc.label}</p>
-      <div ref={ref} style={{ width: "100%", height: 340, border: "1px solid var(--line)", borderRadius: 6 }} />
+      <div ref={ref} style={{ width: "100%", height: 340, border: "1px solid var(--rule-2)" }} />
       {err && <p className="NOT_COMPUTED tag">NOT COMPUTED: the graph view failed to draw: {err}</p>}
       <p>
         {doc.trust_path && doc.trust_path.length > 0 ? (

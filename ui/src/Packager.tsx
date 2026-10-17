@@ -21,7 +21,8 @@ export function Packager({ gaps, file }: { gaps?: GapsDoc; file: string }) {
       {!gaps && <p className="NOT_COMPUTED tag">NOT COMPUTED: {file} not found. Run `make ecosystem-xz` first.</p>}
       {gaps && decisions.length > 0 && (
         <>
-          <label>
+          {/* The choice is made on the cards. The select stays for keyboard and screen-reader use, visually hidden. */}
+          <label className="sr-only">
             Decision{" "}
             <select value={d?.decision} onChange={(e) => setPick(e.target.value)} aria-label="Decision">
               {decisions.map((x) => (
@@ -31,10 +32,26 @@ export function Packager({ gaps, file }: { gaps?: GapsDoc; file: string }) {
               ))}
             </select>
           </label>
+          <div className="choices" role="group" aria-label="Choose a decision">
+            {decisions.map((x) => (
+              <button
+                type="button"
+                key={x.decision}
+                className="choice"
+                aria-pressed={x.decision === d?.decision}
+                onClick={() => setPick(x.decision)}
+              >
+                <span className="choice-place">
+                  {x.place} · {x.decision_at.slice(0, 10)}
+                </span>
+                <span className="choice-role">{x.deciding_role}</span>
+              </button>
+            ))}
+          </div>
           {d && (
             <>
               <p>
-                <b>{questionFor(d)}</b>
+                <b className="question">{questionFor(d)}</b>
               </p>
               {d.status !== "COMPUTED" ? (
                 <p>

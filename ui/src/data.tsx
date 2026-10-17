@@ -22,6 +22,14 @@ export function useResult<T>(file: string): Loaded<T> {
 
 export const NOT_COMPUTED = "NOT COMPUTED";
 
+// A design token's current value, for code that needs a concrete colour (a canvas, not CSS). The
+// fallback is used only where no stylesheet is loaded, such as a test.
+export function token(name: string, fallback: string): string {
+  if (typeof document === "undefined") return fallback;
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return v || fallback;
+}
+
 // A saved status string, with NOT_COMPUTED and NOT COMPUTED treated as one value.
 export function norm(s: string | null | undefined): string {
   if (s == null) return NOT_COMPUTED;
@@ -45,11 +53,43 @@ export function Status({ s }: { s: string | null | undefined }) {
   return <span className={`tag ${v.replace(/ /g, "_")}`}>{v}</span>;
 }
 
+// The title block in a plate's corner: the plate, its data kind, and the files it reads. Shared by every screen.
+export function PlateTitle({ plate, data, sources }: { plate: string; data: string; sources: string[] }) {
+  return (
+    <div className="tb" aria-label="Title block">
+      <span>Plate</span>
+      <span>{plate}</span>
+      <span>Data</span>
+      <span>{data}</span>
+      <span>Source</span>
+      <span>{sources.join(", ")}</span>
+    </div>
+  );
+}
+
+// The plate headline: each word rises from a mask, 40 ms apart, unless reduced motion is on (then it shows at once).
+export function RisingTitle({ text }: { text: string }) {
+  return (
+    <h1 className="H">
+      {text.split(" ").map((w, i) => (
+        <span key={i}>
+          <span className="w">
+            <span style={{ animationDelay: `${i * 40}ms` }}>{w}</span>
+          </span>{" "}
+        </span>
+      ))}
+    </h1>
+  );
+}
+
+// A value the saved files do not hold: a blank tile, hatched, with the reason on a paper label.
 export function NotComputed({ file, what }: { file: string; what?: string }) {
   return (
-    <p className="NOT_COMPUTED tag">
-      NOT COMPUTED{what ? `: ${what}` : ""}: {file} not found. Build it first (see README, Commands).
-    </p>
+    <div className="blank">
+      <p className="NOT_COMPUTED tag">
+        NOT COMPUTED{what ? `: ${what}` : ""}: {file} not found. Build it first (see README, Commands).
+      </p>
+    </div>
   );
 }
 

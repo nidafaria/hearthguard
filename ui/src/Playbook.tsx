@@ -92,30 +92,23 @@ export function Playbook() {
       {doc.exceptions.length === 0 ? (
         <p>No learned exceptions yet. Dismiss a note with a reason in the Inbox to propose one.</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Exception</th>
-              <th>Narrows</th>
-              <th>When</th>
-              <th>State</th>
-              <th>Regression gate</th>
-              <th>Agreements</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {doc.exceptions.map((x) => (
-              <tr key={x.id}>
-                <td>{x.exception}</td>
-                <td>{x.applies_to}</td>
-                <td><code>{x.when}</code></td>
-                <td>
-                  <b>{x.state}</b>
-                  <br />
-                  <small>{x.state_reason}</small>
-                </td>
-                <td>
+        <div className="steps">
+          {doc.exceptions.map((x) => (
+            <div className="step" key={x.id}>
+              <div className="step-head">
+                <span className="step-name">{x.exception}</span>
+                <b>{x.state}</b>
+                <small>{x.state_reason}</small>
+              </div>
+              <div className="step-body">
+                <p>
+                  <span className="lab">Narrows</span> {x.applies_to}
+                </p>
+                <p>
+                  <span className="lab">When</span> <code>{x.when}</code>
+                </p>
+                <p>
+                  <span className="lab">Regression gate</span>{" "}
                   {x.gate ? (
                     <small>
                       {x.gate.planted_total} planted attacks: {x.gate.planted_caught_before} caught before, {" "}
@@ -125,19 +118,19 @@ export function Playbook() {
                   ) : (
                     <small>not run</small>
                   )}
-                </td>
-                <td>{x.agreements}</td>
-                <td>
-                  {x.state === "Shadow" ? (
-                    <button type="button" disabled={busy} onClick={() => approve(x.id)}>
-                      Approve
-                    </button>
-                  ) : null}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </p>
+                <p>
+                  <span className="lab">Agreements</span> {x.agreements}
+                </p>
+                {x.state === "Shadow" ? (
+                  <button type="button" disabled={busy} onClick={() => approve(x.id)}>
+                    Approve
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
       <p className="sub">States: {doc.states.join(" · ")}. Data: {doc.data_kind}.</p>
     </section>

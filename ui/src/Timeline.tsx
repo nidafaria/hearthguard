@@ -72,12 +72,12 @@ export function Timeline({
               <text x={4} y={laneY(lane) + 4} fontSize="11" className="muted">
                 {label}
               </text>
-              <line x1={PAD.l} x2={W - PAD.r} y1={laneY(lane)} y2={laneY(lane)} stroke="var(--line)" />
+              <line x1={PAD.l} x2={W - PAD.r} y1={laneY(lane)} y2={laneY(lane)} style={{ stroke: "var(--rule-2)" }} />
               {quarters.map((q, i) => {
                 const s = norm(q.moves[k]);
-                const fill = !computed(s) ? "var(--na)" : s === "FIRED" ? "var(--bad)" : "var(--ok)";
+                const fill = !computed(s) ? "var(--graphite)" : s === "FIRED" ? "var(--signal)" : "var(--ink)";
                 return (
-                  <circle key={q.quarter} cx={x(i)} cy={laneY(lane)} r={5} fill={fill} data-status={s}>
+                  <circle key={q.quarter} cx={x(i)} cy={laneY(lane)} r={5} style={{ fill }} data-status={s}>
                     <title>
                       {label} {q.quarter}: {s}
                     </title>
@@ -92,10 +92,10 @@ export function Timeline({
             </text>
           ))}
           {segments.map((pts, i) => (
-            <polyline key={i} points={pts} fill="none" stroke="var(--warn)" strokeWidth={2} />
+            <polyline key={i} points={pts} fill="none" style={{ stroke: "var(--ink)" }} strokeWidth={2} />
           ))}
           {noteIndex >= 0 && (
-            <line x1={x(noteIndex)} x2={x(noteIndex)} y1={PAD.t} y2={H - PAD.b} stroke="var(--fg)" strokeDasharray="4 3">
+            <line x1={x(noteIndex)} x2={x(noteIndex)} y1={PAD.t} y2={H - PAD.b} style={{ stroke: "var(--ink)" }} strokeDasharray="4 3">
               <title>Note sent {noteSent?.at_utc}</title>
             </line>
           )}

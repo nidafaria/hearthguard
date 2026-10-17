@@ -60,7 +60,8 @@ export function seriesOf(doc: AblationDoc | undefined): Series[] | null {
 const W = 640;
 const PAD = { l: 52, r: 16, t: 14, b: 30 };
 const PANEL_H = 150;
-const COLORS: Record<string, string> = { full: "#1b6ec2", forget_90: "#c27c1b", forget_30: "#b3261e" };
+// Design tokens, so the arms follow the theme: full memory is ink, the 90-day arm ultramarine, the 30-day arm the signal orange.
+const COLORS: Record<string, string> = { full: "var(--ink)", forget_90: "var(--ultra)", forget_30: "var(--signal)" };
 
 function Panel({
   title,
@@ -101,12 +102,12 @@ function Panel({
           <g key={s.arm} data-arm={s.arm}>
             <polyline
               fill="none"
-              stroke={COLORS[s.arm] ?? "currentColor"}
+              style={{ stroke: COLORS[s.arm] ?? "currentColor" }}
               strokeWidth="2"
               points={pts.map((p) => `${xPos(p.x)},${yPos(p[field] as number)}`).join(" ")}
             />
             {pts.map((p) => (
-              <circle key={p.x} cx={xPos(p.x)} cy={yPos(p[field] as number)} r="3" fill={COLORS[s.arm] ?? "currentColor"}>
+              <circle key={p.x} cx={xPos(p.x)} cy={yPos(p[field] as number)} r="3" style={{ fill: COLORS[s.arm] ?? "currentColor" }}>
                 <title>{`${s.text}, patience ${p.x} days: ${fmt(p[field] as number)} (n=${p.n})`}</title>
               </circle>
             ))}

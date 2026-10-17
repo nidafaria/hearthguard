@@ -68,7 +68,7 @@ export function WhoSaw({ gaps, events }: { gaps: GapsDoc; events: EventsDoc }) {
               <text x={6} y={rowY(p) + 4} fontSize="12">
                 {p}
               </text>
-              <line x1={PAD.l} x2={W - PAD.r} y1={rowY(p)} y2={rowY(p)} stroke="var(--line)" />
+              <line x1={PAD.l} x2={W - PAD.r} y1={rowY(p)} y2={rowY(p)} style={{ stroke: "var(--rule-2)" }} />
             </g>
           ))}
           {computedDecisions.map((d) => (
@@ -78,7 +78,7 @@ export function WhoSaw({ gaps, events }: { gaps: GapsDoc; events: EventsDoc }) {
                 x2={x(ms(d.decision_at))}
                 y1={PAD.t}
                 y2={H - PAD.b}
-                stroke="var(--warn)"
+                style={{ stroke: "var(--ink)" }}
                 strokeDasharray="4 3"
               >
                 <title>
@@ -95,8 +95,7 @@ export function WhoSaw({ gaps, events }: { gaps: GapsDoc; events: EventsDoc }) {
                 cx={x(ms(e.at))}
                 cy={rowY(e.place)}
                 r={gapped ? 6 : 4}
-                fill="var(--fg)"
-                stroke={gapped ? "var(--bad)" : "none"}
+                style={{ fill: "var(--ink)", stroke: gapped ? "var(--signal)" : "none" }}
                 strokeWidth={gapped ? 3 : 0}
                 data-gap={gapped ? "yes" : "no"}
               >
