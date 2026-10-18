@@ -24,6 +24,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from core.claims import reader
+from core.llm import SpendLimitReached, get_client_for_model
 from core.llm.client import (
     DailyLimitReached,
     InvalidJSON,
@@ -70,12 +71,20 @@ def save(saved: dict) -> None:
 
 def entry(n: int, head: dict, author_hash: str | None, res: reader.ReadResult) -> dict:
     rec = res.record
+    model = rec.model if rec is not None else None
     return {
         "message_id": rs.msg_id(n),
         "date_utc": head["date"].isoformat().replace("+00:00", "Z") if head["date"] else None,
         "author_hash": author_hash,
+        "model": model,
         "claims": [
-            {"kind": c.kind, "quote": c.quote, "offset": c.offset, "confidence": c.confidence}
+            {
+                "kind": c.kind,
+                "quote": c.quote,
+                "offset": c.offset,
+                "confidence": c.confidence,
+                "model": getattr(c, "model", None) or model,
+            }
             for c in res.claims
         ],
         "rejections": [r.reason for r in res.rejections],
@@ -130,6 +139,7 @@ def public_summary(saved: dict, todo_total: int) -> dict:
             {
                 "message_id": e["message_id"],
                 "date_utc": e["date_utc"],
+                "model": e.get("model"),
                 "claim_count": len(e["claims"]),
                 "rejection_count": len(e["rejections"]),
                 "rejection_reasons": e["rejections"],
@@ -149,16 +159,24 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Maximum number of new messages to read in this run",
     )
+    parser.add_argument(
+        "--model", "-m",
+        type=str,
+        default=None,
+        help="Model to use for extraction (defaults to extraction_model in config/models.yaml)",
+    )
     args = parser.parse_args(argv)
     batch_size = args.batch_size
+    model = args.model or load_config()["extraction_model"]
 
     bad = rf.mismatches(rf.load_frozen())
     if bad:
         print("The Reader no longer matches its freeze:", ", ".join(bad))
         return 1
-    client = LLMClient(load_config())
+    client = get_client_for_model(model, config=load_config())
     if not client.has_key:
-        print("GROQ_API_KEY is not set (add it to .env)")
+        key_var = "GEMINI_API_KEY" if model.startswith("gemini") else "GROQ_API_KEY"
+        print(f"{key_var} is not set (add it to .env)")
         return 2
     skip = excluded_ids()
     todo = [n for n in in_scope_ids() if n not in skip]
@@ -175,8 +193,8 @@ def main(argv: list[str] | None = None) -> int:
             break
         head, author_hash, clean = rs.prepare(n, redactor)
         try:
-            res = reader.read_message(clean.text, author_hash, client=client)
-        except DailyLimitReached as exc:
+            res = reader.read_message(clean.text, author_hash, client=client, model=model)
+        except (DailyLimitReached, SpendLimitReached) as exc:
             stop = str(exc)
             break
         except (InvalidJSON, LLMHTTPError) as exc:
@@ -195,11 +213,26 @@ def main(argv: list[str] | None = None) -> int:
         saved[key] = entry(n, head, author_hash, res)
         batch_done += 1
         save(saved)
+        # Requirement 3: Save progress to eval/results/reader_full_progress.json after each message
+        rem = [rs.msg_id(x) for x in todo if rs.msg_id(x) not in saved]
+        cur_progress = {
+            "updated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "total": len(todo),
+            "done": len(todo) - len(rem),
+            "remaining": len(rem),
+            "stopped_because": None,
+            "next_message_id": rem[0] if rem else None,
+        }
+        PROGRESS.write_text(json.dumps(cur_progress, indent=2), encoding="utf-8")
         print(
             f"[{len(saved)}/{len(todo)}] {key} read "
             f"(claims: {len(res.claims)}, skipped: {res.skipped})",
             flush=True,
         )
+        if hasattr(client, "cumulative_spend_inr") and hasattr(client, "max_spend_inr"):
+            if client.cumulative_spend_inr >= client.max_spend_inr:
+                stop = f"spend limit of INR {client.max_spend_inr:.2f} reached"
+                break
     remaining = [rs.msg_id(n) for n in todo if rs.msg_id(n) not in saved]
     progress = {
         "updated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),

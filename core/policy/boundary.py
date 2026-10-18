@@ -57,7 +57,7 @@ PRIVATE_RECIPIENTS = frozenset({"owner", "backup"})
 # exists yet, because no sender is built. core/llm/client.py POSTs to the model endpoint, which is
 # a request for text, not a message to a person: it is listed separately so that is explicit.
 ALLOWED_NETWORK_WRITE_MODULES: tuple[str, ...] = ("slack_app/send.py",)
-MODEL_ENDPOINT_MODULES: tuple[str, ...] = ("core/llm/client.py",)
+MODEL_ENDPOINT_MODULES: tuple[str, ...] = ("core/llm/client.py", "core/llm/gemini.py")
 
 
 class BoundaryViolation(PermissionError):
