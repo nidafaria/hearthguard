@@ -4,7 +4,7 @@
   "n": 100,
   "n_clean": 20,
   "seed": 7,
-  "generated_at_utc": "2026-10-14T19:28:29Z",
+  "generated_at_utc": "2026-10-18T02:25:10Z",
   "definitions": {
     "caught": "NOTE or WATCH from decide_with_unknowns() at any evaluation point, i.e. by the campaign's last move",
     "lead_time_days": "days from the first evaluation point whose decision is NOTE or WATCH to the final action; the final action is the Bypass release if the campaign has one, else its last move; undefined for a missed campaign",
@@ -35,15 +35,14 @@
       "memory_window_days": null,
       "summary": {
         "n": 100,
-        "caught": 88,
-        "missed": 12,
-        "detection_rate": 0.88,
-        "median_lead_time_days": 13.584374499999996,
+        "caught": 93,
+        "missed": 7,
+        "detection_rate": 0.93,
+        "median_lead_time_days": 19.791667,
         "decision_at_last_move": {
-          "HOLD": 7,
           "NOTE": 67,
-          "NO_ACTION": 5,
-          "WATCH": 21
+          "NO_ACTION": 10,
+          "WATCH": 23
         }
       },
       "by_patience": [
@@ -55,9 +54,8 @@
           "detection_rate": 0.7272727272727273,
           "median_lead_time_days": 15.075,
           "decision_at_last_move": {
-            "HOLD": 2,
             "NOTE": 8,
-            "NO_ACTION": 1
+            "NO_ACTION": 3
           }
         },
         {
@@ -90,7 +88,7 @@
           "caught": 10,
           "missed": 0,
           "detection_rate": 1.0,
-          "median_lead_time_days": 10.026041500000002,
+          "median_lead_time_days": 10.4375,
           "decision_at_last_move": {
             "NOTE": 6,
             "WATCH": 4
@@ -102,7 +100,7 @@
           "caught": 9,
           "missed": 0,
           "detection_rate": 1.0,
-          "median_lead_time_days": 31.416667000000004,
+          "median_lead_time_days": 49.479167,
           "decision_at_last_move": {
             "NOTE": 6,
             "WATCH": 3
@@ -114,7 +112,7 @@
           "caught": 7,
           "missed": 0,
           "detection_rate": 1.0,
-          "median_lead_time_days": 12.0,
+          "median_lead_time_days": 53.78125,
           "decision_at_last_move": {
             "NOTE": 5,
             "WATCH": 2
@@ -135,15 +133,14 @@
         {
           "patience_days": 270,
           "n": 16,
-          "caught": 13,
-          "missed": 3,
-          "detection_rate": 0.8125,
-          "median_lead_time_days": 0.0,
+          "caught": 15,
+          "missed": 1,
+          "detection_rate": 0.9375,
+          "median_lead_time_days": 102.44791699999999,
           "decision_at_last_move": {
-            "HOLD": 2,
             "NOTE": 12,
             "NO_ACTION": 1,
-            "WATCH": 1
+            "WATCH": 3
           }
         },
         {
@@ -152,7 +149,7 @@
           "caught": 4,
           "missed": 1,
           "detection_rate": 0.8,
-          "median_lead_time_days": 27.33854149999999,
+          "median_lead_time_days": 126.583333,
           "decision_at_last_move": {
             "NOTE": 3,
             "NO_ACTION": 1,
@@ -162,28 +159,26 @@
         {
           "patience_days": 540,
           "n": 10,
-          "caught": 7,
-          "missed": 3,
-          "detection_rate": 0.7,
-          "median_lead_time_days": 69.90625,
+          "caught": 9,
+          "missed": 1,
+          "detection_rate": 0.9,
+          "median_lead_time_days": 40.58333299999998,
           "decision_at_last_move": {
-            "HOLD": 2,
             "NOTE": 4,
-            "NO_ACTION": 1,
+            "NO_ACTION": 3,
             "WATCH": 3
           }
         },
         {
           "patience_days": 730,
           "n": 10,
-          "caught": 8,
-          "missed": 2,
-          "detection_rate": 0.8,
-          "median_lead_time_days": 36.39583349999998,
+          "caught": 9,
+          "missed": 1,
+          "detection_rate": 0.9,
+          "median_lead_time_days": 88.79166699999996,
           "decision_at_last_move": {
-            "HOLD": 1,
             "NOTE": 7,
-            "NO_ACTION": 1,
+            "NO_ACTION": 2,
             "WATCH": 1
           }
         }
@@ -207,10 +202,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 63.15625,
+          "first_flag_day": 49.59375,
           "last_move_day": 108.0,
           "final_day": 108.0,
-          "lead_time_days": 44.84375
+          "lead_time_days": 58.40625
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0001",
@@ -223,10 +218,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 381.0,
+          "first_flag_day": 182.510417,
           "last_move_day": 381.0,
           "final_day": 381.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 198.489583
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0002",
@@ -385,10 +380,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 486.09375,
+          "first_flag_day": 297.166667,
           "last_move_day": 556.0,
           "final_day": 556.0,
-          "lead_time_days": 69.90625
+          "lead_time_days": 258.833333
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0012",
@@ -450,10 +445,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 67.59375,
+          "first_flag_day": 58.53125,
           "last_move_day": 105.0,
           "final_day": 105.0,
-          "lead_time_days": 37.40625
+          "lead_time_days": 46.46875
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0016",
@@ -501,10 +496,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 63.135417,
+          "first_flag_day": 45.072917,
           "last_move_day": 102.0,
           "final_day": 102.0,
-          "lead_time_days": 38.864583
+          "lead_time_days": 56.927083
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0019",
@@ -515,11 +510,11 @@
           "patience_days": 540,
           "privilege": "release",
           "clean": false,
-          "caught": false,
-          "first_flag_day": null,
+          "caught": true,
+          "first_flag_day": 310.59375,
           "last_move_day": 351.177083,
           "final_day": 351.177083,
-          "lead_time_days": null
+          "lead_time_days": 40.58333299999998
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0020",
@@ -581,10 +576,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 255.708333,
+          "first_flag_day": 171.675,
           "last_move_day": 384.0,
           "final_day": 384.0,
-          "lead_time_days": 128.291667
+          "lead_time_days": 212.325
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0024",
@@ -612,10 +607,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 289.0,
+          "first_flag_day": 175.625,
           "last_move_day": 289.0,
           "final_day": 289.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 113.375
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0026",
@@ -676,10 +671,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 243.020833,
+          "first_flag_day": 175.510417,
           "last_move_day": 279.0,
           "final_day": 279.0,
-          "lead_time_days": 35.97916699999999
+          "lead_time_days": 103.48958300000001
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0030",
@@ -739,10 +734,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 291.0,
+          "first_flag_day": 175.625,
           "last_move_day": 291.0,
           "final_day": 291.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 115.375
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0034",
@@ -805,10 +800,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 63.145833,
+          "first_flag_day": 49.729167,
           "last_move_day": 104.0,
           "final_day": 104.0,
-          "lead_time_days": 40.854167
+          "lead_time_days": 54.270833
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0038",
@@ -871,10 +866,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 277.0,
+          "first_flag_day": 175.53125,
           "last_move_day": 277.0,
           "final_day": 277.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 101.46875
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0042",
@@ -889,10 +884,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 202.708333,
+          "first_flag_day": 175.552083,
           "last_move_day": 278.0,
           "final_day": 278.0,
-          "lead_time_days": 75.29166699999999
+          "lead_time_days": 102.44791699999999
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0043",
@@ -907,10 +902,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 67.583333,
+          "first_flag_day": 49.520833,
           "last_move_day": 99.0,
           "final_day": 99.0,
-          "lead_time_days": 31.416667000000004
+          "lead_time_days": 49.479167
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0044",
@@ -937,11 +932,11 @@
           "patience_days": 270,
           "privilege": "npm_publish",
           "clean": false,
-          "caught": false,
-          "first_flag_day": null,
+          "caught": true,
+          "first_flag_day": 175.65625,
           "last_move_day": 175.65625,
           "final_day": 175.65625,
-          "lead_time_days": null
+          "lead_time_days": 0.0
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0046",
@@ -952,11 +947,11 @@
           "patience_days": 730,
           "privilege": "release",
           "clean": false,
-          "caught": false,
-          "first_flag_day": null,
+          "caught": true,
+          "first_flag_day": 430.73125,
           "last_move_day": 474.708333,
           "final_day": 474.708333,
-          "lead_time_days": null
+          "lead_time_days": 43.97708299999999
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0047",
@@ -1037,10 +1032,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 202.520833,
+          "first_flag_day": 175.583333,
           "last_move_day": 279.0,
           "final_day": 279.0,
-          "lead_time_days": 76.47916699999999
+          "lead_time_days": 103.41666699999999
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0052",
@@ -1068,10 +1063,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 105.0,
+          "first_flag_day": 45.208333,
           "last_move_day": 105.0,
           "final_day": 105.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 59.791667
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0054",
@@ -1121,10 +1116,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 120.0,
+          "first_flag_day": 56.452083,
           "last_move_day": 139.0,
           "final_day": 139.0,
-          "lead_time_days": 19.0
+          "lead_time_days": 82.547917
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0057",
@@ -1155,10 +1150,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 67.541667,
+          "first_flag_day": 58.53125,
           "last_move_day": 81.052083,
           "final_day": 81.052083,
-          "lead_time_days": 13.510415999999992
+          "lead_time_days": 22.520832999999996
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0059",
@@ -1221,10 +1216,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 84.21875,
+          "first_flag_day": 66.1875,
           "last_move_day": 134.0,
           "final_day": 134.0,
-          "lead_time_days": 49.78125
+          "lead_time_days": 67.8125
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0063",
@@ -1239,10 +1234,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 120.0,
+          "first_flag_day": 66.197917,
           "last_move_day": 138.0,
           "final_day": 138.0,
-          "lead_time_days": 18.0
+          "lead_time_days": 71.802083
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0064",
@@ -1256,10 +1251,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 120.0,
+          "first_flag_day": 66.21875,
           "last_move_day": 120.0,
           "final_day": 120.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 53.78125
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0065",
@@ -1305,10 +1300,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 60.0,
+          "first_flag_day": 45.020833,
           "last_move_day": 71.0,
           "final_day": 71.0,
-          "lead_time_days": 11.0
+          "lead_time_days": 25.979166999999997
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0068",
@@ -1323,10 +1318,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 202.65625,
+          "first_flag_day": 175.677083,
           "last_move_day": 284.0,
           "final_day": 284.0,
-          "lead_time_days": 81.34375
+          "lead_time_days": 108.32291699999999
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0069",
@@ -1357,10 +1352,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 90.0,
+          "first_flag_day": 58.552083,
           "last_move_day": 90.0,
           "final_day": 90.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 31.447916999999997
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0071",
@@ -1487,10 +1482,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 737.0,
+          "first_flag_day": 430.720833,
           "last_move_day": 737.0,
           "final_day": 737.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 306.279167
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0079",
@@ -1541,10 +1536,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 243.177083,
+          "first_flag_day": 175.65625,
           "last_move_day": 286.0,
           "final_day": 286.0,
-          "lead_time_days": 42.82291699999999
+          "lead_time_days": 110.34375
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0082",
@@ -1558,10 +1553,10 @@
           "privilege": "release",
           "clean": false,
           "caught": true,
-          "first_flag_day": 280.0,
+          "first_flag_day": 175.65625,
           "last_move_day": 280.0,
           "final_day": 280.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 104.34375
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0083",
@@ -1607,11 +1602,11 @@
           "patience_days": 270,
           "privilege": "npm_publish",
           "clean": false,
-          "caught": false,
-          "first_flag_day": null,
+          "caught": true,
+          "first_flag_day": 175.541667,
           "last_move_day": 175.541667,
           "final_day": 175.541667,
-          "lead_time_days": null
+          "lead_time_days": 0.0
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0086",
@@ -1764,11 +1759,11 @@
           "patience_days": 540,
           "privilege": "release",
           "clean": false,
-          "caught": false,
-          "first_flag_day": null,
+          "caught": true,
+          "first_flag_day": 310.677083,
           "last_move_day": 351.145833,
           "final_day": 351.145833,
-          "lead_time_days": null
+          "lead_time_days": 40.46875
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0096",
@@ -1782,10 +1777,10 @@
           "privilege": "npm_publish",
           "clean": false,
           "caught": true,
-          "first_flag_day": 746.0,
+          "first_flag_day": 419.84375,
           "last_move_day": 746.0,
           "final_day": 746.0,
-          "lead_time_days": 0.0
+          "lead_time_days": 326.15625
         },
         {
           "campaign_id": "rt-atk-tallowdate-s7-0097",
@@ -1848,9 +1843,9 @@
         "detection_rate": 0.82,
         "median_lead_time_days": 11.0,
         "decision_at_last_move": {
-          "HOLD": 20,
+          "HOLD": 16,
           "NOTE": 56,
-          "NO_ACTION": 1,
+          "NO_ACTION": 5,
           "WATCH": 23
         }
       },
@@ -1863,9 +1858,8 @@
           "detection_rate": 0.7272727272727273,
           "median_lead_time_days": 15.075,
           "decision_at_last_move": {
-            "HOLD": 2,
             "NOTE": 8,
-            "NO_ACTION": 1
+            "NO_ACTION": 3
           }
         },
         {
@@ -1949,8 +1943,9 @@
           "detection_rate": 0.75,
           "median_lead_time_days": 9.0,
           "decision_at_last_move": {
-            "HOLD": 4,
+            "HOLD": 2,
             "NOTE": 9,
+            "NO_ACTION": 2,
             "WATCH": 3
           }
         },
@@ -3651,9 +3646,9 @@
         "detection_rate": 0.6,
         "median_lead_time_days": 0.0,
         "decision_at_last_move": {
-          "HOLD": 42,
+          "HOLD": 40,
           "NOTE": 14,
-          "NO_ACTION": 1,
+          "NO_ACTION": 3,
           "WATCH": 43
         }
       },
@@ -3666,9 +3661,9 @@
           "detection_rate": 0.5454545454545454,
           "median_lead_time_days": 17.522917,
           "decision_at_last_move": {
-            "HOLD": 4,
+            "HOLD": 2,
             "NOTE": 2,
-            "NO_ACTION": 1,
+            "NO_ACTION": 3,
             "WATCH": 4
           }
         },
@@ -5451,8 +5446,8 @@
     "forget_90": {
       "overall": {
         "delta": {
-          "detection_rate": -0.06,
-          "median_lead_time_days": -2.584374
+          "detection_rate": -0.11,
+          "median_lead_time_days": -8.791667
         },
         "verdict": "worse than full memory (lower detection rate)"
       },
@@ -5485,7 +5480,7 @@
           "patience_days": 60,
           "delta": {
             "detection_rate": -0.1,
-            "median_lead_time_days": 0.973958
+            "median_lead_time_days": 0.5625
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
@@ -5493,17 +5488,17 @@
           "patience_days": 90,
           "delta": {
             "detection_rate": 0.0,
-            "median_lead_time_days": 0.0
+            "median_lead_time_days": -18.0625
           },
-          "verdict": "tied with full memory"
+          "verdict": "same detection rate, shorter lead time"
         },
         {
           "patience_days": 120,
           "delta": {
             "detection_rate": 0.0,
-            "median_lead_time_days": 0.0
+            "median_lead_time_days": -41.78125
           },
-          "verdict": "tied with full memory"
+          "verdict": "same detection rate, shorter lead time"
         },
         {
           "patience_days": 180,
@@ -5516,8 +5511,8 @@
         {
           "patience_days": 270,
           "delta": {
-            "detection_rate": -0.0625,
-            "median_lead_time_days": 9.0
+            "detection_rate": -0.1875,
+            "median_lead_time_days": -93.447917
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
@@ -5525,23 +5520,23 @@
           "patience_days": 365,
           "delta": {
             "detection_rate": 0.0,
-            "median_lead_time_days": -27.338541
+            "median_lead_time_days": -126.583333
           },
           "verdict": "same detection rate, shorter lead time"
         },
         {
           "patience_days": 540,
           "delta": {
-            "detection_rate": -0.3,
-            "median_lead_time_days": -15.927084
+            "detection_rate": -0.5,
+            "median_lead_time_days": 13.395834
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
         {
           "patience_days": 730,
           "delta": {
-            "detection_rate": -0.1,
-            "median_lead_time_days": -36.395833
+            "detection_rate": -0.2,
+            "median_lead_time_days": -88.791667
           },
           "verdict": "worse than full memory (lower detection rate)"
         }
@@ -5550,8 +5545,8 @@
     "forget_30": {
       "overall": {
         "delta": {
-          "detection_rate": -0.28,
-          "median_lead_time_days": -13.584374
+          "detection_rate": -0.33,
+          "median_lead_time_days": -19.791667
         },
         "verdict": "worse than full memory (lower detection rate)"
       },
@@ -5584,7 +5579,7 @@
           "patience_days": 60,
           "delta": {
             "detection_rate": -0.1,
-            "median_lead_time_days": 0.973958
+            "median_lead_time_days": 0.5625
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
@@ -5592,7 +5587,7 @@
           "patience_days": 90,
           "delta": {
             "detection_rate": -0.333333,
-            "median_lead_time_days": -31.416667
+            "median_lead_time_days": -49.479167
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
@@ -5600,7 +5595,7 @@
           "patience_days": 120,
           "delta": {
             "detection_rate": -0.428571,
-            "median_lead_time_days": -12.0
+            "median_lead_time_days": -53.78125
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
@@ -5615,8 +5610,8 @@
         {
           "patience_days": 270,
           "delta": {
-            "detection_rate": -0.25,
-            "median_lead_time_days": 0.0
+            "detection_rate": -0.375,
+            "median_lead_time_days": -102.447917
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
@@ -5624,23 +5619,23 @@
           "patience_days": 365,
           "delta": {
             "detection_rate": -0.4,
-            "median_lead_time_days": -27.338541
+            "median_lead_time_days": -126.583333
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
         {
           "patience_days": 540,
           "delta": {
-            "detection_rate": -0.5,
-            "median_lead_time_days": -69.90625
+            "detection_rate": -0.7,
+            "median_lead_time_days": -40.583333
           },
           "verdict": "worse than full memory (lower detection rate)"
         },
         {
           "patience_days": 730,
           "delta": {
-            "detection_rate": -0.3,
-            "median_lead_time_days": -36.395833
+            "detection_rate": -0.4,
+            "median_lead_time_days": -88.791667
           },
           "verdict": "worse than full memory (lower detection rate)"
         }
@@ -5650,15 +5645,15 @@
   "real_graph": {
     "name": "org_tallowdate",
     "counts_before": {
-      "nodes": 175,
-      "edges": 168
+      "nodes": 163,
+      "edges": 156
     },
     "counts_after": {
-      "nodes": 175,
-      "edges": 168
+      "nodes": 163,
+      "edges": 156
     },
     "unchanged": true,
-    "port": 6386
+    "port": 6411
   },
   "notes": [
     "Published as measured. A tie is reported as a tie.",
@@ -5666,8 +5661,8 @@
     "Detectors, conflict policy, decision policy and thresholds are unchanged between arms: see provenance."
   ],
   "provenance": {
-    "git_commit": "3fe681048b0a2074a49a0e95352f66b4c476c735",
-    "base_commit": "3fe681048b0a2074a49a0e95352f66b4c476c735",
+    "git_commit": "23c36a53c8de7335a65efa55a5901495b8fab5d9",
+    "base_commit": "23c36a53c8de7335a65efa55a5901495b8fab5d9",
     "working_tree_dirty": false,
     "functions": [
       {
@@ -5714,16 +5709,16 @@
         "file": "core/detectors/lone_keeper.py",
         "function": "lone_keeper",
         "found": true,
-        "sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
-        "base_sha256": "263e5e8e4bba6317f00753e02e14e8dae7f6f2c17503697147da896104751c67",
+        "sha256": "18cc9c88327ffe32749b85cf67863fad59bbc25ff46db40608b6f348deb1e36f",
+        "base_sha256": "18cc9c88327ffe32749b85cf67863fad59bbc25ff46db40608b6f348deb1e36f",
         "match": true
       },
       {
         "file": "core/detectors/pressure.py",
         "function": "pressure",
         "found": true,
-        "sha256": "25f0363e51b429a579c2aedc9fdc8563af1db84f08713d11ebe084dc9ded8977",
-        "base_sha256": "25f0363e51b429a579c2aedc9fdc8563af1db84f08713d11ebe084dc9ded8977",
+        "sha256": "7c31d6e996c2df457fc25bef273f9054efc95f91775c0c471cab69f89bab8356",
+        "base_sha256": "7c31d6e996c2df457fc25bef273f9054efc95f91775c0c471cab69f89bab8356",
         "match": true
       },
       {
@@ -5818,5 +5813,5 @@
     ],
     "frozen_unchanged": true
   },
-  "wall_seconds": 232.1
+  "wall_seconds": 204.9
 }

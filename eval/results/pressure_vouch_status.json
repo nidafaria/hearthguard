@@ -1,17 +1,29 @@
 {
-  "generated_at_utc": "2026-10-17T23:12:56Z",
+  "generated_at_utc": "2026-10-18T02:31:55Z",
   "org": "xz",
   "reader_frozen_version": 1,
   "coverage": {
     "in_scope_messages": 300,
     "excluded_human_labelled_test_set": 60,
     "to_read": 240,
-    "read_so_far": 132,
+    "read_so_far": 230,
     "complete": false,
-    "recorded_but_not_read": 8
+    "recorded_but_not_read": 10,
+    "skipped_ids": [
+      "msg00424",
+      "msg00441",
+      "msg00447",
+      "msg00458",
+      "msg00514",
+      "msg00520",
+      "msg00525",
+      "msg00537",
+      "msg00561",
+      "msg00651"
+    ]
   },
   "claims_written_to_graph": {
-    "claims_written": 5,
+    "claims_written": 12,
     "left_out": {
       "no_date": 0,
       "no_author": 0
@@ -37,19 +49,17 @@
       },
       "pressure": {
         "status": "NOT_FIRED",
-        "reason": "1 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
         "evidence": {
           "window_days": 120,
-          "claims_in_window": 1,
-          "claims_by_low_history_actors": 1,
-          "low_history_actors": 1,
-          "claim_ids": [
-            "msg00521:PRESSURE:0"
-          ],
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 8.505600002536085,
+        "query_ms": 3.8037000049371272,
         "queries": [
           {
             "name": "read_claims",
@@ -63,18 +73,8 @@
               "skip": 0,
               "T": 1640995199
             },
-            "ms": 4.9633000016910955,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1640995199
-            },
-            "ms": 3.542300000844989,
-            "rows": 1
+            "ms": 3.8037000049371272,
+            "rows": 0
           }
         ]
       },
@@ -87,7 +87,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 2.6269000009051524,
+        "query_ms": 1.9346999979461543,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -96,7 +96,7 @@
               "skip": 0,
               "T": 1640995199
             },
-            "ms": 2.6269000009051524,
+            "ms": 1.9346999979461543,
             "rows": 0
           }
         ]
@@ -130,7 +130,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 2.144300000509247,
+        "query_ms": 2.4975999986054376,
         "queries": [
           {
             "name": "read_claims",
@@ -144,7 +144,7 @@
               "skip": 0,
               "T": 1648771199
             },
-            "ms": 2.144300000509247,
+            "ms": 2.4975999986054376,
             "rows": 0
           }
         ]
@@ -158,7 +158,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 1.4988999973866157,
+        "query_ms": 2.0159000050625764,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -167,7 +167,7 @@
               "skip": 0,
               "T": 1648771199
             },
-            "ms": 1.4988999973866157,
+            "ms": 2.0159000050625764,
             "rows": 0
           }
         ]
@@ -180,33 +180,36 @@
       "window_coverage": {
         "pressure": {
           "messages_in_window": 34,
-          "read": 12,
-          "unread": 22
+          "read": 27,
+          "unread": 7
         },
         "vouch": {
           "messages_in_window": 175,
-          "read": 124,
-          "unread": 51
+          "read": 139,
+          "unread": 36
         }
       },
       "pressure": {
-        "status": "NOT_FIRED",
-        "reason": "4 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "status": "NOT_COMPUTED",
+        "reason": "keeper activity condition open in freeze",
         "evidence": {
           "window_days": 120,
-          "claims_in_window": 4,
-          "claims_by_low_history_actors": 4,
-          "low_history_actors": 1,
+          "claims_in_window": 5,
+          "claims_by_low_history_actors": 5,
+          "low_history_actors": 2,
           "claim_ids": [
+            "msg00557:PRESSURE:19",
+            "msg00562:PRESSURE:24",
             "msg00565:PRESSURE:0",
             "msg00568:PRESSURE:0",
-            "msg00568:PRESSURE:203",
-            "msg00568:PRESSURE:277"
+            "msg00570:PRESSURE:4"
           ],
           "min_claims": 3,
-          "min_distinct_actors": 2
+          "min_distinct_actors": 2,
+          "claim_condition_met": true,
+          "keeper_condition_default": "default chosen for submission, not final"
         },
-        "query_ms": 6.503800002974458,
+        "query_ms": 14.945500006433576,
         "queries": [
           {
             "name": "read_claims",
@@ -220,8 +223,8 @@
               "skip": 0,
               "T": 1656633599
             },
-            "ms": 3.155400001560338,
-            "rows": 4
+            "ms": 3.9901999989524484,
+            "rows": 5
           },
           {
             "name": "actor_history",
@@ -230,8 +233,24 @@
               "hids": "<hashed id, not written>",
               "T": 1656633599
             },
-            "ms": 3.34840000141412,
-            "rows": 1
+            "ms": 5.667800003720913,
+            "rows": 2
+          },
+          {
+            "name": "read_keepers",
+            "query": "MATCH (k:Actor)-[e:CAN_GRANT|GRANTED]->(p:Privilege) WHERE (e.at IS NULL OR e.at <= $T) RETURN DISTINCT k.hid AS hid ORDER BY hid LIMIT 1000",
+            "params": {
+              "T": 1656633599
+            },
+            "ms": 2.9380000050878152,
+            "rows": 0
+          },
+          {
+            "name": "read_alt_keepers",
+            "query": "MATCH (k:Actor) WHERE k.is_keeper = true RETURN DISTINCT k.hid AS hid ORDER BY hid LIMIT 1000",
+            "params": {},
+            "ms": 2.3494999986723997,
+            "rows": 0
           }
         ]
       },
@@ -244,7 +263,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 2.4161999972420745,
+        "query_ms": 2.588299998024013,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -253,7 +272,7 @@
               "skip": 0,
               "T": 1656633599
             },
-            "ms": 2.4161999972420745,
+            "ms": 2.588299998024013,
             "rows": 0
           }
         ]
@@ -266,32 +285,31 @@
       "window_coverage": {
         "pressure": {
           "messages_in_window": 35,
-          "read": 0,
-          "unread": 35
+          "read": 28,
+          "unread": 7
         },
         "vouch": {
           "messages_in_window": 204,
-          "read": 124,
-          "unread": 80
+          "read": 162,
+          "unread": 42
         }
       },
       "pressure": {
         "status": "NOT_FIRED",
-        "reason": "3 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "reason": "2 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
         "evidence": {
           "window_days": 120,
-          "claims_in_window": 3,
-          "claims_by_low_history_actors": 3,
+          "claims_in_window": 2,
+          "claims_by_low_history_actors": 2,
           "low_history_actors": 1,
           "claim_ids": [
             "msg00568:PRESSURE:0",
-            "msg00568:PRESSURE:203",
-            "msg00568:PRESSURE:277"
+            "msg00570:PRESSURE:4"
           ],
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 6.228199999895878,
+        "query_ms": 8.188600004359614,
         "queries": [
           {
             "name": "read_claims",
@@ -305,8 +323,8 @@
               "skip": 0,
               "T": 1664582399
             },
-            "ms": 3.2412000000476837,
-            "rows": 3
+            "ms": 3.4516000014264137,
+            "rows": 2
           },
           {
             "name": "actor_history",
@@ -315,7 +333,7 @@
               "hids": "<hashed id, not written>",
               "T": 1664582399
             },
-            "ms": 2.9869999998481944,
+            "ms": 4.7370000029332004,
             "rows": 1
           }
         ]
@@ -329,7 +347,7 @@
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 2.1357999939937145,
+        "query_ms": 3.6521000001812354,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -338,7 +356,7 @@
               "skip": 0,
               "T": 1664582399
             },
-            "ms": 2.1357999939937145,
+            "ms": 3.6521000001812354,
             "rows": 0
           }
         ]
@@ -351,13 +369,13 @@
       "window_coverage": {
         "pressure": {
           "messages_in_window": 42,
-          "read": 0,
-          "unread": 42
+          "read": 36,
+          "unread": 6
         },
         "vouch": {
           "messages_in_window": 237,
-          "read": 124,
-          "unread": 113
+          "read": 192,
+          "unread": 45
         }
       },
       "pressure": {
@@ -372,7 +390,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 2.4112000028253533,
+        "query_ms": 3.1922999987727962,
         "queries": [
           {
             "name": "read_claims",
@@ -386,21 +404,21 @@
               "skip": 0,
               "T": 1672531199
             },
-            "ms": 2.4112000028253533,
+            "ms": 3.1922999987727962,
             "rows": 0
           }
         ]
       },
       "vouch": {
         "status": "NOT_FIRED",
-        "reason": "1 low-history actors vouched; need 2",
+        "reason": "0 low-history actors vouched; need 2",
         "evidence": {
-          "vouch_claims": 1,
-          "low_history_vouchers": 1,
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 5.761300002632197,
+        "query_ms": 2.6184000016655773,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -409,18 +427,8 @@
               "skip": 0,
               "T": 1672531199
             },
-            "ms": 2.043499996943865,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1672531199
-            },
-            "ms": 3.717800005688332,
-            "rows": 1
+            "ms": 2.6184000016655773,
+            "rows": 0
           }
         ]
       }
@@ -432,13 +440,13 @@
       "window_coverage": {
         "pressure": {
           "messages_in_window": 3,
-          "read": 0,
-          "unread": 3
+          "read": 1,
+          "unread": 2
         },
         "vouch": {
           "messages_in_window": 239,
-          "read": 124,
-          "unread": 115
+          "read": 192,
+          "unread": 47
         }
       },
       "pressure": {
@@ -453,7 +461,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 2.326100002392195,
+        "query_ms": 2.290800002811011,
         "queries": [
           {
             "name": "read_claims",
@@ -467,21 +475,21 @@
               "skip": 0,
               "T": 1680307199
             },
-            "ms": 2.326100002392195,
+            "ms": 2.290800002811011,
             "rows": 0
           }
         ]
       },
       "vouch": {
         "status": "NOT_FIRED",
-        "reason": "1 low-history actors vouched; need 2",
+        "reason": "0 low-history actors vouched; need 2",
         "evidence": {
-          "vouch_claims": 1,
-          "low_history_vouchers": 1,
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 7.867999993322883,
+        "query_ms": 2.046699999482371,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -490,18 +498,8 @@
               "skip": 0,
               "T": 1680307199
             },
-            "ms": 2.4898999981814995,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1680307199
-            },
-            "ms": 5.378099995141383,
-            "rows": 1
+            "ms": 2.046699999482371,
+            "rows": 0
           }
         ]
       }
@@ -518,8 +516,8 @@
         },
         "vouch": {
           "messages_in_window": 240,
-          "read": 124,
-          "unread": 116
+          "read": 192,
+          "unread": 48
         }
       },
       "pressure": {
@@ -534,7 +532,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 2.4608000021544285,
+        "query_ms": 4.772200001752935,
         "queries": [
           {
             "name": "read_claims",
@@ -548,21 +546,21 @@
               "skip": 0,
               "T": 1688169599
             },
-            "ms": 2.4608000021544285,
+            "ms": 4.772200001752935,
             "rows": 0
           }
         ]
       },
       "vouch": {
         "status": "NOT_FIRED",
-        "reason": "1 low-history actors vouched; need 2",
+        "reason": "0 low-history actors vouched; need 2",
         "evidence": {
-          "vouch_claims": 1,
-          "low_history_vouchers": 1,
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 4.927900001348462,
+        "query_ms": 4.657700003008358,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -571,18 +569,8 @@
               "skip": 0,
               "T": 1688169599
             },
-            "ms": 2.3384000014630146,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1688169599
-            },
-            "ms": 2.5894999998854473,
-            "rows": 1
+            "ms": 4.657700003008358,
+            "rows": 0
           }
         ]
       }
@@ -599,8 +587,8 @@
         },
         "vouch": {
           "messages_in_window": 244,
-          "read": 124,
-          "unread": 120
+          "read": 192,
+          "unread": 52
         }
       },
       "pressure": {
@@ -615,7 +603,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 2.2933000000193715,
+        "query_ms": 2.8347000043140724,
         "queries": [
           {
             "name": "read_claims",
@@ -629,21 +617,21 @@
               "skip": 0,
               "T": 1696118399
             },
-            "ms": 2.2933000000193715,
+            "ms": 2.8347000043140724,
             "rows": 0
           }
         ]
       },
       "vouch": {
         "status": "NOT_FIRED",
-        "reason": "1 low-history actors vouched; need 2",
+        "reason": "0 low-history actors vouched; need 2",
         "evidence": {
-          "vouch_claims": 1,
-          "low_history_vouchers": 1,
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 5.5376999953296036,
+        "query_ms": 2.7086999980383553,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -652,18 +640,8 @@
               "skip": 0,
               "T": 1696118399
             },
-            "ms": 2.788400001008995,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1696118399
-            },
-            "ms": 2.7492999943206087,
-            "rows": 1
+            "ms": 2.7086999980383553,
+            "rows": 0
           }
         ]
       }
@@ -680,8 +658,8 @@
         },
         "vouch": {
           "messages_in_window": 245,
-          "read": 124,
-          "unread": 121
+          "read": 192,
+          "unread": 53
         }
       },
       "pressure": {
@@ -696,7 +674,7 @@
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 2.6665999976103194,
+        "query_ms": 2.4341000025742687,
         "queries": [
           {
             "name": "read_claims",
@@ -710,21 +688,21 @@
               "skip": 0,
               "T": 1704067199
             },
-            "ms": 2.6665999976103194,
+            "ms": 2.4341000025742687,
             "rows": 0
           }
         ]
       },
       "vouch": {
         "status": "NOT_FIRED",
-        "reason": "1 low-history actors vouched; need 2",
+        "reason": "0 low-history actors vouched; need 2",
         "evidence": {
-          "vouch_claims": 1,
-          "low_history_vouchers": 1,
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 5.660099996021017,
+        "query_ms": 2.1231999999145046,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -733,18 +711,8 @@
               "skip": 0,
               "T": 1704067199
             },
-            "ms": 2.9590999984066,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1704067199
-            },
-            "ms": 2.7009999976144172,
-            "rows": 1
+            "ms": 2.1231999999145046,
+            "rows": 0
           }
         ]
       }
@@ -756,30 +724,28 @@
       "window_coverage": {
         "pressure": {
           "messages_in_window": 39,
-          "read": 0,
-          "unread": 39
+          "read": 25,
+          "unread": 14
         },
         "vouch": {
           "messages_in_window": 284,
-          "read": 124,
-          "unread": 160
+          "read": 217,
+          "unread": 67
         }
       },
       "pressure": {
         "status": "NOT_FIRED",
-        "reason": "1 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "reason": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
         "evidence": {
           "window_days": 120,
-          "claims_in_window": 1,
-          "claims_by_low_history_actors": 1,
-          "low_history_actors": 1,
-          "claim_ids": [
-            "msg00666:URGENCY:89"
-          ],
+          "claims_in_window": 0,
+          "claims_by_low_history_actors": 0,
+          "low_history_actors": 0,
+          "claim_ids": [],
           "min_claims": 3,
           "min_distinct_actors": 2
         },
-        "query_ms": 5.955199994787108,
+        "query_ms": 2.2813999967183918,
         "queries": [
           {
             "name": "read_claims",
@@ -793,31 +759,21 @@
               "skip": 0,
               "T": 1711929599
             },
-            "ms": 2.623799999128096,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1711929599
-            },
-            "ms": 3.3313999956590123,
-            "rows": 1
+            "ms": 2.2813999967183918,
+            "rows": 0
           }
         ]
       },
       "vouch": {
         "status": "NOT_FIRED",
-        "reason": "1 low-history actors vouched; need 2",
+        "reason": "0 low-history actors vouched; need 2",
         "evidence": {
-          "vouch_claims": 1,
-          "low_history_vouchers": 1,
+          "vouch_claims": 0,
+          "low_history_vouchers": 0,
           "min_vouchers": 2,
           "min_signal_types": 2
         },
-        "query_ms": 4.890999996860046,
+        "query_ms": 1.513600000180304,
         "queries": [
           {
             "name": "read_vouch_claims",
@@ -826,18 +782,8 @@
               "skip": 0,
               "T": 1711929599
             },
-            "ms": 2.416600000287872,
-            "rows": 1
-          },
-          {
-            "name": "actor_history",
-            "query": "MATCH (a:Actor) WHERE a.hid IN $hids AND (a.first_seen_in_org IS NULL OR a.first_seen_in_org <= $T) OPTIONAL MATCH (a)-[d:DID]->(:Action) WHERE d.at <= $T WITH a, count(d) AS actions, min(d.at) AS first_did RETURN a.hid AS hid, a.first_seen_in_org AS seen, actions, first_did ORDER BY hid LIMIT 1000",
-            "params": {
-              "hids": "<hashed id, not written>",
-              "T": 1711929599
-            },
-            "ms": 2.474399996572174,
-            "rows": 1
+            "ms": 1.513600000180304,
+            "rows": 0
           }
         ]
       }

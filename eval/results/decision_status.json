@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-17T23:13:10Z",
+  "generated_at_utc": "2026-10-18T02:32:01Z",
   "policy": "decide() (frozen, spec 7.3) through decide_with_unknowns() (PROPOSED, docs/decisions/0002-decision-unknowns.md)",
   "inputs": [
     "pressure_vouch_status.json",
@@ -18,7 +18,7 @@
       },
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
-        "PRESSURE": "1 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "PRESSURE": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
         "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
@@ -93,24 +93,24 @@
       "quarter": "2022-Q2",
       "T_iso": "2022-06-30T23:59:59Z",
       "moves": {
-        "PRESSURE": "NOT_FIRED",
+        "PRESSURE": "NOT_COMPUTED",
         "VOUCH": "NOT_FIRED",
         "RUSH": "NOT_COMPUTED",
         "BYPASS": "NOT_COMPUTED"
       },
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
-        "PRESSURE": "4 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "PRESSURE": "keeper activity condition open in freeze",
         "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
       },
       "decision": "HOLD",
       "detail": {
-        "reason": "move unknown: RUSH, BYPASS",
+        "reason": "move unknown: PRESSURE, RUSH, BYPASS",
         "breakdown": {
           "moves": {
-            "PRESSURE": "NOT_FIRED",
+            "PRESSURE": "NOT_COMPUTED",
             "VOUCH": "NOT_FIRED",
             "RUSH": "NOT_COMPUTED",
             "BYPASS": "NOT_COMPUTED"
@@ -122,6 +122,7 @@
           "risk": 1.0,
           "risk_x_moves": 0.0,
           "unknown_moves": [
+            "PRESSURE",
             "RUSH",
             "BYPASS"
           ],
@@ -141,7 +142,7 @@
       },
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
-        "PRESSURE": "3 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "PRESSURE": "2 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
         "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
@@ -183,7 +184,7 @@
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
         "PRESSURE": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
-        "VOUCH": "1 low-history actors vouched; need 2",
+        "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
       },
@@ -224,7 +225,7 @@
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
         "PRESSURE": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
-        "VOUCH": "1 low-history actors vouched; need 2",
+        "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
       },
@@ -265,7 +266,7 @@
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
         "PRESSURE": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
-        "VOUCH": "1 low-history actors vouched; need 2",
+        "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
       },
@@ -306,7 +307,7 @@
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
         "PRESSURE": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
-        "VOUCH": "1 low-history actors vouched; need 2",
+        "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
       },
@@ -347,7 +348,7 @@
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
         "PRESSURE": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
-        "VOUCH": "1 low-history actors vouched; need 2",
+        "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
       },
@@ -387,8 +388,8 @@
       },
       "lone_keeper": "NOT_COMPUTED",
       "reasons": {
-        "PRESSURE": "1 PRESSURE/URGENCY claims from 1 low-history actors in the last 120 days; need 3 claims from 2 actors",
-        "VOUCH": "1 low-history actors vouched; need 2",
+        "PRESSURE": "0 PRESSURE/URGENCY claims from 0 low-history actors in the last 120 days; need 3 claims from 2 actors",
+        "VOUCH": "0 low-history actors vouched; need 2",
         "RUSH": "no Privilege of kind 'release' in org_xz, so no grant data",
         "BYPASS": "single shared Path node, no variation to compare"
       },

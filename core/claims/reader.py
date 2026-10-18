@@ -39,6 +39,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from enum import StrEnum
 from pathlib import Path
+from typing import Any
 
 from pydantic import BaseModel
 
@@ -82,6 +83,7 @@ class Claim:
     offset: int  # UTF-8 byte offset of the first occurrence of the quote
     confidence: float
     occurrences: int  # how many times the quote appears in the text
+    model: str | None = None
 
 
 @dataclass(frozen=True)
@@ -272,7 +274,7 @@ def build_prompt(message_text: str, author_hash: str) -> tuple[str, str]:
 
 # ----------------------------------------------------------------------------- validation
 def validate_reply(
-    reply: ReaderReply, text: str, author_hash: str
+    reply: ReaderReply, text: str, author_hash: str, model: str | None = None
 ) -> tuple[list[Claim], list[Rejection], int]:
     """Keep a claim only if its quote is an exact substring of `text`. Pure, no model call."""
     claims: list[Claim] = []
@@ -294,7 +296,15 @@ def validate_reply(
         char_offset = text.find(item.quote)
         offset = len(text[:char_offset].encode("utf-8"))
         claims.append(
-            Claim(kind, author_hash, item.quote, offset, item.confidence, text.count(item.quote))
+            Claim(
+                kind,
+                author_hash,
+                item.quote,
+                offset,
+                item.confidence,
+                text.count(item.quote),
+                model=model,
+            )
         )
     return claims, rejections, none_items
 
@@ -316,7 +326,7 @@ def read_message(
     message_text: str,
     author_hash: str,
     *,
-    client: LLMClient | None = None,
+    client: Any | None = None,
     model: str | None = None,
     use_cache: bool = True,
     max_tokens: int = MAX_TOKENS,
@@ -325,8 +335,14 @@ def read_message(
     text = strip_emails(message_text)
     if not text.strip():
         return ReadResult(skipped="no text left after cleaning")
-    client = client or LLMClient()
     model = model or load_config()["extraction_model"]
+    if client is None:
+        if model.startswith("gemini"):
+            from core.llm.gemini import GeminiClient
+
+            client = GeminiClient()
+        else:
+            client = LLMClient()
     system, user = build_prompt(text, author_hash)
     result = client.complete_json(
         model=model,
@@ -336,7 +352,10 @@ def read_message(
         max_tokens=max_tokens,
         use_cache=use_cache,
     )
-    claims, rejections, none_items = validate_reply(result.data, text, author_hash)
+    rec_model = result.record.model if result.record is not None else model
+    claims, rejections, none_items = validate_reply(
+        result.data, text, author_hash, model=rec_model
+    )
     return ReadResult(claims, rejections, none_items, result.record)
 
 
