@@ -1,0 +1,1 @@
+"""Hearthguard MCP Server package."""

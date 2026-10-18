@@ -65,6 +65,18 @@ OWNER TO CONFIRM: which parts above were built after Oct 15 12:01 AM IST.
 ## Honest limits (paste)
 0 grant records exist in 14 searches for real xz (eval/results/xz_grant_search.json), so takeover cost, Rush, Bypass and Lone keeper are NOT COMPUTED on it and the decision is HOLD in all 10 quarters. The xz backdoor was in release tarballs, not git; this build does not detect it. The Reader has read 230 of 240 in-scope messages (124 Groq, 106 Gemini). Not read: msg00424, msg00441, msg00447, msg00458, msg00514, msg00520, msg00525, msg00537, msg00561, msg00651. 152 of 210 pressure-window messages were read across ten quarters (eval/results/pressure_vouch_status.json), and its precision and recall are NOT COMPUTED (evaluation test set is preserved blinded with no human labels yet). The Act II case is synthetic and labelled. The Slack Web API sender and listener are tested with mock transports; no live Slack message was sent to an external workspace and real click testing requires a public URL or tunnel. Action Boundary (§4.4) strictly forbids automatic blocking of releases or payments; Hearthguard only warns and recalls. There is no live deployment beyond a static demo page.
 
+## Finished gaps (Oct 18 update)
+- **Per-project graph memory**: Built (yes). Each project gets an isolated graph named `hh_<project_slug>` with safe slugification. Every read and write requires an explicit project name with no shared default graph. Tested and passed (`test_project_memory.py`).
+- **Agent handoffs**: Built (yes). Persistent graph handoffs (`from_agent`, `to_agent`, `project`, `finding_id`, `summary`, `created_at`, `status`) verified across independent processes. Tested and passed (`test_handoff.py`).
+- **MCP server (4 tools)**: Built (yes). Official Python MCP SDK server (`mcp_server/server.py`) exposing `list_claims(project)`, `write_handoff(...)`, `read_handoffs(agent, project)`, and `recall_custody(project)`. Tested and passed over stdio (`test_mcp_server.py`).
+- **Slack listener**: Built (yes). Endpoints at `/slack/actions` and `/slack/events` with URL verification challenge tested (`{"challenge": "test123"}`).
+- **Slack button click**: NOT button click tested. Step E did not succeed because the dedicated browser session was not logged into the Slack workspace and no public tunnel was available.
+- **Honest limits retained**:
+  - Real xz detection is NOT computed (0 grant records found in 14 searches).
+  - Reader read 230 of 240 messages (10 unread: msg00424, msg00441, msg00447, msg00458, msg00514, msg00520, msg00525, msg00537, msg00561, msg00651).
+  - Most raw claims fail the exact-substring quote check (12 claims total: 5 Groq, 7 Gemini).
+  - Spend of ~₹16.31 on Google Cloud budget "hearthguard-150" has an unexplained gap versus other figures; cause is not broken down.
+
 ## Team
 `<<names and GitHub handles of members>>` (solo or up to 4; each person on one team only).
 
