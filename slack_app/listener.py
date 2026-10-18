@@ -17,7 +17,14 @@ Security & Policy Rules:
 """
 
 import json
+import sys
+from pathlib import Path
 from typing import Any
+
+# Ensure repository root is on sys.path
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
@@ -170,3 +177,13 @@ def start_listener(
 
     app = create_listener_app(client_or_transport=client_or_transport)
     uvicorn.run(app, host=host, port=port)
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Hearthguard Slack Listener")
+    parser.add_argument("--host", default="127.0.0.1", help="Host to bind")
+    parser.add_argument("--port", type=int, default=3000, help="Port to bind")
+    args = parser.parse_args()
+    start_listener(host=args.host, port=args.port)
