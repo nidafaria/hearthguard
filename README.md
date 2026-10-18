@@ -1,42 +1,191 @@
 # Hearthguard
 
-> Persistent graph memory for software projects on FalkorDB: remembering custodians, handoffs, and normal across sessions.
+> **Some attacks are too slow for anything that forgets.**
+> Hearthguard is a graph memory, built on FalkorDB, of who can change an open-source project and how that trust changed over time. Plain, tested code reads slow takeover moves from that memory and warns the person in charge before the last step.
 
-Hearthguard maintains episodic and structural memory of who could change an open-source project and how authority evolved over time. It stores that memory as a graph in FalkorDB using dedicated per-project graph names (`org_<id>`, `ecosystem_<id>`, docs/HEARTHGUARD.md §5). Agent handoffs (Watcher → Reader → Investigator → Skeptic → Policy → Liaison) happen entirely through graph state on a leased task board, not prompt stuffing.
+![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB)
+![FalkorDB 6.0.2](https://img.shields.io/badge/FalkorDB-6.0.2%20(pinned)-FF4438)
+![Tests](https://img.shields.io/badge/tests-1075%20passed%2C%201%20xfailed-2EA44F)
+![Track 02](https://img.shields.io/badge/track-02%20Agent%20Memory%20%26%20Coordination-6E40C9)
 
-Across sessions, Hearthguard preserves custody memory: a custody baseline written on Day 1 is recalled on Day 4 after the application is closed. Under the project's Action Boundary (§4.4), Hearthguard asks and never orders: it strictly forbids automatic blocking of releases or payments, instead recalling historical custody and warning the person in charge with private, evidenced notes. Four slow moves (Pressure, Vouch, Rush, Bypass) and one multiplier (Lone keeper) are read from that graph by plain, deterministic code. An LLM reads text into typed claims; it is never in the decision path (docs/HEARTHGUARD.md §8.4).
+---
 
-It was built to ask one question: would this memory have flagged the xz backdoor, using only public data? In this build, it does **not** detect the xz backdoor, and it does not claim to. What it does do, and what it does not, is listed under "What is measured" and "Limitations".
+## Why this exists
 
-**Status: provisional. The project is not complete.** The score and every row's status are in eval/results/completion_full.md. The rules are not frozen: docs/FREEZE.md is a draft.
+The xz backdoor (2024) was not a single bad commit. It took about two years. A new contributor built trust slowly, sock-puppet accounts pressured a tired lone maintainer to hand over the keys, and the final payload went out through a release path that differed from the usual one. Each step looked normal on its own. You only see the pattern if you **remember what normal looked like at every point in time**.
 
-**Deployment: local only.** Nothing is deployed or hosted. Everything runs on your own machine.
+Hearthguard is that memory. It stores who holds the keys, how fast trust was granted in the past, and what "normal" looked like at each quarter-end, as a time-aware graph. It reads four slow moves and one multiplier from it:
 
-**Demo video:** not recorded yet. There is no link.
+| Move | What it looks for |
+|---|---|
+| **Pressure** | Low-history accounts pushing a maintainer to hand over control |
+| **Vouch** | Low-history accounts vouching for each other or for a newcomer |
+| **Rush** | Trust granted much faster than this project's remembered normal |
+| **Bypass** | A release made through a path that differs from the remembered usual path |
+| **Lone keeper** (multiplier) | Only one person could stop it |
 
-## Setup
+**The LLM is never in the decision path.** A language model only reads mailing-list text into typed claims, each backed by an exact quote. Detectors, the decision policy, takeover cost and guardians are deterministic code with unit tests (docs/HEARTHGUARD.md §8.4).
 
-This is the whole local setup. A judge needs no API key for any of it.
+**Hearthguard asks; it never orders.** Under the Action Boundary (§4.4) it never blocks a release or a payment. It warns and recalls, in a private note with the evidence attached.
 
-1. Install `uv` (https://docs.astral.sh/uv/) and Docker. For the UI, also Node and npm.
-2. `uv sync`
-3. Create a `.env` in the repo root with `HEARTHGUARD_HASH_SALT=<any long random text>`. It is git-ignored; `.env.example` lists the names. Hashing refuses to run without it.
-4. Start the database: `docker compose up -d` (Windows: `powershell -ExecutionPolicy Bypass -File .\make.ps1 up`). The image is pinned to `falkordb/falkordb:6.0.2`. If a port is taken, set `FALKORDB_PORT` or `FALKORDB_UI_PORT` in `.env`.
-5. Run the checks below.
+---
 
-The demo needs none of the three (no key, no network, no database); it prints from saved result files:
+## Results at a glance
+
+Every number has a source file in `eval/results/`. Where a result is unflattering, it is shown as it is.
+
+| What | Result | Source |
+|---|---|---|
+| **Memory matters (ablation, 100 planted campaigns)** | Full memory catches **93 of 100**. Remembering only 90 days: 82. Only 30 days: 60. On 20 clean histories, full memory flags **1 of 20**; both forgetful versions flag **20 of 20** | `ablation_memory.json` |
+| Red team, synthetic `tallowdate` project, 200 campaigns | 182 caught (0.91), median lead time 12.8 days | `redteam_tallowdate.json` |
+| Red team, campaigns planted into a copy of real xz history | 167 of 200 caught (0.835), median lead time 11.0 days | `redteam_xz.json` |
+| Agent coordination race test | 8 workers, 200 tasks, **0 duplicate claims**, 40 notes for 40 findings | `race_run.json` |
+| Determinism | Identical findings under 5 different task orderings | `determinism_run.json` |
+| Fault injection | All 9 failure types, including "LLM offline", end in a bounded HOLD | `faults_run.json` |
+| Learning gate | A learned "ignore this" rule loses **0 of 200** planted attacks and **0 of 22** real-case detections | `learning_verify.json` |
+| Ecosystem visibility | 22 visibility gaps across 4 downstream decisions | `ecosystem_gaps.json` |
+| event-stream replay (2018) | First NOTE 7.1 days **after** the malicious release, 64.1 days **before** the public report | `replay_event_stream.json` |
+| Real xz, per quarter | **HOLD in all 10 quarters**: the public record has no grant of release rights, so Rush and Bypass cannot be computed | `decision_status.json`, `xz_grant_search.json` |
+
+**What we do not claim:** Hearthguard does **not** detect the xz backdoor. The backdoor was in the release tarballs, not in git, and no public record shows who was given release rights. We report that as NOT COMPUTED instead of guessing. The red-team numbers are on synthetic or planted campaigns. They show the detectors work as designed, not how often a real project would be flagged.
+
+---
+
+## How it works
+
+```mermaid
+flowchart LR
+    subgraph Sources["Public sources"]
+        G[git history]
+        M[mailing list]
+        R[npm / OSV / GitHub]
+    end
+    subgraph Agents["Agents (async workers on a graph task board)"]
+        W[Watcher] --> RD[Reader<br/>LLM: text to typed claims]
+        RD --> I[Investigator]
+        I --> S[Skeptic]
+        S --> P[Policy<br/>deterministic]
+        P --> L[Liaison]
+    end
+    subgraph FalkorDB["FalkorDB 6.0.2: the memory"]
+        ORG[(org_ID<br/>trust graph + remembered normal)]
+        ECO[(ecosystem_ID)]
+        HH[(hh_PROJECT<br/>custody + handoffs)]
+    end
+    Sources --> W
+    Agents <-->|leases, handoffs, findings| FalkorDB
+    L --> SL[Slack note with buttons]
+    L --> IN[Local inbox]
+    MCP[MCP server<br/>4 tools] <--> HH
+```
+
+1. **Ingest.** Public history is loaded into `org_<id>`. Every identifier is hashed on ingest.
+2. **Remember normal.** At each time `T`, Hearthguard stores a `Normal` node: release cadence, active keepers, usual release path, and how long a grant of trust usually takes.
+3. **Detect as of T.** Every detector takes `T` and reads only data at or before `T` (`core/graph/as_of.py`), so a replay can never see the future.
+4. **Coordinate through the graph.** Agents claim tasks with leases, stale results are rejected, and one finding produces exactly one note (`core/board/board.py`). Handoffs between agents are graph nodes, not prompt text.
+5. **Warn, don't block.** The Liaison writes a private note with the evidence. In Slack, the person can click *Show me why*, *Simulate a fix*, *Draft a reply*, *It's fine*, or *Remind me in a week*.
+
+---
+
+## Quickstart (2 minutes, no key, no database)
 
 ```powershell
+uv sync
 uv run python -m eval.demo
 ```
 
-On Windows without `make`, every target below runs as `powershell -ExecutionPolicy Bypass -File .\make.ps1 <target>`. A plain `.\make.ps1` fails on a default Windows install ("running scripts is disabled"), because Windows defaults to the Restricted policy. Judge path with expected outputs: [docs/judge_guide.md](docs/judge_guide.md).
+This prints the xz replay table, the visibility gaps, the hardening summary and the synthetic `tallowdate` summary from the saved result files.
 
-Tests: `uv run pytest` (Windows: `powershell -ExecutionPolicy Bypass -File .\make.ps1 test`). The FalkorDB-backed tests need step 3 and step 4. Tests that need git-ignored data (`data/raw/`) skip with a reason.
+## Full setup
+
+A judge needs **no API key** for any step below.
+
+1. Install [`uv`](https://docs.astral.sh/uv/) and Docker. For the UI, also Node and npm.
+2. `uv sync`
+3. Create `.env` in the repo root with `HEARTHGUARD_HASH_SALT=<any long random text>`. `.env` is git-ignored, and `.env.example` lists the variable names. Hashing refuses to run without the salt.
+4. Start the database: `docker compose up -d`. On Windows you can also run `powershell -ExecutionPolicy Bypass -File .\make.ps1 up`. The image is pinned to `falkordb/falkordb:6.0.2`. If a port is taken, set `FALKORDB_PORT` or `FALKORDB_UI_PORT` in `.env`.
+5. Run the tests: `uv run pytest -q`. The last run on main's code gave `1075 passed, 1 xfailed`. Tests that need git-ignored data (`data/raw/`) skip with a reason.
+6. Run the memory demo: `uv run python -m demo.custody_demo`. It writes a custody baseline on Day 1, closes the app, then recalls it on Day 4 in a new session.
+
+On Windows without `make`, every target below runs as `powershell -ExecutionPolicy Bypass -File .\make.ps1 <target>`. A plain `.\make.ps1` fails on a default Windows install, because the default execution policy is Restricted. For the judge path with expected outputs, see [docs/judge_guide.md](docs/judge_guide.md).
+
+---
+
+## Graph data model
+
+FalkorDB 6.0.2 holds all of the core logic. No secondary datastore holds any. The schema and its unique keys are in `core/graph/schema.py`, and every write is an idempotent `MERGE` on a unique key (§6.6).
+
+### Graphs
+
+| Graph name | What it holds |
+|---|---|
+| `org_<id>` | One per organisation: the trust graph, remembered normal, claims, agent state |
+| `ecosystem_<id>` | Who downstream could have seen a signal: places, roles, decisions |
+| `hh_<project_slug>` | Per-project memory: custody records and agent handoffs. Every read and write names its project; there is no shared default graph |
+| `redteam_<run>`, `harden_<run>`, `takeover_<run>` | Scratch copies made with `GRAPH.COPY` and dropped after each run |
+
+### Core schema
+
+```mermaid
+flowchart LR
+    Actor((Actor<br/>hashed id))
+    Action((Action<br/>commit / review /<br/>issue / release))
+    Path((Path<br/>how a release<br/>was made))
+    Priv((Privilege<br/>merge / release /<br/>sign / npm_publish))
+    Normal((Normal<br/>as of T))
+    Claim((Claim))
+    Span((Span))
+    Source((Source))
+    Org((Org))
+    Cust((CustodyRecord))
+
+    Actor -- DID --> Action
+    Action -- VIA --> Path
+    Actor -- GRANTED --> Priv
+    Actor -- CAN_GRANT --> Priv
+    Actor -- APPROVED --> Action
+    Actor -- ASSERTED --> Claim
+    Claim -- FROM --> Span
+    Source -- HAS --> Span
+    Actor -- HOLDS_CUSTODY --> Cust
+    Normal -. stored per T .- Org
+```
+
+| Layer | Nodes | Edges | Code |
+|---|---|---|---|
+| **Trust graph** | `Org`, `Actor` (hashed id), `Action`, `Path`, `Privilege` | `DID`, `VIA`, `GRANTED`, `CAN_GRANT`, `APPROVED` | `core/graph/schema.py` |
+| **Remembered normal** | `Normal` (`cadence_days`, `active_keepers`, `usual_path`, `grant_days`), one per time `T` | | `core/normal/metrics.py` |
+| **Claim graph** | `Source`, `Span`, `Claim` | `Source -[HAS]-> Span <-[FROM]- Claim <-[ASSERTED]- Actor` | `core/claims/graph_write.py` |
+| **Agent coordination** | `Task`, `Finding`, `Note`, `AgentStep`, `Hardening`, `Exception` (the playbook), `OwnerDecision` | `OwnerDecision -[ABOUT]-> Finding` | `core/board/board.py` |
+| **Per-project memory** | `CustodyRecord`, `Handoff` (`from_agent`, `to_agent`, `project`, `finding_id`, `summary`, `created_at`, `status`) | `HOLDS_CUSTODY`, `GRANTED` | `core/memory/custody.py`, `core/memory/handoff.py` |
+| **Ecosystem** | `Place`, `Identity`, `Role`, `Signal`, `Decision` | `EMITTED`, `RECORDED_IN`, `WATCHES`, `PARTICIPATES_IN`, `MADE_IN`, `SAME_AS` | `packs/oss/ecosystem/graph.py`, `core/memory/who_saw.py` |
+
+Every synthetic entity carries `synthetic: true`. Planted entities also carry `planted: true` and a `campaign_id`. **Detectors never read these flags; only the scorer does.**
+
+### Queries and algorithms the product depends on
+
+Every Cypher constant, with the module that runs it, is generated into [docs/queries.md](docs/queries.md). A test fails if that file is stale.
+
+- **`algo.SPpaths`** over `OUTSIDER_ENTRY`, `CAN_GRANT`, `GRANTED` computes **takeover cost**: the cheapest way in for an outsider (`core/takeover/cost.py`). Run over `VOUCHED_FOR`, `REVIEWED`, `GRANTED`, it gives the **trust path** (`core/takeover/trust_path.py`).
+- **`algo.maxFlow`** on a node-split projection computes **guardians**: how many people stand between an outsider and the keys (`core/takeover/guardians.py`). It takes exactly one relationship type.
+- **Time-filtered reads** (`run_as_of`, `core/graph/as_of.py`) and the checked read path (`ro_query`, `core/graph/ro_guard.py`) go through `GRAPH.RO_QUERY`. Each has an explicit timeout, a block on write keywords, and a `LIMIT` cap.
+- **Vouch components** are computed by plain code over graph reads (`core/detectors/vouch.py`).
+- The task board, the playbook and claim writes use the write-capable client, also with an explicit timeout (`core/graph/client.py`).
+
+---
+
+## Agents, handoffs, MCP and Slack
+
+- **Task board in the graph.** Workers claim `Task` nodes with leases. An expired lease is re-claimable, and a stale result is rejected. See the race test and the determinism test above.
+- **Persistent handoffs.** `write_handoff` / `read_handoffs` store `Handoff` nodes in `hh_<project>`. One process can write a handoff and a separate process can read it later (`tests/unit/test_handoff.py`).
+- **MCP server** (`mcp_server/server.py`, official Python MCP SDK, stdio) has 4 tools: `list_claims(project)`, `write_handoff(...)`, `read_handoffs(agent, project)`, `recall_custody(project)`. Any MCP client can read and write the same memory the agents use.
+- **Slack.** The listener (`slack_app/listener.py`) serves `/slack/events` (including Slack's URL verification) and `/slack/actions`. On 2026-10-18 a live note was sent to our own test workspace, and its *Show me why* button was clicked through a Cloudflare quick tunnel. The listener logged `POST /slack/actions 200` within one second, and the bot replied in the thread. Only that one button was clicked live. The listener does not check Slack's request signature yet.
+
+---
 
 ## Commands
 
-Each name works as `make <name>`, or on Windows as `powershell -ExecutionPolicy Bypass -File .\make.ps1 <name>`, where `make.ps1` lists it. Positional arguments work (`.\make.ps1 replay xz`). Named ones are passed as parameters: the red team is `.\make.ps1 redteam -N 200 -Seed 7 -Case tallowdate` (N and seed default to 200 and 7). Commands shown in full (`uv run python -m <module>`) are run exactly so.
+Each name works as `make <name>`, or on Windows as `powershell -ExecutionPolicy Bypass -File .\make.ps1 <name>`. Positional arguments work, for example `.\make.ps1 replay xz`. The red team is `.\make.ps1 redteam -N 200 -Seed 7 -Case tallowdate`; N and the seed default to 200 and 7.
 
 | Command | What it does | Needs |
 |---|---|---|
@@ -62,103 +211,70 @@ Each name works as `make <name>`, or on Windows as `powershell -ExecutionPolicy 
 | `queries` (`uv run python -m eval.queries_doc`) | Rewrite `docs/queries.md` from the query constants in the code | files only |
 | `ui` | Read-only page at http://localhost:5173 | Node, npm |
 | `inbox` | The local inbox at http://127.0.0.1:8765/#/inbox, the same note and thread as Slack | Node, npm |
+| `uv run python slack_app/listener.py --port 3008` | The Slack listener (`/slack/events`, `/slack/actions`, `/slack/health`) | `SLACK_BOT_TOKEN` for replies |
 | `llm-test`, `reader-spotcheck`, `reader-full` | The Reader through Groq | **needs a key** (`GROQ_API_KEY`) |
 
-### Which commands were run, and what was left out
+Every command in this table was run in a clean clone of main without a key and exited 0, except these:
 
-Every command in the table above, apart from the ones named here, was run in a clean clone of main without a key and exited 0, except where the table says otherwise. The exit codes and the notes are in docs/fresh_clone_report.md (run 8). An earlier run's codes are in `eval/results/readme_commands.json`. Some commands rewrite tracked files under `eval/results/`; see run 8.
+- **Need a key, so not run:** `llm-test`, `reader-spotcheck`, `reader-full`.
+- **Servers that do not exit, so not run:** `ui`, `inbox`, and the Slack listener.
+- **Not run on purpose:** `down`.
 
-- **Needs a key, not run:** `llm-test`, `reader-spotcheck`, `reader-full`.
-- **Removed: `reader-score` (also `make eval-reader`).** It exits 1 until a person has filled in every human label, and the labels are not filled in. It was in this table before; it is removed so that every command listed exits 0. The scorer's own message names each unlabelled message.
-- **Not run, by design:** `down` (stops the database), `ui` and `inbox` (servers that do not exit; `inbox` also runs `npm install`), `test` (the suite is the verification step: 959 passed, 0 failed, 1 xfailed on main).
-- **Not included:** `false-positives` and `verify-frozen` are not in the Makefile or `make.ps1` because nothing implements them yet; a target that only prints "not built yet" would look like a feature. See `eval/results/makefile_gaps.md`.
+The exit codes and notes are in docs/fresh_clone_report.md. Targets that the spec lists but that are not wired are listed in `eval/results/makefile_gaps.md`.
 
-Commands that the spec lists in §10.3 and that are not wired are in eval/results/makefile_gaps.md.
+---
 
-## Graph data model
+## Honest limits
 
-As built, in FalkorDB 6.0.2 with one graph per organisation, `org_<id>` (docs/HEARTHGUARD.md §6.1; the schema and its unique keys are in core/graph/schema.py).
+- **Real xz detection is NOT COMPUTED.** We searched 14 sources and found 0 grant records (`xz_grant_search.json`). So takeover cost, Rush, Bypass and Lone keeper cannot be computed on xz, and the decision is HOLD in all 10 quarters.
+- **The Reader read 230 of 240 in-scope messages.** Ten were not read: 9 were too long and 1 returned no valid JSON (`reader_full_run.json`, `pressure_vouch_status.json`). A NOT_FIRED result covers only the messages that were read.
+- **Most raw claims fail the quote check.** 12 claims were kept and 26 rejected, because their quote was not an exact substring of the message. That check is deliberate: no quote, no claim.
+- **Reader precision and recall are NOT COMPUTED.** The human-labelled test set is kept blinded and has no labels yet.
+- **The frozen Bypass detector remembers 730 days.** A two-year gap (event-stream) or a recent change of normal (axios) defeats it, and the replays show both cases. In the axios replay, Bypass did not fire: 33 of the 37 releases in the trailing 730 days were manual publishes.
+- **Hardening has an unexplained result.** Adding a second keeper raises guardians from 1 to 2 but lowers the number of caught campaigns from 167 to 152 of 200. This build does not explain that drop (`hardening_redteam_xz.json`).
+- **Google Cloud spend has an unexplained cause.** The ₹16.31 spend on the Gemini run is not broken down by cause.
+- **Completion:** 77 of 131 spec rows are DONE and 33 are PARTIAL (`eval/results/completion_full.md`). Every open decision is in `docs/decisions/index.md`.
+- **Deployment:** local only. Nothing is hosted.
 
-- **Trust graph:** `Org`, `Actor` (hashed id), `Action` (commit, review, issue, release), `Path` (how a release was made), `Privilege` (`merge`, `release`, `sign`, `npm_publish`), edges `DID`, `VIA`, `GRANTED`, `CAN_GRANT`, `APPROVED`.
-- **Remembered normal:** `Normal` nodes (`cadence_days`, `active_keepers`, `usual_path`, `grant_days`; core/normal/metrics.py), each stored as of the time `T` it was computed for.
-- **Claim graph:** `Source -[HAS]-> Span <-[FROM]- Claim <-[ASSERTED]- Actor` (core/claims/graph_write.py).
-- **Agents and memory:** `Finding`, `Note`, `Task`, `AgentStep`, `Hardening`, `Exception` (the playbook), `OwnerDecision`.
-- **Ecosystem graph** `ecosystem_<id>`: `Place`, `Identity`, `Role`, `Signal`, `Decision`, edges `EMITTED`, `RECORDED_IN`, `WATCHES`, `MADE_IN`, `SAME_AS` (packs/oss/ecosystem/graph.py). `Foundation`, `HOSTED_BY`, `Campaign` and `TOUCHES` are not written, because no public source in the cache names a hosting foundation for xz (eval/results/blockers_G.md).
-- **Scratch graphs** made and dropped per call: `takeover_<run>`, `harden_<run>`, `redteam_<run>`.
-- Every synthetic entity carries `synthetic: true`; planted ones carry `planted: true` and a `campaign_id`. Detectors never read those flags; only the scorer does.
+### Act II is synthetic
 
-## Queries and algorithms the product depends on
+Act II, the `tallowdate` case, is a fictional project. It is labelled SYNTHETIC wherever it appears (§3.5; `uv run python -m redteam.run_tallowdate`). The Northbridge finance case is also synthetic.
 
-Every Cypher constant, with the module that runs it, is generated into [docs/queries.md](docs/queries.md); a test fails if that file is stale. The algorithms:
+### Data and privacy
 
-- `algo.SPpaths` over `OUTSIDER_ENTRY`, `CAN_GRANT`, `GRANTED` for takeover cost (core/takeover/cost.py), and over `VOUCHED_FOR`, `REVIEWED`, `GRANTED` for the trust path (core/takeover/trust_path.py).
-- `algo.maxFlow` on a node-split projection for guardians (core/takeover/guardians.py).
-- Plain code over graph reads for Vouch components (core/detectors/vouch.py).
-- The time-filtered reads (`run_as_of`, core/graph/as_of.py) and the checked read path (`ro_query`, core/graph/ro_guard.py) go through `GRAPH.RO_QUERY` with an explicit timeout. The detector Cypher filters on `$T`, for example core/detectors/bypass.py.
-- Other graph calls, such as the task board, the playbook and the claim writes, use the write-capable client with an explicit timeout (core/graph/client.py). They are not read-only.
+Only public, synthetic or our own data is used. Identifiers are hashed on ingest, and no per-project findings are published. Every fetch is cached to `data/raw/` with its URL and fetch time, and `data/raw/` is git-ignored.
 
-## What is measured
+---
 
-Every number has its source file next to it. Where a result is unflattering it is shown as it was.
+## Repository layout
 
-| Number | Value | Source |
-|---|---|---|
-| xz, per quarter | HOLD in all 10 quarters (2021-Q4 to 2024-Q1), reason "move unknown: RUSH, BYPASS" | eval/results/decision_status.json |
-| Grant records found for xz | 0 (14 sources searched; one commit-message match was read and is not a grant) | eval/results/xz_grant_search.json |
-| Red-team, tallowdate (synthetic), 200 campaigns | 182 caught, detection rate 0.91, median lead time 12.8 days | eval/results/redteam_tallowdate.json |
-| Red-team, planted into a copy of xz history, 200 campaigns | 167 caught, detection rate 0.835, median lead time 11.0 days | eval/results/redteam_xz.json |
-| Memory ablation, 100 campaigns | detection 0.88 with full memory, 0.82 with the last 90 days, 0.60 with the last 30. Clean campaigns flagged: 1 of 20 with full memory, 20 of 20 with either forgetful memory | eval/results/ablation_memory.json |
-| Algorithm ablation, 100 campaigns | SPpaths off and maxFlow off tie the baseline (SPpaths is never called by the decision path). Vouch without components: detection 0.88 to 0.90, false alarms unchanged on a clean set that has no vouch claims | eval/results/ablation_algos.json |
-| event-stream replay (2018) | First NOTE on 2018-09-16, 7.1 days AFTER the malicious release; 64.1 days before the public report. HOLD before that | eval/results/replay_event_stream.json |
-| axios replay (2026) | Bypass did not fire: 33 of the 37 releases in the trailing 730 days were manual publishes, so a manual publish matched the remembered normal | eval/results/replay_axios.json |
-| Hardening, scaffolded copy of xz history | Adding a second keeper raises guardians from 1 to 2 and lowers the caught campaigns from 167 to 152 of 200 (detection 0.835 to 0.76). This build does not explain that drop. The other two steps change neither takeover cost, guardians nor the caught count | eval/results/hardening_redteam_xz.json |
-| Race test | 8 workers, 200 tasks, 0 duplicate claims, 40 notes for 40 findings | eval/results/race_run.json |
-| Determinism | Identical findings under 5 task orderings | eval/results/determinism_run.json |
-| Faults | All 9 failure types, including LLM offline, end in a bounded HOLD | eval/results/faults_run.json |
-| Reader messages done | 94 of 240; 146 unread because the run stopped at the model's limit of 200000 tokens per day | eval/results/reader_full_progress.json |
-| Reader precision and recall | NOT COMPUTED: no human labels yet | eval/results/reader_testset.json |
-
-Three real attacks are too few to claim precision; the red-team numbers are on synthetic or planted campaigns and say nothing about how often a real project would be flagged.
-
-## What is NOT COMPUTED, and why
-
-- **Takeover cost and guardians on xz, over time:** the public git history holds no record of who was given release rights (eval/results/xz_grant_search.json).
-- **Rush on xz:** no grant data. **Bypass on xz:** every release goes through one shared path.
-- **Rush on the incident replays:** the npm registry records no grant event, so a newcomer's grant is placed at the first version that lists them, and Rush fires by construction of that record (eval/results/replay_event_stream.json, honesty notes).
-- **Bypass on the removed axios versions:** the registry no longer serves them. Their path comes from one secondary write-up and is labelled secondary; the properties it does not state are NOT COMPUTED (eval/results/replay_axios.json).
-- **Reader precision and recall:** no human labels yet.
-
-## Limitations
-
-- The xz backdoor was in the release tarballs, not in git. A git-based replay cannot show it (eval/results/xz_normal.json, notes).
-- A NOT_FIRED result only covers the messages that were read. The Reader read 94 of 240 and found 3 claims; its recall is not measured.
-- The frozen Bypass remembers 730 days. A two-year gap (event-stream) or a recent change of normal (axios) defeats it, and the replays show both.
-- The registry-based incident graphs do not model a maintainer being removed; the replays stop at the incident date.
-- Mail-only posters count as low-history under the spec's literal rule (docs/decisions/0004-mail-claims-in-org-xz.md).
-- Every decision in docs/decisions/index.md is still open.
-- Not built, or built only in part: see eval/results/completion_full.md for each row, and eval/results/blockers_*.md for the reason.
-
-## Act II is synthetic
-
-Act II, the `tallowdate` case, is synthetic: a fictional project, labelled SYNTHETIC wherever it appears (docs/HEARTHGUARD.md §3.5; `uv run python -m redteam.run_tallowdate`).
+| Path | What is there |
+|---|---|
+| `core/` | Graph client, as-of-T reads, detectors, normal, takeover cost, guardians, task board, claims, memory, policy |
+| `packs/` | Domain packs (OSS ecosystem) |
+| `redteam/` | Campaign generator, scorer, hardening runner |
+| `eval/` | Evaluation scripts; every result is written as JSON to `eval/results/` |
+| `slack_app/` | Slack sender, listener, note rendering, wording rules |
+| `mcp_server/` | MCP server (4 tools) |
+| `demo/` | Custody demo and the static demo page |
+| `ui/` | React + Vite + TypeScript read-only UI and inbox |
+| `tests/` | Unit and integration tests; integration tests use a real FalkorDB container, never mocks |
 
 ## AI disclosure
 
-- Claude Code, an AI coding assistant, wrote most of the code and tests, under the owner's direction. Each AI-assisted step is logged in docs/AI_USE.md.
-- A Haiku 5.5 subagent gave a blind AI second opinion on the test-set labels. It is labelled as an AI opinion everywhere it appears (docs/AI_USE.md).
-- The Reader calls `openai/gpt-oss-20b` through Groq, for claim extraction only (eval/results/reader_full_run.json). No other product code calls an LLM.
+- An AI coding assistant wrote most of the code and tests under the owner's direction. Each AI-assisted step is logged in [docs/AI_USE.md](docs/AI_USE.md).
+- A second AI model gave a blind second opinion on the test-set labels. It is labelled as an AI opinion everywhere it appears.
+- The Reader calls `openai/gpt-oss-20b` through Groq and a Gemini model through Google, for claim extraction only. No other product code calls an LLM.
 
-## Tracks
+## Track
 
-Track entered: Track 02 — Agent Memory and Coordination (the name in docs/HEARTHGUARD.md and docs/submission_checklist.md; the event page is https://www.wemakedevs.org/hackathons/falkordb, listed in data/sources.yaml, and the name was not re-checked against it). The submission form has not been filled in yet.
+**Track 02: Agent Memory and Coordination**, FalkorDB hackathon (https://www.wemakedevs.org/hackathons/falkordb).
 
 ## Docs
 
 - Judge guide: [docs/judge_guide.md](docs/judge_guide.md)
-- Cypher queries the product depends on, generated from the code: [docs/queries.md](docs/queries.md)
+- Cypher queries, generated from the code: [docs/queries.md](docs/queries.md)
 - Spec: [docs/HEARTHGUARD.md](docs/HEARTHGUARD.md)
-- Project rules: [CLAUDE.md](CLAUDE.md)
 - Decisions: [docs/decisions/index.md](docs/decisions/index.md)
 - AI use log: [docs/AI_USE.md](docs/AI_USE.md)
-- Submission checklist: [docs/submission_checklist.md](docs/submission_checklist.md)
-- Blog outline: [docs/blog_outline.md](docs/blog_outline.md)
+- Project rules: [CLAUDE.md](CLAUDE.md)
